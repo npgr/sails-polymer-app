@@ -116,9 +116,8 @@ function createForm(crud, jsondata) {
 	}
 	var keys = Object.keys(jsondata)
 	var title = model
-	if (keys[0] == 'title')	{
-		title = jsondata.title
-		keys = keys.slice(1)
+	if (keys.indexOf('_title') >= 0)	{
+		title = jsondata._title
 	}
 	// title
 	pages = setBody(crud, 'c', pages, '<head><title>Crear '+title+'</title></head>\r')
@@ -135,12 +134,20 @@ function createForm(crud, jsondata) {
 	pages = setBody(crud, 'c', pages, '<form action="/'+model+'/create" method="POST">\r')
 	pages = setBody(crud, 'r', pages, '<form>')
 	// ******   OJO se asume que keys[0] es la clave del archivo
-	pages = setBody(crud, 'u', pages, '<form action="/'+model+'/update/<%='+keys[0]+'%>" method="PUT">\r')
-	pages = setBody(crud, 'd', pages, '<form action="/'+model+'/destroy/<%='+keys[0]+'%>" method="DELETE">\r')
+	var key = ''
+	for (k=0; k < keys.length; k++) 
+		if (keys[k].substring(0,1) != '_') {
+			key = keys[k]
+			k = keys.length
+		}
+	pages = setBody(crud, 'u', pages, '<form action="/'+model+'/update/<%='+key+'%>" method="PUT">\r')
+	pages = setBody(crud, 'd', pages, '<form action="/'+model+'/destroy/<%='+key+'%>" method="DELETE">\r')
 	
 	var type= ''
 	for (i=0; i < keys.length; i++)
 	{
+	  if (keys[i].substring(0,1) != '_')
+	  {
 		// field description
 		pages = setBody(crud, 'crud', pages, jsondata[keys[i]].description +' ')
 
@@ -183,6 +190,7 @@ function createForm(crud, jsondata) {
 			pages = setBody(crud, 'rd', pages, ' disabled')
 			pages = setBody(crud, 'crud', pages, '><br><br>\r')
 		}
+	  } // end if field not starting with '_'
 	}
 	// Action Button
 	pages = setBody(crud, 'c', pages, '<input id="create_btn" type="submit" value="CREAR">\r</form>\r')

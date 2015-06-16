@@ -34,7 +34,7 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
 
   /***************************************************************************
   *                                                                          *
@@ -45,5 +45,8 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-
+  'get /prueba/:id&:id2': 'MatheadsController.prueba',
+  '/Matheads/edit/:matnr': 'MatheadsController.edit',
+  '/Matheads/display/:matnr': 'MatheadsController.display',
+  '/Matheads/delete/:matnr': 'MatheadsController.delete'
 };

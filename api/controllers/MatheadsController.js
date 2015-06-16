@@ -7,6 +7,12 @@
 
 module.exports = {
 
+	prueba: function (req, res, next) {
+
+		var id = req.param('id');
+		var id2 = req.param('id2')
+		res.end(id+' + '+id2)
+	},
 	def : function (req, res) {
 		res.json(Matheads._attributes)
 	},
@@ -44,8 +50,11 @@ module.exports = {
 				})
 	},
 	list : function (req, res) {
-		res.end('Not Implemented Yet')
-		//res.render('Matheads/list', data)
-	},
+		//res.end('Not Implemented Yet')
+		Matheads.find()
+				.exec(function(err, data){
+					res.render('Matheads/list', {data: JSON.stringify(data)})			
+				})
+	}
 };
 

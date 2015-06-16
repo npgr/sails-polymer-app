@@ -10,7 +10,7 @@ module.exports = {
 	//migrate: 'alter',
 	
   attributes: {
-	//title: 'Material - MATHEADS',
+	//_title: 'Material - MATHEADS',
 	matnr: {
 		columnName: 'matnr',
 		//description: 'Número Material',
