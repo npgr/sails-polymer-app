@@ -1,6 +1,7 @@
 <head> 
 	<title>List</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -44,6 +45,19 @@
 
 <dom-module id="model-list">
   <template>
+	<select id="filter">
+		<option value="matnr">Matnr</option>
+		<option value="matl_type">Matl_Type</option>
+		<option value="matl_group">Matl_Group</option>
+	</select>
+	<select id="op">
+		<option value="igual a">Igual a</option>
+		<option value="Mayor a">Mayor a</option>
+		<option value="Menor a">Menor a</option>
+	</select>
+	<input id="filtro" type="string"></input>
+	<paper-fab class="btn" mini on-click="filter" value="Ver">Ver</paper-fab>
+	
     <table style="width:100%">
 	<thead>
 	  <tr>
@@ -62,7 +76,7 @@
 	 </tr>
 	</tfoot>
 	<tbody>
-    <template is="dom-repeat" items="{{data}}">
+    <template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td>{{item.matnr}}</td>
 		<td class="col2">{{item.matl_type}}</td> 
@@ -71,16 +85,31 @@
 	</tr>
     </template>
 	</tbody>
+	</table>
   </template>
-  </table>
   <script>
     Polymer({
       is: 'model-list',
       ready: function() {
-        this.data = <%- data %>
-		this.regs = this.data.length + ' reg'
-		console.log(this.regs)
-      }
+        var data = <%- data %>
+		this.filtered_data = [{matnr: ''}]
+		var db = new loki()
+		this.datos = db.addCollection('datos')
+		for (i=0; i< data.length ; i++)
+			this.datos.insert(data[i])
+		data = {}
+		//console.log(this.regs)
+      },
+	  filter: function() {
+		var name = this.$.filter.value
+		var value = this.$.filtro.value
+		var filtro = {}
+		filtro[name] = value
+		console.log(filtro) 
+		console.log(this.datos.find(filtro))
+		this.filtered_data = this.datos.find(filtro)
+		this.regs = this.filtered_data.length + ' reg'
+	  }
     });
   </script>
 </dom-module>
@@ -88,18 +117,7 @@
 <paper-material class="card" elevation="2">
 	<h2 class="card_title">Crear</h2>
 	<!-- Filter -->
-	<select id="filter">
-		<option value="name">Name</option>
-		<option value="lastname">Lastname</option>
-		<option value="Points">Points</option>
-	</select>
-	<select id="op">
-		<option value="igual a">Igual a</option>
-		<option value="Mayor a">Mayor a</option>
-		<option value="Menor a">Menor a</option>
-	</select>
-	<input type="string"></input>
-	<paper-fab class="btn" mini value="Ver">Ver</paper-fab>
+	
 	<!-- Filtered data -->
 	<model-list></model-list>
 </paper-material>
