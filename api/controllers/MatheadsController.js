@@ -8,7 +8,6 @@
 module.exports = {
 
 	prueba: function (req, res, next) {
-
 		var id = req.param('id');
 		var id2 = req.param('id2')
 		res.end(id+' + '+id2)

@@ -1,37 +1,26 @@
 <head> 
 	<title>List</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
+	<link rel="import" href="/bower_components/iron-form/iron-form.html">
 </head>
 <style>
-	body {
-		margin: 0;
-		background-color: rgb(240, 240, 240);
-	}
-	#card {
-		margin: 25;
-		border-radius: 4px;
-		background-color: white;
-		width: 30em;
-		padding: 20px;
-	}
-	#card_title {
-		margin: 0;
-	}
-	paper-input {
-		//width: 20em;
-	}
-	#btn1 {
-		background-color: lightblue;
+	.form {
+		
 	}
 </style>
-<paper-material id="card" elevation="2">
-	<h3 id="card_title">Crear</h3>
+<paper-material class="card" elevation="2">
+	<h2 class="card_title">Crear</h2>
 	<paper-input label="Input label" value="Exitoso"></paper-input>
-	<paper-button id="btn1" raised>raised button</paper-button>
+	<paper-button class="btn" raised>raised button</paper-button>
 </paper-material>
+
+<iron-form class="form">
+	Prueba <input id="matnr" type="number" name="matnr" min=10 max=999999 required>
+</iron-form>
 <script>
 	data= <%- data %>
 </script>
