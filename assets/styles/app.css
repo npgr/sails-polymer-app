@@ -9,8 +9,8 @@ html, body {
 	margin: 25;
 	border-radius: 4px;
 	//background-color: white;
-	background-color: honeydew;
-	//background-color: rgb(226, 245, 255);
+	//background-color: honeydew;
+	background-color: rgb(226, 245, 255);
 	width: 30em;
 	padding: 20px;
 }
@@ -21,9 +21,9 @@ html, body {
 	border-radius: 7px;
 }
 .btn {
-	background-color: darkturquoise;
+	//background-color: darkturquoise;
 	//background-color: rgb(148, 169, 245);
-	//background-color: rgb(138, 197, 212);
+	background-color: rgb(138, 197, 212);
 	//color: white;
 }
 #create_btn {
@@ -45,6 +45,6 @@ input, select {
 	color: rgb(30,30,30);
 	padding: 4px;
 	border: none; 
-    border:solid 1px rgb(42, 188, 204);
+    border:solid 1px rgb(138, 197, 212);
     border-radius: 4px;
 }
