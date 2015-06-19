@@ -5,6 +5,7 @@
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
 	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 </head>
 <style>
 	.col2 {
@@ -40,6 +41,50 @@
 		width: 60em;
 	}
 </style>
+
+<dom-module id="model-list">
+  <template>
+    <table style="width:100%">
+	<thead>
+	  <tr>
+		<th>Matnr</th>
+		<th class="col2">matl_type</th> 
+		<th>matl_group</th>
+		<th>matl_cat</th>
+	 </tr>
+	</thead>
+	<tfoot>
+	 <tr>
+		<td></td>
+		<td></td>
+		<td class="col2">Total</td> 
+		<td>{{regs}}</td>
+	 </tr>
+	</tfoot>
+	<tbody>
+    <template is="dom-repeat" items="{{data}}">
+	<tr>
+		<td>{{item.matnr}}</td>
+		<td class="col2">{{item.matl_type}}</td> 
+		<td>{{item.matl_group}}</td>
+		<td>{{item.matl_cat}}</td>
+	</tr>
+    </template>
+	</tbody>
+  </template>
+  </table>
+  <script>
+    Polymer({
+      is: 'model-list',
+      ready: function() {
+        this.data = <%- data %>
+		this.regs = this.data.length + ' reg'
+		console.log(this.regs)
+      }
+    });
+  </script>
+</dom-module>
+
 <paper-material class="card" elevation="2">
 	<h2 class="card_title">Crear</h2>
 	<!-- Filter -->
@@ -56,41 +101,5 @@
 	<input type="string"></input>
 	<paper-fab class="btn" mini value="Ver">Ver</paper-fab>
 	<!-- Filtered data -->
-	<table style="width:100%">
-	<thead>
-	  <tr>
-		<th>Firstname</th>
-		<th class="col2">Lastname</th> 
-		<th>Points</th>
-	 </tr>
-	</thead>
-	<tfoot>
-		<tr>
-		<td></td>
-		<td class="col2">Total</td> 
-		<td>5 reg</td>
-	</tr>
-	</tfoot>
-	<tbody>
-	<tr>
-		<td>Eve</td>
-		<td class="col2">Jackson</td> 
-		<td>94</td>
-	</tr>
-	<tr>
-		<td>Jesse</td>
-		<td class="col2">James</td> 
-		<td>65</td>
-	</tr>
-	<tr>
-		<td>Marie</td>
-		<td class="col2">Flaubert</td> 
-		<td>45</td>
-	</tr>
-	</tbody>
-</table>
+	<model-list></model-list>
 </paper-material>
-
-<script>
-	data= <%- data %>
-</script>
