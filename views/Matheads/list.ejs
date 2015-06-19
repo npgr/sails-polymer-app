@@ -4,23 +4,92 @@
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
-	<link rel="import" href="/bower_components/paper-button/paper-button.html">
-	<link rel="import" href="/bower_components/iron-form/iron-form.html">
+	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
 </head>
 <style>
-	.form {
+	.col2 {
+		//display: none;
+		//background-color: beige;	
+	}
+	table {
+		border-radius: 7px;
+		margin-top: 7px;
+		border-spacing: 0px;
+		border: 1px solid rgb(200,200,200);
+		border-collapse: collapse;
+		//-webkit-border-horizontal-spacing: 15px;
+		//-webkit-border-vertical-spacing: 5px;
+	}
+	tr:nth-child(even) { /*odd*/
+		background-color: #ddd;
+	}
+	th, tfoot {
+		background-color: darkturquoise;
+		padding: 10px;
+	}
+	th {
+		text-align: left;
+	}
+	td {
+		//text-align: center;
+		padding: 7px 10px;
 		
+	}
+	.card {
+		width: 60em;
 	}
 </style>
 <paper-material class="card" elevation="2">
 	<h2 class="card_title">Crear</h2>
-	<paper-input label="Input label" value="Exitoso"></paper-input>
-	<paper-button class="btn" raised>raised button</paper-button>
+	<!-- Filter -->
+	<select id="filter">
+		<option value="name">Name</option>
+		<option value="lastname">Lastname</option>
+		<option value="Points">Points</option>
+	</select>
+	<select id="op">
+		<option value="igual a">Igual a</option>
+		<option value="Mayor a">Mayor a</option>
+		<option value="Menor a">Menor a</option>
+	</select>
+	<input type="string"></input>
+	<paper-fab class="btn" mini value="Ver">Ver</paper-fab>
+	<!-- Filtered data -->
+	<table style="width:100%">
+	<thead>
+	  <tr>
+		<th>Firstname</th>
+		<th class="col2">Lastname</th> 
+		<th>Points</th>
+	 </tr>
+	</thead>
+	<tfoot>
+		<tr>
+		<td></td>
+		<td class="col2">Total</td> 
+		<td>5 reg</td>
+	</tr>
+	</tfoot>
+	<tbody>
+	<tr>
+		<td>Eve</td>
+		<td class="col2">Jackson</td> 
+		<td>94</td>
+	</tr>
+	<tr>
+		<td>Jesse</td>
+		<td class="col2">James</td> 
+		<td>65</td>
+	</tr>
+	<tr>
+		<td>Marie</td>
+		<td class="col2">Flaubert</td> 
+		<td>45</td>
+	</tr>
+	</tbody>
+</table>
 </paper-material>
 
-<iron-form class="form">
-	Prueba <input id="matnr" type="number" name="matnr" min=10 max=999999 required>
-</iron-form>
 <script>
 	data= <%- data %>
 </script>
