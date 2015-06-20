@@ -45,7 +45,7 @@
 
 <dom-module id="model-list">
   <template>
-	<select id="filter">
+	<select id="filter" on-change="input_type">
 		<option value="matnr">Matnr</option>
 		<option value="matl_type">Matl_Type</option>
 		<option value="matl_group">Matl_Group</option>
@@ -55,7 +55,12 @@
 		<option value="Mayor a">Mayor a</option>
 		<option value="Menor a">Menor a</option>
 	</select>
-	<input id="filtro" type="string"></input>
+	<input id="filtro" type="{{tipo}}"></input>
+	<select id="select" style="display:none;">
+		<option value="1">opc1</option>
+		<option value="2">opc2</option>
+	</select>
+	
 	<paper-fab class="btn" mini on-click="filter" value="Ver">Ver</paper-fab>
 	
     <table style="width:100%">
@@ -72,7 +77,7 @@
 		<td></td>
 		<td></td>
 		<td class="col2">Total</td> 
-		<td>{{regs}}</td>
+		<td><strong>{{regs}}</strong></td>
 	 </tr>
 	</tfoot>
 	<tbody>
@@ -91,24 +96,58 @@
     Polymer({
       is: 'model-list',
       ready: function() {
-        var data = <%- data %>
+		this.tipo = 'number'
+		var _model = [ {column: 'matnr', type: 'integer'},
+					  {column: 'matl_type', enum: ['ZMED', 'ZMIS']},
+					  {column: 'matl_group', type: 'string'} ]
+					  
+        var _data = <%- data %>
 		this.filtered_data = [{matnr: ''}]
 		var db = new loki()
-		this.datos = db.addCollection('datos')
-		for (i=0; i< data.length ; i++)
-			this.datos.insert(data[i])
-		data = {}
-		//console.log(this.regs)
+		this.data = db.addCollection('data')
+		this.model = db.addCollection('model')
+		for (i=0; i< _data.length ; i++)
+			this.data.insert(_data[i])
+		for (i=0; i< _model.length ; i++)
+			this.model.insert(_model[i])
+		_data = {}
+		_model = {}
       },
 	  filter: function() {
 		var name = this.$.filter.value
 		var value = this.$.filtro.value
 		var filtro = {}
-		filtro[name] = value
-		console.log(filtro) 
-		console.log(this.datos.find(filtro))
-		this.filtered_data = this.datos.find(filtro)
+		if (this.$.filtro.getAttribute('type') == 'number') 
+			filtro[name] = Number(value)
+		 else
+			filtro[name] = value
+		//console.log(filtro) 
+		//console.log(this.datos.find(filtro))
+		this.filtered_data = this.data.find(filtro)
 		this.regs = this.filtered_data.length + ' reg'
+	  },
+	  input_type: function() {
+		this.$.filtro.value = ''
+		var column = this.model.find({ 'column': this.$.filter.value})
+		if (column[0].type)
+		{
+			switch(column[0].type) {
+			case 'string':
+				this.tipo = 'text'
+			break;
+			case 'integer':
+				this.tipo = 'number'
+				break;
+			default:
+				this.tipo = 'text'
+			}
+			//console.log(column[0].type)
+		}
+		else
+		{
+			this.tipo = 'text'
+			//console.log(column[0].enum)
+		}
 	  }
     });
   </script>
@@ -116,8 +155,6 @@
 
 <paper-material class="card" elevation="2">
 	<h2 class="card_title">Crear</h2>
-	<!-- Filter -->
-	
-	<!-- Filtered data -->
+
 	<model-list></model-list>
 </paper-material>
