@@ -41,6 +41,9 @@
 	.card {
 		width: 60em;
 	}
+	.hide {
+		display: none;
+	}
 </style>
 
 <dom-module id="model-list">
@@ -56,9 +59,10 @@
 		<option value="Menor a">Menor a</option>
 	</select>
 	<input id="filtro" type="{{tipo}}"></input>
-	<select id="select" style="display:none;">
-		<option value="1">opc1</option>
-		<option value="2">opc2</option>
+	<select id="select" class="hide"> <!--style="display:none;"-->
+	<template is="dom-repeat" items="{{opts}}">
+		<option value="{{item.op}}">{{item.op}}</option>
+	</template>
 	</select>
 	
 	<paper-fab class="btn" mini on-click="filter" value="Ver">Ver</paper-fab>
@@ -115,14 +119,15 @@
       },
 	  filter: function() {
 		var name = this.$.filter.value
-		var value = this.$.filtro.value
 		var filtro = {}
-		if (this.$.filtro.getAttribute('type') == 'number') 
-			filtro[name] = Number(value)
-		 else
-			filtro[name] = value
-		//console.log(filtro) 
-		//console.log(this.datos.find(filtro))
+		if (this.$.filtro.getAttribute('class') != 'hide')
+			if (this.$.filtro.getAttribute('type') == 'number') 
+				filtro[name] = Number(this.$.filtro.value)
+			else
+				filtro[name] = this.$.filtro.value 
+		else
+			filtro[name] = this.$.select.value
+		//console.log('value: ', value)
 		this.filtered_data = this.data.find(filtro)
 		this.regs = this.filtered_data.length + ' reg'
 	  },
@@ -131,6 +136,9 @@
 		var column = this.model.find({ 'column': this.$.filter.value})
 		if (column[0].type)
 		{
+			this.$.select.className = 'hide'
+			this.$.filtro.className = ''
+			
 			switch(column[0].type) {
 			case 'string':
 				this.tipo = 'text'
@@ -141,12 +149,14 @@
 			default:
 				this.tipo = 'text'
 			}
-			//console.log(column[0].type)
 		}
 		else
 		{
-			this.tipo = 'text'
-			//console.log(column[0].enum)
+			this.$.select.className = ''
+			this.$.filtro.className = 'hide'
+			this.opts = []
+			for (i=0; i< column[0].enum.length; i++)
+				this.push('opts', {'op': column[0].enum[i]})
 		}
 	  }
     });
