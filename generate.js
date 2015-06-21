@@ -2,8 +2,6 @@
 var fs = require('fs')
 var jsonic = require('jsonic')
 var format = require('string-template')
-// OJO Instalado
-//var jb = require('js-beautify')
 
 option = process.argv[2]
 
@@ -263,9 +261,7 @@ function crud2Pages(crud, jsondata) {
 	pages = setBody(crud, 'crud', pages, '<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>\r')
 	pages = setBody(crud, 'crud', pages, '<link rel="stylesheet" href="/styles/app.css">\r')
 	pages = setBody(crud, 'crud', pages, '<link rel="import" href="/bower_components/paper-material/paper-material.html">\r')
-	pages = setBody(crud, 'crud', pages, '<link rel="import" href="/bower_components/paper-input/paper-input.html">\r')
-	pages = setBody(crud, 'crud', pages, '<link rel="import" href="/bower_components/paper-button/paper-button.html">\r')
-	pages = setBody(crud, 'crud', pages, '<link rel="import" href="/bower_components/paper-input/paper-input.html">\r</head>\r')
+	pages = setBody(crud, 'crud', pages, '<link rel="import" href="/bower_components/paper-button/paper-button.html">\r</head>\r')
 	//card
 	pages = setBody(crud, 'crud', pages, '<paper-material class="card" elevation="3" vertical layout>\r')
 	//card title
