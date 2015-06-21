@@ -7,7 +7,7 @@ html, body {
 }
 .card {
 	margin: 25;
-	border-radius: 4px;
+	border-radius: 8px;
 	//background-color: white;
 	//background-color: honeydew;
 	background-color: rgb(226, 245, 255);
@@ -17,7 +17,7 @@ html, body {
 .card_title {
 	margin: 0px 0px 15px 0px;
 	padding: 10px 20px;
-	background-color: beige;
+	//background-color: beige;
 	border-radius: 7px;
 }
 .btn {

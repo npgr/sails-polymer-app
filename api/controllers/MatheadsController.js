@@ -18,6 +18,15 @@ module.exports = {
 	new : function (req, res) {
 		res.render('Matheads/new')
 	},
+	create: function(req, res, next) {
+
+		var params = req.params.all();
+
+		Matheads.create(params, function(err, data) {
+			if (err) return next(err);
+			res.redirect('Matheads/list')
+		});
+	},
 	edit : function (req, res) {
 		//http://localhost:1337/matheads/edit?matnr=200
 		var matnr = req.param('matnr')

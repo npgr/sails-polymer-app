@@ -6,7 +6,10 @@
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
 	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
-	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+	<link rel="import" href="/bower_components/paper-button/paper-button.html">
+	<link rel="import" href="/components/matheads-new/matheads-new.html">
 </head>
 <style>
 	.col2 {
@@ -35,8 +38,7 @@
 	}
 	td {
 		//text-align: center;
-		padding: 7px 10px;
-		
+		padding: 1px 10px;
 	}
 	.card {
 		width: 60em;
@@ -44,10 +46,26 @@
 	.hide {
 		display: none;
 	}
+	.ops {
+		width: 90px;
+	}
+	.icon-op {
+		padding: 1px;
+		color: rgb(200, 80, 25);
+	}
+	#btn_add {
+	  left: 770px;
+	  top: 32;
+	  position: absolute;
+	}
 </style>
 
 <dom-module id="model-list">
   <template>
+	<h2 class="card_title">Materiales</h2>
+
+	<matheads-new id="matheads_new_dialog"></matheads-new>
+	
 	<select id="filter" on-change="input_type">
 		<option value="matnr">Matnr</option>
 		<option value="matl_type">Matl_Type</option>
@@ -65,11 +83,13 @@
 	</template>
 	</select>
 	
-	<paper-fab class="btn" mini on-click="filter" value="Ver">Ver</paper-fab>
+	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	
     <table style="width:100%">
 	<thead>
 	  <tr>
+		<th class='ops'></th>
 		<th>Matnr</th>
 		<th class="col2">matl_type</th> 
 		<th>matl_group</th>
@@ -80,6 +100,7 @@
 	 <tr>
 		<td></td>
 		<td></td>
+		<td></td>
 		<td class="col2">Total</td> 
 		<td><strong>{{regs}}</strong></td>
 	 </tr>
@@ -87,6 +108,11 @@
 	<tbody>
     <template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
+		<td class="ops">
+			<paper-icon-button id="{{item.matnr}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
+			<paper-icon-button id="{{item.matnr}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
+		  	<paper-icon-button id="{{item.matnr}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
+		</td>
 		<td>{{item.matnr}}</td>
 		<td class="col2">{{item.matl_type}}</td> 
 		<td>{{item.matl_group}}</td>
@@ -138,7 +164,6 @@
 		{
 			this.$.select.className = 'hide'
 			this.$.filtro.className = ''
-			
 			switch(column[0].type) {
 			case 'string':
 				this.tipo = 'text'
@@ -158,13 +183,26 @@
 			for (i=0; i< column[0].enum.length; i++)
 				this.push('opts', {'op': column[0].enum[i]})
 		}
+	  },
+	  display: function(e) {
+		window.open('/Matheads/display/'+e.toElement.offsetParent.id)
+		//window.location.href = '/Matheads/display/'+e.toElement.offsetParent.id
+	  },
+	  edit: function(e) {
+		window.open('/Matheads/edit/'+e.toElement.offsetParent.id)
+		//window.location.ref ='/Matheads/edit/'+e.toElement.offsetParent.id
+	  },
+	  delete: function(e) {
+		window.open('/Matheads/delete/'+e.toElement.offsetParent.id)
+		//window.location.href ='/Matheads/delete/'+e.toElement.offsetParent.id
+	  },
+	  new: function() {
+		this.$.matheads_new_dialog.myopen()
+		//window.open('/Matheads/new')
 	  }
     });
   </script>
 </dom-module>
-
 <paper-material class="card" elevation="2">
-	<h2 class="card_title">Crear</h2>
-
 	<model-list></model-list>
 </paper-material>
