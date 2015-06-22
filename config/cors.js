@@ -28,6 +28,15 @@
 
 module.exports.cors = {
 
+	/*'/Matheads/destroy/': {
+    controller: 'Matheads',
+    action: 'destroy',
+    cors: {
+      origin: 'http://localhost:1337',
+	  //methods: 'DELETE'
+    }
+   },*/
+
   /***************************************************************************
   *                                                                          *
   * Allow CORS on all routes by default? If not, you must enable CORS on a   *
@@ -37,7 +46,7 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  // allRoutes: false,
+  //allRoutes: true,
 
   /***************************************************************************
   *                                                                          *
@@ -47,7 +56,7 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  // origin: '*',
+  //origin: '*',
 
   /***************************************************************************
   *                                                                          *
@@ -64,7 +73,7 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  // methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+  //methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
 
   /***************************************************************************
   *                                                                          *

@@ -20,6 +20,10 @@ html, body {
 	//background-color: beige;
 	border-radius: 7px;
 }
+#dialog {
+	background-color: aliceblue;
+	border-radius: 8px;
+}
 .btn {
 	//background-color: darkturquoise;
 	//background-color: rgb(148, 169, 245);

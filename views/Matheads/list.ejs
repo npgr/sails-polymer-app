@@ -10,6 +10,8 @@
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
 	<link rel="import" href="/components/matheads-new/matheads-new.html">
+	<link rel="import" href="/components/matheads-display/matheads-display.html">
+	<link rel="import" href="/components/matheads-edit/matheads-edit.html">
 </head>
 <style>
 	.col2 {
@@ -65,6 +67,8 @@
 	<h2 class="card_title">Materiales</h2>
 
 	<matheads-new id="matheads_new_dialog"></matheads-new>
+	<matheads-display id="matheads_display_dialog"></matheads-display>
+	<matheads-edit id="matheads_edit_dialog"></matheads-edit>
 	
 	<select id="filter" on-change="input_type">
 		<option value="matnr">Matnr</option>
@@ -124,7 +128,7 @@
   </template>
   <script>
     Polymer({
-      is: 'model-list',
+      is: 'model-list', 
       ready: function() {
 		this.tipo = 'number'
 		var _model = [ {column: 'matnr', type: 'integer'},
@@ -185,20 +189,29 @@
 		}
 	  },
 	  display: function(e) {
-		window.open('/Matheads/display/'+e.toElement.offsetParent.id)
+		var filtro = {'matnr': Number(e.toElement.offsetParent.id)}
+		var item = this.data.find(filtro)[0]
+		this.$.matheads_display_dialog.open_display_dialog(item)
+		//window.open('/Matheads/display/'+e.toElement.offsetParent.id)
 		//window.location.href = '/Matheads/display/'+e.toElement.offsetParent.id
 	  },
 	  edit: function(e) {
-		window.open('/Matheads/edit/'+e.toElement.offsetParent.id)
+		var filtro = {'matnr': Number(e.toElement.offsetParent.id)}
+		var item = this.data.find(filtro)[0]
+		this.$.matheads_edit_dialog.open_dialog(item)
+		//window.open('/Matheads/edit/'+e.toElement.offsetParent.id)
 		//window.location.ref ='/Matheads/edit/'+e.toElement.offsetParent.id
 	  },
 	  delete: function(e) {
-		window.open('/Matheads/delete/'+e.toElement.offsetParent.id)
-		//window.location.href ='/Matheads/delete/'+e.toElement.offsetParent.id
+		var filtro = {'matnr': Number(e.toElement.offsetParent.id)}
+		var item = this.data.find(filtro)[0]
+		this.$.matheads_display_dialog.open_delete_dialog(item)
+		//window.open('/Matheads/delete/'+e.toElement.offsetParent.id)
 	  },
 	  new: function() {
-		this.$.matheads_new_dialog.myopen()
+		this.$.matheads_new_dialog.open_dialog()
 		//window.open('/Matheads/new')
+		//window.location.href ='/Matheads/new/'
 	  }
     });
   </script>

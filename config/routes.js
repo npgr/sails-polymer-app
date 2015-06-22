@@ -48,5 +48,7 @@ module.exports.routes = {
   'get /prueba/:id&:id2': 'MatheadsController.prueba',
   '/Matheads/edit/:matnr': 'MatheadsController.edit',
   '/Matheads/display/:matnr': 'MatheadsController.display',
-  '/Matheads/delete/:matnr': 'MatheadsController.delete'
+  '/Matheads/delete/:matnr': 'MatheadsController.delete',
+  'post /Matheads/destroy/:id?': 'MatheadsController.destroy',
+  'post /Matheads/update/:matnr?': 'MatheadsController.update'
 };
