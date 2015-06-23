@@ -17,7 +17,10 @@ html, body {
 .card_title {
 	margin: 0px 0px 15px 0px;
 	padding: 10px 20px;
-	//background-color: beige;
+	background-color: rgb(90, 220, 155);
+	font-family: verdana, sans-serif;
+	font-size: 24px;
+	color: white;
 	border-radius: 7px;
 }
 #dialog {
