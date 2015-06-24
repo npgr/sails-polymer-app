@@ -1,5 +1,5 @@
-<head> 
-	<title>List</title>
+<head>
+	<title>List Material - MATHEADS</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -9,212 +9,156 @@
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
-	<link rel="import" href="/components/matheads-new/matheads-new.html">
-	<link rel="import" href="/components/matheads-display/matheads-display.html">
-	<link rel="import" href="/components/matheads-edit/matheads-edit.html">
+	<link rel="import" href="/components/Matheads-new/Matheads-new.html">
+	<link rel="import" href="/components/Matheads-display/Matheads-display.html">
+	<link rel="import" href="/components/Matheads-edit/Matheads-edit.html">
 </head>
-<style>
-	.col2 {
-		//display: none;
-		//background-color: beige;	
-	}
-	table {
-		border-radius: 7px;
-		margin-top: 7px;
-		border-spacing: 0px;
-		border: 1px solid rgb(200,200,200);
-		border-collapse: collapse;
-		//-webkit-border-horizontal-spacing: 15px;
-		//-webkit-border-vertical-spacing: 5px;
-	}
-	tr:nth-child(even) { /*odd*/
-		background-color: #ddd;
-	}
-	th, tfoot {
-		//background-color: darkturquoise;
-		background-color: rgb(138, 197, 212);
-		padding: 10px;
-	}
-	th {
-		text-align: left;
-	}
-	td {
-		//text-align: center;
-		padding: 1px 10px;
-	}
-	.card {
-		width: 60em;
-	}
-	.hide {
-		display: none;
-	}
-	.ops {
-		width: 90px;
-	}
-	.icon-op {
-		padding: 1px;
-		color: rgb(200, 80, 25);
-	}
-	#btn_add {
-	  left: 770px;
-	  top: 76;
-	  position: absolute;
-	}
-</style>
-
 <dom-module id="model-list">
-  <template>
-	<div class="card_title">Materiales</div>
-
-	<matheads-new id="matheads_new_dialog"></matheads-new>
-	<matheads-display id="matheads_display_dialog"></matheads-display>
-	<matheads-edit id="matheads_edit_dialog"></matheads-edit>
-	
+<template>
+	<Matheads-new id="Matheads_new_dialog"></Matheads-new>
+	<Matheads-display id="Matheads_display_dialog"></Matheads-display>
+	<Matheads-edit id="Matheads_edit_dialog"></Matheads-edit>
+	<div class="card_title">Material - MATHEADS</div>
 	<select id="filter" on-change="input_type">
-		<option value="matnr">Matnr</option>
-		<option value="matl_type">Matl_Type</option>
-		<option value="matl_group">Matl_Group</option>
+		<option value="matnr">Número Material</option>
+		<option value="matl_type">Tipo de Material</option>
+		<option value="matl_group">Grupo de Material</option>
+		<option value="matl_cat">Categoria de Material</option>
 	</select>
 	<select id="op">
 		<option value="igual a">Igual a</option>
+		<option value="contiene">Contiene</option>
 		<option value="Mayor a">Mayor a</option>
 		<option value="Menor a">Menor a</option>
 	</select>
 	<input id="filtro" type="{{tipo}}"></input>
-	<select id="select" class="hide"> <!--style="display:none;"-->
-	<template is="dom-repeat" items="{{opts}}">
+	<select id="select" class="hide">
+	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.op}}</option>
-	</template>
+	  </template>
 	</select>
-	
 	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
-	
-    <table style="width:100%">
+	<table style="width:100%">
 	<thead>
 	  <tr>
-		<th class='ops'></th>
-		<th>Matnr</th>
-		<th class="col2">matl_type</th> 
-		<th>matl_group</th>
-		<th>matl_cat</th>
-	 </tr>
+		<th class="ops"></th>
+			<th class"col_matnr">Número Material</th>
+			<th class"col_matl_type">Tipo de Material</th>
+			<th class"col_matl_group">Grupo de Material</th>
+			<th class"col_matl_cat">Categoria de Material</th>
+	</tr>
 	</thead>
 	<tfoot>
-	 <tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td class="col2">Total</td> 
-		<td><strong>{{regs}}</strong></td>
-	 </tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Total</td>
+			<td><strong>{{regs}}</strong></td>
+	</tr>
 	</tfoot>
 	<tbody>
-    <template is="dom-repeat" items="{{filtered_data}}">
+	<template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
 			<paper-icon-button id="{{item.matnr}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
 			<paper-icon-button id="{{item.matnr}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
 		  	<paper-icon-button id="{{item.matnr}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
 		</td>
-		<td>{{item.matnr}}</td>
-		<td class="col2">{{item.matl_type}}</td> 
-		<td>{{item.matl_group}}</td>
-		<td>{{item.matl_cat}}</td>
+		<td class"col_matnr">{{item.matnr}}</td>
+		<td class"col_matl_type">{{item.matl_type}}</td>
+		<td class"col_matl_group">{{item.matl_group}}</td>
+		<td class"col_matl_cat">{{item.matl_cat}}</td>
 	</tr>
-    </template>
+	</template>
 	</tbody>
-	</table>
-  </template>
-  <script>
-    Polymer({
-      is: 'model-list', 
-      ready: function() {
-		this.tipo = 'number'
-		var _model = [ {column: 'matnr', type: 'integer'},
-					  {column: 'matl_type', enum: ['ZMED', 'ZMIS']},
-					  {column: 'matl_group', type: 'string'} ]
-					  
-        var _data = <%- data %>
-		this.filtered_data = [{matnr: ''}]
+</table>
+</template>
+<script>
+Polymer({
+is: "model-list",
+	ready: function() {
+		this.tipo = "number"
+		var _model = [{column: "matnr", type: "integer"},
+				{column: "matl_type", enum: ["ZMED","ZMIS"]},
+				{column: "matl_group", type: "string"},
+				{column: "matl_cat", type: "string"}
+		]
+		var _data = <%- data %>
+		this.filtered_data = [{matnr: ""}]
 		var db = new loki()
-		this.data = db.addCollection('data')
-		this.model = db.addCollection('model')
+		this.data = db.addCollection("data")
+		this.model = db.addCollection("model")
 		for (i=0; i< _data.length ; i++)
 			this.data.insert(_data[i])
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_data = {}
 		_model = {}
-      },
-	  filter: function() {
+	},
+	filter: function() {
 		var name = this.$.filter.value
 		var filtro = {}
-		if (this.$.filtro.getAttribute('class') != 'hide')
-			if (this.$.filtro.getAttribute('type') == 'number') 
+		if (this.$.filtro.getAttribute("class") != "hide")
+			if (this.$.filtro.getAttribute("type") == "number") 
 				filtro[name] = Number(this.$.filtro.value)
-			else
-				filtro[name] = this.$.filtro.value 
+		 	else
+				filtro[name] = this.$.filtro.value
 		else
-			filtro[name] = this.$.select.value
-		//console.log('value: ', value)
+		filtro[name] = this.$.select.value
 		this.filtered_data = this.data.find(filtro)
-		this.regs = this.filtered_data.length + ' reg'
-	  },
-	  input_type: function() {
-		this.$.filtro.value = ''
-		var column = this.model.find({ 'column': this.$.filter.value})
-		if (column[0].type)
-		{
-			this.$.select.className = 'hide'
-			this.$.filtro.className = ''
-			switch(column[0].type) {
-			case 'string':
-				this.tipo = 'text'
-			break;
-			case 'integer':
-				this.tipo = 'number'
-				break;
-			default:
-				this.tipo = 'text'
-			}
+		this.regs = this.filtered_data.length + " reg"
+	},
+	input_type: function() {
+	this.$.filtro.value = ""
+	var column = this.model.find({ "column": this.$.filter.value})
+	if (column[0].type)
+	{
+		this.$.select.className = "hide"
+		this.$.filtro.className = ""
+		switch(column[0].type) {
+		case "string":
+			this.tipo = "text"
+		break;
+		case "integer":
+			this.tipo = "number"
+		break;
+		default:
+			this.tipo = "text"
 		}
-		else
-		{
-			this.$.select.className = ''
-			this.$.filtro.className = 'hide'
-			this.opts = []
-			for (i=0; i< column[0].enum.length; i++)
-				this.push('opts', {'op': column[0].enum[i]})
-		}
-	  },
-	  display: function(e) {
-		var filtro = {'matnr': Number(e.toElement.offsetParent.id)}
-		var item = this.data.find(filtro)[0]
-		this.$.matheads_display_dialog.open_display_dialog(item)
-		//window.open('/Matheads/display/'+e.toElement.offsetParent.id)
-		//window.location.href = '/Matheads/display/'+e.toElement.offsetParent.id
-	  },
-	  edit: function(e) {
-		var filtro = {'matnr': Number(e.toElement.offsetParent.id)}
-		var item = this.data.find(filtro)[0]
-		this.$.matheads_edit_dialog.open_dialog(item)
-		//window.open('/Matheads/edit/'+e.toElement.offsetParent.id)
-		//window.location.ref ='/Matheads/edit/'+e.toElement.offsetParent.id
-	  },
-	  delete: function(e) {
-		var filtro = {'matnr': Number(e.toElement.offsetParent.id)}
-		var item = this.data.find(filtro)[0]
-		this.$.matheads_display_dialog.open_delete_dialog(item)
-		//window.open('/Matheads/delete/'+e.toElement.offsetParent.id)
-	  },
-	  new: function() {
-		this.$.matheads_new_dialog.open_dialog()
-		//window.open('/Matheads/new')
-		//window.location.href ='/Matheads/new/'
-	  }
-    });
-  </script>
+	}
+	else
+	{
+		this.$.select.className = ""
+		this.$.filtro.className = "hide"
+		this.opts = []
+		for (i=0; i< column[0].enum.length; i++)
+			this.push("opts", {"op": column[0].enum[i]})
+	}
+ },
+  display: function(e) {
+	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var item = this.data.find(filtro)[0]
+	this.$.Matheads_display_dialog.open_display_dialog(item)
+	//window.open("/Matheads/display/"+e.toElement.offsetParent.id)
+	//window.location.href = "/Matheads/display/"+e.toElement.offsetParent.id
+  },
+  edit: function(e) {
+	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var item = this.data.find(filtro)[0]
+	this.$.Matheads_edit_dialog.open_dialog(item)
+  },
+  delete: function(e) {
+	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var item = this.data.find(filtro)[0]
+	this.$.Matheads_display_dialog.open_delete_dialog(item)
+  },
+  new: function() {
+	this.$.Matheads_new_dialog.open_dialog()
+  }
+});
+</script>
 </dom-module>
 <paper-material class="card" elevation="2">
 	<model-list></model-list>

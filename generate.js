@@ -50,6 +50,7 @@ function get_model_par() {
 
 function get_model(cb)
 {
+	//model: global variable
 	model = get_model_par()
 	if (model) {
 		console.log('creating a create page for model '+ model)
@@ -74,19 +75,21 @@ function get_model(cb)
 function crud(n)
 {
 	get_model(function(jsondat) { 
-		if (jsondat) 
+		// global variable jsondata
+		jsondata = jsondat
+		if (jsondata) 
 		  switch(n) {
 			case 1:
 				// basic html crud
-				crud1.generate('crud', jsondat)
+				crud1.generate('crud')
 			break;
 			case 2:
 				// basic polymer crud
-				crud2.generate('crud', jsondat)
+				crud2.generate('crud')
 			break;
 			case 3:
-				// complete polymer crud
-				crud3.generate('crud', jsondat)	
+				// complete polymer crud + list
+				crud3.generate('crud')	
 			break;
 		  }  
 	})

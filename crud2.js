@@ -46,7 +46,7 @@ function getInputType(type) {
 	}
 }
 
-exports.generate = function(crud, jsondata) {
+exports.generate = function(crud) {
 // ** Crud with Polymer
 	var pages = {
 		body_create: '', body_display: '', body_edit: '', body_delete: '', 

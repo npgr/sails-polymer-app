@@ -11,25 +11,13 @@ function setBody(crud, crud2, pages, value) {
 
 function setScript(crud, crud2, pages, value) {
 	if (crud.indexOf("c") > -1 && crud2.indexOf("c") > -1) 
-	{
-		//if (pages.script_create == '') pages.script_create = '<script>\r'
 		pages.script_create += value
-	}
 	if (crud.indexOf("r") > -1 && crud2.indexOf("r") > -1) 
-	{
-		//if (pages.script_display == '') pages.script_display = '<script>\r'
 		pages.script_display += value
-	}
 	if (crud.indexOf("u") > -1 && crud2.indexOf("u") > -1)
-	{
-		//if (pages.script_edit == '') pages.script_edit = '<script>\r'
 		pages.script_edit += value
-	}
 	if (crud.indexOf("d") > -1 && crud2.indexOf("d") > -1)
-	{
-		//if (pages.script_delete == '') pages.script_delete = '<script>\r'
 		pages.script_delete += value
-	}
 	return pages
 }
 
@@ -46,7 +34,209 @@ function getInputType(type) {
 	}
 }
 
-exports.generate = function(crud, jsondata) {
+function generate_list(keys, title, key) {
+	var list = {
+		body: '', script: ''
+	}
+	// imports
+	list.body = 
+	'<head>\n'+ 
+	'	<title>List '+title+'</title>\n'+
+	'	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>\n'+
+	'	<script src="/bower_components/lokijs/src/lokijs.js"></script>\n'+
+	'	<link rel="stylesheet" href="/styles/app.css">\n'+
+	'	<link rel="import" href="/bower_components/paper-material/paper-material.html">\n'+
+	'	<link rel="import" href="/bower_components/paper-input/paper-input.html">\n'+
+	'	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">\n'+
+	'	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">\n'+
+	'	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">\n'+
+	'	<link rel="import" href="/bower_components/paper-button/paper-button.html">\n'+
+	'	<link rel="import" href="/components/'+model+'-new/'+model+'-new.html">\n'+
+	'	<link rel="import" href="/components/'+model+'-display/'+model+'-display.html">\n'+
+	'	<link rel="import" href="/components/'+model+'-edit/'+model+'-edit.html">\n'+
+	'</head>\n'+
+	'<dom-module id="model-list">\n'+
+	'<template>\n'+
+	'	<'+model+'-new id="'+model+'_new_dialog"></'+model+'-new>\n'+
+	'	<'+model+'-display id="'+model+'_display_dialog"></'+model+'-display>\n'+
+	'	<'+model+'-edit id="'+model+'_edit_dialog"></'+model+'-edit>\n'+
+	'	<div class="card_title">'+title+'</div>\n'+
+	'	<select id="filter" on-change="input_type">\n'
+
+	// filter fields
+	for (i=0; i < keys.length; i++)
+		if (keys[i].substring(0,1) != '_') 
+			list.body += '\t\t<option value="'+keys[i]+'">'+jsondata[keys[i]].description+'</option>\n'
+
+	list.body += 
+	'	</select>\n'+
+	'	<select id="op">\n'+
+	'		<option value="igual a">Igual a</option>\n'+
+	'		<option value="contiene">Contiene</option>\n'+
+	'		<option value="Mayor a">Mayor a</option>\n'+
+	'		<option value="Menor a">Menor a</option>\n'+
+	'	</select>\n'+
+	'	<input id="filtro" type="{{tipo}}"></input>\n'+
+	'	<select id="select" class="hide">\n'+ 
+	'	  <template is="dom-repeat" items="{{opts}}">\n'+
+	'		<option value="{{item.op}}">{{item.op}}</option>\n'+
+	'	  </template>\n'+
+	'	</select>\n'+
+	'	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>\n'+
+	'	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>\n'+
+	'	<table style="width:100%">\n'+
+	'	<thead>\n'+
+	'	  <tr>\n'+
+	'		<th class="ops"></th>\n'
+	
+	// Table headers
+	for (i=0; i < keys.length; i++)
+		if (keys[i].substring(0,1) != '_') 
+			list.body += '\t\t\t<th class"col_'+keys[i]+'">'+jsondata[keys[i]].description+'</th>\n'
+		
+	// Table footers	
+	list.body += '\t</tr>\n\t</thead>\n\t<tfoot>\n\t\t<tr>\n\t\t\t<td></td>\n'
+	for (i=0; i < keys.length; i++)
+	   if (keys[i].substring(0,1) != '_') 
+		if (i == keys.length-2)
+			list.body += '\t\t\t<td>Total</td>\n'
+		  else if ((i == keys.length-1))
+			list.body += '\t\t\t<td><strong>{{regs}}</strong></td>\n'
+		   else
+			list.body += '\t\t\t<td></td>\n'
+	list.body += 
+	 '	</tr>\n'+
+	'	</tfoot>\n'+
+	'	<tbody>\n'+
+    '	<template is="dom-repeat" items="{{filtered_data}}">\n'+
+	'	<tr>\n'+
+	'		<td class="ops">\n'+
+	'			<paper-icon-button id="{{item.'+key+'}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>\n'+
+	'			<paper-icon-button id="{{item.'+key+'}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>\n'+
+	'		  	<paper-icon-button id="{{item.'+key+'}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>\n'+
+	'		</td>\n'
+	// body column 
+	for (i=0; i < keys.length; i++)
+		if (keys[i].substring(0,1) != '_') 
+			list.body += '\t\t<td class"col_'+keys[i]+'">{{item.'+keys[i]+'}}</td>\n'
+	list.body +=
+	'	</tr>\n'+	
+    '	</template>\n'+
+	'	</tbody>\n'+
+	'</table>\n'+
+	'</template>\n'+
+	'<script>\n'+
+    'Polymer({\n'+
+    'is: "model-list",\n'+
+	'	ready: function() {\n'+
+	'		this.tipo = "number"\n'+
+	'		var _model = ['
+	var first = true
+	for (i=0; i < keys.length; i++)
+	{
+		if (keys[i].substring(0,1) != '_')
+		{ 
+		  if (!first) 
+			 list.body += '\t\t\t\t'
+		   else	first = false
+		  if (jsondata[keys[i]].enum)
+			list.body += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+'}'
+		  else
+			list.body += '{column: "'+keys[i]+'", type: "'+jsondata[keys[i]].type+'"}'
+		  if (i < keys.length-1)
+			list.body += ',\n'
+		   else
+			list.body += '\n'
+		}
+	}
+	list.body +=
+	'		]\n'+
+	'		var _data = <%- data %>\n'+
+	'		this.filtered_data = [{'+key+': ""}]\n'+
+	'		var db = new loki()\n'+
+	'		this.data = db.addCollection("data")\n'+
+	'		this.model = db.addCollection("model")\n'+
+	'		for (i=0; i< _data.length ; i++)\n'+
+	'			this.data.insert(_data[i])\n'+
+	'		for (i=0; i< _model.length ; i++)\n'+
+	'			this.model.insert(_model[i])\n'+
+	'		_data = {}\n'+
+	'		_model = {}\n'+
+    '	},\n'+
+	'	filter: function() {\n'+
+	'		var name = this.$.filter.value\n'+
+	'		var filtro = {}\n'+
+	'		if (this.$.filtro.getAttribute("class") != "hide")\n'+
+	'			if (this.$.filtro.getAttribute("type") == "number") \n'+
+	'				filtro[name] = Number(this.$.filtro.value)\n'+
+	'		 	else\n'+
+	'				filtro[name] = this.$.filtro.value\n'+
+	'		else\n'+
+	'		filtro[name] = this.$.select.value\n'+
+	'		this.filtered_data = this.data.find(filtro)\n'+
+	'		this.regs = this.filtered_data.length + " reg"\n'+
+	'	},\n'+
+	'	input_type: function() {\n'+
+	'	this.$.filtro.value = ""\n'+
+	'	var column = this.model.find({ "column": this.$.filter.value})\n'+
+	'	if (column[0].type)\n'+
+	'	{\n'+
+	'		this.$.select.className = "hide"\n'+
+	'		this.$.filtro.className = ""\n'+
+	'		switch(column[0].type) {\n'+
+	'		case "string":\n'+
+	'			this.tipo = "text"\n'+
+	'		break;\n'+
+	'		case "integer":\n'+
+	'			this.tipo = "number"\n'+
+	'		break;\n'+
+	'		default:\n'+
+	'			this.tipo = "text"\n'+
+	'		}\n'+
+	'	}\n'+
+	'	else\n'+
+	'	{\n'+
+	'		this.$.select.className = ""\n'+
+	'		this.$.filtro.className = "hide"\n'+
+	'		this.opts = []\n'+
+	'		for (i=0; i< column[0].enum.length; i++)\n'+
+	'			this.push("opts", {"op": column[0].enum[i]})\n'+
+	'	}\n'+
+	' },\n'+
+	'  display: function(e) {\n'+
+	'	var filtro = {"'+key+'": Number(e.toElement.offsetParent.id)}\n'+
+	'	var item = this.data.find(filtro)[0]\n'+
+	'	this.$.'+model+'_display_dialog.open_display_dialog(item)\n'+
+	'	//window.open("/Matheads/display/"+e.toElement.offsetParent.id)\n'+
+	'	//window.location.href = "/Matheads/display/"+e.toElement.offsetParent.id\n'+
+	'  },\n'+
+	'  edit: function(e) {\n'+
+	'	var filtro = {"'+key+'": Number(e.toElement.offsetParent.id)}\n'+
+	'	var item = this.data.find(filtro)[0]\n'+
+	'	this.$.'+model+'_edit_dialog.open_dialog(item)\n'+
+	'  },\n'+
+	'  delete: function(e) {\n'+
+	'	var filtro = {"'+key+'": Number(e.toElement.offsetParent.id)}\n'+
+	'	var item = this.data.find(filtro)[0]\n'+
+	'	this.$.'+model+'_display_dialog.open_delete_dialog(item)\n'+
+	'  },\n'+
+	'  new: function() {\n'+
+	'	this.$.'+model+'_new_dialog.open_dialog()\n'+
+	'  }\n'+
+    '});\n'+
+	'</script>\n'+
+	'</dom-module>\n'+
+	'<paper-material class="card" elevation="2">\n'+
+	'	<model-list></model-list>\n'+
+	'</paper-material>\n'
+	
+	fs.writeFile('views/'+model+'/list.ejs', list.body, function (err) {
+			if (err) console.log(err);
+			console.log('Created file "views/'+model+'/list.ejs"')
+		})
+}
+
+exports.generate = function(crud) {
 // ** Crud with Polymer
 	var pages = {
 		body_create: '', body_display: '', body_edit: '', body_delete: '', 
@@ -58,6 +248,15 @@ exports.generate = function(crud, jsondata) {
 	if (keys.indexOf('_title') >= 0)	{
 		title = jsondata._title
 	}
+	// ******   OJO se asume que keys[0] es la clave del archivo, omitiendo campos que comienzan con "_"
+	var key = ''
+	for (k=0; k < keys.length; k++) 
+		if (keys[k].substring(0,1) != '_') {
+			key = keys[k]
+			k = keys.length
+		}
+	// generate list 
+	generate_list(keys, title, key)
 	// imports
 	pages = setBody(crud, 'cru', pages, 
 			'<!--<link rel="stylesheet" href="/styles/app.css">-->\n'+
@@ -81,13 +280,6 @@ exports.generate = function(crud, jsondata) {
 	pages = setBody(crud, 'c', pages, '\t\t<h2 class="card_title">Crear '+title+'</h2>\n')
 	pages = setBody(crud, 'r', pages, '\t\t<h2 class="card_title">{{title}}</h2>\n')
 	pages = setBody(crud, 'u', pages, '\t\t<h2 class="card_title">Editar '+title+'</h2>\n')
-	// ******   OJO se asume que keys[0] es la clave del archivo, omitiendo campos que comienzan con "_"
-	var key = ''
-	for (k=0; k < keys.length; k++) 
-		if (keys[k].substring(0,1) != '_') {
-			key = keys[k]
-			k = keys.length
-		}
 	// form 
 	pages = setBody(crud, 'c', pages, '\t\t<form id="form" action="/'+model+'/create" method="POST">\n')
 	pages = setBody(crud, 'r', pages, '\t\t<form id="form">\n')
@@ -143,7 +335,7 @@ exports.generate = function(crud, jsondata) {
 	'		},\n'+
 	'		open_delete_dialog: function(item) {\n'+
 	'			this.title = "Borrar '+model+'"\n'+
-	'			this.$.form.setAttribute("action","/Matheads/destroy/"+item.'+key+')\n'+
+	'			this.$.form.setAttribute("action","/'+model+'/destroy/"+item.'+key+')\n'+
 	'			this.$.form.setAttribute("method","POST")\n'+
 	'			this.$.delete_btn.className = "btn"\n'+
 	'			this.item = item\n'+
@@ -267,5 +459,5 @@ exports.generate = function(crud, jsondata) {
 			console.log('Created file "/assets/components/'+model+'-edit.html"')
 		})
 	}
-	
 }
+

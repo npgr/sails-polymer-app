@@ -52,3 +52,46 @@ input, select {
     border:solid 1px rgb(138, 197, 212);
     border-radius: 4px;
 }
+/* styles for list view */
+table {
+	border-radius: 7px;
+	margin-top: 7px;
+	border-spacing: 0px;
+	border: 1px solid rgb(200,200,200);
+	border-collapse: collapse;
+	//-webkit-border-horizontal-spacing: 15px;
+	//-webkit-border-vertical-spacing: 5px;
+}
+tr:nth-child(even) { /*odd*/
+	background-color: #ddd;
+}
+th, tfoot {
+	//background-color: darkturquoise;
+	background-color: rgb(138, 197, 212);
+	padding: 10px;
+}
+th {
+	text-align: left;
+}
+td {
+	//text-align: center;
+	padding: 1px 10px;
+}
+.card {
+	width: 60em;
+}
+.hide {
+	display: none;
+}
+.ops {
+	width: 90px;
+}
+.icon-op {
+	padding: 1px;
+	color: rgb(200, 80, 25);
+}
+#btn_add {
+  left: 770px;
+  top: 76;
+  position: absolute;
+}

@@ -46,7 +46,7 @@ function getInputType(type) {
 	}
 }
 
-exports.generate = function(crud, jsondata) {
+exports.generate = function(crud) {
 
 // ** Simple HTML Pages
 	var pages = {
