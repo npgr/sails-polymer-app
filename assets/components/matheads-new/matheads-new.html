@@ -36,10 +36,10 @@
 		</div>
 		</paper-dialog-scrollable>
 		<div class="buttons">
-			<input id="create_btn" type="submit" value="CREAR">
+			<input id="submit_btn" class="hide" type="submit" value="CREAR">
 			<div class="card_line">
-				<paper-button id="btn1" class="btn" on-click="create" raised>CREAR</paper-button>
-				<paper-button id="btn1" class="btn" dialog-confirm raised>SALIR</paper-button>
+				<paper-button id="create_btn" class="btn" on-click="create" raised>CREAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
 		</div>
 		</form>
@@ -59,15 +59,15 @@
 					this.$.ajax.url = "/Matheads/existe/"+this.$.matnr.value
 					this.$.ajax.generateRequest()
 				}
-				else this.$.create_btn.click()
+				else this.$.submit_btn.click()
 			} else
-				this.$.create_btn.click()
+				this.$.submit_btn.click()
 		},
 		validate_record: function() {
 			if (this.$.ajax.lastResponse.existe == "si")
 				alert("Registro ya Existe")
 			else
-				this.$.create_btn.click()
+				this.$.submit_btn.click()
 		},
 		error_record: function() {
 			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)

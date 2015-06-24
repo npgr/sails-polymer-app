@@ -113,15 +113,15 @@ exports.generate = function(crud, jsondata) {
 	'					this.$.ajax.url = "/'+model+'/existe/"+this.$.'+key+'.value\n'+
 	'					this.$.ajax.generateRequest()\n'+
 	'				}\n'+
-	'				else this.$.create_btn.click()\n'+
+	'				else this.$.submit_btn.click()\n'+
 	'			} else\n'+
-	'				this.$.create_btn.click()\n'+
+	'				this.$.submit_btn.click()\n'+
 	'		},\n'+
 	'		validate_record: function() {\n'+
 	'			if (this.$.ajax.lastResponse.existe == "si")\n'+
 	'				alert("Registro ya Existe")\n'+
 	'			else\n'+
-	'				this.$.create_btn.click()\n'+
+	'				this.$.submit_btn.click()\n'+
 	'		},\n'+
 	'		error_record: function() {\n'+
 	'			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)\n'+
@@ -223,18 +223,18 @@ exports.generate = function(crud, jsondata) {
 	// submit Button
 	pages = setBody(crud, 'cru', pages, '\t\t</div>\n\t\t</paper-dialog-scrollable>\n\t\t<div class="buttons">\n')
 	
-	pages = setBody(crud, 'c', pages, '\t\t\t<input id="create_btn" type="submit" value="CREAR">\n')
-	pages = setBody(crud, 'r', pages, '\t\t\t<input id="submit_delete" class="hide" type="submit" value="Borrar">\n')
+	pages = setBody(crud, 'c', pages, '\t\t\t<input id="submit_btn" class="hide" type="submit" value="CREAR">\n')
+	pages = setBody(crud, 'r', pages, '\t\t\t<input id="submit_delete" class="hide" type="submit" value="BORRAR">\n')
 	pages = setBody(crud, 'u', pages, '\t\t\t<input id="submit_update" class="hide" type="submit" value="CAMBIAR">\n')
 	
 	pages = setBody(crud, 'cru', pages, '\t\t\t<div class="card_line">\n')
 	
 	//Paper Button
-	pages = setBody(crud, 'c', pages, '\t\t\t\t<paper-button id="btn1" class="btn" on-click="create" raised>CREAR</paper-button>\n')
+	pages = setBody(crud, 'c', pages, '\t\t\t\t<paper-button id="create_btn" class="btn" on-click="create" raised>CREAR</paper-button>\n')
 	pages = setBody(crud, 'r', pages, '\t\t\t\t<paper-button id="delete_btn" class="btn" on-click="borrar" raised>BORRAR</paper-button>\n')
 	pages = setBody(crud, 'u', pages, '\t\t\t\t<paper-button id="update_btn" class="btn" on-click="cambiar" raised>CAMBIAR</paper-button>\n')
 	
-	pages = setBody(crud, 'cru', pages, '\t\t\t\t<paper-button id="btn1" class="btn" dialog-confirm raised>SALIR</paper-button>\n')
+	pages = setBody(crud, 'cru', pages, '\t\t\t\t<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>\n')
 	
 	// Fin html Template
 	pages = setBody(crud, 'cru', pages, '\t\t\t</div>\n\t\t</div>\n\t\t</form>\n\t</paper-dialog>\n</template>\n')
