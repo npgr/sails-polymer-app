@@ -6,14 +6,16 @@
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
-<dom-module id="Matheads-new">
+
+<dom-module id="matheads-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="error_record"></iron-ajax>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation"
+									exit-animation="fade-out-animation">
 		<h2 class="card_title">Crear Material - MATHEADS</h2>
 		<form id="form" action="/Matheads/create" method="POST">
-			<paper-dialog-scrollable>
-			<div vertical layout>
+		  <paper-dialog-scrollable>
+		  <div vertical layout>
 			<div class="card_line">
 				<label class="left_label" for="matnr">Número Material</label>
 				<input id="matnr" type="number" name="matnr" min=10 max=999999 required>
@@ -33,45 +35,46 @@
 				<label class="left_label" for="matl_cat">Categoria de Material</label>
 				<input id="matl_cat" type="text" name="matl_cat" value="00" disabled>
 			</div>
-		</div>
+		  </div>
 		</paper-dialog-scrollable>
 		<div class="buttons">
 			<input id="create_btn" type="submit" value="CREAR">
 			<div class="card_line">
 				<paper-button id="btn1" class="btn" on-click="create" raised>CREAR</paper-button>
-				<paper-button id="btn1" class="btn" dialog-confirm raised>SALIR</paper-button>
+				<paper-button class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
-		</div>
+		</div>  
 		</form>
 	</paper-dialog>
 </template>
 <script>
 	Polymer({
-		is: "Matheads-new",
-		open_dialog: function() {
-			this.$.dialog.open()
-		},
-		create: function() {
-			if (!isNaN(this.$.matnr.value))
+      is: 'matheads-new',
+	  open_dialog: function() {
+		this.$.dialog.open()
+	  },
+      create: function() {
+		if (!isNaN(this.$.matnr.value))
+		{
+			if (this.$.matnr.value > 0) 
 			{
-				if (this.$.matnr.value > 0)
-				{
-					this.$.ajax.url = "/Matheads/existe/"+this.$.matnr.value
-					this.$.ajax.generateRequest()
-				}
-				else this.$.create_btn.click()
-			} else
-				this.$.create_btn.click()
-		},
-		validate_record: function() {
-			if (this.$.ajax.lastResponse.existe == "si")
-				alert("Registro ya Existe")
-			else
-				this.$.create_btn.click()
-		},
-		error_record: function() {
-			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
-		}
-	})
+				this.$.ajax.url = '/Matheads/existe/'+this.$.matnr.value
+				this.$.ajax.generateRequest()
+			} 
+			else this.$.create_btn.click() // matnr = cero
+		} else
+			this.$.create_btn.click() // matnr no numérico
+	  },
+	  validate_record: function() {
+		if (this.$.ajax.lastResponse.existe == 'si')
+			alert('Registro ya Existe')
+		 else
+			this.$.create_btn.click()
+	  },
+	  error_record: function() {
+		//console.log('error: ',this.$.ajax.lastError)
+		alert('Error Procesando Solicitud: ', this.$.ajax.lastError)
+	  }
+	 })
 </script>
 </dom-module>

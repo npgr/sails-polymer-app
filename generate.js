@@ -4,7 +4,7 @@ var jsonic = require('jsonic')
 var format = require('string-template')
 var crud1 = require('./crud1')
 var crud2 = require('./crud2')
-//var crud3 = require('./crud3')
+var crud3 = require('./crud3')
 
 option = process.argv[2]
 
