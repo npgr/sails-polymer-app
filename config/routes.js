@@ -50,6 +50,9 @@ module.exports.routes = {
   '/Matheads/display/:matnr': 'MatheadsController.display',
   '/Matheads/delete/:matnr': 'MatheadsController.delete',
   'post /Matheads/destroy/:id?': 'MatheadsController.destroy',
-  'post /Matheads/update/:matnr?': 'MatheadsController.update',
-  '/Matheads/existe/:matnr': 'MatheadsController.existe'
+  "post /Matheads/update/:matnr?": "MatheadsController.update",
+  "/Matheads/exist/:matnr": "MatheadsController.exist",
+  "post /Customer/destroy/:id?": "CustomerController.destroy",
+  "post /Customer/update/:id?": "CustomerController.update",
+  "/Customer/exist/:id": "CustomerController.exist"
 };

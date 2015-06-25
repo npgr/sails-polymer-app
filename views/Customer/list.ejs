@@ -1,0 +1,160 @@
+<head>
+	<title>List Cliente</title>
+	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script src="/bower_components/lokijs/src/lokijs.js"></script>
+	<link rel="stylesheet" href="/styles/app.css">
+	<link rel="import" href="/bower_components/paper-material/paper-material.html">
+	<link rel="import" href="/bower_components/paper-input/paper-input.html">
+	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+	<link rel="import" href="/bower_components/paper-button/paper-button.html">
+	<link rel="import" href="/components/Customer-new/Customer-new.html">
+	<link rel="import" href="/components/Customer-display/Customer-display.html">
+	<link rel="import" href="/components/Customer-edit/Customer-edit.html">
+</head>
+<dom-module id="model-list">
+<template>
+	<Customer-new id="Customer_new_dialog"></Customer-new>
+	<Customer-display id="Customer_display_dialog"></Customer-display>
+	<Customer-edit id="Customer_edit_dialog"></Customer-edit>
+	<div class="card_title">Cliente</div>
+	<select id="filter" on-change="input_type">
+		<option value="id">Código</option>
+		<option value="name">Nombre</option>
+		<option value="status">status</option>
+	</select>
+	<select id="op">
+		<option value="igual a">Igual a</option>
+		<option value="contiene">Contiene</option>
+		<option value="Mayor a">Mayor a</option>
+		<option value="Menor a">Menor a</option>
+	</select>
+	<input id="filtro" type="{{tipo}}"></input>
+	<select id="select" class="hide">
+	  <template is="dom-repeat" items="{{opts}}">
+		<option value="{{item.op}}">{{item.op}}</option>
+	  </template>
+	</select>
+	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+	<table style="width:100%">
+	<thead>
+	  <tr>
+		<th class="ops"></th>
+			<th class"col_id">Código</th>
+			<th class"col_name">Nombre</th>
+			<th class"col_status">status</th>
+	</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td></td>
+			<td></td>
+			<td>Total</td>
+			<td><strong>{{regs}}</strong></td>
+	</tr>
+	</tfoot>
+	<tbody>
+	<template is="dom-repeat" items="{{filtered_data}}">
+	<tr>
+		<td class="ops">
+			<paper-icon-button id="{{item.id}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
+			<paper-icon-button id="{{item.id}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
+		  	<paper-icon-button id="{{item.id}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
+		</td>
+		<td class"col_id">{{item.id}}</td>
+		<td class"col_name">{{item.name}}</td>
+		<td class"col_status">{{item.status}}</td>
+	</tr>
+	</template>
+	</tbody>
+</table>
+</template>
+<script>
+Polymer({
+is: "model-list",
+	ready: function() {
+		this.tipo = "number"
+		var _model = [{column: "id", type: "integer"},
+				{column: "name", type: "string"},
+				{column: "status", enum: ["A","I"]}
+		]
+		var _data = <%- data %>
+		this.filtered_data = [{id: ""}]
+		var db = new loki()
+		this.data = db.addCollection("data")
+		this.model = db.addCollection("model")
+		for (i=0; i< _data.length ; i++)
+			this.data.insert(_data[i])
+		for (i=0; i< _model.length ; i++)
+			this.model.insert(_model[i])
+		_data = {}
+		_model = {}
+	},
+	filter: function() {
+		var name = this.$.filter.value
+		var filtro = {}
+		if (this.$.filtro.getAttribute("class") != "hide")
+			if (this.$.filtro.getAttribute("type") == "number") 
+				filtro[name] = Number(this.$.filtro.value)
+		 	else
+				filtro[name] = this.$.filtro.value
+		else
+		filtro[name] = this.$.select.value
+		this.filtered_data = this.data.find(filtro)
+		this.regs = this.filtered_data.length + " reg"
+	},
+	input_type: function() {
+	this.$.filtro.value = ""
+	var column = this.model.find({ "column": this.$.filter.value})
+	if (column[0].type)
+	{
+		this.$.select.className = "hide"
+		this.$.filtro.className = ""
+		switch(column[0].type) {
+		case "string":
+			this.tipo = "text"
+		break;
+		case "integer":
+			this.tipo = "number"
+		break;
+		default:
+			this.tipo = "text"
+		}
+	}
+	else
+	{
+		this.$.select.className = ""
+		this.$.filtro.className = "hide"
+		this.opts = []
+		for (i=0; i< column[0].enum.length; i++)
+			this.push("opts", {"op": column[0].enum[i]})
+	}
+ },
+  display: function(e) {
+	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	var item = this.data.find(filtro)[0]
+	this.$.Customer_display_dialog.open_display_dialog(item)
+	//window.open("/Matheads/display/"+e.toElement.offsetParent.id)
+	//window.location.href = "/Matheads/display/"+e.toElement.offsetParent.id
+  },
+  edit: function(e) {
+	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	var item = this.data.find(filtro)[0]
+	this.$.Customer_edit_dialog.open_dialog(item)
+  },
+  delete: function(e) {
+	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	var item = this.data.find(filtro)[0]
+	this.$.Customer_display_dialog.open_delete_dialog(item)
+  },
+  new: function() {
+	this.$.Customer_new_dialog.open_dialog()
+  }
+});
+</script>
+</dom-module>
+<paper-material class="card" elevation="2">
+	<model-list></model-list>
+</paper-material>

@@ -1,0 +1,60 @@
+<!--<link rel="stylesheet" href="/styles/app.css">-->
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<!--<link rel="import" href="/bower_components/paper-button/paper-button.html">-->
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
+<dom-module id="Customer-edit">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Editar Cliente</h2>
+		<form id="form" action="/Customer/update/{{item.id}}" method="POST">
+			<paper-dialog-scrollable>
+			<div vertical layout>
+			<div class="card_line">
+				<label class="left_label" for="id">Código</label>
+				<input id="id" type="number" name="id" value="{{item.id}}" min=100 max=999999 required>
+			</div>
+			<div class="card_line">
+				<label class="left_label" for="name">Nombre</label>
+				<input id="name" type="text" name="name" value="{{item.name}}" maxlength=35 required>
+			</div>
+			<div class="card_line">
+				<label class="left_label" for="status">status</label>
+				<select id="status" name="status">
+					<option value="A">Activo</option>
+					<option value="I">Inactivo</option>
+				</select>
+			</div>
+		</div>
+		</paper-dialog-scrollable>
+		<div class="buttons">
+			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="cambiar" raised>CAMBIAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Customer-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.$.form.setAttribute("action","/Customer/update/"+item.id)
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		cambiar: function() {
+			this.$.submit_update.click()
+		},
+		set_select_fields(item) {
+			this.$.status.value = item.status
+		}
+	})
+</script>
+</dom-module>

@@ -15,13 +15,13 @@ module.exports = {
 	def : function (req, res) {
 		res.json(Matheads._attributes)
 	},
-	existe: function(req, res, next) {
+	exist: function(req, res, next) {
 		var matnr = req.param('matnr');
 		Matheads.findOneByMatnr(matnr)
 				.exec(function(err, data) {
-					if(err) res.json({ 'existe': 'error'})
-					  else if (!data) res.json({ 'existe': 'no'})
-						else res.json({ 'existe': 'si'})
+					if(err) res.json({ 'exist': 'error'})
+					  else if (!data) res.json({ 'exist': false})
+						else res.json({ 'exist': true})
 				})
 	},
 	create: function(req, res, next) {
