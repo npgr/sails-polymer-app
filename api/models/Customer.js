@@ -26,6 +26,12 @@ module.exports = {
 		required: true,
 		maxLength: 35
 	},
+	city: {
+		//description: 'Ciudad',
+		type: 'string',
+		required: true,
+		maxLength: 25
+	},
 	status: {
 		//description: 'status',
 		type: 'string',
