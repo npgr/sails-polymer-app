@@ -1,12 +1,12 @@
 /************  Routes ************/
-"post /Customer/destroy/:id?": "CustomerController.destroy",
-"post /Customer/update/:id?": "CustomerController.update",
-"/Customer/exist/:id": "CustomerController.exist"
+"post /Matheads/destroy/:id?": "MatheadsController.destroy",
+"post /Matheads/update/:matnr?": "MatheadsController.update",
+"/Matheads/exist/:matnr": "MatheadsController.exist"
 
 /********** Controller *******/
 	exist: function(req, res, next) {
-		var id = req.param("id")
-		Customer.findOne(id)
+		var matnr = req.param("matnr")
+		Matheads.findOneBymatnr(matnr)
 			.exec(function(err, data) {
 				if(err) res.json({ "exist": "error"})
 				  else if (!data) res.json({ "exist": false})
@@ -15,20 +15,20 @@
 	},
 	create: function(req, res, next) {
 		var params = req.params.all();
-		Customer.create(params, function(err, data) {
+		Matheads.create(params, function(err, data) {
 			if (err) return next(err);
-			res.redirect("Customer/list")
+			res.redirect("Matheads/list")
 		});
 	},
 	destroy: function(req, res, next) {
 		var id = req.param("id")
-		Customer.findOne(id)
+		Matheads.findOneBymatnr(matnr)
 				.exec(function(err, result) {
 					if (err) res.serverError(err);
 					if (!result) res.notFound();
-						Customer.destroy(id, function (err) {
+						Matheads.destroy(id, function (err) {
 						if (err) return next (err);
-						return res.redirect("Customer/list")
+						return res.redirect("Matheads/list")
 						//return res.json(result);
 					});
 				});
@@ -36,21 +36,21 @@
 	update: function (req, res, next) {
    	 var criteria = {};
     	criteria = _.merge({}, req.params.all(), req.body);
-    	var id = req.param("id");
-    	if (!id) {
+    	var matnr = req.param("matnr");
+    	if (!matnr) {
        	 return res.badRequest("No id provided.");
     	}
-    	Customer.update(id, criteria, function (err, data) {
+    	Matheads.update(matnr, criteria, function (err, data) {
        	 if(data.length === 0) return res.notFound();
         	if (err) return next(err);
-			res.redirect("Customer/list")
+			res.redirect("Matheads/list")
         	//res.json(data);
     	})
 	},
 	list : function (req, res) {
-		Customer.find()
+		Matheads.find()
 			.exec(function(err, data){
-				res.render("Customer/list", {data: JSON.stringify(data)})
+				res.render("Matheads/list", {data: JSON.stringify(data)})
 			})
 	}
 }

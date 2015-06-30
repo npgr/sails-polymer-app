@@ -2,9 +2,10 @@
 var fs = require('fs')
 var jsonic = require('jsonic')
 var format = require('string-template')
-var crud1 = require('./crud1')
-var crud2 = require('./crud2')
-var crud3 = require('./crud3')
+var crud1 = require('./templates/crud1')
+var crud2 = require('./templates/crud2')
+var crud3 = require('./templates/crud3')
+var crud4 = require('./templates/crud4')
 
 option = process.argv[2]
 
@@ -22,6 +23,8 @@ switch(option) {
 	case 'crud3':
         crud(3)
         break;
+	case 'crud4':
+		crud(4)
     default:
         console.log('arguments for this commando are: ')
 }
@@ -91,6 +94,9 @@ function crud(n)
 				// complete polymer crud + list
 				crud3.generate('crud')	
 			break;
+			case 4:
+				// using lodash templates
+				crud4.generate('crud')
 		  }  
 	})
 }
