@@ -424,17 +424,30 @@ exports.generate = function(crud) {
 	set_jsondata_lines(keys)
 	
 	//generate new form
-	var NEW_FORM_TEMPLATE = fs.readFileSync('./templates/new_form.template', 'utf8');
 	var IMPORT_FORM = fs.readFileSync('./templates/import_form.template', 'utf8');
+	var NEW_FORM_TEMPLATE = fs.readFileSync('./templates/new_form.template', 'utf8');
 	
 	var compiled_New_Form = _.template(NEW_FORM_TEMPLATE)
 	
 	var new_form = compiled_New_Form({ 'title': title , 'import_form': IMPORT_FORM, 'model': model, 
 										'key': key, 'keys': keys, 'jsondata': jsondata})
 	
-	fs.writeFile('templates/prueba.html', new_form, function (err) {
+	fs.writeFile('templates/new_form.html', new_form, function (err) {
 			if (err) console.log(err);
-			console.log('Created file')
+			console.log('Created New Form')
+		})
+		
+	// generate display form
+	var DISPLAY_FORM_TEMPLATE = fs.readFileSync('./templates/display_form.template', 'utf8');
+	
+	var compiled_Display_Form = _.template(DISPLAY_FORM_TEMPLATE)
+	
+	var display_form = compiled_Display_Form({ 'title': title , 'import_form': IMPORT_FORM, 'model': model, 
+										'key': key, 'keys': keys, 'jsondata': jsondata})
+	
+	fs.writeFile('templates/display_form.html', display_form, function (err) {
+			if (err) console.log(err);
+			console.log('Created Display Form')
 		})
 }
 function xx() {

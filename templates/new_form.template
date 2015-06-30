@@ -1,18 +1,3 @@
-<%function getInputType(type) {
-	switch(type) {
-		case 'string':
-			return 'text'
-			break
-		case 'integer':
-			return 'number'
-			break
-		default:
-			return 'text'
-	}
-}
-var type = ''
-var line = ''
-%>
 <%= import_form %>
 
 <dom-module id="<%= model%>-new">
