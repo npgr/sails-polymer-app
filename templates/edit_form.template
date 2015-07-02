@@ -1,21 +1,23 @@
 <%= import_form %>
-<dom-module id="<%= model%>-display">
+<dom-module id="<%= model%>-edit">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Consultar <%= title%></h2>
-		<form id="form">
+		<h2 class="card_title">Editar <%= title%></h2>
+		<form id="form" action="/<%= model%>/update/{{item.<%= key%>}}" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout><% 
 			  for (i=0; i < keys.length; i++) { 
-				if (jsondata[keys[i]].line_r) {%>
+				if (jsondata[keys[i]].line_u) {%>
 				<div class="card_line">
 					<label class="left_label" for="<%= keys[i]%>"><%= jsondata[keys[i]].description%></label>
-					<%= jsondata[keys[i]].line_r %>
+					<%= jsondata[keys[i]].line_u %>
 				</div><% } }%>
 			</div>
 			</paper-dialog-scrollable>
 		<div class="buttons">
+			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
 			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="cambiar" raised>CAMBIAR</paper-button>
 				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
 		</div>
@@ -24,11 +26,15 @@
 </template>
 <script>
 	Polymer({
-		is: "<%= model%>-display",
-		open_display_dialog: function(item) {
+		is: "<%= model%>-edit",
+		open_dialog: function(item) {
 			this.item = item
+			this.$.form.setAttribute("action","/<%= model%>/update/"+item.<%= key %>)
 			this.set_select_fields(item)
 			this.$.dialog.open()
+		},
+		cambiar: function() {
+			this.$.submit_update.click()
 		},
 		set_select_fields(item) {
 			<%for (i=0; i < keys.length; i++) {

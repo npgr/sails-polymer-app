@@ -1,5 +1,5 @@
 <head>
-	<title>Listar Material - MATHEADS</title>
+	<title>List Material - MATHEADS</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -14,14 +14,14 @@
 	<link rel="import" href="/components/Matheads-edit/Matheads-edit.html">
 	<link rel="import" href="/components/Matheads-delete/Matheads-delete.html">
 </head>
-<dom-module id="Matheads-list">
+<dom-module id="model-list">
 <template>
 	<Matheads-new id="Matheads_new_dialog"></Matheads-new>
 	<Matheads-display id="Matheads_display_dialog"></Matheads-display>
 	<Matheads-edit id="Matheads_edit_dialog"></Matheads-edit>
 	<Matheads-delete id="Matheads_delete_dialog"></Matheads-delete>
 	
-	<div class="card_title">Listar Material - MATHEADS</div>
+	<div class="card_title">Material - MATHEADS</div>
 	<select id="filter" on-change="input_type">
 		<option value="matnr">Número Material</option>
 		<option value="matl_type">Tipo de Material</option>
@@ -46,19 +46,19 @@
 	<thead>
 	  <tr>
 		<th class="ops"></th>
-		<th class"col_matnr">Número Material</th>
-		<th class"col_matl_type">Tipo de Material</th>
-		<th class"col_matl_group">Grupo de Material</th>
-		<th class"col_matl_cat">Categoria de Material</th>
+			<th class"col_matnr">Número Material</th>
+			<th class"col_matl_type">Tipo de Material</th>
+			<th class"col_matl_group">Grupo de Material</th>
+			<th class"col_matl_cat">Categoria de Material</th>
 	</tr>
 	</thead>
 	<tfoot>
-	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td>Total</td>
-		<td><strong>{{regs}}</strong></td>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Total</td>
+			<td><strong>{{regs}}</strong></td>
 	</tr>
 	</tfoot>
 	<tbody>
@@ -80,14 +80,14 @@
 </template>
 <script>
 Polymer({
-is: "Matheads-list",
+is: "model-list",
 	ready: function() {
 		this.tipo = "number"
 		var _model = [{column: "matnr", type: "integer"},
 				{column: "matl_type", enum: ["ZMED","ZMIS"]},
 				{column: "matl_group", type: "string"},
 				{column: "matl_cat", type: "string"}
-]
+		]
 		var _data = <%- data %>
 		this.filtered_data = [{matnr: ""}]
 		var db = new loki()
@@ -167,5 +167,5 @@ is: "Matheads-list",
 </script>
 </dom-module>
 <paper-material class="card" elevation="2">
-	<Matheads-list></Matheads-list>
+	<model-list></model-list>
 </paper-material>
