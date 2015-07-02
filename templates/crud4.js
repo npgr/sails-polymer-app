@@ -16,81 +16,14 @@ function getInputType(type) {
 }
 
 function generate_controller(key) {
-	// Generate new routes
-	var routes =
-		'/************  Routes ************/\n'+
-		'"post /'+model+'/destroy/:id?": "'+model+'Controller.destroy",\n'+
-		'"post /'+model+'/update/:'+key+'?": "'+model+'Controller.update",\n'+
-		'"/'+model+'/exist/:'+key+'": "'+model+'Controller.exist"\n\n'
-		
-	var controller =
-	'/********** Controller *******/\n'+
-	'	exist: function(req, res, next) {\n'+
-	'		var '+key+' = req.param("'+key+'")\n'
+	var CONTROLLER_TEMPLATE = fs.readFileSync('./templates/controller.template', 'utf8');
+	var compiled_Controller = _.template(CONTROLLER_TEMPLATE)
 	
-	if (key != 'id')
-		controller += '\t\t'+model+'.findOneBy'+key+'('+key+')\n'
-	 else
-		controller += '\t\t'+model+'.findOne('+key+')\n'
-		
-	controller +=
-	'			.exec(function(err, data) {\n'+
-	'				if(err) res.json({ "exist": "error"})\n'+
-	'				  else if (!data) res.json({ "exist": false})\n'+
-	'					else res.json({ "exist": true})\n'+
-	'			})\n'+
-	'	},\n'+
-	'	create: function(req, res, next) {\n'+
-	'		var params = req.params.all();\n'+
-	'		'+model+'.create(params, function(err, data) {\n'+
-	'			if (err) return next(err);\n'+
-	'			res.redirect("'+model+'/list")\n'+
-	'		});\n'+
-	'	},\n'+
-	'	destroy: function(req, res, next) {\n'+
-	'		var id = req.param("id")\n'
-	
-	if (key != 'id')
-		controller +='\t\t'+model+'.findOneBy'+key+'('+key+')\n'
-	 else
-		controller += '\t\t'+model+'.findOne('+key+')\n'
-		
-	controller +=
-	'				.exec(function(err, result) {\n'+
-	'					if (err) res.serverError(err);\n'+
-	'					if (!result) res.notFound();\n'+
-	'						'+model+'.destroy(id, function (err) {\n'+
-	'						if (err) return next (err);\n'+
-	'						return res.redirect("'+model+'/list")\n'+
-	'						//return res.json(result);\n'+
-	'					});\n'+
-	'				});\n'+
-	'	},\n'+
-	'	update: function (req, res, next) {\n'+
-    '   	 var criteria = {};\n'+
-    '    	criteria = _.merge({}, req.params.all(), req.body);\n'+
-    '    	var '+key+' = req.param("'+key+'");\n'+
-    '    	if (!'+key+') {\n'+
-    '       	 return res.badRequest("No id provided.");\n'+
-    '    	}\n'+
-    '    	'+model+'.update('+key+', criteria, function (err, data) {\n'+
-    '       	 if(data.length === 0) return res.notFound();\n'+
-    '        	if (err) return next(err);\n'+
-	'			res.redirect("'+model+'/list")\n'+
-    '        	//res.json(data);\n'+
-    '    	})\n'+
-    '	},\n'+
-	'	list : function (req, res) {\n'+
-	'		'+model+'.find()\n'+
-	'			.exec(function(err, data){\n'+
-	'				res.render("'+model+'/list", {data: JSON.stringify(data)})\n'+
-	'			})\n'+
-	'	}\n'+
-	'}\n'
-	
-	fs.writeFile('controller.js', routes+controller, function (err) {
+	var controller = compiled_Controller({ 'model': model, 'key': key})
+				
+	fs.writeFile('templates/controller.js', controller, function (err) {
 			if (err) console.log(err);
-			console.log('Created file "controller.js"')
+			console.log('Created file templates/controller.js')
 		})
 }
 
@@ -291,6 +224,8 @@ exports.generate = function(crud) {
 	fs.writeFile('views/'+model+'/list.ejs', list_template, function (err) {
 			if (err) console.log(err);
 			console.log('Created file views/'+model+'/list.ejs')
-		})	
+		})
+
+	generate_controller()
 }
 
