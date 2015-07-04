@@ -1,5 +1,5 @@
 <head>
-	<title>Listar Cliente</title>
+	<title>Listar Enumerador</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -9,24 +9,22 @@
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
-	<link rel="import" href="/components/Customer-new/Customer-new.html">
-	<link rel="import" href="/components/Customer-display/Customer-display.html">
-	<link rel="import" href="/components/Customer-edit/Customer-edit.html">
-	<link rel="import" href="/components/Customer-delete/Customer-delete.html">
+	<link rel="import" href="/components/Enumerator-new/Enumerator-new.html">
+	<link rel="import" href="/components/Enumerator-display/Enumerator-display.html">
+	<link rel="import" href="/components/Enumerator-edit/Enumerator-edit.html">
+	<link rel="import" href="/components/Enumerator-delete/Enumerator-delete.html">
 </head>
-<dom-module id="Customer-list">
+<dom-module id="Enumerator-list">
 <template>
-	<Customer-new id="Customer_new_dialog"></Customer-new>
-	<Customer-display id="Customer_display_dialog"></Customer-display>
-	<Customer-edit id="Customer_edit_dialog"></Customer-edit>
-	<Customer-delete id="Customer_delete_dialog"></Customer-delete>
+	<Enumerator-new id="Enumerator_new_dialog"></Enumerator-new>
+	<Enumerator-display id="Enumerator_display_dialog"></Enumerator-display>
+	<Enumerator-edit id="Enumerator_edit_dialog"></Enumerator-edit>
+	<Enumerator-delete id="Enumerator_delete_dialog"></Enumerator-delete>
 	
-	<div class="card_title">Listar Cliente</div>
+	<div class="card_title">Listar Enumerador</div>
 	<select id="filter" on-change="input_type">
-		<option value="id">Código</option>
-		<option value="name">Nombre</option>
-		<option value="city">Ciudad</option>
-		<option value="status">status</option>
+		<option value="model">Entidad</option>
+		<option value="last">Ultimo</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -46,16 +44,12 @@
 	<thead>
 	  <tr>
 		<th class="ops"></th>
-		<th class"col_id">Código</th>
-		<th class"col_name">Nombre</th>
-		<th class"col_city">Ciudad</th>
-		<th class"col_status">status</th>
+		<th class"col_model">Entidad</th>
+		<th class"col_last">Ultimo</th>
 	</tr>
 	</thead>
 	<tfoot>
 	<tr>
-		<td></td>
-		<td></td>
 		<td></td>
 		<td>Total</td>
 		<td><strong>{{regs}}</strong></td>
@@ -65,14 +59,12 @@
 	<template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button id="{{item.id}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
-			<paper-icon-button id="{{item.id}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
-		  	<paper-icon-button id="{{item.id}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
+			<paper-icon-button id="{{item.model}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
+			<paper-icon-button id="{{item.model}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
+		  	<paper-icon-button id="{{item.model}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
 		</td>
-		<td class"col_id">{{item.id}}</td>
-		<td class"col_name">{{item.name}}</td>
-		<td class"col_city">{{item.city}}</td>
-		<td class"col_status">{{item.status}}</td>
+		<td class"col_model">{{item.model}}</td>
+		<td class"col_last">{{item.last}}</td>
 	</tr>
 	</template>
 	</tbody>
@@ -80,15 +72,13 @@
 </template>
 <script>
 Polymer({
-is: "Customer-list",
+is: "Enumerator-list",
 	ready: function() {
-		var _model = [{column: "id", type: "integer"},
-				{column: "name", type: "string"},
-				{column: "city", type: "string"},
-				{column: "status", enum: ["A","I"]}
+		var _model = [{column: "model", type: "string"},
+				{column: "last", type: "integer"}
 		]
 		var _data = <%- data %>
-		this.filtered_data = [{id: ""}]
+		this.filtered_data = [{model: ""}]
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
@@ -144,28 +134,28 @@ is: "Customer-list",
 	}
  },
   display: function(e) {
-	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	var filtro = {"model": e.toElement.offsetParent.id}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_display_dialog.open_display_dialog(item)
-	//window.open("/Customer/display/"+e.toElement.offsetParent.id)
-	//window.location.href = "/Customer/display/"+e.toElement.offsetParent.id
+	this.$.Enumerator_display_dialog.open_display_dialog(item)
+	//window.open("/Enumerator/display/"+e.toElement.offsetParent.id)
+	//window.location.href = "/Enumerator/display/"+e.toElement.offsetParent.id
   },
   edit: function(e) {
-	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	var filtro = {"model": e.toElement.offsetParent.id}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_edit_dialog.open_dialog(item)
+	this.$.Enumerator_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
-	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	var filtro = {"model": e.toElement.offsetParent.id}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_delete_dialog.open_delete_dialog(item)
+	this.$.Enumerator_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Customer_new_dialog.open_dialog()
+	this.$.Enumerator_new_dialog.open_dialog()
   }
 });
 </script>
 </dom-module>
 <paper-material class="card" elevation="2">
-	<Customer-list></Customer-list>
+	<Enumerator-list></Enumerator-list>
 </paper-material>

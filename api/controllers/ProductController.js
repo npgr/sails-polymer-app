@@ -1,14 +1,14 @@
 /**
- * CustomerController
+ * ProductController
  *
- * @description :: Server-side logic for managing customers
+ * @description :: Server-side logic for managing products
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
 module.exports = {
 	exist: function(req, res, next) {
 		var id = req.param("id")
-		 Customer.findOne(id)
+		 Product.findOne(id)
 			.exec(function(err, data) {
 				if(err) res.json({ "exist": "error"})
 				  else if (!data) res.json({ "exist": false})
@@ -17,20 +17,20 @@ module.exports = {
 	},
 	create: function(req, res, next) {
 		var params = req.params.all();
-		Customer.create(params, function(err, data) {
+		Product.create(params, function(err, data) {
 			if (err) return next(err);
-			res.redirect("Customer/list")
+			res.redirect("Product/list")
 		});
 	},
 	destroy: function(req, res, next) {
 		var id = req.param("id")
-		 Customer.findOne(id)
+		 Product.findOne(id)
 				.exec(function(err, result) {
 					if (err) res.serverError(err);
 					if (!result) res.notFound();
-						Customer.destroy(id, function (err) {
+						Product.destroy(id, function (err) {
 						if (err) return next (err);
-						return res.redirect("Customer/list")
+						return res.redirect("Product/list")
 						//return res.json(result);
 					});
 				});
@@ -42,18 +42,36 @@ module.exports = {
     	if (!id) {
        	 return res.badRequest("No id provided.");
     	}
-    	Customer.update(id, criteria, function (err, data) {
+    	Product.update(id, criteria, function (err, data) {
        	 if(data.length === 0) return res.notFound();
         	if (err) return next(err);
-			res.redirect("Customer/list")
+			res.redirect("Product/list")
         	//res.json(data);
     	})
 	},
 	list : function (req, res) {
-		Customer.find()
+		Product.find()
 			.exec(function(err, data){
-				res.render("Customer/list", {data: JSON.stringify(data)})
+				res.render("Product/list", {data: JSON.stringify(data)})
 			})
-	}
+	},
+	beforeCreate : function(item, cb){
+        //Auto increment 
+        Enumerator.findOneby({"model_name": incModel}).exec(function(err, counter){
+            if (err) return err;
+            if(counter){
+                var newAmount = counter.amount + 1;
+                counter.amount = newAmount;
+
+                counter.save(function(err, c){
+                    //Error handling...
+                    item.id = newAmount;
+                    cb();
+                });
+            }else{
+                cb();
+            }
+        });
+    }
 };
 

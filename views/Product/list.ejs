@@ -1,5 +1,5 @@
 <head>
-	<title>Listar Cliente</title>
+	<title>Listar Producto</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -9,24 +9,25 @@
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
-	<link rel="import" href="/components/Customer-new/Customer-new.html">
-	<link rel="import" href="/components/Customer-display/Customer-display.html">
-	<link rel="import" href="/components/Customer-edit/Customer-edit.html">
-	<link rel="import" href="/components/Customer-delete/Customer-delete.html">
+	<link rel="import" href="/components/Product-new/Product-new.html">
+	<link rel="import" href="/components/Product-display/Product-display.html">
+	<link rel="import" href="/components/Product-edit/Product-edit.html">
+	<link rel="import" href="/components/Product-delete/Product-delete.html">
 </head>
-<dom-module id="Customer-list">
+<dom-module id="Product-list">
 <template>
-	<Customer-new id="Customer_new_dialog"></Customer-new>
-	<Customer-display id="Customer_display_dialog"></Customer-display>
-	<Customer-edit id="Customer_edit_dialog"></Customer-edit>
-	<Customer-delete id="Customer_delete_dialog"></Customer-delete>
+	<Product-new id="Product_new_dialog"></Product-new>
+	<Product-display id="Product_display_dialog"></Product-display>
+	<Product-edit id="Product_edit_dialog"></Product-edit>
+	<Product-delete id="Product_delete_dialog"></Product-delete>
 	
-	<div class="card_title">Listar Cliente</div>
+	<div class="card_title">Listar Producto</div>
 	<select id="filter" on-change="input_type">
-		<option value="id">Código</option>
+		<option value="id">Id</option>
 		<option value="name">Nombre</option>
-		<option value="city">Ciudad</option>
-		<option value="status">status</option>
+		<option value="stock">Existencia</option>
+		<option value="price">Precio</option>
+		<option value="status">Status</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -46,14 +47,16 @@
 	<thead>
 	  <tr>
 		<th class="ops"></th>
-		<th class"col_id">Código</th>
+		<th class"col_id">Id</th>
 		<th class"col_name">Nombre</th>
-		<th class"col_city">Ciudad</th>
-		<th class"col_status">status</th>
+		<th class"col_stock">Existencia</th>
+		<th class"col_price">Precio</th>
+		<th class"col_status">Status</th>
 	</tr>
 	</thead>
 	<tfoot>
 	<tr>
+		<td></td>
 		<td></td>
 		<td></td>
 		<td></td>
@@ -71,7 +74,8 @@
 		</td>
 		<td class"col_id">{{item.id}}</td>
 		<td class"col_name">{{item.name}}</td>
-		<td class"col_city">{{item.city}}</td>
+		<td class"col_stock">{{item.stock}}</td>
+		<td class"col_price">{{item.price}}</td>
 		<td class"col_status">{{item.status}}</td>
 	</tr>
 	</template>
@@ -80,12 +84,14 @@
 </template>
 <script>
 Polymer({
-is: "Customer-list",
+is: "Product-list",
 	ready: function() {
+		this.tipo = "number"
 		var _model = [{column: "id", type: "integer"},
 				{column: "name", type: "string"},
-				{column: "city", type: "string"},
-				{column: "status", enum: ["A","I"]}
+				{column: "stock", type: "integer"},
+				{column: "price", type: "float"},
+				{column: "status", enum: ["A","B","I"]}
 		]
 		var _data = <%- data %>
 		this.filtered_data = [{id: ""}]
@@ -98,7 +104,6 @@ is: "Customer-list",
 			this.model.insert(_model[i])
 		_data = {}
 		_model = {}
-		this.input_type()
 	},
 	filter: function() {
 		var name = this.$.filter.value
@@ -146,26 +151,26 @@ is: "Customer-list",
   display: function(e) {
 	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_display_dialog.open_display_dialog(item)
-	//window.open("/Customer/display/"+e.toElement.offsetParent.id)
-	//window.location.href = "/Customer/display/"+e.toElement.offsetParent.id
+	this.$.Product_display_dialog.open_display_dialog(item)
+	//window.open("/Product/display/"+e.toElement.offsetParent.id)
+	//window.location.href = "/Product/display/"+e.toElement.offsetParent.id
   },
   edit: function(e) {
 	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_edit_dialog.open_dialog(item)
+	this.$.Product_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
 	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_delete_dialog.open_delete_dialog(item)
+	this.$.Product_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Customer_new_dialog.open_dialog()
+	this.$.Product_new_dialog.open_dialog()
   }
 });
 </script>
 </dom-module>
 <paper-material class="card" elevation="2">
-	<Customer-list></Customer-list>
+	<Product-list></Product-list>
 </paper-material>

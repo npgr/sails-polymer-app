@@ -1,14 +1,15 @@
+
 /************  Routes:  config/routes.js ************/
 
-"post /Matheads/destroy/:id?": "MatheadsController.destroy",
-"post /Matheads/update/:?": "MatheadsController.update",
-"/Matheads/exist/:": "MatheadsController.exist"
+"post /Enumerator/destroy/:id?": "EnumeratorController.destroy",
+"post /Enumerator/update/:model?": "EnumeratorController.update",
+"/Enumerator/exist/:model": "EnumeratorController.exist"
 
 /********** Controller: api/controllers/<<model_name>>Controller.js *******/
 
 	exist: function(req, res, next) {
-		var  = req.param("")
-		Matheads.findOneBy()
+		var model = req.param("model")
+		 Enumerator.findOneByModel(model) 
 			.exec(function(err, data) {
 				if(err) res.json({ "exist": "error"})
 				  else if (!data) res.json({ "exist": false})
@@ -17,20 +18,20 @@
 	},
 	create: function(req, res, next) {
 		var params = req.params.all();
-		Matheads.create(params, function(err, data) {
+		Enumerator.create(params, function(err, data) {
 			if (err) return next(err);
-			res.redirect("Matheads/list")
+			res.redirect("Enumerator/list")
 		});
 	},
 	destroy: function(req, res, next) {
 		var id = req.param("id")
-		Matheads.findOneBy()
+		 Enumerator.findOneByModel(id) 
 				.exec(function(err, result) {
 					if (err) res.serverError(err);
 					if (!result) res.notFound();
-						Matheads.destroy(id, function (err) {
+						Enumerator.destroy(id, function (err) {
 						if (err) return next (err);
-						return res.redirect("Matheads/list")
+						return res.redirect("Enumerator/list")
 						//return res.json(result);
 					});
 				});
@@ -38,20 +39,20 @@
 	update: function (req, res, next) {
    	 var criteria = {};
     	criteria = _.merge({}, req.params.all(), req.body);
-    	var  = req.param("");
-    	if (!) {
+    	var model = req.param("model");
+    	if (!model) {
        	 return res.badRequest("No id provided.");
     	}
-    	Matheads.update(, criteria, function (err, data) {
+    	Enumerator.update(model, criteria, function (err, data) {
        	 if(data.length === 0) return res.notFound();
         	if (err) return next(err);
-			res.redirect("Matheads/list")
+			res.redirect("Enumerator/list")
         	//res.json(data);
     	})
 	},
 	list : function (req, res) {
-		Matheads.find()
+		Enumerator.find()
 			.exec(function(err, data){
-				res.render("Matheads/list", {data: JSON.stringify(data)})
+				res.render("Enumerator/list", {data: JSON.stringify(data)})
 			})
 	}

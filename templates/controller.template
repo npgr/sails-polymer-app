@@ -1,14 +1,18 @@
+<%function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}%>
 /************  Routes:  config/routes.js ************/
 
 "post /<%= model%>/destroy/:id?": "<%= model%>Controller.destroy",
-"post /<%= model%>/update/:<%= key%>?": "<%= model%>Controller.update",
-"/<%= model%>/exist/:<%= key%>": "<%= model%>Controller.exist"
+"post /<%= model%>/update/:<%= key.name%>?": "<%= model%>Controller.update",
+"/<%= model%>/exist/:<%= key.name%>": "<%= model%>Controller.exist"
 
 /********** Controller: api/controllers/<<model_name>>Controller.js *******/
 
 	exist: function(req, res, next) {
-		var <%= key%> = req.param("<%= key%>")
-		<%= model%>.findOneBy<%= key%>(<%= key%>)
+		var <%= key.name%> = req.param("<%= key.name%>")
+		<% if (key.name === "id") { %> <%= model%>.findOne(id)<%
+		    } else { %> <%= model%>.findOneBy<%= capitalizeFirstLetter(key.name)%>(<%= key.name%>) <% } %>
 			.exec(function(err, data) {
 				if(err) res.json({ "exist": "error"})
 				  else if (!data) res.json({ "exist": false})
@@ -24,7 +28,8 @@
 	},
 	destroy: function(req, res, next) {
 		var id = req.param("id")
-		<%= model%>.findOneBy<%= key%>(<%= key%>)
+		<% if (key.name === "id") { %> <%= model%>.findOne(id)<%
+		    } else { %> <%= model%>.findOneBy<%= capitalizeFirstLetter(key.name)%>(id) <% } %>
 				.exec(function(err, result) {
 					if (err) res.serverError(err);
 					if (!result) res.notFound();
@@ -38,11 +43,11 @@
 	update: function (req, res, next) {
    	 var criteria = {};
     	criteria = _.merge({}, req.params.all(), req.body);
-    	var <%= key%> = req.param("<%= key%>");
-    	if (!<%= key%>) {
+    	var <%= key.name%> = req.param("<%= key.name%>");
+    	if (!<%= key.name%>) {
        	 return res.badRequest("No id provided.");
     	}
-    	<%= model%>.update(<%= key%>, criteria, function (err, data) {
+    	<%= model%>.update(<%= key.name%>, criteria, function (err, data) {
        	 if(data.length === 0) return res.notFound();
         	if (err) return next(err);
 			res.redirect("<%= model%>/list")

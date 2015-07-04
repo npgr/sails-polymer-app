@@ -65,9 +65,9 @@
 	<template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button id="{{item.<%= key %>}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
-			<paper-icon-button id="{{item.<%= key %>}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
-		  	<paper-icon-button id="{{item.<%= key %>}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
+			<paper-icon-button id="{{item.<%= key.name %>}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
+			<paper-icon-button id="{{item.<%= key.name %>}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
+		  	<paper-icon-button id="{{item.<%= key.name %>}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
 		</td><%
 		for (i=0; i < keys.length; i++) { 
 			if (jsondata[keys[i]].line_r) {%>
@@ -82,10 +82,9 @@
 Polymer({
 is: "<%= model%>-list",
 	ready: function() {
-		this.tipo = "number"
 		var _model = [<%= attrs%>		]
 		var _data = >%- data %<
-		this.filtered_data = [{<%= key%>: ""}]
+		this.filtered_data = [{<%= key.name%>: ""}]
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
@@ -95,6 +94,7 @@ is: "<%= model%>-list",
 			this.model.insert(_model[i])
 		_data = {}
 		_model = {}
+		this.input_type()
 	},
 	filter: function() {
 		var name = this.$.filter.value
@@ -139,20 +139,32 @@ is: "<%= model%>-list",
 			this.push("opts", {"op": column[0].enum[i]})
 	}
  },
-  display: function(e) {
-	var filtro = {"<%= key%>": Number(e.toElement.offsetParent.id)}
+  display: function(e) {<%
+	if (key.type === "Integer" || key.type === "integer") {%>
+	var filtro = {"<%= key.name%>": Number(e.toElement.offsetParent.id)}<%
+	} else {%>
+	var filtro = {"<%= key.name%>": e.toElement.offsetParent.id}<%
+	}%>
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_display_dialog.open_display_dialog(item)
 	//window.open("/<%= model%>/display/"+e.toElement.offsetParent.id)
 	//window.location.href = "/<%= model%>/display/"+e.toElement.offsetParent.id
   },
-  edit: function(e) {
-	var filtro = {"<%= key%>": Number(e.toElement.offsetParent.id)}
+  edit: function(e) {<%
+	if (key.type === "Integer" || key.type === "integer") {%>
+	var filtro = {"<%= key.name%>": Number(e.toElement.offsetParent.id)}<%
+	} else {%>
+	var filtro = {"<%= key.name%>": e.toElement.offsetParent.id}<%
+	}%>
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_edit_dialog.open_dialog(item)
   },
-  delete: function(e) {
-	var filtro = {"<%= key%>": Number(e.toElement.offsetParent.id)}
+  delete: function(e) {<%
+	if (key.type === "Integer" || key.type === "integer") {%>
+	var filtro = {"<%= key.name%>": Number(e.toElement.offsetParent.id)}<%
+	} else {%>
+	var filtro = {"<%= key.name%>": e.toElement.offsetParent.id}<%
+	}%>
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_delete_dialog.open_delete_dialog(item)
   },

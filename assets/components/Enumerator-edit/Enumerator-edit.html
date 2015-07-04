@@ -4,31 +4,20 @@
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
-<dom-module id="Customer-edit">
+<dom-module id="Enumerator-edit">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Editar Cliente</h2>
-		<form id="form" action="/Customer/update/{{item.id}}" method="POST">
+		<h2 class="card_title">Editar Enumerador</h2>
+		<form id="form" action="/Enumerator/update/{{item.model}}" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
-					<label class="left_label" for="id">Código</label>
-					<input id="id" type="number" name="id" value="{{item.id}}" min=100 max=999999 required>
+					<label class="left_label" for="model">Entidad</label>
+					<input id="model" type="text" name="model" value="{{item.model}}" required>
 				</div>
 				<div class="card_line">
-					<label class="left_label" for="name">Nombre</label>
-					<input id="name" type="text" name="name" value="{{item.name}}" maxlength=35 required>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="city">Ciudad</label>
-					<input id="city" type="text" name="city" value="{{item.city}}" maxlength=25 required>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="status">status</label>
-					<select id="status" name="status">
-						<option value="A">Activo</option>
-						<option value="I">Inactivo</option>
-					</select>
+					<label class="left_label" for="last">Ultimo</label>
+					<input id="last" type="number" name="last" value="{{item.last}}">
 				</div>
 			</div>
 			</paper-dialog-scrollable>
@@ -44,10 +33,10 @@
 </template>
 <script>
 	Polymer({
-		is: "Customer-edit",
+		is: "Enumerator-edit",
 		open_dialog: function(item) {
 			this.item = item
-			this.$.form.setAttribute("action","/Customer/update/"+item.id)
+			this.$.form.setAttribute("action","/Enumerator/update/"+item.model)
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
@@ -55,7 +44,6 @@
 			this.$.submit_update.click()
 		},
 		set_select_fields(item) {
-			this.$.status.value = item.status
 			}
 	})
 </script>

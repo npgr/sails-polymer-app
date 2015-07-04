@@ -3,7 +3,7 @@
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Borrar <%= title%></h2>
-		<form id="form" action="/<%= model%>/destroy/{{item.<%= key%>}}" method="POST">
+		<form id="form" action="/<%= model%>/destroy/{{item.<%= key.name%>}}" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout><% 
 			  for (i=0; i < keys.length; i++) { 
@@ -29,7 +29,7 @@
 		is: "<%= model%>-delete",
 		open_delete_dialog: function(item) {
 			this.item = item
-			this.$.form.setAttribute("action","/<%= model%>/destroy/"+item.<%= key%>)
+			this.$.form.setAttribute("action","/<%= model%>/destroy/"+item.<%= key.name%>)
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},

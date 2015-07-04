@@ -113,25 +113,7 @@ function set_jsondata_lines(keys) {
 	}
 }
 
-exports.generate = function(crud) {
-// ** Crud with Polymer & templates
-	var keys = Object.keys(jsondata)
-	var title = model
-	if (keys.indexOf('_title') >= 0)	{
-		title = jsondata._title
-	}
-	// ******   OJO se asume que keys[0] es la clave del archivo, omitiendo campos que comienzan con "_"
-	var key = ''
-	for (k=0; k < keys.length; k++) 
-		if (keys[k].substring(0,1) != '_') {
-			key = keys[k]
-			k = keys.length
-		}
-	// input field on form
-	set_jsondata_lines(keys)
-	
-	//******* Generate New Form
-	var IMPORT_FORM = fs.readFileSync('./templates/import_form.template', 'utf8');
+function generate_new_form(keys, key, title, IMPORT_FORM) {
 	var NEW_FORM_TEMPLATE = fs.readFileSync('./templates/new_form.template', 'utf8');
 	var compiled_New_Form = _.template(NEW_FORM_TEMPLATE)
 	
@@ -144,8 +126,10 @@ exports.generate = function(crud) {
 	fs.writeFile('assets/components/'+model+'-new/'+model+'-new.html', new_form, function (err) {
 			if (err) console.log(err);
 			console.log('Created file assets/components/'+model+'-new/'+model+'-new.html')
-		})	
-	//********* Generate Display Form
+		})
+}
+
+function generate_display_form(keys, key, title, IMPORT_FORM){
 	var DISPLAY_FORM_TEMPLATE = fs.readFileSync('./templates/display_form.template', 'utf8');
 	var compiled_Display_Form = _.template(DISPLAY_FORM_TEMPLATE)
 	
@@ -159,7 +143,9 @@ exports.generate = function(crud) {
 			if (err) console.log(err);
 			console.log('Created file assets/components/'+model+'-display/'+model+'-display.html')
 		})
-	//******* Generate Delete Form
+}
+
+function generate_delete_form(keys, key, title, IMPORT_FORM) {
 	var DELETE_FORM_TEMPLATE = fs.readFileSync('./templates/delete_form.template', 'utf8');
 	var compiled_Delete_Form = _.template(DELETE_FORM_TEMPLATE)
 	
@@ -173,7 +159,9 @@ exports.generate = function(crud) {
 			if (err) console.log(err);
 			console.log('Created file assets/components/'+model+'-delete/'+model+'-delete.html')
 		})
-	//********* Generate Edit Form
+}
+
+function generate_edit_form(keys, key, title, IMPORT_FORM) {
 	var EDIT_FORM_TEMPLATE = fs.readFileSync('./templates/edit_form.template', 'utf8');
 	var compiled_Edit_Form = _.template(EDIT_FORM_TEMPLATE)
 	
@@ -187,7 +175,9 @@ exports.generate = function(crud) {
 			if (err) console.log(err);
 			console.log('Created file assets/components/'+model+'-edit/'+model+'-edit.html')
 		})
-	//********* Generate List Page
+}
+
+function generate_list_page(keys, key, title) {
 	var LIST_TEMPLATE = fs.readFileSync('./templates/list.template', 'utf8');
 	var compiled_List = _.template(LIST_TEMPLATE)
 	
@@ -225,7 +215,36 @@ exports.generate = function(crud) {
 			if (err) console.log(err);
 			console.log('Created file views/'+model+'/list.ejs')
 		})
+}
 
-	generate_controller()
+exports.generate = function(crud) {
+// ** Crud with Polymer & templates
+	var keys = Object.keys(jsondata)
+	var title = model
+	if (keys.indexOf('_title') >= 0)	{
+		title = jsondata._title
+	}
+	
+	var key= {}
+	for (k=0; k < keys.length; k++ ) {
+		if (jsondata[keys[k]].primaryKey) {
+			key = jsondata[keys[k]]
+			key.name = keys[k]
+			break
+		}
+	}
+	// input field on form
+	set_jsondata_lines(keys)
+	
+	var IMPORT_FORM = fs.readFileSync('./templates/import_form.template', 'utf8');
+	
+	generate_new_form(keys, key, title, IMPORT_FORM)
+	generate_display_form(keys, key, title, IMPORT_FORM)
+	generate_delete_form(keys, key, title, IMPORT_FORM)	
+	generate_edit_form(keys, key, title, IMPORT_FORM)	
+	
+	generate_list_page(keys, key, title)
+
+	generate_controller(key)
 }
 

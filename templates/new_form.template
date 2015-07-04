@@ -33,11 +33,11 @@
 			this.$.dialog.open()
 		},
 		create: function() {
-			if (!isNaN(this.$.<%= key%>.value))
+			if (!isNaN(this.$.<%= key.name%>.value))
 			{
-				if (this.$.<%= key%>.value > 0)
+				if (this.$.<%= key.name%>.value > 0)
 				{
-					this.$.ajax.url = "/<%= model%>/exist/"+this.$.<%= key%>.value
+					this.$.ajax.url = "/<%= model%>/exist/"+this.$.<%= key.name%>.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()

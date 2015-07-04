@@ -5,32 +5,21 @@
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
 
-<dom-module id="Customer-new">
+<dom-module id="Enumerator-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="error_record"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Crear Cliente</h2>
-		<form id="form" action="/Customer/create" method="POST">
+		<h2 class="card_title">Crear Enumerador</h2>
+		<form id="form" action="/Enumerator/create" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
-					<label class="left_label" for="id">Código</label>
-					<input id="id" type="number" name="id" min=100 max=999999 required>
+					<label class="left_label" for="model">Entidad</label>
+					<input id="model" type="text" name="model" required>
 				</div>
 				<div class="card_line">
-					<label class="left_label" for="name">Nombre</label>
-					<input id="name" type="text" name="name" maxlength=35 required>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="city">Ciudad</label>
-					<input id="city" type="text" name="city" maxlength=25 required>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="status">status</label>
-					<select id="status" name="status">
-						<option value="A">Activo</option>
-						<option value="I">Inactivo</option>
-					</select>
+					<label class="left_label" for="last">Ultimo</label>
+					<input id="last" type="number" name="last">
 				</div>
 			 </div>
 			</paper-dialog-scrollable>
@@ -46,16 +35,16 @@
 </template>
 <script>
 	Polymer({
-		is: "Customer-new",
+		is: "Enumerator-new",
 		open_dialog: function() {
 			this.$.dialog.open()
 		},
 		create: function() {
-			if (!isNaN(this.$.id.value))
+			if (!isNaN(this.$.model.value))
 			{
-				if (this.$.id.value > 0)
+				if (this.$.model.value > 0)
 				{
-					this.$.ajax.url = "/Customer/exist/"+this.$.id.value
+					this.$.ajax.url = "/Enumerator/exist/"+this.$.model.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()

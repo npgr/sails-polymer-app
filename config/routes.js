@@ -54,5 +54,11 @@ module.exports.routes = {
   "/Matheads/exist/:matnr": "MatheadsController.exist",
   "post /Customer/destroy/:id?": "CustomerController.destroy",
   "post /Customer/update/:id?": "CustomerController.update",
-  "/Customer/exist/:id": "CustomerController.exist"
+  "/Customer/exist/:id": "CustomerController.exist",
+  "post /Product/destroy/:id?": "ProductController.destroy",
+  "post /Product/update/:?": "ProductController.update",
+  "/Product/exist/:": "ProductController.exist",
+  "post /Enumerator/destroy/:id?": "EnumeratorController.destroy",
+  "post /Enumerator/update/:model?": "EnumeratorController.update",
+  "/Enumerator/exist/:model": "EnumeratorController.exist"
 };
