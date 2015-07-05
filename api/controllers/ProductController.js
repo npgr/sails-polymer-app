@@ -14,8 +14,8 @@ module.exports = {
 				  else if (!data) res.json({ "exist": false})
 					else res.json({ "exist": true})
 			})
-	},
-	create: function(req, res, next) {
+	}, 
+	/*create: function(req, res, next) {
 		var params = req.params.all();
 		Product.create(params, function(err, data) {
 			if (err) return next(err);
@@ -48,30 +48,12 @@ module.exports = {
 			res.redirect("Product/list")
         	//res.json(data);
     	})
-	},
+	},*/
 	list : function (req, res) {
 		Product.find()
 			.exec(function(err, data){
 				res.render("Product/list", {data: JSON.stringify(data)})
 			})
-	},
-	beforeCreate : function(item, cb){
-        //Auto increment 
-        Enumerator.findOneby({"model_name": incModel}).exec(function(err, counter){
-            if (err) return err;
-            if(counter){
-                var newAmount = counter.amount + 1;
-                counter.amount = newAmount;
-
-                counter.save(function(err, c){
-                    //Error handling...
-                    item.id = newAmount;
-                    cb();
-                });
-            }else{
-                cb();
-            }
-        });
-    }
+	}
 };
 

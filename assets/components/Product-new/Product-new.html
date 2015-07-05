@@ -1,5 +1,4 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
@@ -7,15 +6,16 @@
 
 <dom-module id="Product-new">
 <template>
-	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="error_record"></iron-ajax>
+	<iron-ajax id="ajax"  handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" url="/Product" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
 		<h2 class="card_title">Crear Producto</h2>
-		<form id="form" action="/Product/create" method="POST">
+		<form id="form" action="javascript:void(0);" on-submit="create">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
 					<label class="left_label" for="id">Id</label>
-					<input id="id" type="number" name="id" min=10 max=999999>
+					<input id="id" type="number" name="id" min=10 max=999999 disabled>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="name">Nombre</label>
@@ -42,7 +42,7 @@
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
-					<paper-button id="create_btn" class="btn" on-click="create" raised>CREAR</paper-button>
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
 					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 				</div>
 			</div>
@@ -53,9 +53,33 @@
 	Polymer({
 		is: "Product-new",
 		open_dialog: function() {
+			this.clear()
 			this.$.dialog.open()
 		},
+		clear: function() {
+			this.$.name.value = ''
+			this.$.stock.value = ''
+			this.$.price.value = ''
+			//this.$.status.value = ''
+		},
 		create: function() {
+			var record = {}
+			record.name = this.$.name.value
+			record.stock = Number(this.$.stock.value)
+			record.price = Number(this.$.price.value)
+			record.status = this.$.status.value
+			
+			this.$.ajax2.params = record
+			this.$.ajax2.generateRequest()
+		},
+		record_created: function() {
+			//console.log(this.$.ajax2.lastResponse)
+			alert("Created Product Id="+this.$.ajax2.lastResponse.id)
+			// ask for create another one
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		submit_form: function() {
 			if (!isNaN(this.$.id.value))
 			{
 				if (this.$.id.value > 0)
@@ -73,7 +97,8 @@
 			else
 				this.$.submit_btn.click()
 		},
-		error_record: function() {
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
 			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
 		}
 	})

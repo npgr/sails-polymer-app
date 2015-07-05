@@ -31,6 +31,27 @@ module.exports = {
 		enum: ['A', 'B', 'I']
 		//,enumdes: ['Activo', 'Bloqueado', 'Inactivo']
 	}
-  }
+  }/*,
+	beforeCreate : function(item, cb){
+        item.price = 10
+		console.log('exito')
+		//cb()
+		//Auto increment 
+        Enumerator.findOneby({"model_name": incModel}).exec(function(err, counter){
+            if (err) return err;
+            if(counter){
+                var newAmount = counter.amount + 1;
+                counter.amount = newAmount;
+
+                counter.save(function(err, c){
+                    //Error handling...
+                    item.id = newAmount;
+                    cb();
+                });
+            }else{
+                cb();
+            }
+        });
+    }*/
 };
 

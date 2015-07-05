@@ -15,7 +15,7 @@ module.exports = {
 					else res.json({ "exist": true})
 			})
 	},
-	create: function(req, res, next) {
+	create2: function(req, res, next) {
 		var params = req.params.all();
 		Enumerator.create(params, function(err, data) {
 			if (err) return next(err);

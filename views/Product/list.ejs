@@ -13,13 +13,15 @@
 	<link rel="import" href="/components/Product-display/Product-display.html">
 	<link rel="import" href="/components/Product-edit/Product-edit.html">
 	<link rel="import" href="/components/Product-delete/Product-delete.html">
+	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 </head>
 <dom-module id="Product-list">
 <template>
-	<Product-new id="Product_new_dialog"></Product-new>
+	<iron-ajax id="ajax" url="/Product" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<Product-new id="Product_new_dialog" on-close="reload"></Product-new>
 	<Product-display id="Product_display_dialog"></Product-display>
-	<Product-edit id="Product_edit_dialog"></Product-edit>
-	<Product-delete id="Product_delete_dialog"></Product-delete>
+	<Product-edit id="Product_edit_dialog" on-close="reload"></Product-edit>
+	<Product-delete id="Product_delete_dialog" on-close="reload"></Product-delete>
 	
 	<div class="card_title">Listar Producto</div>
 	<select id="filter" on-change="input_type">
@@ -167,6 +169,21 @@ is: "Product-list",
   },
   new: function() {
 	this.$.Product_new_dialog.open_dialog()
+  },
+  reload: function() {
+	this.$.ajax.generateRequest()
+  },
+  load_data: function() {
+	while(this.data.data[0]) {
+        this.data.remove(this.data.data[0])
+      }
+	for (i=0; i< this.$.ajax.lastResponse.length; i++)
+		this.data.insert(this.$.ajax.lastResponse[i])
+	this.filter()
+  },
+  ajax_error: function() {
+	console.log(this.$.ajax.lastError)
+	alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
   }
 });
 </script>
