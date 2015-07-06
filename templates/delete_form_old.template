@@ -1,10 +1,9 @@
 <%= import_form %>
 <dom-module id="<%= model%>-delete">
 <template>
-	<iron-ajax id="ajax" url='/<%= model%>/' method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Borrar <%= title%></h2>
-		<form id="form" action="javascript:void(0);" on-submit="delete">
+		<form id="form" action="/<%= model%>/destroy/{{item.<%= key.name%>}}" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout><% 
 			  for (i=0; i < keys.length; i++) { 
@@ -30,27 +29,19 @@
 		is: "<%= model%>-delete",
 		open_delete_dialog: function(item) {
 			this.item = item
+			this.$.form.setAttribute("action","/<%= model%>/destroy/"+item.<%= key.name%>)
 			this.set_select_fields(item)
 			this.$.dialog.open()
+		},
+		borrar: function() {
+			this.$.submit_delete.click()
 		},
 		set_select_fields(item) {
 			<%for (i=0; i < keys.length; i++) {
 				if (jsondata[keys[i]].enum) {
 			%>this.$.<%= keys[i]%>.value = item.<%= keys[i]%>
 			<%} }
-		%>},
-		form_submit: function() {
-			this.$.submit_delete.click()
-		},
-		delete: function() {
-			this.$.ajax.url = '/<%= model%>/'+this.item.<%= key%>
-			this.$.ajax.generateRequest()
-		},
-		record_deleted: function() {
-			alert("record deleted")
-			this.$.dialog.close()
-			this.fire('close')
-		}
+		%>}
 	})
 </script>
 </dom-module>

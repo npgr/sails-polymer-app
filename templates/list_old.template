@@ -13,15 +13,13 @@
 	<link rel="import" href="/components/<%= model%>-display/<%= model%>-display.html">
 	<link rel="import" href="/components/<%= model%>-edit/<%= model%>-edit.html">
 	<link rel="import" href="/components/<%= model%>-delete/<%= model%>-delete.html">
-	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 </head>
 <dom-module id="<%= model%>-list">
 <template>
-	<iron-ajax id="ajax" url="/<%= model%>" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<<%= model%>-new id="<%= model%>_new_dialog" on-close="reload"></<%= model%>-new>
+	<<%= model%>-new id="<%= model%>_new_dialog"></<%= model%>-new>
 	<<%= model%>-display id="<%= model%>_display_dialog"></<%= model%>-display>
-	<<%= model%>-edit id="<%= model%>_edit_dialog" on-close="reload"></<%= model%>-edit>
-	<<%= model%>-delete id="<%= model%>_delete_dialog" on-close="reload"></<%= model%>-delete>
+	<<%= model%>-edit id="<%= model%>_edit_dialog"></<%= model%>-edit>
+	<<%= model%>-delete id="<%= model%>_delete_dialog"></<%= model%>-delete>
 	
 	<div class="card_title">Listar <%= title%></div>
 	<select id="filter" on-change="input_type"><% 
@@ -128,9 +126,6 @@ is: "<%= model%>-list",
 		case "integer":
 			this.tipo = "number"
 		break;
-		case "float":
-			this.tipo = "number"
-		break;
 		default:
 			this.tipo = "text"
 		}
@@ -175,21 +170,6 @@ is: "<%= model%>-list",
   },
   new: function() {
 	this.$.<%= model%>_new_dialog.open_dialog()
-  },
-  reload: function() {
-	this.$.ajax.generateRequest()
-  },
-  load_data: function() {
-	while(this.data.data[0]) {
-        this.data.remove(this.data.data[0])
-      }
-	for (i=0; i< this.$.ajax.lastResponse.length; i++)
-		this.data.insert(this.$.ajax.lastResponse[i])
-	this.filter()
-  },
-  ajax_error: function() {
-	console.log(this.$.ajax.lastError)
-	alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
   }
 });
 </script>

@@ -1,0 +1,58 @@
+<%= import_form %>
+
+<dom-module id="<%= model%>-new">
+<template>
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="error_record"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Crear <%= title%></h2>
+		<form id="form" action="/<%= model%>/create" method="POST">
+			<paper-dialog-scrollable>
+			<div vertical layout><% 
+			  for (i=0; i < keys.length; i++) { 
+				if (jsondata[keys[i]].line_c) {%>
+				<div class="card_line">
+					<label class="left_label" for="<%= keys[i]%>"><%= jsondata[keys[i]].description%></label>
+					<%= jsondata[keys[i]].line_c %>
+				</div><% } }%>
+			 </div>
+			</paper-dialog-scrollable>
+			<div class="buttons">
+				<input id="submit_btn" class="hide" type="submit" value="CREAR">
+				<div class="card_line">
+					<paper-button id="create_btn" class="btn" on-click="create" raised>CREAR</paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+				</div>
+			</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "<%= model%>-new",
+		open_dialog: function() {
+			this.$.dialog.open()
+		},
+		create: function() {
+			if (!isNaN(this.$.<%= key.name%>.value))
+			{
+				if (this.$.<%= key.name%>.value > 0)
+				{
+					this.$.ajax.url = "/<%= model%>/exist/"+this.$.<%= key.name%>.value
+					this.$.ajax.generateRequest()
+				}
+				else this.$.submit_btn.click()
+			} else
+				this.$.submit_btn.click()
+		},
+		validate_record: function() {
+			if (this.$.ajax.lastResponse.exist)
+				alert("Registro ya Existe")
+			else
+				this.$.submit_btn.click()
+		},
+		error_record: function() {
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>

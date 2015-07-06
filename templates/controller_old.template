@@ -1,0 +1,62 @@
+<%function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}%>
+/************  Routes:  config/routes.js ************/
+
+"post /<%= model%>/destroy/:id?": "<%= model%>Controller.destroy",
+"post /<%= model%>/update/:<%= key.name%>?": "<%= model%>Controller.update",
+"/<%= model%>/exist/:<%= key.name%>": "<%= model%>Controller.exist"
+
+/********** Controller: api/controllers/<<model_name>>Controller.js *******/
+
+	exist: function(req, res, next) {
+		var <%= key.name%> = req.param("<%= key.name%>")
+		<% if (key.name === "id") { %> <%= model%>.findOne(id)<%
+		    } else { %> <%= model%>.findOneBy<%= capitalizeFirstLetter(key.name)%>(<%= key.name%>) <% } %>
+			.exec(function(err, data) {
+				if(err) res.json({ "exist": "error"})
+				  else if (!data) res.json({ "exist": false})
+					else res.json({ "exist": true})
+			})
+	},
+	create: function(req, res, next) {
+		var params = req.params.all();
+		<%= model%>.create(params, function(err, data) {
+			if (err) return next(err);
+			res.redirect("<%= model%>/list")
+		});
+	},
+	destroy: function(req, res, next) {
+		var id = req.param("id")
+		<% if (key.name === "id") { %> <%= model%>.findOne(id)<%
+		    } else { %> <%= model%>.findOneBy<%= capitalizeFirstLetter(key.name)%>(id) <% } %>
+				.exec(function(err, result) {
+					if (err) res.serverError(err);
+					if (!result) res.notFound();
+						<%= model%>.destroy(id, function (err) {
+						if (err) return next (err);
+						return res.redirect("<%= model%>/list")
+						//return res.json(result);
+					});
+				});
+	},
+	update: function (req, res, next) {
+   	 var criteria = {};
+    	criteria = _.merge({}, req.params.all(), req.body);
+    	var <%= key.name%> = req.param("<%= key.name%>");
+    	if (!<%= key.name%>) {
+       	 return res.badRequest("No id provided.");
+    	}
+    	<%= model%>.update(<%= key.name%>, criteria, function (err, data) {
+       	 if(data.length === 0) return res.notFound();
+        	if (err) return next(err);
+			res.redirect("<%= model%>/list")
+        	//res.json(data);
+    	})
+	},
+	list : function (req, res) {
+		<%= model%>.find()
+			.exec(function(err, data){
+				res.render("<%= model%>/list", {data: JSON.stringify(data)})
+			})
+	}
