@@ -1,5 +1,5 @@
 <head>
-	<title>Listar Material - MATHEADS</title>
+	<title>Listar Enumerador</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -9,26 +9,22 @@
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
-	<link rel="import" href="/components/Matheads-new/Matheads-new.html">
-	<link rel="import" href="/components/Matheads-display/Matheads-display.html">
-	<link rel="import" href="/components/Matheads-edit/Matheads-edit.html">
-	<link rel="import" href="/components/Matheads-delete/Matheads-delete.html">
-	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+	<link rel="import" href="/components/Enumerator-new/Enumerator-new.html">
+	<link rel="import" href="/components/Enumerator-display/Enumerator-display.html">
+	<link rel="import" href="/components/Enumerator-edit/Enumerator-edit.html">
+	<link rel="import" href="/components/Enumerator-delete/Enumerator-delete.html">
 </head>
-<dom-module id="Matheads-list">
+<dom-module id="Enumerator-list">
 <template>
-	<iron-ajax id="ajax" url="/Matheads" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<Matheads-new id="Matheads_new_dialog" on-close="reload"></Matheads-new>
-	<Matheads-display id="Matheads_display_dialog"></Matheads-display>
-	<Matheads-edit id="Matheads_edit_dialog" on-close="reload"></Matheads-edit>
-	<Matheads-delete id="Matheads_delete_dialog" on-close="reload"></Matheads-delete>
+	<Enumerator-new id="Enumerator_new_dialog"></Enumerator-new>
+	<Enumerator-display id="Enumerator_display_dialog"></Enumerator-display>
+	<Enumerator-edit id="Enumerator_edit_dialog"></Enumerator-edit>
+	<Enumerator-delete id="Enumerator_delete_dialog"></Enumerator-delete>
 	
-	<div class="card_title">Listar Material - MATHEADS</div>
+	<div class="card_title">Listar Enumerador</div>
 	<select id="filter" on-change="input_type">
-		<option value="matnr">Número Material</option>
-		<option value="matl_type">Tipo de Material</option>
-		<option value="matl_group">Grupo de Material</option>
-		<option value="matl_cat">Categoria de Material</option>
+		<option value="model">Entidad</option>
+		<option value="last">Ultimo</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -48,16 +44,12 @@
 	<thead>
 	  <tr>
 		<th class="ops"></th>
-		<th class"col_matnr">Número Material</th>
-		<th class"col_matl_type">Tipo de Material</th>
-		<th class"col_matl_group">Grupo de Material</th>
-		<th class"col_matl_cat">Categoria de Material</th>
+		<th class"col_model">Entidad</th>
+		<th class"col_last">Ultimo</th>
 	</tr>
 	</thead>
 	<tfoot>
 	<tr>
-		<td></td>
-		<td></td>
 		<td></td>
 		<td>Total</td>
 		<td><strong>{{regs}}</strong></td>
@@ -67,14 +59,12 @@
 	<template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button id="{{item.matnr}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
-			<paper-icon-button id="{{item.matnr}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
-		  	<paper-icon-button id="{{item.matnr}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
+			<paper-icon-button id="{{item.model}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
+			<paper-icon-button id="{{item.model}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
+		  	<paper-icon-button id="{{item.model}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
 		</td>
-		<td class"col_matnr">{{item.matnr}}</td>
-		<td class"col_matl_type">{{item.matl_type}}</td>
-		<td class"col_matl_group">{{item.matl_group}}</td>
-		<td class"col_matl_cat">{{item.matl_cat}}</td>
+		<td class"col_model">{{item.model}}</td>
+		<td class"col_last">{{item.last}}</td>
 	</tr>
 	</template>
 	</tbody>
@@ -82,15 +72,13 @@
 </template>
 <script>
 Polymer({
-is: "Matheads-list",
+is: "Enumerator-list",
 	ready: function() {
-		var _model = [{column: "matnr", type: "integer"},
-				{column: "matl_type", enum: ["ZMED","ZMIS"]},
-				{column: "matl_group", type: "string"},
-				{column: "matl_cat", type: "string"}
+		var _model = [{column: "model", type: "string"},
+				{column: "last", type: "integer"}
 		]
 		var _data = <%- data %>
-		this.filtered_data = [{matnr: ""}]
+		this.filtered_data = [{model: ""}]
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
@@ -132,9 +120,6 @@ is: "Matheads-list",
 		case "integer":
 			this.tipo = "number"
 		break;
-		case "float":
-			this.tipo = "number"
-		break;
 		default:
 			this.tipo = "text"
 		}
@@ -149,43 +134,28 @@ is: "Matheads-list",
 	}
  },
   display: function(e) {
-	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var filtro = {"model": e.toElement.offsetParent.id}
 	var item = this.data.find(filtro)[0]
-	this.$.Matheads_display_dialog.open_display_dialog(item)
-	//window.open("/Matheads/display/"+e.toElement.offsetParent.id)
-	//window.location.href = "/Matheads/display/"+e.toElement.offsetParent.id
+	this.$.Enumerator_display_dialog.open_display_dialog(item)
+	//window.open("/Enumerator/display/"+e.toElement.offsetParent.id)
+	//window.location.href = "/Enumerator/display/"+e.toElement.offsetParent.id
   },
   edit: function(e) {
-	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var filtro = {"model": e.toElement.offsetParent.id}
 	var item = this.data.find(filtro)[0]
-	this.$.Matheads_edit_dialog.open_dialog(item)
+	this.$.Enumerator_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
-	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var filtro = {"model": e.toElement.offsetParent.id}
 	var item = this.data.find(filtro)[0]
-	this.$.Matheads_delete_dialog.open_delete_dialog(item)
+	this.$.Enumerator_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Matheads_new_dialog.open_dialog()
-  },
-  reload: function() {
-	this.$.ajax.generateRequest()
-  },
-  load_data: function() {
-	while(this.data.data[0]) {
-        this.data.remove(this.data.data[0])
-      }
-	for (i=0; i< this.$.ajax.lastResponse.length; i++)
-		this.data.insert(this.$.ajax.lastResponse[i])
-	this.filter()
-  },
-  ajax_error: function() {
-	console.log(this.$.ajax.lastError)
-	alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+	this.$.Enumerator_new_dialog.open_dialog()
   }
 });
 </script>
 </dom-module>
 <paper-material class="card" elevation="2">
-	<Matheads-list></Matheads-list>
+	<Enumerator-list></Enumerator-list>
 </paper-material>

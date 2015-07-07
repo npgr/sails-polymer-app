@@ -1,41 +1,41 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
-<dom-module id="Matheads-delete">
+<dom-module id="Matheads-edit">
 <template>
-	<iron-ajax id="ajax" url='/Matheads/' method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Borrar Material - MATHEADS</h2>
-		<form id="form" action="javascript:void(0);" on-submit="delete">
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Editar Material - MATHEADS</h2>
+		<form id="form" action="/Matheads/update/{{item.matnr}}" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
 					<label class="left_label" for="matnr">Número Material</label>
-					<input id="matnr" type="number" name="matnr" value="{{item.matnr}}" disabled>
+					<input id="matnr" type="number" name="matnr" value="{{item.matnr}}" min=10 max=999999 required>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="matl_type">Tipo de Material</label>
-					<select id="matl_type" name="matl_type" disabled>
+					<select id="matl_type" name="matl_type">
 						<option value="ZMED">ZMED - MEDICINAS</option>
 						<option value="ZMIS">ZMIS - MISCELANEOS</option>
 					</select>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="matl_group">Grupo de Material</label>
-					<input id="matl_group" type="text" name="matl_group" value="{{item.matl_group}}" disabled>
+					<input id="matl_group" type="text" name="matl_group" value="{{item.matl_group}}" maxlength=4 required>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="matl_cat">Categoria de Material</label>
-					<input id="matl_cat" type="text" name="matl_cat" value="{{item.matl_cat}}" disabled>
+					<input id="matl_cat" type="text" name="matl_cat" value="{{item.matl_cat}}" value="00" disabled>
 				</div>
 			</div>
 			</paper-dialog-scrollable>
 		<div class="buttons">
-			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
+			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
 			<div class="card_line">
-				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised>BORRAR</paper-button>
+				<paper-button id="update_btn" class="btn" on-click="cambiar" raised>CAMBIAR</paper-button>
 				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
 		</div>
@@ -44,27 +44,19 @@
 </template>
 <script>
 	Polymer({
-		is: "Matheads-delete",
-		open_delete_dialog: function(item) {
+		is: "Matheads-edit",
+		open_dialog: function(item) {
 			this.item = item
+			this.$.form.setAttribute("action","/Matheads/update/"+item.matnr)
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
+		cambiar: function() {
+			this.$.submit_update.click()
+		},
 		set_select_fields(item) {
 			this.$.matl_type.value = item.matl_type
-			},
-		form_submit: function() {
-			this.$.submit_delete.click()
-		},
-		delete: function() {
-			this.$.ajax.url = '/Matheads/'+this.item.matnr
-			this.$.ajax.generateRequest()
-		},
-		record_deleted: function() {
-			alert("record deleted")
-			this.$.dialog.close()
-			this.fire('close')
-		}
+			}
 	})
 </script>
 </dom-module>

@@ -15,7 +15,7 @@ module.exports = {
 					else res.json({ "exist": true})
 			})
 	},
-	create2: function(req, res, next) {
+	/*create: function(req, res, next) {
 		var params = req.params.all();
 		Enumerator.create(params, function(err, data) {
 			if (err) return next(err);
@@ -48,7 +48,7 @@ module.exports = {
 			res.redirect("Enumerator/list")
         	//res.json(data);
     	})
-	},
+	},*/
 	list : function (req, res) {
 		Enumerator.find()
 			.exec(function(err, data){

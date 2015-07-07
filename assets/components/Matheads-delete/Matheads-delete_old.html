@@ -1,14 +1,14 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
 <dom-module id="Matheads-delete">
 <template>
-	<iron-ajax id="ajax" url='/Matheads/' method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Borrar Material - MATHEADS</h2>
-		<form id="form" action="javascript:void(0);" on-submit="delete">
+		<form id="form" action="/Matheads/destroy/{{item.matnr}}" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
@@ -35,7 +35,7 @@
 		<div class="buttons">
 			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
 			<div class="card_line">
-				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised>BORRAR</paper-button>
+				<paper-button id="delete_btn" class="btn" on-click="borrar" raised>BORRAR</paper-button>
 				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
 		</div>
@@ -47,24 +47,16 @@
 		is: "Matheads-delete",
 		open_delete_dialog: function(item) {
 			this.item = item
+			this.$.form.setAttribute("action","/Matheads/destroy/"+item.matnr)
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
-		set_select_fields(item) {
-			this.$.matl_type.value = item.matl_type
-			},
-		form_submit: function() {
+		borrar: function() {
 			this.$.submit_delete.click()
 		},
-		delete: function() {
-			this.$.ajax.url = '/Matheads/'+this.item.matnr
-			this.$.ajax.generateRequest()
-		},
-		record_deleted: function() {
-			alert("record deleted")
-			this.$.dialog.close()
-			this.fire('close')
-		}
+		set_select_fields(item) {
+			this.$.matl_type.value = item.matl_type
+			}
 	})
 </script>
 </dom-module>

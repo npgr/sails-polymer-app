@@ -1,38 +1,34 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
-<dom-module id="Product-display">
+<dom-module id="Matheads-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Consultar Producto</h2>
+		<h2 class="card_title">Consultar Material - MATHEADS</h2>
 		<form id="form">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
-					<label class="left_label" for="id">Id</label>
-					<input id="id" type="number" name="id" value="{{item.id}}" disabled>
+					<label class="left_label" for="matnr">Número Material</label>
+					<input id="matnr" type="number" name="matnr" value="{{item.matnr}}" disabled>
 				</div>
 				<div class="card_line">
-					<label class="left_label" for="name">Nombre</label>
-					<input id="name" type="text" name="name" value="{{item.name}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="stock">Existencia</label>
-					<input id="stock" type="number" name="stock" value="{{item.stock}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="price">Precio</label>
-					<input id="price" type="text" name="price" value="{{item.price}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="status">Status</label>
-					<select id="status" name="status" disabled>
-						<option value="A">Activo</option>
-						<option value="B">Bloqueado</option>
-						<option value="I">Inactivo</option>
+					<label class="left_label" for="matl_type">Tipo de Material</label>
+					<select id="matl_type" name="matl_type" disabled>
+						<option value="ZMED">ZMED - MEDICINAS</option>
+						<option value="ZMIS">ZMIS - MISCELANEOS</option>
 					</select>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="matl_group">Grupo de Material</label>
+					<input id="matl_group" type="text" name="matl_group" value="{{item.matl_group}}" disabled>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="matl_cat">Categoria de Material</label>
+					<input id="matl_cat" type="text" name="matl_cat" value="{{item.matl_cat}}" disabled>
 				</div>
 			</div>
 			</paper-dialog-scrollable>
@@ -46,14 +42,14 @@
 </template>
 <script>
 	Polymer({
-		is: "Product-display",
+		is: "Matheads-display",
 		open_display_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.status.value = item.status
+			this.$.matl_type.value = item.matl_type
 			}
 	})
 </script>

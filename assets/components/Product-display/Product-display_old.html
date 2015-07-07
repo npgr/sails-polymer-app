@@ -1,35 +1,35 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
-<dom-module id="Product-edit">
+<dom-module id="Product-display">
 <template>
-	<iron-ajax id="ajax" url='/Product/' method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Editar Producto</h2>
-		<form id="form" action="javascript:void(0);" on-submit="update">
+		<h2 class="card_title">Consultar Producto</h2>
+		<form id="form">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
 					<label class="left_label" for="id">Id</label>
-					<input id="id" type="number" name="id" value="{{item.id}}" min=1 max=999999 disabled>
+					<input id="id" type="number" name="id" value="{{item.id}}" disabled>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="name">Nombre</label>
-					<input id="name" type="text" name="name" value="{{item.name}}" required>
+					<input id="name" type="text" name="name" value="{{item.name}}" disabled>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="stock">Existencia</label>
-					<input id="stock" type="number" name="stock" value="{{item.stock}}">
+					<input id="stock" type="number" name="stock" value="{{item.stock}}" disabled>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="price">Precio</label>
-					<input id="price" type="text" name="price" value="{{item.price}}">
+					<input id="price" type="text" name="price" value="{{item.price}}" disabled>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="status">Status</label>
-					<select id="status" name="status">
+					<select id="status" name="status" disabled>
 						<option value="A">Activo</option>
 						<option value="B">Bloqueado</option>
 						<option value="I">Inactivo</option>
@@ -38,9 +38,7 @@
 			</div>
 			</paper-dialog-scrollable>
 		<div class="buttons">
-			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
 			<div class="card_line">
-				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
 				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
 		</div>
@@ -49,34 +47,15 @@
 </template>
 <script>
 	Polymer({
-		is: "Product-edit",
-		open_dialog: function(item) {
+		is: "Product-display",
+		open_display_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
 			this.$.status.value = item.status
-			},
-		submit_form: function() {
-			this.$.submit_update.click()
-		},
-		update: function() {
-			var record = {}
-			record.id = Number(this.$.id.value)
-			record.name = this.$.name.value
-			record.stock = Number(this.$.stock.value)
-			record.price = Number(this.$.price.value)
-			record.status = this.$.status.value		
-			this.$.ajax.url = '/Product/'+record.id
-			this.$.ajax.params = record
-			this.$.ajax.generateRequest()
-		},
-		record_updated: function() {
-			alert("record updated")
-			this.$.dialog.close()
-			this.fire('close')
-		}
+			}
 	})
 </script>
 </dom-module>

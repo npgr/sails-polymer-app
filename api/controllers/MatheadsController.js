@@ -24,7 +24,7 @@ module.exports = {
 						else res.json({ 'exist': true})
 				})
 	},
-	create: function(req, res, next) {
+	/*create: function(req, res, next) {
 		var params = req.params.all();
 		Matheads.create(params, function(err, data) {
 			if (err) return next(err);
@@ -57,7 +57,7 @@ module.exports = {
 			res.redirect('Matheads/list')
             //res.json(data);
         })
-    },
+    },*/
 	new : function (req, res) {
 		res.render('Matheads/new')
 	},

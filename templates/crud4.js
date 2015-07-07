@@ -97,9 +97,9 @@ function set_jsondata_lines(keys) {
 				line_u += ' value="'+jsondata[keys[i]].defaultsTo+'" disabled'
 			} else {
 				if (jsondata[keys[i]].primaryKey) {
-					line_u += 'disabled'
+					line_u += ' disabled'
 					if (jsondata[keys[i]].autoIncrement)
-							line_c += 'disabled'
+							line_c += ' disabled'
 				}
 			}
 			//end of input field

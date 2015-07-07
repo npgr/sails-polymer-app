@@ -1,19 +1,19 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
 <dom-module id="Matheads-edit">
 <template>
+	<iron-ajax id="ajax" url='/Matheads/' method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
 		<h2 class="card_title">Editar Material - MATHEADS</h2>
-		<form id="form" action="/Matheads/update/{{item.matnr}}" method="POST">
+		<form id="form" action="javascript:void(0);" on-submit="update">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
 					<label class="left_label" for="matnr">Número Material</label>
-					<input id="matnr" type="number" name="matnr" value="{{item.matnr}}" min=10 max=999999 required>
+					<input id="matnr" type="number" name="matnr" value="{{item.matnr}}" min=10 max=999999 required disabled>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="matl_type">Tipo de Material</label>
@@ -35,7 +35,7 @@
 		<div class="buttons">
 			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
 			<div class="card_line">
-				<paper-button id="update_btn" class="btn" on-click="cambiar" raised>CAMBIAR</paper-button>
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
 				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
 		</div>
@@ -47,16 +47,30 @@
 		is: "Matheads-edit",
 		open_dialog: function(item) {
 			this.item = item
-			this.$.form.setAttribute("action","/Matheads/update/"+item.matnr)
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
-		cambiar: function() {
-			this.$.submit_update.click()
-		},
 		set_select_fields(item) {
 			this.$.matl_type.value = item.matl_type
-			}
+			},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.matnr = Number(this.$.matnr.value)
+			record.matl_type = this.$.matl_type.value
+			record.matl_group = this.$.matl_group.value
+			record.matl_cat = this.$.matl_cat.value		
+			this.$.ajax.url = '/Matheads/'+record.matnr
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("record updated")
+			this.$.dialog.close()
+			this.fire('close')
+		}
 	})
 </script>
 </dom-module>

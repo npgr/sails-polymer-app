@@ -1,5 +1,5 @@
 <head>
-	<title>Listar Material - MATHEADS</title>
+	<title>Listar Producto</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -9,26 +9,27 @@
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
-	<link rel="import" href="/components/Matheads-new/Matheads-new.html">
-	<link rel="import" href="/components/Matheads-display/Matheads-display.html">
-	<link rel="import" href="/components/Matheads-edit/Matheads-edit.html">
-	<link rel="import" href="/components/Matheads-delete/Matheads-delete.html">
+	<link rel="import" href="/components/Product-new/Product-new.html">
+	<link rel="import" href="/components/Product-display/Product-display.html">
+	<link rel="import" href="/components/Product-edit/Product-edit.html">
+	<link rel="import" href="/components/Product-delete/Product-delete.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 </head>
-<dom-module id="Matheads-list">
+<dom-module id="Product-list">
 <template>
-	<iron-ajax id="ajax" url="/Matheads" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<Matheads-new id="Matheads_new_dialog" on-close="reload"></Matheads-new>
-	<Matheads-display id="Matheads_display_dialog"></Matheads-display>
-	<Matheads-edit id="Matheads_edit_dialog" on-close="reload"></Matheads-edit>
-	<Matheads-delete id="Matheads_delete_dialog" on-close="reload"></Matheads-delete>
+	<iron-ajax id="ajax" url="/Product" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<Product-new id="Product_new_dialog" on-close="reload"></Product-new>
+	<Product-display id="Product_display_dialog"></Product-display>
+	<Product-edit id="Product_edit_dialog" on-close="reload"></Product-edit>
+	<Product-delete id="Product_delete_dialog" on-close="reload"></Product-delete>
 	
-	<div class="card_title">Listar Material - MATHEADS</div>
+	<div class="card_title">Listar Producto</div>
 	<select id="filter" on-change="input_type">
-		<option value="matnr">Número Material</option>
-		<option value="matl_type">Tipo de Material</option>
-		<option value="matl_group">Grupo de Material</option>
-		<option value="matl_cat">Categoria de Material</option>
+		<option value="id">Id</option>
+		<option value="name">Nombre</option>
+		<option value="stock">Existencia</option>
+		<option value="price">Precio</option>
+		<option value="status">Status</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -48,14 +49,16 @@
 	<thead>
 	  <tr>
 		<th class="ops"></th>
-		<th class"col_matnr">Número Material</th>
-		<th class"col_matl_type">Tipo de Material</th>
-		<th class"col_matl_group">Grupo de Material</th>
-		<th class"col_matl_cat">Categoria de Material</th>
+		<th class"col_id">Id</th>
+		<th class"col_name">Nombre</th>
+		<th class"col_stock">Existencia</th>
+		<th class"col_price">Precio</th>
+		<th class"col_status">Status</th>
 	</tr>
 	</thead>
 	<tfoot>
 	<tr>
+		<td></td>
 		<td></td>
 		<td></td>
 		<td></td>
@@ -67,14 +70,15 @@
 	<template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button id="{{item.matnr}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
-			<paper-icon-button id="{{item.matnr}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
-		  	<paper-icon-button id="{{item.matnr}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
+			<paper-icon-button id="{{item.id}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
+			<paper-icon-button id="{{item.id}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
+		  	<paper-icon-button id="{{item.id}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
 		</td>
-		<td class"col_matnr">{{item.matnr}}</td>
-		<td class"col_matl_type">{{item.matl_type}}</td>
-		<td class"col_matl_group">{{item.matl_group}}</td>
-		<td class"col_matl_cat">{{item.matl_cat}}</td>
+		<td class"col_id">{{item.id}}</td>
+		<td class"col_name">{{item.name}}</td>
+		<td class"col_stock">{{item.stock}}</td>
+		<td class"col_price">{{item.price}}</td>
+		<td class"col_status">{{item.status}}</td>
 	</tr>
 	</template>
 	</tbody>
@@ -82,15 +86,17 @@
 </template>
 <script>
 Polymer({
-is: "Matheads-list",
+is: "Product-list",
 	ready: function() {
-		var _model = [{column: "matnr", type: "integer"},
-				{column: "matl_type", enum: ["ZMED","ZMIS"]},
-				{column: "matl_group", type: "string"},
-				{column: "matl_cat", type: "string"}
+		this.tipo = "number"
+		var _model = [{column: "id", type: "integer"},
+				{column: "name", type: "string"},
+				{column: "stock", type: "integer"},
+				{column: "price", type: "float"},
+				{column: "status", enum: ["A","B","I"]}
 		]
 		var _data = <%- data %>
-		this.filtered_data = [{matnr: ""}]
+		this.filtered_data = [{id: ""}]
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
@@ -100,7 +106,6 @@ is: "Matheads-list",
 			this.model.insert(_model[i])
 		_data = {}
 		_model = {}
-		this.input_type()
 	},
 	filter: function() {
 		var name = this.$.filter.value
@@ -132,9 +137,6 @@ is: "Matheads-list",
 		case "integer":
 			this.tipo = "number"
 		break;
-		case "float":
-			this.tipo = "number"
-		break;
 		default:
 			this.tipo = "text"
 		}
@@ -149,24 +151,24 @@ is: "Matheads-list",
 	}
  },
   display: function(e) {
-	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
-	this.$.Matheads_display_dialog.open_display_dialog(item)
-	//window.open("/Matheads/display/"+e.toElement.offsetParent.id)
-	//window.location.href = "/Matheads/display/"+e.toElement.offsetParent.id
+	this.$.Product_display_dialog.open_display_dialog(item)
+	//window.open("/Product/display/"+e.toElement.offsetParent.id)
+	//window.location.href = "/Product/display/"+e.toElement.offsetParent.id
   },
   edit: function(e) {
-	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
-	this.$.Matheads_edit_dialog.open_dialog(item)
+	this.$.Product_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
-	var filtro = {"matnr": Number(e.toElement.offsetParent.id)}
+	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
-	this.$.Matheads_delete_dialog.open_delete_dialog(item)
+	this.$.Product_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Matheads_new_dialog.open_dialog()
+	this.$.Product_new_dialog.open_dialog()
   },
   reload: function() {
 	this.$.ajax.generateRequest()
@@ -187,5 +189,5 @@ is: "Matheads-list",
 </script>
 </dom-module>
 <paper-material class="card" elevation="2">
-	<Matheads-list></Matheads-list>
+	<Product-list></Product-list>
 </paper-material>

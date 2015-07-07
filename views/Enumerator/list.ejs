@@ -13,13 +13,15 @@
 	<link rel="import" href="/components/Enumerator-display/Enumerator-display.html">
 	<link rel="import" href="/components/Enumerator-edit/Enumerator-edit.html">
 	<link rel="import" href="/components/Enumerator-delete/Enumerator-delete.html">
+	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 </head>
 <dom-module id="Enumerator-list">
 <template>
-	<Enumerator-new id="Enumerator_new_dialog"></Enumerator-new>
+	<iron-ajax id="ajax" url="/Enumerator" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<Enumerator-new id="Enumerator_new_dialog" on-close="reload"></Enumerator-new>
 	<Enumerator-display id="Enumerator_display_dialog"></Enumerator-display>
-	<Enumerator-edit id="Enumerator_edit_dialog"></Enumerator-edit>
-	<Enumerator-delete id="Enumerator_delete_dialog"></Enumerator-delete>
+	<Enumerator-edit id="Enumerator_edit_dialog" on-close="reload"></Enumerator-edit>
+	<Enumerator-delete id="Enumerator_delete_dialog" on-close="reload"></Enumerator-delete>
 	
 	<div class="card_title">Listar Enumerador</div>
 	<select id="filter" on-change="input_type">
@@ -120,6 +122,9 @@ is: "Enumerator-list",
 		case "integer":
 			this.tipo = "number"
 		break;
+		case "float":
+			this.tipo = "number"
+		break;
 		default:
 			this.tipo = "text"
 		}
@@ -152,6 +157,21 @@ is: "Enumerator-list",
   },
   new: function() {
 	this.$.Enumerator_new_dialog.open_dialog()
+  },
+  reload: function() {
+	this.$.ajax.generateRequest()
+  },
+  load_data: function() {
+	while(this.data.data[0]) {
+        this.data.remove(this.data.data[0])
+      }
+	for (i=0; i< this.$.ajax.lastResponse.length; i++)
+		this.data.insert(this.$.ajax.lastResponse[i])
+	this.filter()
+  },
+  ajax_error: function() {
+	console.log(this.$.ajax.lastError)
+	alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
   }
 });
 </script>

@@ -18,7 +18,7 @@
 		<div class="buttons">
 			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
 			<div class="card_line">
-				<paper-button id="delete_btn" class="btn" on-click="borrar" raised>BORRAR</paper-button>
+				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised>BORRAR</paper-button>
 				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = '/<%= model%>/'+this.item.<%= key%>
+			this.$.ajax.url = '/<%= model%>/'+this.item.<%= key.name%>
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {

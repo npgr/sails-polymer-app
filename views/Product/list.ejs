@@ -88,7 +88,6 @@
 Polymer({
 is: "Product-list",
 	ready: function() {
-		this.tipo = "number"
 		var _model = [{column: "id", type: "integer"},
 				{column: "name", type: "string"},
 				{column: "stock", type: "integer"},
@@ -106,6 +105,7 @@ is: "Product-list",
 			this.model.insert(_model[i])
 		_data = {}
 		_model = {}
+		this.input_type()
 	},
 	filter: function() {
 		var name = this.$.filter.value
@@ -135,6 +135,9 @@ is: "Product-list",
 			this.tipo = "text"
 		break;
 		case "integer":
+			this.tipo = "number"
+		break;
+		case "float":
 			this.tipo = "number"
 		break;
 		default:

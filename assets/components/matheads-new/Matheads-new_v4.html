@@ -1,32 +1,43 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
 
-<dom-module id="Enumerator-new">
+<dom-module id="Matheads-new">
 <template>
-	<iron-ajax id="ajax"  handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
-	<iron-ajax id="ajax2" url="/Enumerator" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="error_record"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Crear Enumerador</h2>
-		<form id="form" action="javascript:void(0);" on-submit="create">
+		<h2 class="card_title">Crear Material - MATHEADS</h2>
+		<form id="form" action="/Matheads/create" method="POST">
 			<paper-dialog-scrollable>
 			<div vertical layout>
 				<div class="card_line">
-					<label class="left_label" for="model">Entidad</label>
-					<input id="model" type="text" name="model" required>
+					<label class="left_label" for="matnr">Número Material</label>
+					<input id="matnr" type="number" name="matnr" min=10 max=999999 required>
 				</div>
 				<div class="card_line">
-					<label class="left_label" for="last">Ultimo</label>
-					<input id="last" type="number" name="last">
+					<label class="left_label" for="matl_type">Tipo de Material</label>
+					<select id="matl_type" name="matl_type">
+						<option value="ZMED">ZMED - MEDICINAS</option>
+						<option value="ZMIS">ZMIS - MISCELANEOS</option>
+					</select>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="matl_group">Grupo de Material</label>
+					<input id="matl_group" type="text" name="matl_group" maxlength=4 required>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="matl_cat">Categoria de Material</label>
+					<input id="matl_cat" type="text" name="matl_cat" value="00" disabled>
 				</div>
 			 </div>
 			</paper-dialog-scrollable>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
-					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
+					<paper-button id="create_btn" class="btn" on-click="create" raised>CREAR</paper-button>
 					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 				</div>
 			</div>
@@ -35,35 +46,16 @@
 </template>
 <script>
 	Polymer({
-		is: "Enumerator-new",
+		is: "Matheads-new",
 		open_dialog: function() {
-			this.clear()
 			this.$.dialog.open()
 		},
-		clear: function() {
-			this.$.model.value = ''
-			this.$.last.value = ''
-		},
 		create: function() {
-			var record = {}
-			record.model = this.$.model.value
-			record.last = Number(this.$.last.value)			
-			this.$.ajax2.params = record
-			this.$.ajax2.generateRequest()
-		},
-		record_created: function() {
-			//console.log(this.$.ajax2.lastResponse)
-			alert("Created Enumerador model="+this.$.ajax2.lastResponse.model)
-			// ask for create another one
-			this.$.dialog.close()
-			this.fire('close')
-		},
-		submit_form: function() {
-			if (!isNaN(this.$.model.value))
+			if (!isNaN(this.$.matnr.value))
 			{
-				if (this.$.model.value > 0)
+				if (this.$.matnr.value > 0)
 				{
-					this.$.ajax.url = "/Enumerator/exist/"+this.$.model.value
+					this.$.ajax.url = "/Matheads/exist/"+this.$.matnr.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()
@@ -76,8 +68,7 @@
 			else
 				this.$.submit_btn.click()
 		},
-		ajax_error: function() {
-			console.log(this.$.ajax.lastError)
+		error_record: function() {
 			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
 		}
 	})

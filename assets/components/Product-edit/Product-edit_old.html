@@ -13,7 +13,7 @@
 			<div vertical layout>
 				<div class="card_line">
 					<label class="left_label" for="id">Id</label>
-					<input id="id" type="number" name="id" value="{{item.id}}" min=1 max=999999 disabled>
+					<input id="id" type="number" name="id" value="{{item.id}}" min=10 max=999999 disabled>
 				</div>
 				<div class="card_line">
 					<label class="left_label" for="name">Nombre</label>
@@ -57,18 +57,19 @@
 		},
 		set_select_fields(item) {
 			this.$.status.value = item.status
-			},
+		},
 		submit_form: function() {
 			this.$.submit_update.click()
 		},
 		update: function() {
 			var record = {}
-			record.id = Number(this.$.id.value)
+			record.id = this.$.id.value
 			record.name = this.$.name.value
 			record.stock = Number(this.$.stock.value)
 			record.price = Number(this.$.price.value)
-			record.status = this.$.status.value		
+			record.status = this.$.status.value
 			this.$.ajax.url = '/Product/'+record.id
+			
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},
