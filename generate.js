@@ -29,19 +29,6 @@ switch(option) {
         console.log('arguments for this commando are: ')
 }
 
-function getInputType(type) {
-	switch(type) {
-		case 'string':
-			return 'text'
-			break
-		case 'integer':
-			return 'number'
-			break
-		default:
-			return 'text'
-	}
-}
-
 function get_model_par() {
 	if (process.argv[3])
 		return process.argv[3]

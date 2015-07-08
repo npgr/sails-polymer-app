@@ -1,10 +1,11 @@
+/**
+ * TaskController
+ *
+ * @description :: Server-side logic for managing tasks
+ * @help        :: See http://links.sailsjs.org/docs/controllers
+ */
 
-/************  Routes:  config/routes.js ************/
-
-"/Task/exist/:id": "TaskController.exist"
-
-/********** Controller: api/controllers/<<model_name>>Controller.js *******/
-
+module.exports = {
 	exist: function(req, res, next) {
 		var id = req.param("id")
 		 Task.findOne(id)
@@ -20,3 +21,5 @@
 				res.render("Task/list", {data: JSON.stringify(data)})
 			})
 	}
+};
+

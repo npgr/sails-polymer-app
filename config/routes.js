@@ -49,8 +49,8 @@ module.exports.routes = {
   '/Matheads/edit/:matnr': 'MatheadsController.edit',
   '/Matheads/display/:matnr': 'MatheadsController.display',
   '/Matheads/delete/:matnr': 'MatheadsController.delete',
-  'post /Matheads/destroy/:id?': 'MatheadsController.destroy',
-  "post /Matheads/update/:matnr?": "MatheadsController.update",
+  /*'post /Matheads/destroy/:id?': 'MatheadsController.destroy',
+  "post /Matheads/update/:matnr?": "MatheadsController.update",*/
   "/Matheads/exist/:matnr": "MatheadsController.exist",
   "post /Customer/destroy/:id?": "CustomerController.destroy",
   "post /Customer/update/:id?": "CustomerController.update",
@@ -60,5 +60,6 @@ module.exports.routes = {
   "/Product/exist/:": "ProductController.exist",
   /*"post /Enumerator/destroy/:id?": "EnumeratorController.destroy",
   "post /Enumerator/update/:model?": "EnumeratorController.update",*/
-  "/Enumerator/exist/:model": "EnumeratorController.exist"
+  "/Enumerator/exist/:model": "EnumeratorController.exist",
+  "/Task/exist/:id": "TaskController.exist"
 };

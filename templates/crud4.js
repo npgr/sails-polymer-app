@@ -10,6 +10,12 @@ function getInputType(type) {
 		case 'integer':
 			return 'number'
 			break
+		case 'float':
+			return 'number'
+			break
+		case 'date':
+			return 'date'
+			break
 		default:
 			return 'text'
 	}
