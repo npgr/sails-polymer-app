@@ -125,9 +125,13 @@ is: "Task-list",
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
 		for (i=0; i< _data.length ; i++){
+		  if (_data[i].finicio)	
 			_data[i].finicio = _data[i].finicio.substring(0,10)
+		  if (_data[i].fcompromiso)	
 			_data[i].fcompromiso = _data[i].fcompromiso.substring(0,10)
+		  if (_data[i].ultseguimiento)	
 			_data[i].ultseguimiento = _data[i].ultseguimiento.substring(0,10)
+		  if (_data[i].proxseguimiento)
 			_data[i].proxseguimiento = _data[i].proxseguimiento.substring(0,10)
 			this.data.insert(_data[i])
 		}
@@ -238,9 +242,13 @@ is: "Task-list",
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
+	  if (this.$.ajax.lastResponse[i].finicio)
 		this.$.ajax.lastResponse[i].finicio = this.$.ajax.lastResponse[i].finicio.substring(0,10)
+	  if (this.$.ajax.lastResponse[i].fcompromiso)	
 		this.$.ajax.lastResponse[i].fcompromiso = this.$.ajax.lastResponse[i].fcompromiso.substring(0,10)
+	  if (this.$.ajax.lastResponse[i].ultseguimiento)  	
 		this.$.ajax.lastResponse[i].ultseguimiento = this.$.ajax.lastResponse[i].ultseguimiento.substring(0, 10)
+	  if (this.$.ajax.lastResponse[i].proxseguimiento)	
 		this.$.ajax.lastResponse[i].proxseguimiento = this.$.ajax.lastResponse[i].proxseguimiento.substring(0, 10)
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}

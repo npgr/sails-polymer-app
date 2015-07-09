@@ -85,15 +85,16 @@
 		create: function() {
 			var record = {}
 			record.activity = this.$.activity.value
-			record.finicio = this.$.finicio.value
+			if (this.$.finicio.value)
+				record.finicio = this.$.finicio.value
 			if (this.$.fcompromiso.value)
 				record.fcompromiso = this.$.fcompromiso.value
-			 else
-				console.log('Fecha Compromiso vacia')
 			record.responsable = this.$.responsable.value
 			record.proyecto = this.$.proyecto.value
-			record.ultseguimiento = this.$.ultseguimiento.value
-			record.proxseguimiento = this.$.proxseguimiento.value
+			if (this.$.ultseguimiento.value)
+				record.ultseguimiento = this.$.ultseguimiento.value
+			if (this.$.proxseguimiento.value)
+				record.proxseguimiento = this.$.proxseguimiento.value
 			record.observacion = this.$.observacion.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
