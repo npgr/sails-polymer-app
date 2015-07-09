@@ -6,6 +6,9 @@
 
 <dom-module id="Task-new">
 <template>
+<style>
+	.red { color: red }
+</style>
 	<iron-ajax id="ajax"  handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" url="/Task" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
@@ -18,7 +21,7 @@
 					<input id="id" type="number" name="id" disabled>
 				</div>
 				<div class="card_line">
-					<label class="left_label" for="activity">Actividad</label>
+					<label class="left_label" for="activity">Actividad<strong class="red"> *</strong></label>
 					<input id="activity" type="text" name="activity" required>
 				</div>
 				<div class="card_line">
@@ -83,7 +86,10 @@
 			var record = {}
 			record.activity = this.$.activity.value
 			record.finicio = this.$.finicio.value
-			record.fcompromiso = this.$.fcompromiso.value
+			if (this.$.fcompromiso.value)
+				record.fcompromiso = this.$.fcompromiso.value
+			 else
+				console.log('Fecha Compromiso vacia')
 			record.responsable = this.$.responsable.value
 			record.proyecto = this.$.proyecto.value
 			record.ultseguimiento = this.$.ultseguimiento.value

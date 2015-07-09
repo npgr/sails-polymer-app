@@ -93,12 +93,12 @@
 		</td>
 		<td class"col_id">{{item.id}}</td>
 		<td class"col_activity">{{item.activity}}</td>
-		<td class"col_finicio">{{item.finicio}}</td>
-		<td class"col_fcompromiso">{{item.fcompromiso}}</td>
+		<td class"col_finicio">{{date_dma(item.finicio)}}</td>
+		<td class"col_fcompromiso">{{date_dma(item.fcompromiso)}}</td>
 		<td class"col_responsable">{{item.responsable}}</td>
 		<td class"col_proyecto">{{item.proyecto}}</td>
-		<td class"col_ultseguimiento">{{item.ultseguimiento}}</td>
-		<td class"col_proxseguimiento">{{item.proxseguimiento}}</td>
+		<td class"col_ultseguimiento">{{date_dma(item.ultseguimiento)}}</td>
+		<td class"col_proxseguimiento">{{date_dma(item.proxseguimiento)}}</td>
 		<td class"col_observacion">{{item.observacion}}</td>
 	</tr>
 	</template>
@@ -124,13 +124,36 @@ is: "Task-list",
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
-		for (i=0; i< _data.length ; i++)
+		for (i=0; i< _data.length ; i++){
+			_data[i].finicio = _data[i].finicio.substring(0,10)
+			_data[i].fcompromiso = _data[i].fcompromiso.substring(0,10)
+			_data[i].ultseguimiento = _data[i].ultseguimiento.substring(0,10)
+			_data[i].proxseguimiento = _data[i].proxseguimiento.substring(0,10)
 			this.data.insert(_data[i])
+		}
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_data = {}
 		_model = {}
 		this.input_type()
+	},
+	date_dma: function(datex) {
+		if (datex) {
+			var year = datex.substring( 0, 4)
+			var month = datex.substring( 5, 7)
+			var day = datex.substring( 8, 10)
+			return day+'/'+month+'/'+year
+		}
+		//else return ''
+	},
+	datef2: function(datex) {
+		if (datex) {
+			var year = datex.substring( 6, 10)
+			var month = datex.substring( 3, 5)
+			var day = datex.substring( 0, 2)
+			return year+'-'+month+'-'+day
+		}
+		//else return ''
 	},
 	filter: function() {
 		var name = this.$.filter.value
@@ -184,7 +207,11 @@ is: "Task-list",
   display: function(e) {
 	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
-	console.log('item: ',item)
+	
+	/*item.finicio = this.datef2(item.finicio)
+	item.fcompromiso = this.datef2(item.fcompromiso)
+	item.ultseguimiento = this.datef2(item.ultseguimiento)
+	item.proxseguimiento = this.datef2(item.proxseguimiento)*/
 	this.$.Task_display_dialog.open_display_dialog(item)
 	//window.open("/Task/display/"+e.toElement.offsetParent.id)
 	//window.location.href = "/Task/display/"+e.toElement.offsetParent.id
@@ -210,7 +237,13 @@ is: "Task-list",
         this.data.remove(this.data.data[0])
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
+	{
+		this.$.ajax.lastResponse[i].finicio = this.$.ajax.lastResponse[i].finicio.substring(0,10)
+		this.$.ajax.lastResponse[i].fcompromiso = this.$.ajax.lastResponse[i].fcompromiso.substring(0,10)
+		this.$.ajax.lastResponse[i].ultseguimiento = this.$.ajax.lastResponse[i].ultseguimiento.substring(0, 10)
+		this.$.ajax.lastResponse[i].proxseguimiento = this.$.ajax.lastResponse[i].proxseguimiento.substring(0, 10)
 		this.data.insert(this.$.ajax.lastResponse[i])
+	}
 	this.filter()
   },
   ajax_error: function() {
