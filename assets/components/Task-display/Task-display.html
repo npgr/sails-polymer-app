@@ -9,44 +9,44 @@
 		<h2 class="card_title">Consultar Actividad</h2>
 		<form id="form">
 			<paper-dialog-scrollable>
-			<div vertical layout>
-				<div class="card_line">
-					<label class="left_label" for="id">Id</label>
-					<input id="id" type="number" name="id" value="{{item.id}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="activity">Actividad</label>
-					<input id="activity" type="text" name="activity" value="{{item.activity}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="finicio">Inicio</label>
-					<input id="finicio" type="date" name="finicio" value="{{item.finicio}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="fcompromiso">Compromiso</label>
-					<input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="responsable">Responsable</label>
-					<input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="proyecto">Proyecto</label>
-					<input id="proyecto" type="text" name="proyecto" value="{{item.proyecto}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="ultseguimiento">Ult Seg</label>
-					<input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="proxseguimiento">Prox Seg</label>
-					<input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="observacion">observacion</label>
-					<input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled>
-				</div>
-			</div>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Actividad</label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="finicio">Inicio</label></td>
+				<td><input id="finicio" type="date" name="finicio" value="{{item.finicio}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable">Responsable</label></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proyecto">Proyecto</label></td>
+				<td><input id="proyecto" type="text" name="proyecto" value="{{item.proyecto}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+			</tr>
+			</table>
 			</paper-dialog-scrollable>
 		<div class="buttons">
 			<div class="card_line">
