@@ -52,7 +52,36 @@
 		<option value="{{item.op}}">{{item.op}}</option>
 	  </template>
 	</select>
+	<select id="logic" on-change="logic_operator">
+		<option value="-">---</option>
+		<option value="and">And</option>
+		<option value="or">Or</option>
+	</select>
 	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<br>
+	<select id="filter2" class="hide" on-change="input_type2">
+		<option value="id">Id</option>
+		<option value="activity">Actividad</option>
+		<option value="finicio">Inicio</option>
+		<option value="fcompromiso">Compromiso</option>
+		<option value="responsable">Responsable</option>
+		<option value="proyecto">Proyecto</option>
+		<option value="ultseguimiento">Ult Seg</option>
+		<option value="proxseguimiento">Prox Seg</option>
+		<option value="observacion">observacion</option>
+	</select>
+	<select id="op2" class="hide" >   
+		<option value="$eq">Igual a</option>
+		<option value="$contains">Contiene</option>
+		<option value="$gte">Mayor o igual a</option>
+		<option value="$lte">Menor o igual a</option>
+	</select>
+	<input id="filtro2" class="hide" type="{{tipo2}}"></input>
+	<select id="select2" class="hide">
+	  <template is="dom-repeat" items="{{opts2}}">
+		<option value="{{item.op}}">{{item.op}}</option>
+	  </template>
+	</select>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	<table class="table_list" style="width:100%">
 	<thead>
@@ -150,14 +179,20 @@ is: "Task-list",
 		}
 		//else return ''
 	},
-	datef2: function(datex) {
-		if (datex) {
-			var year = datex.substring( 6, 10)
-			var month = datex.substring( 3, 5)
-			var day = datex.substring( 0, 2)
-			return year+'-'+month+'-'+day
+	logic_operator: function() {
+		if (this.$.logic.value == "-") {
+			this.$.filter2.className = "hide"
+			this.$.op2.className = "hide"
+			this.$.filtro2.className = "hide"
+			this.$.select2.className = "hide"
+		} else
+		{
+			this.$.filter2.className = ""
+			this.$.op2.className = ""
+			this.input_type(2)
+			//this.$.filtro2.className = ""
+			//this.$.select2.className = ""
 		}
-		//else return ''
 	},
 	filter: function() {
 		var name = this.$.filter.value
@@ -175,50 +210,77 @@ is: "Task-list",
 		this.filtered_data = this.data.find(filtro)
 		this.regs = this.filtered_data.length + " reg"
 	},
-	input_type: function() {
-	this.$.filtro.value = ""
-	var column = this.model.find({ "column": this.$.filter.value})
+	input_type2: function() {
+		this.input_type(2)
+	},
+	input_type: function(n) {
+	if (n!= 2)
+	{
+		this.$.filtro.value = ""
+		var column = this.model.find({ "column": this.$.filter.value})
+	} 
+	else
+	{
+		this.$.filtro2.value = ""
+		var column = this.model.find({ "column": this.$.filter2.value})
+	}
 	if (column[0].type)
 	{
-		this.$.select.className = "hide"
-		this.$.filtro.className = ""
+		var tipo = ""
 		switch(column[0].type) {
 		case "string":
-			this.tipo = "text"
+			tipo = "text"
 		break;
 		case "integer":
-			this.tipo = "number"
+			tipo = "number"
 		break;
 		case "float":
-			this.tipo = "number"
+			tipo = "number"
 		break;
 		case "date":
-			this.tipo = "date"
+			tipo = "date"
 		break;
 		default:
-			this.tipo = "text"
+			tipo = "text"
 		}
+		if (n!= 2)
+		{
+			this.$.select.className = "hide"
+			this.$.filtro.className = ""
+			this.tipo = tipo
+		} 
+		else
+		{
+			this.$.select2.className = "hide"
+			this.$.filtro2.className = ""
+			this.tipo2 = tipo
+		}	
 	}
 	else
 	{
-		this.$.select.className = ""
-		this.$.filtro.className = "hide"
-		this.opts = []
-		for (i=0; i< column[0].enum.length; i++)
-			this.push("opts", {"op": column[0].enum[i]})
+		if (n!= 2)
+		{
+			this.$.select.className = ""
+			this.$.filtro.className = "hide"
+			this.opts = []
+			for (i=0; i< column[0].enum.length; i++)
+				this.push("opts", {"op": column[0].enum[i]})
+		}
+		else
+		{
+			this.$.select2.className = ""
+			this.$.filtro2.className = "hide"
+			this.opts2 = []
+			for (i=0; i< column[0].enum.length; i++)
+				this.push("opts2", {"op": column[0].enum[i]})
+		}
 	}
  },
   display: function(e) {
 	var filtro = {"id": Number(e.toElement.offsetParent.id)}
 	var item = this.data.find(filtro)[0]
 	
-	/*item.finicio = this.datef2(item.finicio)
-	item.fcompromiso = this.datef2(item.fcompromiso)
-	item.ultseguimiento = this.datef2(item.ultseguimiento)
-	item.proxseguimiento = this.datef2(item.proxseguimiento)*/
 	this.$.Task_display_dialog.open_display_dialog(item)
-	//window.open("/Task/display/"+e.toElement.offsetParent.id)
-	//window.location.href = "/Task/display/"+e.toElement.offsetParent.id
   },
   edit: function(e) {
 	var filtro = {"id": Number(e.toElement.offsetParent.id)}
