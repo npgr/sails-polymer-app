@@ -42,6 +42,7 @@
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
+		<option value="$ne">Diferente a</option>
 		<option value="$contains">Contiene</option>
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
@@ -54,8 +55,8 @@
 	</select>
 	<select id="logic" on-change="logic_operator">
 		<option value="-">---</option>
-		<option value="and">And</option>
-		<option value="or">Or</option>
+		<option value="$and">And</option>
+		<option value="$or">Or</option>
 	</select>
 	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
 	<br>
@@ -207,7 +208,29 @@ is: "Task-list",
 		else 
 			valor[op] = this.$.select.value
 		filtro[name] = valor
-		this.filtered_data = this.data.find(filtro)
+		if (this.$.logic.value == "-")
+			this.filtered_data = this.data.find(filtro)
+		else
+		{
+			name = this.$.filter2.value
+			op = this.$.op2.value
+			valor = {}
+			var logic_op = this.$.logic.value
+			var filtro2 = {}
+			if (this.$.filtro2.getAttribute("class") != "hide")
+				if (this.$.filtro2.getAttribute("type") == "number") 
+					valor[op] = Number(this.$.filtro2.value)
+				else 
+					valor[op] = this.$.filtro2.value
+			else 
+				valor[op] = this.$.select2.value
+			filtro2[name] = valor
+			var compose_filter = {}
+			compose_filter[logic_op] = [filtro, filtro2]
+			//console.log (compose_filter)
+			this.filtered_data = this.data.find(compose_filter)
+		}
+		
 		this.regs = this.filtered_data.length + " reg"
 	},
 	input_type2: function() {
