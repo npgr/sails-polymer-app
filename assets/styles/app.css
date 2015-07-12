@@ -88,14 +88,20 @@ th {
 	display: none;
 }
 .ops {
-	width: 90px;
+	width: 40px;
 }
 .icon-op {
-	padding: 1px;
+	//padding: 1px;
+	//color: rgb(25, 100, 120);
 	color: rgb(200, 80, 25);
 }
 #btn_add {
   left: 770px;
+  top: 76;
+  position: absolute;
+}
+#btn_menu {
+  left: 820px;
   top: 76;
   position: absolute;
 }

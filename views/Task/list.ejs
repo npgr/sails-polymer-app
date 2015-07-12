@@ -10,6 +10,9 @@
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
+	<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
+	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/components/Task-new/Task-new.html">
 	<link rel="import" href="/components/Task-display/Task-display.html">
 	<link rel="import" href="/components/Task-edit/Task-edit.html">
@@ -22,6 +25,22 @@
 }
 th div {
 	display: inline;
+}
+#menu_dialog {
+	position: absolute;
+	left: 45px;
+}
+paper-item {
+	min-height: 20px;
+	line-height: 35px;
+}
+paper-dialog {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+paper-menu {
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 </style>
 <dom-module id="Task-list">
@@ -88,10 +107,23 @@ th div {
 	  </template>
 	</select>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
-	<table class="table_list" style="width:100%">
+	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
+
+	<paper-dialog id="menu_dialog"> <!-- entry-animation="scale-up-animation" exit-animation="fade-out-animation">-->
+		<!--<div on-click="display">Consultar</div>
+		<div on-click="edit">Edit</div>
+		<div on-click="delete">Borrar</div>-->
+		<paper-menu>
+			<paper-item on-click="display" style="min-height:20px;line-height:35px;">Consultar</paper-item>
+			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Editar</paper-item>
+			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>
+		</paper-menu>
+	</paper-dialog>
+	
+	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"></th>
+		<th class="ops"><paper-icon-button on-click="" icon="list"></paper-icon-button></th>
 		<th class"col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class"col_activity" on-click="sort_activity">Actividad<div id="activity_sort_d" class="hide">
@@ -130,10 +162,7 @@ th div {
 	<template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button id="{{item.id}}" on-click="item_menu" class="icon-op" icon="list"></paper-icon-button>
-			<paper-icon-button id="{{item.id}}" on-click="display" class="icon-op hide" icon="visibility"></paper-icon-button>
-			<paper-icon-button id="{{item.id}}" on-click="edit" class="icon-op hide" icon="create"></paper-icon-button>
-		  	<paper-icon-button id="{{item.id}}" on-click="delete" class="icon-op hide" icon="cancel"></paper-icon-button>
+			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<td class"col_id">{{item.id}}</td>
 		<td class"col_activity">{{item.activity}}</td>
@@ -413,19 +442,29 @@ is: "Task-list",
 		}
 	}
  },
-  display: function(e) {
-	var filtro = {"id": Number(e.toElement.offsetParent.id)}
-	var item = this.data.find(filtro)[0]
+  item_menu_toggle: function(e){
+	this.key = Number(e.toElement.offsetParent.key)
 	
+	this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+	//this.$.menu_dialog.setAttribute("style","top="+e.toElement.offsetParent.offsetTop+"px;")
+	//console.log(e.toElement.offsetParent.offsetTop)
+	this.$.menu_dialog.open()
+  },
+  display: function(e) {
+	this.$.menu_dialog.close()
+	var filtro = {"id": this.key}
+	var item = this.data.find(filtro)[0]
 	this.$.Task_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
-	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	this.$.menu_dialog.close()
+	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Task_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
-	var filtro = {"id": Number(e.toElement.offsetParent.id)}
+	this.$.menu_dialog.close()
+	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Task_delete_dialog.open_delete_dialog(item)
   },
