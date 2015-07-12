@@ -17,7 +17,7 @@
 </head>
 <style>
 .card {
-	width: 75em;
+	width: 85em;
 }
 </style>
 <dom-module id="Task-list">
@@ -88,16 +88,16 @@
 	<thead>
 	  <tr>
 		<th class="ops"></th>
-		<th class"col_id">Id</th>
-		<th class"col_activity">Actividad</th>
-		<th class"col_finicio">Inicio</th>
-		<th class"col_fcompromiso">Compromiso</th>
-		<th class"col_responsable">Responsable</th>
-		<th class"col_proyecto">Proyecto</th>
-		<th class"col_ultseguimiento">Ult Seg</th>
-		<th class"col_proxseguimiento">Prox Seg</th>
-		<th class"col_observacion">observacion</th>
-	</tr>
+		<th class"col_id" on-click="sort_id">Id</th>
+		<th class"col_activity" on-click="sort_activity">Actividad</th>
+		<th class"col_finicio" on-click="sort_finicio">Inicio</th>
+		<th class"col_fcompromiso" on-click="sort_fcompromiso">Compromiso</th>
+		<th class"col_responsable" on-click="sort_responsable">Responsable</th>
+		<th class"col_proyecto" on-click="sort_proyecto">Proyecto</th>
+		<th class"col_ultseguimiento" on-click="sort_ultseguimiento">Ult Seg</th>
+		<th class"col_proxseguimiento" on-click="sort_proxseguimiento">Prox Seg</th>
+		<th class"col_observacion" on-click="sort_observacion">observacion</th>
+	  </tr>
 	</thead>
 	<tfoot>
 	<tr>
@@ -139,6 +139,8 @@
 Polymer({
 is: "Task-list",
 	ready: function() {
+		this.cur_sort = { field: "id", isdesc: false }
+		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer"},
 				{column: "activity", type: "string"},
 				{column: "finicio", type: "date"},
@@ -199,7 +201,7 @@ is: "Task-list",
 		var name = this.$.filter.value
 		var op = this.$.op.value 
 		var valor = {}
-		var filtro = {}
+		this.cur_filter = {}
 		if (this.$.filtro.getAttribute("class") != "hide")
 			if (this.$.filtro.getAttribute("type") == "number") 
 				valor[op] = Number(this.$.filtro.value)
@@ -207,10 +209,8 @@ is: "Task-list",
 				valor[op] = this.$.filtro.value
 		else 
 			valor[op] = this.$.select.value
-		filtro[name] = valor
-		if (this.$.logic.value == "-")
-			this.filtered_data = this.data.find(filtro)
-		else
+		this.cur_filter[name] = valor
+		if (this.$.logic.value != "-")
 		{
 			name = this.$.filter2.value
 			op = this.$.op2.value
@@ -225,13 +225,48 @@ is: "Task-list",
 			else 
 				valor[op] = this.$.select2.value
 			filtro2[name] = valor
-			var compose_filter = {}
-			compose_filter[logic_op] = [filtro, filtro2]
-			//console.log (compose_filter)
-			this.filtered_data = this.data.find(compose_filter)
+			var filtro = this.cur_filter
+			this.cur_filter = {}
+			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
-		
+		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
+		this.filtered_data = this.result_set.data()
 		this.regs = this.filtered_data.length + " reg"
+	},
+	sort_id: function() {
+		this.sort("id")
+	},
+	sort_activity: function() {
+		this.sort("activity")
+	},
+	sort_finicio: function() {
+		this.sort("finicio")
+	},
+	sort_fcompromiso: function() {
+		this.sort("fcompromiso")
+	},
+	sort_responsable: function() {
+		this.sort("responsable")
+	},
+	sort_proyecto: function() {
+		this.sort("proyecto")
+	},
+	sort_ultseguimiento: function() {
+		this.sort("ultseguimiento")
+	},
+	sort_proxseguimiento: function() {
+		this.sort("proxseguimiento")
+	},
+	sort_observacion: function() {
+		this.sort("observacion")
+	},
+	sort: function(field) {
+		if (this.cur_sort.field == field)
+			this.cur_sort.isdesc = !this.cur_sort.isdesc
+		 else
+			this.cur_sort = { field: field, isdesc: false}
+		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
+		this.filtered_data = this.result_set.data()
 	},
 	input_type2: function() {
 		this.input_type(2)
