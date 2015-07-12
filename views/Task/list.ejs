@@ -6,6 +6,7 @@
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
 	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
@@ -17,7 +18,10 @@
 </head>
 <style>
 .card {
-	width: 85em;
+	width: 90em;
+}
+th div {
+	display: inline;
 }
 </style>
 <dom-module id="Task-list">
@@ -88,15 +92,24 @@
 	<thead>
 	  <tr>
 		<th class="ops"></th>
-		<th class"col_id" on-click="sort_id">Id</th>
-		<th class"col_activity" on-click="sort_activity">Actividad</th>
-		<th class"col_finicio" on-click="sort_finicio">Inicio</th>
-		<th class"col_fcompromiso" on-click="sort_fcompromiso">Compromiso</th>
-		<th class"col_responsable" on-click="sort_responsable">Responsable</th>
-		<th class"col_proyecto" on-click="sort_proyecto">Proyecto</th>
-		<th class"col_ultseguimiento" on-click="sort_ultseguimiento">Ult Seg</th>
-		<th class"col_proxseguimiento" on-click="sort_proxseguimiento">Prox Seg</th>
-		<th class"col_observacion" on-click="sort_observacion">observacion</th>
+		<th class"col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
+			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_activity" on-click="sort_activity">Actividad<div id="activity_sort_d" class="hide">
+			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_finicio" on-click="sort_finicio">Inicio<div id="finicio_sort_d" class="hide">
+			<iron-icon id="finicio_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_fcompromiso" on-click="sort_fcompromiso">Compromiso<div id="fcompromiso_sort_d" class="hide">
+			<iron-icon id="fcompromiso_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_responsable" on-click="sort_responsable">Responsable<div id="responsable_sort_d" class="hide">
+			<iron-icon id="responsable_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_proyecto" on-click="sort_proyecto">Proyecto<div id="proyecto_sort_d" class="hide">
+			<iron-icon id="proyecto_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_ultseguimiento" on-click="sort_ultseguimiento">Ult Seg<div id="ultseguimiento_sort_d" class="hide">
+			<iron-icon id="ultseguimiento_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_proxseguimiento" on-click="sort_proxseguimiento">Prox Seg<div id="proxseguimiento_sort_d" class="hide">
+			<iron-icon id="proxseguimiento_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class"col_observacion" on-click="sort_observacion">observacion<div id="observacion_sort_d" class="hide">
+			<iron-icon id="observacion_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<tfoot>
@@ -117,9 +130,10 @@
 	<template is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button id="{{item.id}}" on-click="display" class="icon-op" icon="visibility"></paper-icon-button>
-			<paper-icon-button id="{{item.id}}" on-click="edit" class="icon-op" icon="create"></paper-icon-button>
-		  	<paper-icon-button id="{{item.id}}" on-click="delete" class="icon-op" icon="cancel"></paper-icon-button>
+			<paper-icon-button id="{{item.id}}" on-click="item_menu" class="icon-op" icon="list"></paper-icon-button>
+			<paper-icon-button id="{{item.id}}" on-click="display" class="icon-op hide" icon="visibility"></paper-icon-button>
+			<paper-icon-button id="{{item.id}}" on-click="edit" class="icon-op hide" icon="create"></paper-icon-button>
+		  	<paper-icon-button id="{{item.id}}" on-click="delete" class="icon-op hide" icon="cancel"></paper-icon-button>
 		</td>
 		<td class"col_id">{{item.id}}</td>
 		<td class"col_activity">{{item.activity}}</td>
@@ -233,32 +247,97 @@ is: "Task-list",
 		this.filtered_data = this.result_set.data()
 		this.regs = this.filtered_data.length + " reg"
 	},
+	hide_sort_icons: function() {
+		this.$.id_sort_d.classList.add("hide")
+		this.$.activity_sort_d.classList.add("hide")
+		this.$.finicio_sort_d.classList.add("hide")
+		this.$.fcompromiso_sort_d.classList.add("hide")
+		this.$.responsable_sort_d.classList.add("hide")
+		this.$.proyecto_sort_d.classList.add("hide")
+		this.$.ultseguimiento_sort_d.classList.add("hide")
+		this.$.proxseguimiento_sort_d.classList.add("hide")
+		this.$.observacion_sort_d.classList.add("hide")
+	},
 	sort_id: function() {
+		this.hide_sort_icons()
 		this.sort("id")
+		if (this.cur_sort.isdesc)
+			this.$.id_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.id_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.id_sort_d.classList.remove("hide")
 	},
 	sort_activity: function() {
+		this.hide_sort_icons()
 		this.sort("activity")
+		if (this.cur_sort.isdesc)
+			this.$.activity_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.activity_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.activity_sort_d.classList.remove("hide")
 	},
 	sort_finicio: function() {
+		this.hide_sort_icons()
 		this.sort("finicio")
+		if (this.cur_sort.isdesc)
+			this.$.finicio_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.finicio_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.finicio_sort_d.classList.remove("hide")
 	},
 	sort_fcompromiso: function() {
+		this.hide_sort_icons()
 		this.sort("fcompromiso")
+		if (this.cur_sort.isdesc)
+			this.$.fcompromiso_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.fcompromiso_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.fcompromiso_sort_d.classList.remove("hide")
 	},
 	sort_responsable: function() {
+		this.hide_sort_icons()
 		this.sort("responsable")
+		if (this.cur_sort.isdesc)
+			this.$.responsable_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.responsable_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.responsable_sort_d.classList.remove("hide")
 	},
 	sort_proyecto: function() {
+		this.hide_sort_icons()
 		this.sort("proyecto")
+		if (this.cur_sort.isdesc)
+			this.$.proyecto_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.proyecto_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.proyecto_sort_d.classList.remove("hide")
 	},
 	sort_ultseguimiento: function() {
+		this.hide_sort_icons()
 		this.sort("ultseguimiento")
+		if (this.cur_sort.isdesc)
+			this.$.ultseguimiento_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.ultseguimiento_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.ultseguimiento_sort_d.classList.remove("hide")
 	},
 	sort_proxseguimiento: function() {
+		this.hide_sort_icons()
 		this.sort("proxseguimiento")
+		if (this.cur_sort.isdesc)
+			this.$.proxseguimiento_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.proxseguimiento_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.proxseguimiento_sort_d.classList.remove("hide")
 	},
 	sort_observacion: function() {
+		this.hide_sort_icons()
 		this.sort("observacion")
+		if (this.cur_sort.isdesc)
+			this.$.observacion_sort.setAttribute("icon", "arrow-drop-down")
+		 else 
+			this.$.observacion_sort.setAttribute("icon", "arrow-drop-up")
+		this.$.observacion_sort_d.classList.remove("hide")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
