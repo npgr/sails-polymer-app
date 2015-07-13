@@ -124,38 +124,38 @@ paper-menu {
 	<thead>
 	  <tr>
 		<th class="ops"><paper-icon-button on-click="" icon="list"></paper-icon-button></th>
-		<th class"col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
+		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_activity" on-click="sort_activity">Actividad<div id="activity_sort_d" class="hide">
+		<th class="col_activity" on-click="sort_activity">Actividad<div id="activity_sort_d" class="hide">
 			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_finicio" on-click="sort_finicio">Inicio<div id="finicio_sort_d" class="hide">
+		<th class="col_finicio" on-click="sort_finicio">Inicio<div id="finicio_sort_d" class="hide">
 			<iron-icon id="finicio_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_fcompromiso" on-click="sort_fcompromiso">Compromiso<div id="fcompromiso_sort_d" class="hide">
+		<th class="col_fcompromiso" on-click="sort_fcompromiso">Compromiso<div id="fcompromiso_sort_d" class="hide">
 			<iron-icon id="fcompromiso_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_responsable" on-click="sort_responsable">Responsable<div id="responsable_sort_d" class="hide">
+		<th class="col_responsable" on-click="sort_responsable">Responsable<div id="responsable_sort_d" class="hide">
 			<iron-icon id="responsable_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_proyecto" on-click="sort_proyecto">Proyecto<div id="proyecto_sort_d" class="hide">
+		<th class="col_proyecto" on-click="sort_proyecto">Proyecto<div id="proyecto_sort_d" class="hide">
 			<iron-icon id="proyecto_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_ultseguimiento" on-click="sort_ultseguimiento">Ult Seg<div id="ultseguimiento_sort_d" class="hide">
+		<th class="col_ultseguimiento" on-click="sort_ultseguimiento">Ult Seg<div id="ultseguimiento_sort_d" class="hide">
 			<iron-icon id="ultseguimiento_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_proxseguimiento" on-click="sort_proxseguimiento">Prox Seg<div id="proxseguimiento_sort_d" class="hide">
+		<th class="col_proxseguimiento" on-click="sort_proxseguimiento">Prox Seg<div id="proxseguimiento_sort_d" class="hide">
 			<iron-icon id="proxseguimiento_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class"col_observacion" on-click="sort_observacion">observacion<div id="observacion_sort_d" class="hide">
+		<th class="col_observacion" on-click="sort_observacion">observacion<div id="observacion_sort_d" class="hide">
 			<iron-icon id="observacion_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<tfoot>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td>Total</td>
-		<td><strong>{{regs}}</strong></td>
+		<td class="ops"></td>
+		<td class="col_id"></td>
+		<td class="col_activity"></td>
+		<td class="col_finicio"></td>
+		<td class="col_fcompromiso"></td>
+		<td class="col_responsable"></td>
+		<td class="col_proyecto"></td>
+		<td class="col_ultseguimiento"></td>
+		<td class="col_proxseguimiento">Total</td>
+		<td class="col_observacion"><strong>{{regs}}</strong></td>
 	</tr>
 	</tfoot>
 	<tbody>
@@ -164,15 +164,15 @@ paper-menu {
 		<td class="ops">
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
-		<td class"col_id">{{item.id}}</td>
-		<td class"col_activity">{{item.activity}}</td>
-		<td class"col_finicio">{{date_dma(item.finicio)}}</td>
-		<td class"col_fcompromiso">{{date_dma(item.fcompromiso)}}</td>
-		<td class"col_responsable">{{item.responsable}}</td>
-		<td class"col_proyecto">{{item.proyecto}}</td>
-		<td class"col_ultseguimiento">{{date_dma(item.ultseguimiento)}}</td>
-		<td class"col_proxseguimiento">{{date_dma(item.proxseguimiento)}}</td>
-		<td class"col_observacion">{{item.observacion}}</td>
+		<template is="dom-if" if="{{column.id}}"><td class="col_id">{{item.id}}</td></template>
+		<template is="dom-if" if="{{column.activity}}"><td class="col_activity">{{item.activity}}</td></template>
+		<template is="dom-if" if="{{column.finicio}}"><td class="col_finicio">{{date_dma(item.finicio)}}</td></template>
+		<template is="dom-if" if="{{column.fcompromiso}}"><td class="col_fcompromiso">{{date_dma(item.fcompromiso)}}</td></template>
+		<template is="dom-if" if="{{column.responsable}}"><td class="col_responsable">{{item.responsable}}</td></template>
+		<template is="dom-if" if="{{column.proyecto}}"><td class="col_proyecto">{{item.proyecto}}</td></template>
+		<template is="dom-if" if="{{column.ultseguimiento}}"><td class="col_ultseguimiento">{{date_dma(item.ultseguimiento)}}</td></template>
+		<template is="dom-if" if="{{column.proxseguimiento}}"><td class="col_proxseguimiento">{{date_dma(item.proxseguimiento)}}</td></template>
+		<template is="dom-if" if="{{column.observacion}}"><td class="col_observacion">{{item.observacion}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -184,18 +184,18 @@ is: "Task-list",
 	ready: function() {
 		this.cur_sort = { field: "id", isdesc: false }
 		this.cur_filter = {}
-		var _model = [{column: "id", type: "integer"},
-				{column: "activity", type: "string"},
-				{column: "finicio", type: "date"},
-				{column: "fcompromiso", type: "date"},
-				{column: "responsable", type: "string"},
-				{column: "proyecto", type: "string"},
-				{column: "ultseguimiento", type: "date"},
-				{column: "proxseguimiento", type: "date"},
-				{column: "observacion", type: "string"}
+		var _model = [{column: "id", type: "integer", display: true},
+				{column: "activity", type: "string", display: true},
+				{column: "finicio", type: "date", display: true},
+				{column: "fcompromiso", type: "date", display: true},
+				{column: "responsable", type: "string", display: true},
+				{column: "proyecto", type: "string", display: true},
+				{column: "ultseguimiento", type: "date", display: false},
+				{column: "proxseguimiento", type: "date", display: false},
+				{column: "observacion", type: "string", display: true}
 		]
 		var _data = <%- data %>
-		this.filtered_data = [{id: ""}]
+		this.filtered_data = [{id: "id", activity: "activity", finicio: "2001/1/1", fcompromiso:"2001/1/1", responsable:"resp", proyecto:"proy", ultseguimiento:"2001/1/1", proxseguimiento:"2001/1/1", observacion:"obs"}]
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
@@ -210,11 +210,29 @@ is: "Task-list",
 			_data[i].proxseguimiento = _data[i].proxseguimiento.substring(0,10)
 			this.data.insert(_data[i])
 		}
+		_data = {}
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
-		_data = {}
 		_model = {}
+		this.show_columns()
 		this.input_type()
+	},
+	show_columns: function() {
+		var column = ''
+		this.column = {}
+		var el = []
+		for (i=0; i < this.model.data.length; i++)
+		{
+			this.column[this.model.data[i].column] = this.model.data[i].display
+			column = 'col_'+ this.model.data[i].column
+			el = this.$.data_table.querySelectorAll('.'+column)
+			for (j=0; j< el.length; j++)
+				if (this.model.data[i].display)
+					el[j].classList.remove("hide")
+				else
+					el[j].classList.add("hide")
+		}
+		//console.log(this.column)
 	},
 	date_dma: function(datex) {
 		if (datex) {
