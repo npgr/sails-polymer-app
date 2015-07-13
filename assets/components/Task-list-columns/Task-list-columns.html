@@ -1,0 +1,124 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
+<dom-module id="Task-list-columns">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Mostrar Columnas</h2>
+		<form id="form">
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><select id="id">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Actividad</label></td>
+				<td><select id="activity">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="finicio">Inicio</label></td>
+				<td><select id="finicio">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
+				<td><select id="fcompromiso">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable">Responsable</label></td>
+				<td><select id="responsable">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proyecto">Proyecto</label></td>
+				<td><select id="proyecto">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
+				<td><select id="ultseguimiento">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
+				<td><select id="proxseguimiento">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><select id="observacion">
+					<option value=true>Si</option>
+					<option value=false>No</option>
+				</select></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-list-columns",
+		properties: {
+			//updated: false,
+			//column: {}
+		},
+		open_list_columns: function(column) {
+			this.updated= false,
+			this.column= {}
+			this.$.id.value = column.id
+			this.$.activity.value = column.activity
+			this.$.finicio.value = column.finicio
+			this.$.fcompromiso.value = column.fcompromiso
+			this.$.responsable.value = column.responsable
+			this.$.proyecto.value = column.proyecto
+			this.$.ultseguimiento.value = column.ultseguimiento
+			this.$.proxseguimiento.value = column.proxseguimiento
+			this.$.observacion.value = column.observacion
+			this.$.dialog.open()
+		},
+		submit_form: function() {
+			this.updated = true
+			this.column.id = (this.$.id.value == "true")
+			this.column.activity = (this.$.activity.value  == "true")
+			this.column.finicio = (this.$.finicio.value  == "true")
+			this.column.fcompromiso = (this.$.fcompromiso.value  == "true")
+			this.column.responsable = (this.$.responsable.value  == "true")
+			this.column.proyecto = (this.$.proyecto.value == "true")
+			this.column.ultseguimiento = (this.$.ultseguimiento.value  == "true")
+			this.column.proxseguimiento = (this.$.proxseguimiento.value  == "true")
+			this.column.observacion = (this.$.observacion.value  == "true")
+			this.$.dialog.close()
+			this.fire('close')
+		}
+	})
+</script>
+</dom-module>

@@ -13,11 +13,12 @@
 	<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
+	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+	<link rel="import" href="/components/Task-list-columns/Task-list-columns.html">
 	<link rel="import" href="/components/Task-new/Task-new.html">
 	<link rel="import" href="/components/Task-display/Task-display.html">
 	<link rel="import" href="/components/Task-edit/Task-edit.html">
 	<link rel="import" href="/components/Task-delete/Task-delete.html">
-	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 </head>
 <style>
 .card {
@@ -46,6 +47,7 @@ paper-menu {
 <dom-module id="Task-list">
 <template>
 	<iron-ajax id="ajax" url="/Task" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<Task-list-columns id="Task_list_columns" on-close="update_columns"></Task-list-columns>
 	<Task-new id="Task_new_dialog" on-close="reload"></Task-new>
 	<Task-display id="Task_display_dialog"></Task-display>
 	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
@@ -123,7 +125,7 @@ paper-menu {
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button on-click="" icon="list"></paper-icon-button></th>
+		<th class="ops"><paper-icon-button on-click="list_columns" icon="list"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_activity">Actividad<div id="activity_sort_d" class="hide">
@@ -159,12 +161,12 @@ paper-menu {
 	</tr>
 	</tfoot>
 	<tbody>
-	<template is="dom-repeat" items="{{filtered_data}}">
+	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
-		<template is="dom-if" if="{{column.id}}"><td class="col_id">{{item.id}}</td></template>
+		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.activity}}"><td class="col_activity">{{item.activity}}</td></template>
 		<template is="dom-if" if="{{column.finicio}}"><td class="col_finicio">{{date_dma(item.finicio)}}</td></template>
 		<template is="dom-if" if="{{column.fcompromiso}}"><td class="col_fcompromiso">{{date_dma(item.fcompromiso)}}</td></template>
@@ -180,7 +182,11 @@ paper-menu {
 </template>
 <script>
 Polymer({
-is: "Task-list",
+	is: "Task-list",
+	properties: {
+		//cur_sort: { field: "id", isdesc: false },
+		//cur_filter: {}
+	},
 	ready: function() {
 		this.cur_sort = { field: "id", isdesc: false }
 		this.cur_filter = {}
@@ -217,6 +223,17 @@ is: "Task-list",
 		this.show_columns()
 		this.input_type()
 	},
+	list_columns: function() {
+		this.$.Task_list_columns.open_list_columns(this.column)
+	},
+	update_columns: function() {
+		//console.log('columns1: ',this.column)
+		this.column = this.$.Task_list_columns.column
+		for (i=0; i < this.model.data.length; i++ )
+			this.model.data[i].display = this.column[this.model.data[i].column]
+
+		this.show_columns()
+	},
 	show_columns: function() {
 		var column = ''
 		this.column = {}
@@ -232,7 +249,7 @@ is: "Task-list",
 				else
 					el[j].classList.add("hide")
 		}
-		//console.log(this.column)
+		this.filter()
 	},
 	date_dma: function(datex) {
 		if (datex) {
@@ -291,6 +308,7 @@ is: "Task-list",
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
+		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
 		this.regs = this.filtered_data.length + " reg"
 	},
