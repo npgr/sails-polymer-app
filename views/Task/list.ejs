@@ -201,7 +201,6 @@ Polymer({
 				{column: "observacion", type: "string", display: true}
 		]
 		var _data = <%- data %>
-		this.filtered_data = [{id: "id", activity: "activity", finicio: "2001/1/1", fcompromiso:"2001/1/1", responsable:"resp", proyecto:"proy", ultseguimiento:"2001/1/1", proxseguimiento:"2001/1/1", observacion:"obs"}]
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
@@ -221,6 +220,7 @@ Polymer({
 			this.model.insert(_model[i])
 		_model = {}
 		this.show_columns()
+		this.filtered_data = [{id: "id", activity: "activity", finicio: "2001/1/1", fcompromiso:"2001/1/1", responsable:"resp", proyecto:"proy", ultseguimiento:"2001/1/1", proxseguimiento:"2001/1/1", observacion:"obs"}]
 		this.input_type()
 	},
 	list_columns: function() {
@@ -231,8 +231,15 @@ Polymer({
 		this.column = this.$.Task_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
 			this.model.data[i].display = this.column[this.model.data[i].column]
-
+			
 		this.show_columns()
+
+		// reset filter
+		this.$.filter.value = "id"
+		this.$.op.value = "$eq"
+		this.$.filtro.value = ""
+		this.$.logic.value = "-"
+		this.filter()
 	},
 	show_columns: function() {
 		var column = ''
@@ -249,7 +256,7 @@ Polymer({
 				else
 					el[j].classList.add("hide")
 		}
-		this.filter()
+		//this.filter()
 	},
 	date_dma: function(datex) {
 		if (datex) {
