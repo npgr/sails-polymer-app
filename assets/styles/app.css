@@ -96,12 +96,17 @@ th {
 	color: rgb(200, 80, 25);
 }
 #btn_add {
-  left: 770px;
-  top: 76;
   position: absolute;
+  top: 85px;
+  left: 770px;
+}
+#btn_down {
+  position: absolute;
+  top: 85px;
+  left: 830px;
 }
 #btn_menu {
-  left: 820px;
-  top: 76;
   position: absolute;
+  top: 85px;
+  left: 890px;
 }

@@ -2,6 +2,7 @@
 	<title>Listar Actividad</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
+	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -109,7 +110,10 @@ paper-menu {
 	  </template>
 	</select>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
+	
+	<a href="{{download_data}}" id="link" download="data.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> <!-- entry-animation="scale-up-animation" exit-animation="fade-out-animation">-->
 		<!--<div on-click="display">Consultar</div>
@@ -125,7 +129,7 @@ paper-menu {
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button on-click="list_columns" icon="list"></paper-icon-button></th>
+		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_activity">Actividad<div id="activity_sort_d" class="hide">
@@ -233,7 +237,6 @@ Polymer({
 			this.model.data[i].display = this.column[this.model.data[i].column]
 			
 		this.show_columns()
-
 		// reset filter
 		this.$.filter.value = "id"
 		this.$.op.value = "$eq"
@@ -484,15 +487,31 @@ Polymer({
 				this.push("opts2", {"op": column[0].enum[i]})
 		}
 	}
- },
-  item_menu_toggle: function(e){
-	this.key = Number(e.toElement.offsetParent.key)
+	},
+	menu: function() {
+		
+	},
+	download: function() {
+		var x2js = new X2JS();
+		dato = { "data": this.data.data }
+		console.log("data json: ", dato)
+		var xml_data = x2js.json2xml_str(dato)
+		console.log("data xml: ", xml_data)
+		
+		//this.download_data = 'data:text/plain;charset=utf-8,'+xml_data
+		this.download_data = 'data:application/xml;charset=utf-8,'+xml_data
+		
+		this.$.link.click()
+		
+	},
+	item_menu_toggle: function(e){
+		this.key = Number(e.toElement.offsetParent.key)
 	
-	this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-	//this.$.menu_dialog.setAttribute("style","top="+e.toElement.offsetParent.offsetTop+"px;")
-	//console.log(e.toElement.offsetParent.offsetTop)
-	this.$.menu_dialog.open()
-  },
+		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+		//this.$.menu_dialog.setAttribute("style","top="+e.toElement.offsetParent.offsetTop+"px;")
+		//console.log(e.toElement.offsetParent.offsetTop)
+		this.$.menu_dialog.open()
+	},
   display: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
