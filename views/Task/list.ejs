@@ -32,6 +32,9 @@ th div {
 	position: absolute;
 	left: 45px;
 }
+#link {
+	display: none;
+}
 paper-item {
 	min-height: 20px;
 	line-height: 35px;
@@ -113,7 +116,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 	
-	<a href="{{download_data}}" id="link" download="data.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" download="datos.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> <!-- entry-animation="scale-up-animation" exit-animation="fade-out-animation">-->
 		<!--<div on-click="display">Consultar</div>
@@ -242,6 +245,7 @@ Polymer({
 		this.$.op.value = "$eq"
 		this.$.filtro.value = ""
 		this.$.logic.value = "-"
+		this.logic_operator()
 		this.filter()
 	},
 	show_columns: function() {
@@ -493,11 +497,19 @@ Polymer({
 	},
 	download: function() {
 		var x2js = new X2JS();
-		dato = { "data": this.data.data }
-		console.log("data json: ", dato)
+		var datoi = this.data.data
+		for (i=0; i<datoi.length; i++)
+		{
+			delete datoi[i].$loki
+			delete datoi[i].meta
+			delete datoi[i].createdAt
+			delete datoi[i].updatedAt
+		}
+		var dato = { "data": datoi }
+		//console.log("data json: ", dato)
 		var xml_data = x2js.json2xml_str(dato)
-		console.log("data xml: ", xml_data)
-		
+		//console.log("data xml: ", xml_data)
+		xml_data = "<x>"+xml_data+"</x>"
 		//this.download_data = 'data:text/plain;charset=utf-8,'+xml_data
 		this.download_data = 'data:application/xml;charset=utf-8,'+xml_data
 		
