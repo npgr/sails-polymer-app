@@ -1,0 +1,124 @@
+<dom-module id="Task-new">
+<template>
+	<iron-ajax id="ajax"  handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" url="/Task" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Crear Actividad</h2>
+		<form id="form" action="javascript:void(0);" on-submit="create">
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">id</label></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">activity<strong class="red"> *</strong></label></td>
+				<td><input id="activity" type="text" name="activity" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="finicio">finicio</label></td>
+				<td><input id="finicio" type="date" name="finicio"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso">fcompromiso</label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable">responsable</label></td>
+				<td><input id="responsable" type="text" name="responsable"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proyecto">proyecto</label></td>
+				<td><input id="proyecto" type="text" name="proyecto"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento">ultseguimiento</label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento">proxseguimiento</label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><input id="observacion" type="text" name="observacion"></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+			<div class="buttons">
+				<input id="submit_btn" class="hide" type="submit" value="CREAR">
+				<div class="card_line">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+				</div>
+			</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-new",
+		open_dialog: function() {
+			this.clear()
+			this.$.dialog.open()
+		},
+		clear: function() {
+			this.$.id.value = ''
+			this.$.activity.value = ''
+			this.$.finicio.value = ''
+			this.$.fcompromiso.value = ''
+			this.$.responsable.value = ''
+			this.$.proyecto.value = ''
+			this.$.ultseguimiento.value = ''
+			this.$.proxseguimiento.value = ''
+			this.$.observacion.value = ''
+		},
+		create: function() {
+			var record = {}
+			  record.activity = this.$.activity.value
+			if (this.$.finicio.value)
+			  record.finicio = this.$.finicio.value
+			if (this.$.fcompromiso.value)
+			  record.fcompromiso = this.$.fcompromiso.value
+			  record.responsable = this.$.responsable.value
+			  record.proyecto = this.$.proyecto.value
+			if (this.$.ultseguimiento.value)
+			  record.ultseguimiento = this.$.ultseguimiento.value
+			if (this.$.proxseguimiento.value)
+			  record.proxseguimiento = this.$.proxseguimiento.value
+			  record.observacion = this.$.observacion.value			
+			this.$.ajax2.params = record
+			this.$.ajax2.generateRequest()
+		},
+		record_created: function() {
+			//console.log(this.$.ajax2.lastResponse)
+			alert("Created Actividad id="+this.$.ajax2.lastResponse.id)
+			// ask for create another one
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		submit_form: function() {
+			if (!isNaN(this.$.id.value))
+			{
+				if (this.$.id.value > 0)
+				{
+					this.$.ajax.url = "/Task/exist/"+this.$.id.value
+					this.$.ajax.generateRequest()
+				}
+				else this.$.submit_btn.click()
+			} else
+				this.$.submit_btn.click()
+		},
+		validate_record: function() {
+			if (this.$.ajax.lastResponse.exist)
+				alert("Registro ya Existe")
+			else
+				this.$.submit_btn.click()
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>

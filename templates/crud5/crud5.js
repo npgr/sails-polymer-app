@@ -29,7 +29,7 @@ function generate_controller(key) {
 				
 	fs.writeFile('templates/crud5/controller.js', controller, function (err) {
 			if (err) console.log(err);
-			console.log('Created file templates/controller.js')
+			console.log('Created file templates/crud5/controller.js')
 		})
 }
 

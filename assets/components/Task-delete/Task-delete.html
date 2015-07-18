@@ -1,0 +1,81 @@
+<dom-module id="Task-delete">
+<template>
+	<iron-ajax id="ajax" url='/Task/' method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Borrar Actividad</h2>
+		<form id="form" action="javascript:void(0);" on-submit="delete">
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">activity</label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="finicio">finicio</label></td>
+				<td><input id="finicio" type="date" name="finicio" value="{{item.finicio}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso">fcompromiso</label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable">responsable</label></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proyecto">proyecto</label></td>
+				<td><input id="proyecto" type="text" name="proyecto" value="{{item.proyecto}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento">ultseguimiento</label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento">proxseguimiento</label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
+			<div class="card_line">
+				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised>BORRAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-delete",
+		open_delete_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			},
+		form_submit: function() {
+			this.$.submit_delete.click()
+		},
+		delete: function() {
+			this.$.ajax.url = '/Task/'+this.item.id
+			this.$.ajax.generateRequest()
+		},
+		record_deleted: function() {
+			alert("record deleted")
+			this.$.dialog.close()
+			this.fire('close')
+		}
+	})
+</script>
+</dom-module>

@@ -1,25 +1,25 @@
 <head>
 	<title>Listar <%= title%></title>
-	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
-	<script src="js/lokijs/src/lokijs.js"></script>
-	<script src="js/x2js-v1.1.5/xml2json.min.js"></script>
-	<link rel="stylesheet" href="styles/app.css">
-	<link rel="import" href="bower_components/paper-material/paper-material.html">
-	<link rel="import" href="bower_components/paper-input/paper-input.html">
-	<link rel="import" href="bower_components/paper-fab/paper-fab.html">
-	<link rel="import" href="bower_components/iron-icon/iron-icon.html">
-	<link rel="import" href="bower_components/iron-icons/iron-icons.html">
-	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-	<link rel="import" href="bower_components/paper-button/paper-button.html">
-	<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
-	<link rel="import" href="bower_components/paper-menu/paper-menu.html">
-	<link rel="import" href="bower_components/paper-item/paper-item.html">
-	<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
-	<link rel="import" href="components/<%= model%>-list-columns/<%= model%>-list-columns.html">
-	<link rel="import" href="components/<%= model%>-new/<%= model%>-new.html">
-	<link rel="import" href="components/<%= model%>-display/<%= model%>-display.html">
-	<link rel="import" href="components/<%= model%>-edit/<%= model%>-edit.html">
-	<link rel="import" href="components/<%= model%>-delete/<%= model%>-delete.html">
+	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script src="/js/lokijs/src/lokijs.js"></script>
+	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
+	<link rel="stylesheet" href="/styles/app.css">
+	<link rel="import" href="/bower_components/paper-material/paper-material.html">
+	<link rel="import" href="/bower_components/paper-input/paper-input.html">
+	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+	<link rel="import" href="/bower_components/paper-button/paper-button.html">
+	<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
+	<link rel="import" href="/bower_components/paper-item/paper-item.html">
+	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+	<link rel="import" href="/components/<%= model%>-list-columns/<%= model%>-list-columns.html">
+	<link rel="import" href="/components/<%= model%>-new/<%= model%>-new.html">
+	<link rel="import" href="/components/<%= model%>-display/<%= model%>-display.html">
+	<link rel="import" href="/components/<%= model%>-edit/<%= model%>-edit.html">
+	<link rel="import" href="/components/<%= model%>-delete/<%= model%>-delete.html">
 	<!-- Forms imports -->
 	<%= import_form %>
 </head>
@@ -117,11 +117,10 @@ paper-menu {
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
-		<th class="ops"></th><% 
+		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th><% 
 		for (i=0; i < keys.length; i++) { 
 			if (jsondata[keys[i]].line_r) {%>
-		<th class="col_<%= keys[i]%>"><%= jsondata[keys[i]].description%><div id="<%= keys[i]%>_sort_d" class="hide">
+		<th class="col_<%= keys[i]%>" on-click="sort_<%= keys[i]%>"><%= jsondata[keys[i]].description%><div id="<%= keys[i]%>_sort_d" class="hide">
 			<iron-icon id="<%= keys[i]%>_sort" icon="arrow-drop-up"></iron-icon></div></th><% 
 		} }%>
 	  </tr>
@@ -129,12 +128,17 @@ paper-menu {
 	<tfoot>
 	<tr>
 		<td class="ops"></td><%
-	  for (i=0; i < keys.length-1; i++) { 
-			if (jsondata[keys[i]].line_r) {%>
-		<td class="col_<%= keys[i]%>"></td>
-		<% } }%>
-		<td class="col_<%= keys[keys.length-1]%>">Total</td>
-		<td class="col_<%= keys[keys.length]%>"><strong>{{regs}}</strong></td>
+	  for (i=0; i < keys.length; i++) { 
+		 if (jsondata[keys[i]].line_r) {
+		  if (i==keys.length-1) {%>
+		<td class="col_<%= keys[i]%>"><strong>{{regs}}</strong></td><% 
+		} 
+		  if (i==keys.length-2) {%>
+		<td class="col_<%= keys[i]%>">Total</td><%
+		}
+		  if (i<keys.length-2) {%>
+		<td class="col_<%= keys[i]%>"></td><% 
+		} } }%>
 	</tr>
 	</tfoot>
 	<tbody>
@@ -142,7 +146,7 @@ paper-menu {
 	<tr>
 		<td class="ops">
 			<paper-icon-button key="{{item.<%= key.name %>}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
-		</td>
+		</td><%
 		for (i=0; i < keys.length; i++) { 
 			if (jsondata[keys[i]].line_r) {%>
 		<template is="dom-if" if="{{column.<%= keys[i]%>}}"><td>{{<% 
@@ -172,23 +176,24 @@ Polymer({
 		this.cur_sort = { field: "<%= key.name %>", isdesc: false }
 		this.cur_filter = {}
 		var _model = [<%= attrs%>		]
-		var _data = <%- data %>
+		var _data = >%- data %<
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
 		for (i=0; i< _data.length ; i++){<% 
-		  for (j=0; j<keys[j].length; j++ ) {
-			if (jsondata[i].type == "date") {%>
-		  if(_data[i].<%= keys[i]%>)
-		    _data[i].<%= keys[i]%> = _data[i].<%= keys[i]%>.substring(0,10)<%
+		  for (j=0; j<keys.length; j++ ) {
+			if (jsondata[keys[j]].type == "date") {%>
+		  if(_data[i].<%= keys[j]%>)
+		    _data[i].<%= keys[j]%> = _data[i].<%= keys[j]%>.substring(0,10)<%
 		} }%>
+			this.data.insert(_data[i])
 		}
 		_data = {}
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
 		this.show_columns()
-		this.filtered_data = [{<%= key%>: ""}]
+		this.filtered_data = [{<%= key.name%>: ""}]
 		this.input_type()
 	},
 	list_columns: function() {
@@ -202,7 +207,7 @@ Polymer({
 			
 		this.show_columns()
 		// reset filter
-		this.$.filter.value = "<%= key%>"
+		this.$.filter.value = "<%= key.name%>"
 		this.$.op.value = "$eq"
 		this.$.filtro.value = ""
 		this.$.logic.value = "-"
@@ -287,9 +292,10 @@ Polymer({
 		this.regs = this.filtered_data.length + " reg"
 	},
 	hide_sort_icons: function() {<%
-		for (i=0; i<keys.length; i++) {%>
+		for (i=0; i<keys.length; i++) {
+		  if (jsondata[keys[i]].line_r) {%>
 		this.$.<%= keys[i]%>_sort_d.classList.add("hide")<%
-		}%>
+		} }%>
 	},
 	sort_by_field: function(field)
 	{
@@ -301,11 +307,12 @@ Polymer({
 			this.$[field+"_sort"].setAttribute("icon", "arrow-drop-up")
 		this.$[field+"_sort_d"].classList.remove("hide")	
 	},<%
-	for (i=0; i<keys.length; i++) {%>
+	for (i=0; i<keys.length; i++) {
+	  if (jsondata[keys[i]].line_r) {%>
 	sort_<%= keys[i]%>: function() {
 		this.sort_by_field("<%= keys[i]%>")
 	},<%
-	}%>
+	} }%>
 	sort: function(field) {
 		if (this.cur_sort.field == field)
 			this.cur_sort.isdesc = !this.cur_sort.isdesc
@@ -407,19 +414,19 @@ Polymer({
 	},
   display: function(e) {
 	this.$.menu_dialog.close()
-	var filtro = {"<%= key %>": this.key}
+	var filtro = {"<%= key.name %>": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
 	this.$.menu_dialog.close()
-	var filtro = {"<%= key %>": this.key}
+	var filtro = {"<%= key.name %>": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
 	this.$.menu_dialog.close()
-	var filtro = {"<%= key %>": this.key}
+	var filtro = {"<%= key.name %>": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_delete_dialog.open_delete_dialog(item)
   },
