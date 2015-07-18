@@ -81,15 +81,14 @@ th {
 	text-align: right;
 	padding: 8px 0px;
 }
-.card {
-	width: 60em;
-}
-.hide {
-	display: none;
-}
-.ops {
-	width: 40px;
-}
+.card {	width: 60em;}
+
+.hide {	display: none; }
+
+.ops {	width: 40px; }
+
+.red { color: red }
+
 .icon-op {
 	//padding: 1px;
 	//color: rgb(25, 100, 120);
@@ -110,3 +109,4 @@ th {
   top: 78px;
   left: 890px;
 }
+

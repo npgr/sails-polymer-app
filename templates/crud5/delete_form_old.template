@@ -1,0 +1,56 @@
+<%= import_form %>
+<dom-module id="<%= model%>-delete">
+<template>
+	<iron-ajax id="ajax" url='/<%= model%>/' method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Borrar <%= title%></h2>
+		<form id="form" action="javascript:void(0);" on-submit="delete">
+			<paper-dialog-scrollable>
+			<div vertical layout><% 
+			  for (i=0; i < keys.length; i++) { 
+				if (jsondata[keys[i]].line_d) {%>
+				<div class="card_line">
+					<label class="left_label" for="<%= keys[i]%>"><%= jsondata[keys[i]].description%></label>
+					<%= jsondata[keys[i]].line_d %>
+				</div><% } }%>
+			</div>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
+			<div class="card_line">
+				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised>BORRAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "<%= model%>-delete",
+		open_delete_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			<%for (i=0; i < keys.length; i++) {
+				if (jsondata[keys[i]].enum) {
+			%>this.$.<%= keys[i]%>.value = item.<%= keys[i]%>
+			<%} }
+		%>},
+		form_submit: function() {
+			this.$.submit_delete.click()
+		},
+		delete: function() {
+			this.$.ajax.url = '/<%= model%>/'+this.item.<%= key.name%>
+			this.$.ajax.generateRequest()
+		},
+		record_deleted: function() {
+			alert("record deleted")
+			this.$.dialog.close()
+			this.fire('close')
+		}
+	})
+</script>
+</dom-module>

@@ -1,5 +1,5 @@
 <head>
-	<title>Listar Actividad</title>
+	<title>Listar Actividad v2</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
@@ -337,7 +337,20 @@ Polymer({
 		this.$.proxseguimiento_sort_d.classList.add("hide")
 		this.$.observacion_sort_d.classList.add("hide")
 	},
+	sort_by_field: function(field)
+	{
+		this.hide_sort_icons()
+		this.sort(field)
+		if (this.cur_sort.isdesc)
+			this.$[field+"_sort"].setAttribute("icon", "arrow-drop-down")
+		  else
+			this.$[field+"_sort"].setAttribute("icon", "arrow-drop-up")
+		this.$[field+"_sort_d"].classList.remove("hide")	
+	},
 	sort_id: function() {
+		this.sort_by_field("id")
+	},
+	/*sort_id: function() {
 		this.hide_sort_icons()
 		this.sort("id")
 		if (this.cur_sort.isdesc)
@@ -345,7 +358,7 @@ Polymer({
 		 else 
 			this.$.id_sort.setAttribute("icon", "arrow-drop-up")
 		this.$.id_sort_d.classList.remove("hide")
-	},
+	},*/
 	sort_activity: function() {
 		this.hide_sort_icons()
 		this.sort("activity")

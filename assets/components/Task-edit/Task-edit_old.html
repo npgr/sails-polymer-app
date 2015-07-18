@@ -1,0 +1,97 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
+<dom-module id="Task-edit">
+<template>
+	<iron-ajax id="ajax" url='/Task/' method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Editar Actividad</h2>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<paper-dialog-scrollable>
+			<div vertical layout>
+				<div class="card_line">
+					<label class="left_label" for="id">Id</label>
+					<input id="id" type="number" name="id" value="{{item.id}}" disabled>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="activity">Actividad</label>
+					<input id="activity" type="text" name="activity" value="{{item.activity}}" required>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="finicio">Inicio</label>
+					<input id="finicio" type="date" name="finicio" value="{{item.finicio}}">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="fcompromiso">Compromiso</label>
+					<input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="responsable">Responsable</label>
+					<input id="responsable" type="text" name="responsable" value="{{item.responsable}}">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="proyecto">Proyecto</label>
+					<input id="proyecto" type="text" name="proyecto" value="{{item.proyecto}}">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="ultseguimiento">Ult Seg</label>
+					<input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="proxseguimiento">Prox Seg</label>
+					<input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="observacion">observacion</label>
+					<input id="observacion" type="text" name="observacion" value="{{item.observacion}}">
+				</div>
+			</div>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.id = Number(this.$.id.value)
+			record.activity = this.$.activity.value
+			record.finicio = this.$.finicio.value
+			record.fcompromiso = this.$.fcompromiso.value
+			record.responsable = this.$.responsable.value
+			record.proyecto = this.$.proyecto.value
+			record.ultseguimiento = this.$.ultseguimiento.value
+			record.proxseguimiento = this.$.proxseguimiento.value
+			record.observacion = this.$.observacion.value		
+			this.$.ajax.url = '/Task/'+record.id
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("record updated")
+			this.$.dialog.close()
+			this.fire('close')
+		}
+	})
+</script>
+</dom-module>

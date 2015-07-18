@@ -1,11 +1,12 @@
 //var colors = require('colors');
 var fs = require('fs')
 var jsonic = require('jsonic')
-var format = require('string-template')
+//var format = require('string-template')
 var crud1 = require('./templates/crud1')
 var crud2 = require('./templates/crud2')
 var crud3 = require('./templates/crud3')
 var crud4 = require('./templates/crud4')
+var crud5 = require('./templates/crud5/crud5')
 
 option = process.argv[2]
 
@@ -25,6 +26,8 @@ switch(option) {
         break;
 	case 'crud4':
 		crud(4)
+	case 'crud5':
+		crud(5)
     default:
         console.log('arguments for this commando are: ')
 }
@@ -84,6 +87,9 @@ function crud(n)
 			case 4:
 				// using lodash templates
 				crud4.generate('crud')
+			case 5:
+				// complex filter + date fields + select columns + item menu + download data
+				crud5.generate('crud')
 		  }  
 	})
 }
