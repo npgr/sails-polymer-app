@@ -1,7 +1,7 @@
 <head>
 	<title>Listar <%= title%></title>
 	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
-	<script src="bower_components/lokijs/src/lokijs.js"></script>
+	<script src="js/lokijs/src/lokijs.js"></script>
 	<script src="js/x2js-v1.1.5/xml2json.min.js"></script>
 	<link rel="stylesheet" href="styles/app.css">
 	<link rel="import" href="bower_components/paper-material/paper-material.html">
