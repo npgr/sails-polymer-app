@@ -18,43 +18,14 @@
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Mostrar <%= title%></h2>
 			<paper-dialog-scrollable>
-			<table class="table_dialog" style="width:100%">
+			<table class="table_dialog" style="width:100%"><%
+			for (i=0; i < keys.length; i++) { 
+			  if (keys[i].substring(0,1) != "_")  {%>
 			<tr>
-				<td><label class="left_label" for="id">Id</label></td>
-				<td><div id="id" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="activity">Actividad</label></td>
-				<td><div id="activity" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="finicio">Inicio</label></td>
-				<td><div id="finicio" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
-				<td><div id="fcompromiso" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="responsable">Responsable</label></td>
-				<td><div id="responsable" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="proyecto">Proyecto</label></td>
-				<td><div id="proyecto" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
-				<td><div id="ultseguimiento" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
-				<td><div id="proxseguimiento" on-click="change_field"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="observacion">observacion</label></td>
-				<td><div id="observacion" on-click="change_field"></td>
-			</tr>
+				<td><label class="left_label" for="<%= keys[i]%>"><%= jsondata[keys[i]].description%></label></td>
+				<td><div id="<%= keys[i]%>" on-click="change_field"></div></td>
+			</tr><%
+			} }%>
 			</table>
 			</paper-dialog-scrollable>
 		<div class="buttons">
@@ -74,16 +45,11 @@
 		},
 		open_list_columns: function(column) {
 			this.updated= false,
-			this.column= column
-			this.show_field("id")
-			this.show_field("activity")
-			this.show_field("finicio")
-			this.show_field("fcompromiso")
-			this.show_field("responsable")
-			this.show_field("proyecto")
-			this.show_field("ultseguimiento")
-			this.show_field("proxseguimiento")
-			this.show_field("observacion")
+			this.column= column<%
+			for (i=0; i < keys.length; i++) { 
+			  if (keys[i].substring(0,1) != "_")  {%>
+			this.show_field("<%= keys[i]%>")<%
+			} }%>
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

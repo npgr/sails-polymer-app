@@ -1,3 +1,9 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
+
 <dom-module id="Product-new">
 <template>
 	<iron-ajax id="ajax"  handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
@@ -6,32 +12,32 @@
 		<h2 class="card_title">Crear Producto</h2>
 		<form id="form" action="javascript:void(0);" on-submit="create">
 			<paper-dialog-scrollable>
-			<table class="table_dialog" style="width:100%">
-			<tr>
-				<td><label class="left_label" for="id">Id</label></td>
-				<td><input id="id" type="number" name="id" min=1 max=999999 disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="name">Nombre<strong class="red"> *</strong></label></td>
-				<td><input id="name" type="text" name="name" required></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="stock">Existencia</label></td>
-				<td><input id="stock" type="number" name="stock"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="price">Precio</label></td>
-				<td><input id="price" type="float" name="price"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="status">Status</label></td>
-				<td><select id="status" name="status">
+			<div vertical layout>
+				<div class="card_line">
+					<label class="left_label" for="id">Id</label>
+					<input id="id" type="number" name="id" min=1 max=999999 disabled>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="name">Nombre</label>
+					<input id="name" type="text" name="name" required>
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="stock">Existencia</label>
+					<input id="stock" type="number" name="stock">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="price">Precio</label>
+					<input id="price" type="text" name="price">
+				</div>
+				<div class="card_line">
+					<label class="left_label" for="status">Status</label>
+					<select id="status" name="status">
 						<option value="A">Activo</option>
 						<option value="B">Bloqueado</option>
 						<option value="I">Inactivo</option>
-					</select></td>
-			</tr>
-			</table>
+					</select>
+				</div>
+			 </div>
 			</paper-dialog-scrollable>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
@@ -58,10 +64,10 @@
 		},
 		create: function() {
 			var record = {}
-			  record.name = this.$.name.value
+			record.name = this.$.name.value
 			record.stock = Number(this.$.stock.value)
 			record.price = Number(this.$.price.value)
-			  record.status = this.$.status.value			
+			record.status = this.$.status.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
 		},

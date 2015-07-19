@@ -11,7 +11,7 @@ function getInputType(type) {
 			return 'number'
 			break
 		case 'float':
-			return 'number'
+			return 'float'
 			break
 		case 'date':
 			return 'date'
@@ -185,21 +185,6 @@ function generate_edit_form(keys, key, title, IMPORT_FORM) {
 		})
 }
 
-function generate_edit_form(keys, key, title, IMPORT_FORM) {
-	var EDIT_FORM_TEMPLATE = fs.readFileSync('./templates/crud5/edit-form.template', 'utf8');
-	var compiled_Edit_Form = _.template(EDIT_FORM_TEMPLATE)
-	
-	var edit_form = compiled_Edit_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
-	// Create Folder if not exist
-	if (!fs.existsSync('assets/components/'+model+'-edit'))
-			fs.mkdirSync('assets/components/'+model+'-edit')	
-
-	fs.writeFile('assets/components/'+model+'-edit/'+model+'-edit.html', edit_form, function (err) {
-			if (err) console.log(err);
-			console.log('Created file assets/components/'+model+'-edit/'+model+'-edit.html')
-		})
-}
-
 function generate_list_columns(keys, title) {
 	var LIST_COLUMNS_TEMPLATE = fs.readFileSync('./templates/crud5/list-columns.template', 'utf8');
 	var compiled_List_Columns = _.template(LIST_COLUMNS_TEMPLATE)
@@ -229,7 +214,7 @@ function generate_list_page(keys, key, title, IMPORT_FORM) {
 			 attrs += '\t\t\t\t'
 		   else	first = false
 		  if (jsondata[keys[i]].enum)
-			attrs += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+', display: true}'
+			attrs += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+', enumdes: '+JSON.stringify(jsondata[keys[i]].enumdes)+', display: true}'
 		  else
 			attrs += '{column: "'+keys[i]+'", type: "'+jsondata[keys[i]].type+'", display: true}'
 		  if (i < keys.length-1)
