@@ -516,6 +516,7 @@ Polymer({
 		this.$.ajax.lastResponse[i].ultseguimiento = this.$.ajax.lastResponse[i].ultseguimiento.substring(0,10)
 	  if (this.$.ajax.lastResponse[i].proxseguimiento)
 		this.$.ajax.lastResponse[i].proxseguimiento = this.$.ajax.lastResponse[i].proxseguimiento.substring(0,10)
+		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
   },

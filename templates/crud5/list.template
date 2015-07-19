@@ -446,6 +446,7 @@ Polymer({
 	  if (this.$.ajax.lastResponse[i].<%= keys[i]%>)
 		this.$.ajax.lastResponse[i].<%= keys[i]%> = this.$.ajax.lastResponse[i].<%= keys[i]%>.substring(0,10)<% 
 		} }%>
+		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
   },

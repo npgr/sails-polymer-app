@@ -45,12 +45,18 @@
 		update: function() {
 			var record = {}<%
 			for (i=0; i < keys.length; i++) { 
-				if (keys[i].substring(0,1) != "_")  {
-				  if (jsondata[keys[i]].type === "string" || jsondata[keys[i]].type === "date") {%>
+			  if (keys[i].substring(0,1) != "_")  {
+				switch(jsondata[keys[i]].type) {
+				  case "string":%>
 			record.<%= keys[i]%> = this.$.<%= keys[i]%>.value<%
-				} else { %>
-			record.<%= keys[i]%> = Number(this.$.<%= keys[i]%>.value)<% 
-			} } }%>		
+					break
+				  case "date":%>
+			if (this.$.<%= keys[i]%>.value)
+				record.<%= keys[i]%> = this.$.<%= keys[i]%>.value<%
+					break
+				  default:%>
+			record.<%= keys[i]%> = Number(this.$.<%= keys[i]%>.value)<% 		
+			}}}%>		
 			this.$.ajax.url = '/<%= model%>/'+record.<%= key.name%>
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()

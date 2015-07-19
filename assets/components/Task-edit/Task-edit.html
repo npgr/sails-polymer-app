@@ -71,12 +71,16 @@
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.activity = this.$.activity.value
-			record.finicio = this.$.finicio.value
-			record.fcompromiso = this.$.fcompromiso.value
+			if (this.$.finicio.value)
+				record.finicio = this.$.finicio.value
+			if (this.$.fcompromiso.value)
+				record.fcompromiso = this.$.fcompromiso.value
 			record.responsable = this.$.responsable.value
 			record.proyecto = this.$.proyecto.value
-			record.ultseguimiento = this.$.ultseguimiento.value
-			record.proxseguimiento = this.$.proxseguimiento.value
+			if (this.$.ultseguimiento.value)
+				record.ultseguimiento = this.$.ultseguimiento.value
+			if (this.$.proxseguimiento.value)
+				record.proxseguimiento = this.$.proxseguimiento.value
 			record.observacion = this.$.observacion.value		
 			this.$.ajax.url = '/Task/'+record.id
 			this.$.ajax.params = record
