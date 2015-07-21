@@ -460,8 +460,7 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
-		<!-- AQUI -->
-		this.$.ajax.lastResponse[i].status_des = this.enums.status[this.$.ajax.lastResponse[i].status]
+		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
