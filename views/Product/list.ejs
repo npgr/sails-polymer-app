@@ -97,6 +97,7 @@ paper-menu {
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
+		<option value="$ne">Diferente a</option>
 		<option value="$contains">Contiene</option>
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
@@ -156,7 +157,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 		<template is="dom-if" if="{{column.stock}}"><td>{{item.stock}}</td></template>
 		<template is="dom-if" if="{{column.price}}"><td>{{item.price}}</td></template>
-		<template is="dom-if" if="{{column.status}}"><td>{{item.status}}</td></template>
+		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -177,7 +178,7 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.cur_sort = { field: "id", isdesc: false }
+		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "name", type: "string", display: true},
@@ -185,11 +186,14 @@ Polymer({
 				{column: "price", type: "float", display: true},
 				{column: "status", enum: ["A","B","I"], enumdes: ["Activo","Bloqueado","Inactivo"], display: true}
 		]
+		this.enums = {}
+		this.enums.status = {A:"Activo",B:"Bloqueado",I:"Inactivo"}
 		var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data")
 		this.model = db.addCollection("model")
 		for (i=0; i< _data.length ; i++){
+			_data[i].status_des= this.enums.status[_data[i].status]
 			this.data.insert(_data[i])
 		}
 		_data = {}
@@ -456,6 +460,8 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
+		<!-- AQUI -->
+		this.$.ajax.lastResponse[i].status_des = this.enums.status[this.$.ajax.lastResponse[i].status]
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
