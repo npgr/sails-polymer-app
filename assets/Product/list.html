@@ -69,7 +69,7 @@ paper-menu {
 	<select id="filter" on-change="input_type">
 		<option value="id">Id</option>
 		<option value="name">Nombre</option>
-		<option value="Categoria.name">Categoria</option>
+		<option value="Categoria_name">Categoria</option>
 		<option value="stock">Existencia</option>
 		<option value="price">Precio</option>
 		<option value="status">Status</option>
@@ -97,7 +97,7 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id">Id</option>
 		<option value="name">Nombre</option>
-		<option value="Categoria.name">Categoria</option>
+		<option value="Categoria_name">Categoria</option>
 		<option value="stock">Existencia</option>
 		<option value="price">Precio</option>
 		<option value="status">Status</option>
@@ -136,8 +136,8 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_name" on-click="sort_name">Nombre<div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_categoria" on-click="sort_name">Categoria<div id="categoria_sort_d" class="hide">
-			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_Categoria_name" on-click="sort_Categoria_name">Categoria<div id="Categoria_name_sort_d" class="hide">
+			<iron-icon id="Categoria_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_stock" on-click="sort_stock">Existencia<div id="stock_sort_d" class="hide">
 			<iron-icon id="stock_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_price" on-click="sort_price">Precio<div id="price_sort_d" class="hide">
@@ -151,7 +151,7 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_name"></td>
-		<td class="col_categoria"></td>
+		<td class="col_Categoria_name"></td>
 		<td class="col_stock"></td>
 		<td class="col_price">Total</td>
 		<td class="col_status"><strong>{{regs}}</strong></td>
@@ -165,7 +165,7 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
-		<template is="dom-if" if="{{column.Categoria}}"><td>{{item.Categoria.name}}</td></template>
+		<template is="dom-if" if="{{column.Categoria_name}}"><td>{{item.Categoria_name}}</td></template>
 		<template is="dom-if" if="{{column.stock}}"><td>{{item.stock}}</td></template>
 		<template is="dom-if" if="{{column.price}}"><td>{{item.price}}</td></template>
 		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
@@ -194,8 +194,9 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "name", type: "string", display: true},
-				{column: "Categoria", type: "string", display: true},  // Para columnas, unificar
-				{column: "Categoria.name", type: "string", model: "Category", display: false}, // Para filtro
+				//{column: "Categoria", type: "string", display: true},  // Para columnas, unificar
+				{column: "Categoria_id", type: "integer", model: "Category", display: false},
+				{column: "Categoria_name", type: "string", model: "Category", display: true}, // Para filtro
 				{column: "stock", type: "integer", display: true},
 				{column: "price", type: "float", display: true},
 				{column: "status", enum: ["A","B","I"], enumdes: ["Activo","Bloqueado","Inactivo"], display: true}
@@ -273,7 +274,7 @@ Polymer({
 	},
 	select_field: function(e) { 
 		this.field = e.toElement.id
-		if (this.$.filter.value == "Categoria.name"){
+		if (this.$.filter.value == "Categoria_name"){
 			this.$.Category_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Category_select_dialog.style.left = "-100px"
 			this.$.Category_select_dialog.open_select_dialog()
@@ -324,6 +325,7 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
+		this.$.Categoria_name_sort_d.classList.add("hide")
 		this.$.stock_sort_d.classList.add("hide")
 		this.$.price_sort_d.classList.add("hide")
 		this.$.status_sort_d.classList.add("hide")
@@ -342,6 +344,9 @@ Polymer({
 	},
 	sort_name: function() {
 		this.sort_by_field("name")
+	},
+	sort_Categoria_name: function() {
+		this.sort_by_field("Categoria_name")
 	},
 	sort_stock: function() {
 		this.sort_by_field("stock")
@@ -482,10 +487,13 @@ Polymer({
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
 		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]
-		if (!this.$.ajax.lastResponse[i].Categoria){
-			this.$.ajax.lastResponse[i].Categoria = {}
-			this.$.ajax.lastResponse[i].Categoria.id = 0
-			this.$.ajax.lastResponse[i].Categoria.name = ""
+		if (this.$.ajax.lastResponse[i].Categoria){
+			this.$.ajax.lastResponse[i].Categoria_id = this.$.ajax.lastResponse[i].Categoria.id
+			this.$.ajax.lastResponse[i].Categoria_name = this.$.ajax.lastResponse[i].Categoria.name
+		} else
+		{
+			this.$.ajax.lastResponse[i].Categoria_id = 0
+			this.$.ajax.lastResponse[i].Categoria_name = ""
 		}
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
