@@ -82,7 +82,7 @@ paper-menu {
 	<input id="filtro" type="{{tipo}}"></input>
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
-		<option value="{{item.op}}">{{item.op}}</option>
+		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
 	<select id="logic" on-change="logic_operator">
@@ -105,6 +105,7 @@ paper-menu {
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
+		<option value="$ne">Diferente a</option>
 		<option value="$contains">Contiene</option>
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
@@ -112,14 +113,14 @@ paper-menu {
 	<input id="filtro2" class="hide" type="{{tipo2}}"></input>
 	<select id="select2" class="hide">
 	  <template is="dom-repeat" items="{{opts2}}">
-		<option value="{{item.op}}">{{item.op}}</option>
+		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 	
-	<a href="{{download_data}}" id="link" class="hide" download="datos.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="Actividad.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -201,7 +202,7 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.cur_sort = { field: "id", isdesc: false }
+		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
@@ -213,6 +214,7 @@ Polymer({
 				{column: "proxseguimiento", type: "date", display: true},
 				{column: "observacion", type: "string", display: true}
 		]
+		this.enums = {}
 		var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data")
@@ -441,7 +443,7 @@ Polymer({
 			this.$.filtro.className = "hide"
 			this.opts = []
 			for (i=0; i< column[0].enum.length; i++)
-				this.push("opts", {"op": column[0].enum[i]})
+				this.push("opts", {"op": column[0].enum[i], "des": column[0].enumdes[i]})
 		}
 		else
 		{
@@ -449,7 +451,7 @@ Polymer({
 			this.$.filtro2.className = "hide"
 			this.opts2 = []
 			for (i=0; i< column[0].enum.length; i++)
-				this.push("opts2", {"op": column[0].enum[i]})
+				this.push("opts2", {"op": column[0].enum[i], "des": column[0].enumdes[i]})
 		}
 	}
 	},
