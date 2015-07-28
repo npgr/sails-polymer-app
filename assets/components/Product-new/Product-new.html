@@ -1,8 +1,10 @@
 <dom-module id="Product-new">
 <template>
-	<iron-ajax id="ajax"  handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
-	<iron-ajax id="ajax2" url="/Product" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<Category-select id="Category_select_dialog" on-item_selected="set_select_field"></Category-select>
 		<h2 class="card_title">Crear Producto</h2>
 		<form id="form" action="javascript:void(0);" on-submit="create">
 			<paper-dialog-scrollable>
@@ -14,6 +16,11 @@
 			<tr>
 				<td><label class="left_label" for="name">Nombre<strong class="red"> *</strong></label></td>
 				<td><input id="name" type="text" name="name" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name">Categoria</label></td>
+				<td><iron-icon icon="find-in-page" field="Categoria" on-click="select_field_b"></iron-icon>
+				<input id="Categoria" key=0 type="model" name="Categoria" on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="stock">Existencia</label></td>
@@ -47,18 +54,34 @@
 	Polymer({
 		is: "Product-new",
 		open_dialog: function() {
+			this.$.ajax2.url = document.getElementById("config").server + "Product"
 			this.clear()
 			this.$.dialog.open()
 		},
 		clear: function() {
 			this.$.id.value = ''
 			this.$.name.value = ''
+			this.$.Categoria.value = ''
+			this.$.Categoria.key = 0
 			this.$.stock.value = ''
 			this.$.price.value = ''
+		},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "Categoria")
+				this.$.Category_select_dialog.open_select_dialog()
+		},
+		set_select_field: function() {
+			this.$[this.field].value = this.$.Category_select_dialog.item.name
+			this.$[this.field].key = this.$.Category_select_dialog.item.key
 		},
 		create: function() {
 			var record = {}
 			  record.name = this.$.name.value
+			record.Categoria = this.$.Categoria.key
 			record.stock = Number(this.$.stock.value)
 			record.price = Number(this.$.price.value)
 			  record.status = this.$.status.value			
@@ -66,7 +89,6 @@
 			this.$.ajax2.generateRequest()
 		},
 		record_created: function() {
-			//console.log(this.$.ajax2.lastResponse)
 			alert("Created Producto id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
 			this.$.dialog.close()
@@ -77,7 +99,7 @@
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = "/Product/exist/"+this.$.id.value
+					this.$.ajax.url = document.getElementById("config").server+"Product/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()

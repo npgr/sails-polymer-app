@@ -7,7 +7,7 @@
 
 module.exports = {
 
-	migrate: 'alter',
+	//migrate: 'alter',
 
   attributes: {
 	//_title: 'Producto',
@@ -32,6 +32,12 @@ module.exports = {
 	price: {
 		//description: 'Precio',
 		type: 'float'
+	},
+	Categoria: {
+		//description: 'Categoria',
+		//key: id,
+		//display: 'name',
+		model: 'Category'
 	},
 	status: {
 		//description: 'Status',

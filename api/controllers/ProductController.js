@@ -14,8 +14,8 @@ module.exports = {
 				  else if (!data) res.json({ "exist": false})
 					else res.json({ "exist": true})
 			})
-	}, 
-	/*create: function(req, res, next) {
+	}/*, 
+	create: function(req, res, next) {
 		var params = req.params.all();
 		Product.create(params, function(err, data) {
 			if (err) return next(err);
@@ -48,12 +48,12 @@ module.exports = {
 			res.redirect("Product/list")
         	//res.json(data);
     	})
-	},*/
+	},
 	list : function (req, res) {
 		Product.find()
 			.exec(function(err, data){
 				res.render("Product/list", {data: JSON.stringify(data)})
 			})
-	}
+	}*/
 };
 
