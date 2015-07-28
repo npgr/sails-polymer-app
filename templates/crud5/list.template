@@ -70,7 +70,7 @@ paper-menu {
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
 	</select>
-	<input id="filtro" type="{{tipo}}"></input>
+	<input id="filtro" type="{{tipo}}">
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -96,7 +96,7 @@ paper-menu {
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
 	</select>
-	<input id="filtro2" class="hide" type="{{tipo2}}"></input>
+	<input id="filtro2" class="hide" type="{{tipo2}}">
 	<select id="select2" class="hide">
 	  <template is="dom-repeat" items="{{opts2}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -461,7 +461,6 @@ Polymer({
 	  if (this.$.ajax.lastResponse[i].<%= keys[i]%>)
 		this.$.ajax.lastResponse[i].<%= keys[i]%> = this.$.ajax.lastResponse[i].<%= keys[i]%>.substring(0,10)<% 
 	} }
-	<!-- AQUI -->
 	for (i=0; i< keys.length; i++) {
 	  if (jsondata[keys[i]].enum) {%>
 		this.$.ajax.lastResponse[i].<%= keys[i]%>_des= this.enums.<%= keys[i]%>[this.$.ajax.lastResponse[i].<%= keys[i]%>]<%
