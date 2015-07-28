@@ -2,6 +2,7 @@
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<Category-select id="Category_select_dialog" on-item_selected="set_select_field"></Category-select>
 		<h2 class="card_title">Editar Producto</h2>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<paper-dialog-scrollable>
@@ -13,6 +14,11 @@
 			<tr>
 				<td><label class="left_label" for="name">Nombre<strong class="red"> *</strong></label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name">Categoria</label></td>
+				<td><iron-icon icon="find-in-page" field="Categoria" on-click="select_field_b"></iron-icon>
+				<input id="Categoria" key=0 type="model" name="Categoria" on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="stock">Existencia</label></td>
@@ -52,7 +58,19 @@
 		},
 		set_select_fields(item) {
 			this.$.status.value = item.status
-			},
+		},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "Categoria")
+				this.$.Category_select_dialog.open_select_dialog()
+		},
+		set_select_field: function() {
+			this.$[this.field].value = this.$.Category_select_dialog.item.name
+			this.$[this.field].key = this.$.Category_select_dialog.item.key
+		},	
 		submit_form: function() {
 			this.$.submit_update.click()
 		},
@@ -60,6 +78,7 @@
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.name = this.$.name.value
+			record.Categoria = this.$.Categoria.key
 			record.stock = Number(this.$.stock.value)
 			record.price = Number(this.$.price.value)
 			record.status = this.$.status.value		
