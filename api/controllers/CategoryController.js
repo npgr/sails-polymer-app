@@ -1,10 +1,11 @@
+/**
+ * CategoryController
+ *
+ * @description :: Server-side logic for managing Categories
+ * @help        :: See http://links.sailsjs.org/docs/controllers
+ */
 
-/************  Routes:  config/routes.js ************/
-
-"/Category/exist/:id": "CategoryController.exist"
-
-/********** Controller: api/controllers/<<model_name>>Controller.js *******/
-
+module.exports = {
 	exist: function(req, res, next) {
 		var id = req.param("id")
 		 Category.findOne(id)
@@ -20,3 +21,5 @@
 				res.render("Category/list", {data: JSON.stringify(data)})
 			})
 	}
+};
+

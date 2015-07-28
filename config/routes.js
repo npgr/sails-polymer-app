@@ -61,5 +61,6 @@ module.exports.routes = {
   /*"post /Enumerator/destroy/:id?": "EnumeratorController.destroy",
   "post /Enumerator/update/:model?": "EnumeratorController.update",*/
   "/Enumerator/exist/:model": "EnumeratorController.exist",
-  "/Task/exist/:id": "TaskController.exist"
+  "/Task/exist/:id": "TaskController.exist",
+  "/Category/exist/:id": "CategoryController.exist"
 };
