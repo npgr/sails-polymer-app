@@ -194,7 +194,6 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "name", type: "string", display: true},
-				//{column: "Categoria", type: "string", display: true},  // Para columnas, unificar
 				{column: "Categoria_id", type: "integer", model: "Category", display: false},
 				{column: "Categoria_name", type: "string", model: "Category", display: true}, // Para filtro
 				{column: "stock", type: "integer", display: true},
@@ -205,8 +204,8 @@ Polymer({
 		this.enums.status = {A:"Activo",B:"Bloqueado",I:"Inactivo"}
 		//var _data = <%- data %>
 		var db = new loki()
-		this.data = db.addCollection("data")
-		this.model = db.addCollection("model")
+		this.data = db.addCollection("data_Product")
+		this.model = db.addCollection("model_Product")
 		this.reload()
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
