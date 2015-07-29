@@ -36,7 +36,9 @@ module.exports = {
 	Categoria: {
 		//description: 'Categoria',
 		//key: id,
+		//key_type: 'integer',
 		//display: 'name',
+		//display_type: 'string',
 		model: 'Category'
 	},
 	status: {
