@@ -69,9 +69,18 @@ function set_jsondata_lines(keys) {
 			line_u = line_c
 			line_d = line_c
 			// input values for rud
-			line_r += ' value="{{item.'+keys[i]+'}}"'
-			line_u += ' value="{{item.'+keys[i]+'}}"'
-			line_d += ' value="{{item.'+keys[i]+'}}"'
+			if (!jsondata[keys[i]].model)
+			{
+				line_r += ' value="{{item.'+keys[i]+'}}"'
+				line_u += ' value="{{item.'+keys[i]+'}}"'
+				line_d += ' value="{{item.'+keys[i]+'}}"'
+			}
+			else
+			{
+				line_r += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
+				line_u += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
+				line_d += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
+			}
 			// maxLength
 			if (jsondata[keys[i]].maxLength)
 			{
@@ -111,6 +120,11 @@ function set_jsondata_lines(keys) {
 			//end of input field
 			line_r += ' disabled'
 			line_d += ' disabled'
+			if (jsondata[keys[i]].model)
+			{
+				line_c += ' readonly'
+				line_u += ' readonly'
+			}
 			line_c += '>'
 			line_r += '>'
 			line_u += '>'
@@ -200,8 +214,7 @@ function generate_list_columns(keys, title) {
 		})
 }
 
-function generate_model_select(model, display, key, description) 
-{
+function generate_model_select(model, display, key, description) {
 	if (!fs.existsSync('assets/components/'+model+'-select/'+model+'-select.html'))
 	{
 		var SELECT_MODEL_TEMPLATE = fs.readFileSync('./templates/crud5/select-model.template', 'utf8');
@@ -290,12 +303,12 @@ exports.generate = function(crud) {
 		}
 	}
 	// input field on form
-	//set_jsondata_lines(keys)
+	set_jsondata_lines(keys)
 	
 	//var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
 	
 	//generate_new_form(keys, key, title)
-	//generate_display_form(keys, key, title)
+	generate_display_form(keys, key, title)
 	//generate_delete_form(keys, key, title)	
 	//generate_edit_form(keys, key, title)
 	//generate_list_columns(keys, title)

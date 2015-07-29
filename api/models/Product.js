@@ -25,6 +25,14 @@ module.exports = {
 		type: 'string',
 		required: true
 	},
+	Categoria: {
+		//description: 'Categoria',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'Category'
+	},
 	stock: {
 		//description: 'Existencia',
 		type: 'integer'
@@ -32,14 +40,6 @@ module.exports = {
 	price: {
 		//description: 'Precio',
 		type: 'float'
-	},
-	Categoria: {
-		//description: 'Categoria',
-		//key: id,
-		//key_type: 'integer',
-		//display: 'name',
-		//display_type: 'string',
-		model: 'Category'
 	},
 	status: {
 		//description: 'Status',
