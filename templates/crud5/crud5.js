@@ -200,6 +200,26 @@ function generate_list_columns(keys, title) {
 		})
 }
 
+function generate_model_select(model, display, key, description) 
+{
+	if (!fs.existsSync('assets/components/'+model+'-select/'+model+'-select.html'))
+	{
+		var SELECT_MODEL_TEMPLATE = fs.readFileSync('./templates/crud5/select-model.template', 'utf8');
+		var compiled_Select_Model = _.template(SELECT_MODEL_TEMPLATE)
+	
+		var select_model = compiled_Select_Model({'model':model,'display':display,'key':key,'description':description})
+		// Create Folder if not exist
+		if (!fs.existsSync('assets/components/'+model+'-select'))
+			fs.mkdirSync('assets/components/'+model+'-select')	
+	
+		fs.writeFile('assets/components/'+model+'-select/'+model+'-select.html', select_model, function (err) {
+			if (err) console.log(err);
+			console.log('Created file assets/components/'+model+'-select/'+model+'-select.html')
+		})
+	}
+	else  console.log('File assets/components/'+model+'-select/'+model+'-select.html already Exist')
+}
+
 function generate_list_page(keys, key, title, IMPORT_FORM) {
 	var LIST_TEMPLATE = fs.readFileSync('./templates/crud5/list.template', 'utf8');
 	var compiled_List = _.template(LIST_TEMPLATE)
@@ -247,7 +267,7 @@ exports.generate = function(crud) {
 	if (keys.indexOf('_title') >= 0)	{
 		title = jsondata._title
 	}
-	
+	// Key
 	var key= {}
 	for (k=0; k < keys.length; k++ ) {
 		if (jsondata[keys[k]].primaryKey) {
@@ -256,19 +276,35 @@ exports.generate = function(crud) {
 			break
 		}
 	}
+	// Relations
+	var relation = []
+	var i = 0
+	for (k=0; k < keys.length; k++ ) {
+		if (jsondata[keys[k]].model) {
+			relation[i] = {}
+			relation[i].model = jsondata[keys[k]].model
+			relation[i].description = jsondata[keys[k]].description
+			relation[i].key = jsondata[keys[k]].key
+			relation[i].display = jsondata[keys[k]].display
+			i++
+		}
+	}
 	// input field on form
-	set_jsondata_lines(keys)
+	//set_jsondata_lines(keys)
 	
-	var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
+	//var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
 	
-	generate_new_form(keys, key, title)
-	generate_display_form(keys, key, title)
-	generate_delete_form(keys, key, title)	
-	generate_edit_form(keys, key, title)
-	generate_list_columns(keys, title)
+	//generate_new_form(keys, key, title)
+	//generate_display_form(keys, key, title)
+	//generate_delete_form(keys, key, title)	
+	//generate_edit_form(keys, key, title)
+	//generate_list_columns(keys, title)
 	
-	generate_list_page(keys, key, title, IMPORT_FORM)
+	for (i=0; i<relation.length; i++)
+		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description)
+	
+	//generate_list_page(keys, key, title, IMPORT_FORM)
 
-	generate_controller(key)
+	//generate_controller(key)
 }
 
