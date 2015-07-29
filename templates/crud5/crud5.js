@@ -309,7 +309,7 @@ exports.generate = function(crud) {
 	
 	//generate_new_form(keys, key, title)
 	generate_display_form(keys, key, title)
-	//generate_delete_form(keys, key, title)	
+	generate_delete_form(keys, key, title)	
 	//generate_edit_form(keys, key, title)
 	//generate_list_columns(keys, title)
 	

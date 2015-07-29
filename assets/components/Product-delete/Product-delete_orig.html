@@ -1,5 +1,6 @@
 <dom-module id="Product-delete">
 <template>
+	<app-config id="config"></app-config>
 	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Borrar Producto</h2>
@@ -16,7 +17,7 @@
 			</tr>
 			<tr>
 				<td><label class="left_label" for="Categoria">Categoria</label></td>
-				<td><input id="Categoria" type="text" name="Categoria" value="{{item.Categoria_name}}" disabled></td>
+				<td><input id="Categoria" type="text" name="Categoria" value="{{item.Categoria.name}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="stock">Existencia</label></td>
@@ -61,7 +62,7 @@
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = document.getElementById("config").server+"Product/"+this.item.id
+			this.$.ajax.url = this.$.config.server+"Product/"+this.item.id
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {
