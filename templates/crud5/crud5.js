@@ -77,10 +77,16 @@ function set_jsondata_lines(keys) {
 			}
 			else  // model
 			{
-				if (jsondata[keys[i]].key_type != 'integer' && jsondata[keys[i]].key_type != 'float')
+				if (jsondata[keys[i]].key_type != 'integer' && jsondata[keys[i]].key_type != 'float') 
+				{
 					line_c += ' key=""'
-				 else
-					line_c += ' key=0' 
+					line_u += ' key="{{item.'+keys[i]+'_id}}"'
+				}
+				else
+				{
+					line_c += ' key=0'
+					line_u += ' key={{item.'+keys[i]+'_id}}'
+				}
 				line_r += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
 				line_u += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
 				line_d += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
@@ -314,7 +320,7 @@ exports.generate = function(crud) {
 	generate_new_form(keys, key, title)
 	generate_display_form(keys, key, title)
 	generate_delete_form(keys, key, title)	
-	//generate_edit_form(keys, key, title)
+	generate_edit_form(keys, key, title)
 	//generate_list_columns(keys, title)
 	
 	for (i=0; i<relation.length; i++)
