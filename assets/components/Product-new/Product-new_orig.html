@@ -2,6 +2,7 @@
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<Category-select id="Category_select_dialog" on-item_selected="set_select_field"></Category-select>
 		<h2 class="card_title">Crear Producto</h2>
@@ -17,8 +18,9 @@
 				<td><input id="name" type="text" name="name" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Categoria">Categoria</label></td>
-				<td><iron-icon icon="find-in-page" field="Categoria" on-click="select_field_b"></iron-icon><input id="Categoria" type="text" name="Categoria" key=0 on-click="select_field" readonly></td>
+				<td><label class="left_label" for="name">Categoria</label></td>
+				<td><iron-icon icon="find-in-page" field="Categoria" on-click="select_field_b"></iron-icon>
+				<input id="Categoria" type="model" name="Categoria" key=0 on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="stock">Existencia</label></td>
@@ -52,6 +54,7 @@
 	Polymer({
 		is: "Product-new",
 		open_dialog: function() {
+			this.$.ajax2.url = document.getElementById("config").server + "Product"
 			this.clear()
 			this.$.dialog.open()
 		},
@@ -76,7 +79,6 @@
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = document.getElementById("config").server + "Product"
 			var record = {}
 			  record.name = this.$.name.value
 			record.Categoria = this.$.Categoria.key

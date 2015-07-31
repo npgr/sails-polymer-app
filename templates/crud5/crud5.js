@@ -75,8 +75,12 @@ function set_jsondata_lines(keys) {
 				line_u += ' value="{{item.'+keys[i]+'}}"'
 				line_d += ' value="{{item.'+keys[i]+'}}"'
 			}
-			else
+			else  // model
 			{
+				if (jsondata[keys[i]].key_type != 'integer' && jsondata[keys[i]].key_type != 'float')
+					line_c += ' key=""'
+				 else
+					line_c += ' key=0' 
 				line_r += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
 				line_u += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
 				line_d += ' value="{{item.'+keys[i]+'_'+ jsondata[keys[i]].display +'}}"'
@@ -122,8 +126,8 @@ function set_jsondata_lines(keys) {
 			line_d += ' disabled'
 			if (jsondata[keys[i]].model)
 			{
-				line_c += ' readonly'
-				line_u += ' readonly'
+				line_c += ' on-click="select_field" readonly'
+				line_u += ' on-click="select_field" readonly'
 			}
 			line_c += '>'
 			line_r += '>'
@@ -307,7 +311,7 @@ exports.generate = function(crud) {
 	
 	//var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
 	
-	//generate_new_form(keys, key, title)
+	generate_new_form(keys, key, title)
 	generate_display_form(keys, key, title)
 	generate_delete_form(keys, key, title)	
 	//generate_edit_form(keys, key, title)
