@@ -16,7 +16,7 @@
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Mostrar Producto</h2>
+		<h2 class="card_title">Columnas Producto</h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -26,6 +26,10 @@
 			<tr>
 				<td><label class="left_label" for="name">Nombre</label></td>
 				<td><div id="name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="Categoria_name">Categoria</label></td>
+				<td><div id="Categoria_name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="stock">Existencia</label></td>
@@ -61,6 +65,7 @@
 			this.column= column
 			this.show_field("id")
 			this.show_field("name")
+			this.show_field("Categoria_name")
 			this.show_field("stock")
 			this.show_field("price")
 			this.show_field("status")
