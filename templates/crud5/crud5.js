@@ -21,6 +21,20 @@ function getInputType(type) {
 	}
 }
 
+function generate_app_config() {
+		var APP_CONFIG = fs.readFileSync('./templates/crud5/app-config.template', 'utf8');
+		if (!fs.existsSync('assets/components/app-config'))
+		{
+			fs.mkdirSync('assets/components/app-config')
+			fs.writeFile('assets/components/app-config/app-config.html', APP_CONFIG, function (err) {
+				if (err) console.log(err);
+				console.log('Created file assets/components/app-config/app-config.html')
+			})
+		}
+		else
+			console.log('File assets/components/app-config/app-config.html Already Exist')
+}
+
 function generate_controller(key) {
 	var CONTROLLER_TEMPLATE = fs.readFileSync('./templates/crud5/controller.template', 'utf8');
 	var compiled_Controller = _.template(CONTROLLER_TEMPLATE)
@@ -30,7 +44,7 @@ function generate_controller(key) {
 	fs.writeFile('templates/crud5/controller.js', controller, function (err) {
 			if (err) console.log(err);
 			console.log('Created file templates/crud5/controller.js')
-		})
+	})
 }
 
 function set_jsondata_lines(keys) {
@@ -243,7 +257,7 @@ function generate_model_select(model, display, key, description) {
 	else  console.log('File assets/components/'+model+'-select/'+model+'-select.html already Exist')
 }
 
-function generate_list_page(keys, key, title, IMPORT_FORM) {
+function generate_list_page(keys, key, title) {
 	var LIST_TEMPLATE = fs.readFileSync('./templates/crud5/list.template', 'utf8');
 	var compiled_List = _.template(LIST_TEMPLATE)
 	
@@ -259,7 +273,13 @@ function generate_list_page(keys, key, title, IMPORT_FORM) {
 		  if (jsondata[keys[i]].enum)
 			attrs += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+', enumdes: '+JSON.stringify(jsondata[keys[i]].enumdes)+', display: true}'
 		  else
-			attrs += '{column: "'+keys[i]+'", type: "'+jsondata[keys[i]].type+'", display: true}'
+			if (!jsondata[keys[i]].model)
+				attrs += '{column: "'+keys[i]+'", type: "'+jsondata[keys[i]].type+'", display: true}'
+			else 
+			{
+				attrs += '{column: "'+keys[i]+'_'+jsondata[keys[i]].key+'", type: "'+jsondata[keys[i]].key_type+'", model: "'+jsondata[keys[i]].model+'", display: false},\n\t\t\t\t'
+				attrs += '{column: "'+keys[i]+'_'+jsondata[keys[i]].display+'", type: "'+jsondata[keys[i]].type+'", model: "'+jsondata[keys[i]].model+'", display: true}'
+			}
 		  if (i < keys.length-1)
 			attrs += ',\n'
 		   else
@@ -267,20 +287,21 @@ function generate_list_page(keys, key, title, IMPORT_FORM) {
 		}
 	}
 	
-	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM,
-										'key': key, 'keys': keys, 'jsondata': jsondata})
+	var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
+	
+	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata})
 	
 	list_template = list_template.replace('>%', '<%')
 	list_template = list_template.replace('%<', '%>')
 	
 	// Create Folder if not exist
-	if (!fs.existsSync('views/'+model))
-			fs.mkdirSync('views/'+model)	
+	if (!fs.existsSync('assets/'+model))
+			fs.mkdirSync('assets/'+model)	
 
-	fs.writeFile('views/'+model+'/list.ejs', list_template, function (err) {
+	fs.writeFile('assets/'+model+'/list.html', list_template, function (err) {
 			if (err) console.log(err);
-			console.log('Created file views/'+model+'/list.ejs')
-		})
+			console.log('Created file assets/'+model+'/list.html')
+	})
 }
 
 exports.generate = function(crud) {
@@ -315,19 +336,18 @@ exports.generate = function(crud) {
 	// input field on form
 	set_jsondata_lines(keys)
 	
-	//var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
-	
+
+	generate_controller(key)
+	generate_app_config()
 	generate_new_form(keys, key, title)
 	generate_display_form(keys, key, title)
 	generate_delete_form(keys, key, title)	
 	generate_edit_form(keys, key, title)
-	//generate_list_columns(keys, title)
+	generate_list_columns(keys, title)
 	
 	for (i=0; i<relation.length; i++)
 		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description)
 	
-	//generate_list_page(keys, key, title, IMPORT_FORM)
-
-	//generate_controller(key)
+	generate_list_page(keys, key, title)
 }
 

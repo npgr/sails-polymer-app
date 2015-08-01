@@ -1,3 +1,4 @@
+<html>
 <head>
 	<title>Listar <%= title%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -19,10 +20,16 @@
 	<link rel="import" href="/components/<%= model%>-new/<%= model%>-new.html">
 	<link rel="import" href="/components/<%= model%>-display/<%= model%>-display.html">
 	<link rel="import" href="/components/<%= model%>-edit/<%= model%>-edit.html">
-	<link rel="import" href="/components/<%= model%>-delete/<%= model%>-delete.html">
+	<link rel="import" href="/components/<%= model%>-delete/<%= model%>-delete.html"><%
+	for (i=0; i < keys.length; i++) {
+		if (jsondata[keys[i]].model) {%>
+	<link rel="import" href="/components/<%= jsondata[keys[i]].model%>-select/<%= jsondata[keys[i]].model%>-select.html"><%
+	} }%>
+	<link rel="import" href="/components/app-config/app-config.html">
 	<!-- Forms imports -->
 	<%= import_form %>
 </head>
+<body>
 <style>
 .card {
 	width: 90em;
@@ -49,19 +56,26 @@ paper-menu {
 </style>
 <dom-module id="<%= model%>-list">
 <template>
-	<iron-ajax id="ajax" url="/<%= model%>" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<<%= model%>-list-columns id="<%= model%>_list_columns" on-close="update_columns"></<%= model%>-list-columns>
 	<<%= model%>-new id="<%= model%>_new_dialog" on-close="reload"></<%= model%>-new>
 	<<%= model%>-display id="<%= model%>_display_dialog"></<%= model%>-display>
 	<<%= model%>-edit id="<%= model%>_edit_dialog" on-close="reload"></<%= model%>-edit>
-	<<%= model%>-delete id="<%= model%>_delete_dialog" on-close="reload"></<%= model%>-delete>
+	<<%= model%>-delete id="<%= model%>_delete_dialog" on-close="reload"></<%= model%>-delete><%
+	for (i=0; i < keys.length; i++) {
+		if (jsondata[keys[i]].model) {%>
+	<<%= jsondata[keys[i]].model%>-select id="<%= jsondata[keys[i]].model%>_select_dialog" on-item_selected="set_select_field"></<%= jsondata[keys[i]].model%>-select><%
+	} }%>
 	
 	<div class="card_title">Listar <%= title%></div>
 	<select id="filter" on-change="input_type"><% 
 		for (i=0; i < keys.length; i++) { 
-			if (jsondata[keys[i]].line_r) {%>
-		<option value="<%= keys[i]%>"><%= jsondata[keys[i]].description%></option><% 
-		} }%>
+			if (jsondata[keys[i]].line_r) {
+				if (!jsondata[keys[i]].model) {%>
+		<option value="<%= keys[i]%>"><%= jsondata[keys[i]].description%></option><%
+				} else {%>
+		<option value="<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= jsondata[keys[i]].description%></option><%
+		} } }%>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -70,7 +84,7 @@ paper-menu {
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
 	</select>
-	<input id="filtro" type="{{tipo}}">
+	<input id="filtro" type="{{tipo}}" on-click="select_field">
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -82,12 +96,16 @@ paper-menu {
 		<option value="$or">Or</option>
 	</select>
 	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2"><% 
 		for (i=0; i < keys.length; i++) { 
-			if (jsondata[keys[i]].line_r) {%>
-		<option value="<%= keys[i]%>"><%= jsondata[keys[i]].description%></option><% 
-		} }%>
+			if (jsondata[keys[i]].line_r) {
+			   if (!jsondata[keys[i]].model) {%>
+		<option value="<%= keys[i]%>"><%= jsondata[keys[i]].description%></option><%
+				} else {%>
+		<option value="<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= jsondata[keys[i]].description%></option><% 
+		} } }%>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -96,7 +114,7 @@ paper-menu {
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
 	</select>
-	<input id="filtro2" class="hide" type="{{tipo2}}">
+	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field">
 	<select id="select2" class="hide">
 	  <template is="dom-repeat" items="{{opts2}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -120,28 +138,28 @@ paper-menu {
 	  <tr>
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th><% 
 		for (i=0; i < keys.length; i++) { 
-			if (jsondata[keys[i]].line_r) {%>
+			if (jsondata[keys[i]].line_r) {
+				if (!jsondata[keys[i]].model) {%>
 		<th class="col_<%= keys[i]%>" on-click="sort_<%= keys[i]%>"><%= jsondata[keys[i]].description%><div id="<%= keys[i]%>_sort_d" class="hide">
-			<iron-icon id="<%= keys[i]%>_sort" icon="arrow-drop-up"></iron-icon></div></th><% 
-		} }%>
+			<iron-icon id="<%= keys[i]%>_sort" icon="arrow-drop-up"></iron-icon></div></th><%
+				} else {%>
+		<th class="col_<%= keys[i]%>_<%= jsondata[keys[i]].display%>" on-click="sort_<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= jsondata[keys[i]].description%><div id="<%= keys[i]%>_<%= jsondata[keys[i]].display%>_sort_d" class="hide">
+			<iron-icon id="<%= keys[i]%>_<%= jsondata[keys[i]].display%>_sort" icon="arrow-drop-up"></iron-icon></div></th><%
+		} } }%>
 	  </tr>
 	</thead>
-	<tfoot>
+	<!--<tfoot>
 	<tr>
 		<td class="ops"></td><%
 	  for (i=0; i < keys.length; i++) { 
-		 if (jsondata[keys[i]].line_r) {
-		  if (i==keys.length-1) {%>
-		<td class="col_<%= keys[i]%>"><strong>{{regs}}</strong></td><% 
-		} 
-		  if (i==keys.length-2) {%>
-		<td class="col_<%= keys[i]%>">Total</td><%
-		}
-		  if (i<keys.length-2) {%>
+		 if (jsondata[keys[i]].line_r) { 
+			if (!jsondata[keys[i]].model) {%>
 		<td class="col_<%= keys[i]%>"></td><% 
+			} else {%>
+		<td class="col_<%= keys[i]%>_<%= jsondata[keys[i]].display%>"></td><%	
 		} } }%>
 	</tr>
-	</tfoot>
+	</tfoot>-->
 	<tbody>
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
@@ -149,12 +167,15 @@ paper-menu {
 			<paper-icon-button key="{{item.<%= key.name %>}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td><%
 		for (i=0; i < keys.length; i++) { 
-			if (jsondata[keys[i]].line_r) {%>
+			if (jsondata[keys[i]].line_r) {
+				if (!jsondata[keys[i]].model) {%>
 		<template is="dom-if" if="{{column.<%= keys[i]%>}}"><td>{{<% 
 			if (jsondata[keys[i]].type === "date") {%>date_dma(<%}%>item.<%= keys[i]%><%
 			if (jsondata[keys[i]].enum) {%>_des<%}
-			if (jsondata[keys[i]].type === "date") {%>)<%}%>}}</td></template><% 
-		} }%>
+			if (jsondata[keys[i]].type === "date") {%>)<%}%>}}</td></template><%
+				} else {%>
+		<template is="dom-if" if="{{column.<%= keys[i]%>_<%= jsondata[keys[i]].display%>}}"><td>{{item.<%= keys[i]%>_<%= jsondata[keys[i]].display%>}}</td></template><%
+		} } }%>
 	</tr>
 	</template>
 	</tbody>
@@ -175,6 +196,7 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
+		this.$.ajax.url = document.getElementById("config").server + "<%= model%>"
 		this.cur_sort = { field: "<%= key.name %>", isdesc: true }
 		this.cur_filter = {}
 		var _model = [<%= attrs%>		]
@@ -187,28 +209,15 @@ Polymer({
 		   if (j == jsondata[keys[i]].enum.length-1){%>}<%}
 		   if (j < jsondata[keys[i]].enum.length-1) {%>,<%}
 		} } }%>
-		var _data = >%- data %<
+		//var _data = >%- data %<
 		var db = new loki()
-		this.data = db.addCollection("data")
-		this.model = db.addCollection("model")
-		for (i=0; i< _data.length ; i++){<% 
-		  for (j=0; j<keys.length; j++ ) {
-			if (jsondata[keys[j]].type == "date") {%>
-		  if(_data[i].<%= keys[j]%>)
-		    _data[i].<%= keys[j]%> = _data[i].<%= keys[j]%>.substring(0,10)<%
-		} }
-		for (i=0; i< keys.length; i++) {
-			if (jsondata[keys[i]].enum) {%>
-			_data[i].<%= keys[i]%>_des= this.enums.<%= keys[i]%>[_data[i].<%= keys[i]%>]<%
-		} }%>
-			this.data.insert(_data[i])
-		}
-		_data = {}
+		this.data = db.addCollection("data_<%= model%>")
+		this.model = db.addCollection("model_<%= model%>")
+		this.reload()
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
 		this.show_columns()
-		this.filtered_data = [{<%= key.name%>: ""}]
 		this.input_type()
 	},
 	list_columns: function() {
@@ -269,6 +278,19 @@ Polymer({
 			//this.$.select2.className = ""
 		}
 	},
+	select_field: function(e) {
+		this.field = e.toElement.id<% 
+		for (i=0; i < keys.length; i++) {
+			if (jsondata[keys[i]].model) {%>
+		if (this.$.filter.value == "<%= keys[i]%>_<%= jsondata[keys[i]].display%>"){
+			this.$.<%= jsondata[keys[i]].model%>_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.<%= jsondata[keys[i]].model%>_select_dialog.style.left = "-100px"
+			this.$.<%= jsondata[keys[i]].model%>_select_dialog.open_select_dialog()
+		}<%} }%>
+	},
+	set_select_field: function(e) {
+		this.$[this.field].value = this.$[e.srcElement.id].item.name
+	},
 	filter: function() {
 		var name = this.$.filter.value
 		var op = this.$.op.value 
@@ -308,12 +330,14 @@ Polymer({
 	},
 	hide_sort_icons: function() {<%
 		for (i=0; i<keys.length; i++) {
-		  if (jsondata[keys[i]].line_r) {%>
+		  if (jsondata[keys[i]].line_r) {
+		    if (!jsondata[keys[i]].model) {%>
 		this.$.<%= keys[i]%>_sort_d.classList.add("hide")<%
-		} }%>
+			} else {%>
+		this.$.<%= keys[i]%>_<%= jsondata[keys[i]].display%>_sort_d.classList.add("hide")<%	
+		} } }%>
 	},
-	sort_by_field: function(field)
-	{
+	sort_by_field: function(field) {
 		this.hide_sort_icons()
 		this.sort(field)
 		if (this.cur_sort.isdesc)
@@ -323,11 +347,14 @@ Polymer({
 		this.$[field+"_sort_d"].classList.remove("hide")	
 	},<%
 	for (i=0; i<keys.length; i++) {
-	  if (jsondata[keys[i]].line_r) {%>
+	  if (jsondata[keys[i]].line_r) {
+	    if (!jsondata[keys[i]].model) {%>
 	sort_<%= keys[i]%>: function() {
 		this.sort_by_field("<%= keys[i]%>")
-	},<%
-	} }%>
+	},<%} else {%>
+	sort_<%= keys[i]%>_<%= jsondata[keys[i]].display%>: function() {
+		this.sort_by_field("<%= keys[i]%>_<%= jsondata[keys[i]].display%>")
+	},<%} } }%>
 	sort: function(field) {
 		if (this.cur_sort.field == field)
 			this.cur_sort.isdesc = !this.cur_sort.isdesc
@@ -423,8 +450,8 @@ Polymer({
 	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
-	
-		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+20+"px"
+		this.$.menu_dialog.style.left = "30px"
 		this.$.menu_dialog.open()
 	},
   display: function(e) {
@@ -464,7 +491,17 @@ Polymer({
 	for (i=0; i< keys.length; i++) {
 	  if (jsondata[keys[i]].enum) {%>
 		this.$.ajax.lastResponse[i].<%= keys[i]%>_des= this.enums.<%= keys[i]%>[this.$.ajax.lastResponse[i].<%= keys[i]%>]<%
-	} }%>
+	  } 
+	  if (jsondata[keys[i]].model) {%>
+		if (this.$.ajax.lastResponse[i].<%= keys[i]%>){
+			this.$.ajax.lastResponse[i].<%= keys[i]%>_<%= jsondata[keys[i]].key%> = this.$.ajax.lastResponse[i].<%= keys[i]%>.<%= jsondata[keys[i]].key%>
+			this.$.ajax.lastResponse[i].<%= keys[i]%>_<%= jsondata[keys[i]].display%> = this.$.ajax.lastResponse[i].<%= keys[i]%>.<%= jsondata[keys[i]].display%>
+		} else
+		{
+			this.$.ajax.lastResponse[i].<%= keys[i]%>_<%= jsondata[keys[i]].key%> = 0
+			this.$.ajax.lastResponse[i].<%= keys[i]%>_<%= jsondata[keys[i]].display%> = ""
+		}<%
+	} }%>	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
@@ -476,6 +513,9 @@ Polymer({
 });
 </script>
 </dom-module>
+<app-config id="config"></app-config>
 <paper-material class="card" elevation="2">
 	<<%= model%>-list></<%= model%>-list>
 </paper-material>
+</body>
+</html>

@@ -93,6 +93,7 @@ paper-menu {
 		<option value="$or">Or</option>
 	</select>
 	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id">Id</option>
@@ -109,7 +110,7 @@ paper-menu {
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
 	</select>
-	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field"></input>
+	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field">
 	<select id="select2" class="hide">
 	  <template is="dom-repeat" items="{{opts2}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -146,17 +147,17 @@ paper-menu {
 			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
-	<tfoot>
+	<!--<tfoot>
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_name"></td>
 		<td class="col_Categoria_name"></td>
 		<td class="col_stock"></td>
-		<td class="col_price">Total</td>
-		<td class="col_status"><strong>{{regs}}</strong></td>
+		<td class="col_price"></td>
+		<td class="col_status"></td>
 	</tr>
-	</tfoot>
+	</tfoot>-->
 	<tbody>
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
@@ -195,7 +196,7 @@ Polymer({
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "name", type: "string", display: true},
 				{column: "Categoria_id", type: "integer", model: "Category", display: false},
-				{column: "Categoria_name", type: "string", model: "Category", display: true}, // Para filtro
+				{column: "Categoria_name", type: "string", model: "Category", display: true},
 				{column: "stock", type: "integer", display: true},
 				{column: "price", type: "float", display: true},
 				{column: "status", enum: ["A","B","I"], enumdes: ["Activo","Bloqueado","Inactivo"], display: true}
@@ -271,7 +272,7 @@ Polymer({
 			//this.$.select2.className = ""
 		}
 	},
-	select_field: function(e) { 
+	select_field: function(e) {
 		this.field = e.toElement.id
 		if (this.$.filter.value == "Categoria_name"){
 			this.$.Category_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
@@ -279,8 +280,8 @@ Polymer({
 			this.$.Category_select_dialog.open_select_dialog()
 		}
 	},
-	set_select_field: function() {
-		this.$[this.field].value = this.$.Category_select_dialog.item.name
+	set_select_field: function(e) {
+		this.$[this.field].value = this.$[e.srcElement.id].item.name
 	},
 	filter: function() {
 		var name = this.$.filter.value
@@ -314,8 +315,6 @@ Polymer({
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
-		//console.log('filter: ', this.cur_filter)
-		//console.log('data: ', this.data)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
@@ -485,7 +484,6 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
-		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]
 		if (this.$.ajax.lastResponse[i].Categoria){
 			this.$.ajax.lastResponse[i].Categoria_id = this.$.ajax.lastResponse[i].Categoria.id
 			this.$.ajax.lastResponse[i].Categoria_name = this.$.ajax.lastResponse[i].Categoria.name
@@ -494,6 +492,7 @@ Polymer({
 			this.$.ajax.lastResponse[i].Categoria_id = 0
 			this.$.ajax.lastResponse[i].Categoria_name = ""
 		}
+		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
