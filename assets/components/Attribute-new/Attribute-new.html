@@ -4,21 +4,31 @@
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+		<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+		<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
 		<h2 class="card_title">Crear Atributo</h2>
 		<form id="form" action="javascript:void(0);" on-submit="create">
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
 				<td><label class="left_label" for="id">Id</label></td>
-				<td><input id="id" type="text" name="id" disabled></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="pos">Pos</label></td>
+				<td><input id="pos" type="number" name="pos"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="model">Model</label></td>
 				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key=0 on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="attribute">Attribute</label></td>
-				<td><input id="attribute" type="text" name="attribute"></td>
+				<td><label class="left_label" for="attribute">Attribute<strong class="red"> *</strong></label></td>
+				<td><input id="attribute" type="text" name="attribute" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="description">Description<strong class="red"> *</strong></label></td>
+				<td><input id="description" type="text" name="description" required></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="type">Type</label></td>
@@ -31,18 +41,37 @@
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="primaryKey">PrimaryKey</label></td>
-				<td><select id="primaryKey" name="primaryKey">
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="required">Required</label></td>
 				<td><select id="required" name="required">
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="enum">Enum</label></td>
+				<td><input id="enum" type="text" name="enum"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ref_model">Reference Model</label></td>
+				<td><iron-icon icon="find-in-page" field="ref_model" on-click="select_field_b"></iron-icon><input id="ref_model" type="text" name="ref_model" key=0 on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="key">Key</label></td>
+				<td><input id="key" type="text" name="key"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="key_type">Key Type</label></td>
+				<td><select id="key_type" name="key_type">
+						<option value="integer">integer</option>
+						<option value="string">string</option>
+						<option value="float">float</option>
+						<option value="date">date</option>
+						<option value="boolean">boolean</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><iron-icon icon="find-in-page" field="display" on-click="select_field_b"></iron-icon><input id="display" type="text" name="display" key=0 on-click="select_field" readonly></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -65,9 +94,17 @@
 		},
 		clear: function() {
 			this.$.id.value = ''
+			this.$.pos.value = ''
 			this.$.model.value = ''
 			this.$.model.key = 0
 			this.$.attribute.value = ''
+			this.$.description.value = ''
+			this.$.enum.value = ''
+			this.$.ref_model.value = ''
+			this.$.ref_model.key = 0
+			this.$.key.value = ''
+			this.$.display.value = ''
+			this.$.display.key = 0
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
@@ -76,6 +113,10 @@
 			this.field = e.toElement.id
 			if (this.field == "model")
 				this.$.Model_select_dialog.open_select_dialog()
+			if (this.field == "ref_model")
+				this.$.Model_select_dialog.open_select_dialog()
+			if (this.field == "display")
+				this.$.Attribute_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -84,11 +125,17 @@
 		create: function() {
 			this.$.ajax2.url = document.getElementById("config").server + "Attribute"
 			var record = {}
+			record.pos = Number(this.$.pos.value)
 			record.model = this.$.model.key
 			  record.attribute = this.$.attribute.value
+			  record.description = this.$.description.value
 			  record.type = this.$.type.value
-			  record.primaryKey = this.$.primaryKey.value
-			  record.required = this.$.required.value			
+			  record.required = this.$.required.value
+			  record.enum = this.$.enum.value
+			record.ref_model = this.$.ref_model.key
+			  record.key = this.$.key.value
+			  record.key_type = this.$.key_type.value
+			record.display = this.$.display.key			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
 		},

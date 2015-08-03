@@ -16,7 +16,7 @@
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Columnas Model</h2>
+		<h2 class="card_title">Columnas Modelo</h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -30,6 +30,14 @@
 			<tr>
 				<td><label class="left_label" for="title">Title</label></td>
 				<td><div id="title" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="primaryKey_attribute">Primary Key</label></td>
+				<td><div id="primaryKey_attribute" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="AutoIncrement">Auto Increment</label></td>
+				<td><div id="AutoIncrement" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -54,6 +62,8 @@
 			this.show_field("id")
 			this.show_field("name")
 			this.show_field("title")
+			this.show_field("primaryKey_attribute")
+			this.show_field("AutoIncrement")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

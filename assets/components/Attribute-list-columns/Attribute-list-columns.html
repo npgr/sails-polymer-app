@@ -24,6 +24,10 @@
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="pos">Pos</label></td>
+				<td><div id="pos" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="model_name">Model</label></td>
 				<td><div id="model_name" on-click="change_field"></div></td>
 			</tr>
@@ -32,16 +36,36 @@
 				<td><div id="attribute" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="description">Description</label></td>
+				<td><div id="description" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="type">Type</label></td>
 				<td><div id="type" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="primaryKey">PrimaryKey</label></td>
-				<td><div id="primaryKey" on-click="change_field"></div></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="required">Required</label></td>
 				<td><div id="required" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="enum">Enum</label></td>
+				<td><div id="enum" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ref_model_name">Reference Model</label></td>
+				<td><div id="ref_model_name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="key">Key</label></td>
+				<td><div id="key" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="key_type">Key Type</label></td>
+				<td><div id="key_type" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display_name">Display</label></td>
+				<td><div id="display_name" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -64,11 +88,17 @@
 			this.updated= false,
 			this.column= column
 			this.show_field("id")
+			this.show_field("pos")
 			this.show_field("model_name")
 			this.show_field("attribute")
+			this.show_field("description")
 			this.show_field("type")
-			this.show_field("primaryKey")
 			this.show_field("required")
+			this.show_field("enum")
+			this.show_field("ref_model_name")
+			this.show_field("key")
+			this.show_field("key_type")
+			this.show_field("display_name")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

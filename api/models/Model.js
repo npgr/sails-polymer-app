@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  //migrate: 'alter',
+  migrate: 'alter',
 
   attributes: {
 	//_title: 'Modelo',
@@ -27,6 +27,20 @@ module.exports = {
 		//description: 'Title',
 		type: 'string',
 		required: true
+	},
+	primaryKey: {
+		//description: 'Primary Key',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'attribute',
+		//type: 'string',
+		model: 'Attribute'
+	},
+	AutoIncrement: {
+		//description: 'Auto Increment',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
 	}
   }
 };

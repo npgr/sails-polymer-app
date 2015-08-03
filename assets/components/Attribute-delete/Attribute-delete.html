@@ -8,7 +8,11 @@
 			<table class="table_dialog" style="width:100%">
 			<tr>
 				<td><label class="left_label" for="id">Id</label></td>
-				<td><input id="id" type="text" name="id" value="{{item.id}}" disabled></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="pos">Pos</label></td>
+				<td><input id="pos" type="number" name="pos" value="{{item.pos}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="model">Model</label></td>
@@ -17,6 +21,10 @@
 			<tr>
 				<td><label class="left_label" for="attribute">Attribute</label></td>
 				<td><input id="attribute" type="text" name="attribute" value="{{item.attribute}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="description">Description</label></td>
+				<td><input id="description" type="text" name="description" value="{{item.description}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="type">Type</label></td>
@@ -29,18 +37,37 @@
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="primaryKey">PrimaryKey</label></td>
-				<td><select id="primaryKey" name="primaryKey" disabled>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="required">Required</label></td>
 				<td><select id="required" name="required" disabled>
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="enum">Enum</label></td>
+				<td><input id="enum" type="text" name="enum" value="{{item.enum}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ref_model">Reference Model</label></td>
+				<td><input id="ref_model" type="text" name="ref_model" value="{{item.ref_model_name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="key">Key</label></td>
+				<td><input id="key" type="text" name="key" value="{{item.key}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="key_type">Key Type</label></td>
+				<td><select id="key_type" name="key_type" disabled>
+						<option value="integer">integer</option>
+						<option value="string">string</option>
+						<option value="float">float</option>
+						<option value="date">date</option>
+						<option value="boolean">boolean</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><input id="display" type="text" name="display" value="{{item.display_name}}" disabled></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -64,8 +91,8 @@
 		},
 		set_select_fields(item) {
 			this.$.type.value = item.type
-			this.$.primaryKey.value = item.primaryKey
 			this.$.required.value = item.required
+			this.$.key_type.value = item.key_type
 			},
 		form_submit: function() {
 			this.$.submit_delete.click()

@@ -3,7 +3,8 @@
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Crear Model</h2>
+		<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
+		<h2 class="card_title">Crear Modelo</h2>
 		<form id="form" action="javascript:void(0);" on-submit="create">
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
@@ -18,6 +19,17 @@
 			<tr>
 				<td><label class="left_label" for="title">Title<strong class="red"> *</strong></label></td>
 				<td><input id="title" type="text" name="title" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="primaryKey">Primary Key</label></td>
+				<td><iron-icon icon="find-in-page" field="primaryKey" on-click="select_field_b"></iron-icon><input id="primaryKey" type="text" name="primaryKey" key=0 on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="AutoIncrement">Auto Increment</label></td>
+				<td><select id="AutoIncrement" name="AutoIncrement">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -42,12 +54,16 @@
 			this.$.id.value = ''
 			this.$.name.value = ''
 			this.$.title.value = ''
+			this.$.primaryKey.value = ''
+			this.$.primaryKey.key = 0
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
+			if (this.field == "primaryKey")
+				this.$.Attribute_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -57,12 +73,14 @@
 			this.$.ajax2.url = document.getElementById("config").server + "Model"
 			var record = {}
 			  record.name = this.$.name.value
-			  record.title = this.$.title.value			
+			  record.title = this.$.title.value
+			record.primaryKey = this.$.primaryKey.key
+			  record.AutoIncrement = this.$.AutoIncrement.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
 		},
 		record_created: function() {
-			alert("Created Model id="+this.$.ajax2.lastResponse.id)
+			alert("Created Modelo id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
 			this.$.dialog.close()
 			this.fire('close')

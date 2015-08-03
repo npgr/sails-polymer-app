@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Listar Model</title>
+	<title>Listar Modelo</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
@@ -21,6 +21,7 @@
 	<link rel="import" href="/components/Model-display/Model-display.html">
 	<link rel="import" href="/components/Model-edit/Model-edit.html">
 	<link rel="import" href="/components/Model-delete/Model-delete.html">
+	<link rel="import" href="/components/Attribute-select/Attribute-select.html">
 	<link rel="import" href="/components/app-config/app-config.html">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
@@ -32,10 +33,7 @@
 <body>
 <style>
 .card {
-	width: 50em;
-}
-#btn_add {
-	left: 650px;
+	width: 90em;
 }
 th div {
 	display: inline;
@@ -65,12 +63,15 @@ paper-menu {
 	<Model-display id="Model_display_dialog"></Model-display>
 	<Model-edit id="Model_edit_dialog" on-close="reload"></Model-edit>
 	<Model-delete id="Model_delete_dialog" on-close="reload"></Model-delete>
+	<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
 	
-	<div class="card_title">Listar Model</div>
+	<div class="card_title">Listar Modelo</div>
 	<select id="filter" on-change="input_type">
 		<option value="id">Id</option>
 		<option value="name">Name</option>
 		<option value="title">Title</option>
+		<option value="primaryKey_attribute">Primary Key</option>
+		<option value="AutoIncrement">Auto Increment</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -97,6 +98,8 @@ paper-menu {
 		<option value="id">Id</option>
 		<option value="name">Name</option>
 		<option value="title">Title</option>
+		<option value="primaryKey_attribute">Primary Key</option>
+		<option value="AutoIncrement">Auto Increment</option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -112,6 +115,10 @@ paper-menu {
 	  </template>
 	</select>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
+	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
+	
+	<a href="{{download_data}}" id="link" class="hide" download="Modelo.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -130,6 +137,10 @@ paper-menu {
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_title" on-click="sort_title">Title<div id="title_sort_d" class="hide">
 			<iron-icon id="title_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_primaryKey_attribute" on-click="sort_primaryKey_attribute">Primary Key<div id="primaryKey_attribute_sort_d" class="hide">
+			<iron-icon id="primaryKey_attribute_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_AutoIncrement" on-click="sort_AutoIncrement">Auto Increment<div id="AutoIncrement_sort_d" class="hide">
+			<iron-icon id="AutoIncrement_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
@@ -138,6 +149,8 @@ paper-menu {
 		<td class="col_id"></td>
 		<td class="col_name"></td>
 		<td class="col_title"></td>
+		<td class="col_primaryKey_attribute"></td>
+		<td class="col_AutoIncrement"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -149,6 +162,8 @@ paper-menu {
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 		<template is="dom-if" if="{{column.title}}"><td>{{item.title}}</td></template>
+		<template is="dom-if" if="{{column.primaryKey_attribute}}"><td>{{item.primaryKey_attribute}}</td></template>
+		<template is="dom-if" if="{{column.AutoIncrement}}"><td>{{item.AutoIncrement_des}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -174,9 +189,13 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "name", type: "string", display: true},
-				{column: "title", type: "string", display: true}
+				{column: "title", type: "string", display: true},
+				{column: "primaryKey_id", type: "integer", model: "Attribute", display: false},
+				{column: "primaryKey_attribute", type: "string", model: "Attribute", display: true},
+				{column: "AutoIncrement", enum: [true,false], enumdes: ["Yes","No"], display: true}
 		]
 		this.enums = {}
+		this.enums.AutoIncrement = {true:"Yes",false:"No"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Model")
@@ -248,6 +267,11 @@ Polymer({
 	},
 	select_field: function(e) {
 		this.field = e.toElement.id
+		if (this.$.filter.value == "primaryKey_attribute"){
+			this.$.Attribute_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.Attribute_select_dialog.style.left = "-100px"
+			this.$.Attribute_select_dialog.open_select_dialog()
+		}
 	},
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -293,6 +317,8 @@ Polymer({
 		this.$.id_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
 		this.$.title_sort_d.classList.add("hide")
+		this.$.primaryKey_attribute_sort_d.classList.add("hide")
+		this.$.AutoIncrement_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -311,6 +337,12 @@ Polymer({
 	},
 	sort_title: function() {
 		this.sort_by_field("title")
+	},
+	sort_primaryKey_attribute: function() {
+		this.sort_by_field("primaryKey_attribute")
+	},
+	sort_AutoIncrement: function() {
+		this.sort_by_field("AutoIncrement")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -389,6 +421,25 @@ Polymer({
 		}
 	}
 	},
+	menu: function() {
+		
+	},
+	download: function() {
+		var x2js = new X2JS();
+		var datoi = this.data.data
+		for (i=0; i<datoi.length; i++)
+		{
+			delete datoi[i].$loki
+			delete datoi[i].meta
+			delete datoi[i].createdAt
+			delete datoi[i].updatedAt
+		}
+		var dato = { "data": datoi }
+		var xml_data = x2js.json2xml_str(dato)
+		xml_data = "<x>"+xml_data+"</x>"
+		this.download_data = 'data:application/xml;charset=utf-8,'+xml_data
+		this.$.link.click()		
+	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
 		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+20+"px"
@@ -424,7 +475,16 @@ Polymer({
         this.data.remove(this.data.data[0])
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
-	{	
+	{
+		if (this.$.ajax.lastResponse[i].primaryKey){
+			this.$.ajax.lastResponse[i].primaryKey_id = this.$.ajax.lastResponse[i].primaryKey.id
+			this.$.ajax.lastResponse[i].primaryKey_attribute = this.$.ajax.lastResponse[i].primaryKey.attribute
+		} else
+		{
+			this.$.ajax.lastResponse[i].primaryKey_id = 0
+			this.$.ajax.lastResponse[i].primaryKey_attribute = ""
+		}
+		this.$.ajax.lastResponse[i].AutoIncrement_des= this.enums.AutoIncrement[this.$.ajax.lastResponse[i].AutoIncrement]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()

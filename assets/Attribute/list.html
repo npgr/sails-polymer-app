@@ -22,6 +22,8 @@
 	<link rel="import" href="/components/Attribute-edit/Attribute-edit.html">
 	<link rel="import" href="/components/Attribute-delete/Attribute-delete.html">
 	<link rel="import" href="/components/Model-select/Model-select.html">
+	<link rel="import" href="/components/Model-select/Model-select.html">
+	<link rel="import" href="/components/Attribute-select/Attribute-select.html">
 	<link rel="import" href="/components/app-config/app-config.html">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
@@ -64,15 +66,23 @@ paper-menu {
 	<Attribute-edit id="Attribute_edit_dialog" on-close="reload"></Attribute-edit>
 	<Attribute-delete id="Attribute_delete_dialog" on-close="reload"></Attribute-delete>
 	<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+	<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+	<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
 	
 	<div class="card_title">Listar Atributo</div>
 	<select id="filter" on-change="input_type">
 		<option value="id">Id</option>
+		<option value="pos">Pos</option>
 		<option value="model_name">Model</option>
 		<option value="attribute">Attribute</option>
+		<option value="description">Description</option>
 		<option value="type">Type</option>
-		<option value="primaryKey">PrimaryKey</option>
 		<option value="required">Required</option>
+		<option value="enum">Enum</option>
+		<option value="ref_model_name">Reference Model</option>
+		<option value="key">Key</option>
+		<option value="key_type">Key Type</option>
+		<option value="display_name">Display</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -97,11 +107,17 @@ paper-menu {
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id">Id</option>
+		<option value="pos">Pos</option>
 		<option value="model_name">Model</option>
 		<option value="attribute">Attribute</option>
+		<option value="description">Description</option>
 		<option value="type">Type</option>
-		<option value="primaryKey">PrimaryKey</option>
 		<option value="required">Required</option>
+		<option value="enum">Enum</option>
+		<option value="ref_model_name">Reference Model</option>
+		<option value="key">Key</option>
+		<option value="key_type">Key Type</option>
+		<option value="display_name">Display</option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -135,27 +151,45 @@ paper-menu {
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_pos" on-click="sort_pos">Pos<div id="pos_sort_d" class="hide">
+			<iron-icon id="pos_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_model_name" on-click="sort_model_name">Model<div id="model_name_sort_d" class="hide">
 			<iron-icon id="model_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_attribute" on-click="sort_attribute">Attribute<div id="attribute_sort_d" class="hide">
 			<iron-icon id="attribute_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_description" on-click="sort_description">Description<div id="description_sort_d" class="hide">
+			<iron-icon id="description_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_type" on-click="sort_type">Type<div id="type_sort_d" class="hide">
 			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_primaryKey" on-click="sort_primaryKey">PrimaryKey<div id="primaryKey_sort_d" class="hide">
-			<iron-icon id="primaryKey_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_required" on-click="sort_required">Required<div id="required_sort_d" class="hide">
 			<iron-icon id="required_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_enum" on-click="sort_enum">Enum<div id="enum_sort_d" class="hide">
+			<iron-icon id="enum_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_ref_model_name" on-click="sort_ref_model_name">Reference Model<div id="ref_model_name_sort_d" class="hide">
+			<iron-icon id="ref_model_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_key" on-click="sort_key">Key<div id="key_sort_d" class="hide">
+			<iron-icon id="key_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_key_type" on-click="sort_key_type">Key Type<div id="key_type_sort_d" class="hide">
+			<iron-icon id="key_type_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_display_name" on-click="sort_display_name">Display<div id="display_name_sort_d" class="hide">
+			<iron-icon id="display_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
+		<td class="col_pos"></td>
 		<td class="col_model_name"></td>
 		<td class="col_attribute"></td>
+		<td class="col_description"></td>
 		<td class="col_type"></td>
-		<td class="col_primaryKey"></td>
 		<td class="col_required"></td>
+		<td class="col_enum"></td>
+		<td class="col_ref_model_name"></td>
+		<td class="col_key"></td>
+		<td class="col_key_type"></td>
+		<td class="col_display_name"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -165,11 +199,17 @@ paper-menu {
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
+		<template is="dom-if" if="{{column.pos}}"><td>{{item.pos}}</td></template>
 		<template is="dom-if" if="{{column.model_name}}"><td>{{item.model_name}}</td></template>
 		<template is="dom-if" if="{{column.attribute}}"><td>{{item.attribute}}</td></template>
+		<template is="dom-if" if="{{column.description}}"><td>{{item.description}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
-		<template is="dom-if" if="{{column.primaryKey}}"><td>{{item.primaryKey_des}}</td></template>
 		<template is="dom-if" if="{{column.required}}"><td>{{item.required_des}}</td></template>
+		<template is="dom-if" if="{{column.enum}}"><td>{{item.enum}}</td></template>
+		<template is="dom-if" if="{{column.ref_model_name}}"><td>{{item.ref_model_name}}</td></template>
+		<template is="dom-if" if="{{column.key}}"><td>{{item.key}}</td></template>
+		<template is="dom-if" if="{{column.key_type}}"><td>{{item.key_type_des}}</td></template>
+		<template is="dom-if" if="{{column.display_name}}"><td>{{item.display_name}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -193,18 +233,26 @@ Polymer({
 		this.$.ajax.url = document.getElementById("config").server + "Attribute"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
-		var _model = [{column: "id", type: "undefined", display: true},
+		var _model = [{column: "id", type: "integer", display: true},
+				{column: "pos", type: "integer", display: true},
 				{column: "model_id", type: "integer", model: "Model", display: false},
 				{column: "model_name", type: "string", model: "Model", display: true},
 				{column: "attribute", type: "string", display: true},
+				{column: "description", type: "string", display: true},
 				{column: "type", enum: ["integer","string","float","date","boolean"], enumdes: ["integer","string","float","date","boolean"], display: true},
-				{column: "primaryKey", enum: [true,false], enumdes: ["Yes","No"], display: true},
-				{column: "required", enum: [true,false], enumdes: ["Yes","No"], display: true}
+				{column: "required", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "enum", type: "string", display: true},
+				{column: "ref_model_id", type: "integer", model: "Model", display: false},
+				{column: "ref_model_name", type: "string", model: "Model", display: true},
+				{column: "key", type: "string", display: true},
+				{column: "key_type", enum: ["integer","string","float","date","boolean"], enumdes: ["integer","string","float","date","boolean"], display: true},
+				{column: "display_id", type: "integer", model: "Attribute", display: false},
+				{column: "display_name", type: "string", model: "Attribute", display: true}
 		]
 		this.enums = {}
 		this.enums.type = {integer:"integer",string:"string",float:"float",date:"date",boolean:"boolean"}
-		this.enums.primaryKey = {true:"Yes",false:"No"}
 		this.enums.required = {true:"Yes",false:"No"}
+		this.enums.key_type = {integer:"integer",string:"string",float:"float",date:"date",boolean:"boolean"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Attribute")
@@ -281,6 +329,16 @@ Polymer({
 			//this.$.Model_select_dialog.style.left = "-100px"
 			this.$.Model_select_dialog.open_select_dialog()
 		}
+		if (this.$.filter.value == "ref_model_name"){
+			this.$.Model_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.Model_select_dialog.style.left = "-100px"
+			this.$.Model_select_dialog.open_select_dialog()
+		}
+		if (this.$.filter.value == "display_name"){
+			this.$.Attribute_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.Attribute_select_dialog.style.left = "-100px"
+			this.$.Attribute_select_dialog.open_select_dialog()
+		}
 	},
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -324,11 +382,17 @@ Polymer({
 	},
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
+		this.$.pos_sort_d.classList.add("hide")
 		this.$.model_name_sort_d.classList.add("hide")
 		this.$.attribute_sort_d.classList.add("hide")
+		this.$.description_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
-		this.$.primaryKey_sort_d.classList.add("hide")
 		this.$.required_sort_d.classList.add("hide")
+		this.$.enum_sort_d.classList.add("hide")
+		this.$.ref_model_name_sort_d.classList.add("hide")
+		this.$.key_sort_d.classList.add("hide")
+		this.$.key_type_sort_d.classList.add("hide")
+		this.$.display_name_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -342,20 +406,38 @@ Polymer({
 	sort_id: function() {
 		this.sort_by_field("id")
 	},
+	sort_pos: function() {
+		this.sort_by_field("pos")
+	},
 	sort_model_name: function() {
 		this.sort_by_field("model_name")
 	},
 	sort_attribute: function() {
 		this.sort_by_field("attribute")
 	},
+	sort_description: function() {
+		this.sort_by_field("description")
+	},
 	sort_type: function() {
 		this.sort_by_field("type")
 	},
-	sort_primaryKey: function() {
-		this.sort_by_field("primaryKey")
-	},
 	sort_required: function() {
 		this.sort_by_field("required")
+	},
+	sort_enum: function() {
+		this.sort_by_field("enum")
+	},
+	sort_ref_model_name: function() {
+		this.sort_by_field("ref_model_name")
+	},
+	sort_key: function() {
+		this.sort_by_field("key")
+	},
+	sort_key_type: function() {
+		this.sort_by_field("key_type")
+	},
+	sort_display_name: function() {
+		this.sort_by_field("display_name")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -498,8 +580,24 @@ Polymer({
 			this.$.ajax.lastResponse[i].model_name = ""
 		}
 		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
-		this.$.ajax.lastResponse[i].primaryKey_des= this.enums.primaryKey[this.$.ajax.lastResponse[i].primaryKey]
-		this.$.ajax.lastResponse[i].required_des= this.enums.required[this.$.ajax.lastResponse[i].required]	
+		this.$.ajax.lastResponse[i].required_des= this.enums.required[this.$.ajax.lastResponse[i].required]
+		if (this.$.ajax.lastResponse[i].ref_model){
+			this.$.ajax.lastResponse[i].ref_model_id = this.$.ajax.lastResponse[i].ref_model.id
+			this.$.ajax.lastResponse[i].ref_model_name = this.$.ajax.lastResponse[i].ref_model.name
+		} else
+		{
+			this.$.ajax.lastResponse[i].ref_model_id = 0
+			this.$.ajax.lastResponse[i].ref_model_name = ""
+		}
+		this.$.ajax.lastResponse[i].key_type_des= this.enums.key_type[this.$.ajax.lastResponse[i].key_type]
+		if (this.$.ajax.lastResponse[i].display){
+			this.$.ajax.lastResponse[i].display_id = this.$.ajax.lastResponse[i].display.id
+			this.$.ajax.lastResponse[i].display_name = this.$.ajax.lastResponse[i].display.name
+		} else
+		{
+			this.$.ajax.lastResponse[i].display_id = 0
+			this.$.ajax.lastResponse[i].display_name = ""
+		}	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()

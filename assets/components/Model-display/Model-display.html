@@ -1,7 +1,7 @@
 <dom-module id="Model-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Consultar Model</h2>
+		<h2 class="card_title">Consultar Modelo</h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -15,6 +15,17 @@
 			<tr>
 				<td><label class="left_label" for="title">Title</label></td>
 				<td><input id="title" type="text" name="title" value="{{item.title}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="primaryKey">Primary Key</label></td>
+				<td><input id="primaryKey" type="text" name="primaryKey" value="{{item.primaryKey_attribute}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="AutoIncrement">Auto Increment</label></td>
+				<td><select id="AutoIncrement" name="AutoIncrement" disabled>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
 			</tr>
 			</table>
 		  </paper-dialog-scrollable>
@@ -34,6 +45,7 @@
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
+			this.$.AutoIncrement.value = item.AutoIncrement
 			}
 	})
 </script>
