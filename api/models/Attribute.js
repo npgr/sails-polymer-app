@@ -78,14 +78,60 @@ module.exports = {
 		enum: ['integer', 'string', 'float', 'date', 'boolean']
 		//,enumdes: ['integer', 'string', 'float', 'date', 'boolean']
 	},
-	display: {
-		//description: 'Display',
+	model_display: {
+		//description: 'Display #',
 		//key: id,
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
 		//hide: true,
 		model: 'Attribute'
+	},
+	top_label: {
+		//description: 'Top Label #',
+		//hide: true,
+		type: 'string',
+		required: true
+	},
+	left_label: {
+		//description: 'Left Label #',
+		//hide: true,
+		type: 'string',
+		required: true
+	},
+	not_filter: {
+		//description: 'Not Filter #',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	display: {
+		//description: 'Display #',
+		type: 'string',
+		enum: ['s', 'h']
+		//,enumdes: ['Show', 'Hide']
+	},
+	create: {
+		//description: 'Create #',
+		type: 'string',
+		enum: ['c', 'r', 'h']
+		//,enumdes: ['Create', 'Readonly', 'Hide']
+	},
+	update: {
+		//description: 'Update #',
+		type: 'string',
+		enum: ['u', 'r', 'h']
+		//,enumdes: ['Update', 'Readonly', 'Hide']
+	},
+	delete: {
+		//description: 'Delete #',
+		type: 'string',
+		enum: ['s', 'h']
+		//,enumdes: ['Show', 'Hide']
+	},
+	help: {
+		//description: 'Help #',
+		type: 'string'
 	}
   }
 };

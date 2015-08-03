@@ -42,6 +42,7 @@ module.exports = {
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
 	}
+	// create, display, update, delete, columns, download, menu, menu options, item menu options
   }
 };
 
