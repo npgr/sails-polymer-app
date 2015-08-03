@@ -16,9 +16,13 @@
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Columnas Attribute</h2>
+		<h2 class="card_title">Columnas Atributo</h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><div id="id" on-click="change_field"></div></td>
+			</tr>
 			<tr>
 				<td><label class="left_label" for="model_name">Model</label></td>
 				<td><div id="model_name" on-click="change_field"></div></td>
@@ -59,6 +63,7 @@
 		open_list_columns: function(column) {
 			this.updated= false,
 			this.column= column
+			this.show_field("id")
 			this.show_field("model_name")
 			this.show_field("attribute")
 			this.show_field("type")

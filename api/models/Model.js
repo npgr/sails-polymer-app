@@ -10,6 +10,7 @@ module.exports = {
   //migrate: 'alter',
 
   attributes: {
+	//_title: 'Modelo',
 	id: {
 		//description: 'Id',
 		type: "integer",

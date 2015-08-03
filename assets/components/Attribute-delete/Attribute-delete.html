@@ -2,10 +2,14 @@
 <template>
 	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Borrar Attribute</h2>
+		<h2 class="card_title">Borrar Atributo</h2>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="text" name="id" value="{{item.id}}" disabled></td>
+			</tr>
 			<tr>
 				<td><label class="left_label" for="model">Model</label></td>
 				<td><input id="model" type="text" name="model" value="{{item.model_name}}" disabled></td>
@@ -21,20 +25,21 @@
 						<option value="string">string</option>
 						<option value="float">float</option>
 						<option value="date">date</option>
+						<option value="boolean">boolean</option>
 					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="primaryKey">PrimaryKey</label></td>
 				<td><select id="primaryKey" name="primaryKey" disabled>
-						<option value="true">true</option>
-						<option value="false">false</option>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
 					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="required">Required</label></td>
 				<td><select id="required" name="required" disabled>
-						<option value="true">true</option>
-						<option value="false">false</option>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
 					</select></td>
 			</tr>
 			</table>

@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Listar Attribute</title>
+	<title>Listar Atributo</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
@@ -65,8 +65,9 @@ paper-menu {
 	<Attribute-delete id="Attribute_delete_dialog" on-close="reload"></Attribute-delete>
 	<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
 	
-	<div class="card_title">Listar Attribute</div>
+	<div class="card_title">Listar Atributo</div>
 	<select id="filter" on-change="input_type">
+		<option value="id">Id</option>
 		<option value="model_name">Model</option>
 		<option value="attribute">Attribute</option>
 		<option value="type">Type</option>
@@ -95,6 +96,7 @@ paper-menu {
 	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
+		<option value="id">Id</option>
 		<option value="model_name">Model</option>
 		<option value="attribute">Attribute</option>
 		<option value="type">Type</option>
@@ -118,7 +120,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 	
-	<a href="{{download_data}}" id="link" class="hide" download="Attribute.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="Atributo.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -131,6 +133,8 @@ paper-menu {
 	<thead>
 	  <tr>
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
+			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_model_name" on-click="sort_model_name">Model<div id="model_name_sort_d" class="hide">
 			<iron-icon id="model_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_attribute" on-click="sort_attribute">Attribute<div id="attribute_sort_d" class="hide">
@@ -146,6 +150,7 @@ paper-menu {
 	<!--<tfoot>
 	<tr>
 		<td class="ops"></td>
+		<td class="col_id"></td>
 		<td class="col_model_name"></td>
 		<td class="col_attribute"></td>
 		<td class="col_type"></td>
@@ -157,8 +162,9 @@ paper-menu {
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button key="{{item.model}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
+			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
+		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.model_name}}"><td>{{item.model_name}}</td></template>
 		<template is="dom-if" if="{{column.attribute}}"><td>{{item.attribute}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
@@ -185,19 +191,20 @@ Polymer({
 			}
 		}
 		this.$.ajax.url = document.getElementById("config").server + "Attribute"
-		this.cur_sort = { field: "model", isdesc: true }
+		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
-		var _model = [{column: "model_id", type: "integer", model: "Model", display: false},
+		var _model = [{column: "id", type: "undefined", display: true},
+				{column: "model_id", type: "integer", model: "Model", display: false},
 				{column: "model_name", type: "string", model: "Model", display: true},
 				{column: "attribute", type: "string", display: true},
-				{column: "type", enum: ["integer","string","float","date"], enumdes: ["integer","string","float","date"], display: true},
-				{column: "primaryKey", enum: [true,false], enumdes: ["true","false"], display: true},
-				{column: "required", enum: [true,false], enumdes: ["true","false"], display: true}
+				{column: "type", enum: ["integer","string","float","date","boolean"], enumdes: ["integer","string","float","date","boolean"], display: true},
+				{column: "primaryKey", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "required", enum: [true,false], enumdes: ["Yes","No"], display: true}
 		]
 		this.enums = {}
-		this.enums.type = {integer:"integer",string:"string",float:"float",date:"date"}
-		this.enums.primaryKey = {true:"true",false:"false"}
-		this.enums.required = {true:"true",false:"false"}
+		this.enums.type = {integer:"integer",string:"string",float:"float",date:"date",boolean:"boolean"}
+		this.enums.primaryKey = {true:"Yes",false:"No"}
+		this.enums.required = {true:"Yes",false:"No"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Attribute")
@@ -220,7 +227,7 @@ Polymer({
 			
 		this.show_columns()
 		// reset filter
-		this.$.filter.value = "model"
+		this.$.filter.value = "id"
 		this.$.op.value = "$eq"
 		this.$.filtro.value = ""
 		this.$.logic.value = "-"
@@ -316,6 +323,7 @@ Polymer({
 		this.regs = this.filtered_data.length + " reg"
 	},
 	hide_sort_icons: function() {
+		this.$.id_sort_d.classList.add("hide")
 		this.$.model_name_sort_d.classList.add("hide")
 		this.$.attribute_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
@@ -330,6 +338,9 @@ Polymer({
 		  else
 			this.$[field+"_sort"].setAttribute("icon", "arrow-drop-up")
 		this.$[field+"_sort_d"].classList.remove("hide")	
+	},
+	sort_id: function() {
+		this.sort_by_field("id")
 	},
 	sort_model_name: function() {
 		this.sort_by_field("model_name")
@@ -374,6 +385,9 @@ Polymer({
 		switch(column[0].type) {
 		case "string":
 			tipo = "text"
+		break;
+		case "boolean":
+			tipo = "boolean"
 		break;
 		case "integer":
 			tipo = "number"
@@ -447,19 +461,19 @@ Polymer({
 	},
   display: function(e) {
 	this.$.menu_dialog.close()
-	var filtro = {"model": this.key}
+	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Attribute_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
 	this.$.menu_dialog.close()
-	var filtro = {"model": this.key}
+	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Attribute_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
 	this.$.menu_dialog.close()
-	var filtro = {"model": this.key}
+	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Attribute_delete_dialog.open_delete_dialog(item)
   },

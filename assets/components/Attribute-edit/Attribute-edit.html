@@ -3,17 +3,21 @@
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
 		<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
-		<h2 class="card_title">Editar Attribute</h2>
+		<h2 class="card_title">Editar Atributo</h2>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="text" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="model">Model</label></td>
-				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key={{item.model_id}} value="{{item.model_name}}" disabled on-click="select_field" readonly></td>
+				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key={{item.model_id}} value="{{item.model_name}}" on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="attribute">Attribute</label></td>
-				<td><input id="attribute" type="text" name="attribute" value="{{item.attribute}}" disabled></td>
+				<td><input id="attribute" type="text" name="attribute" value="{{item.attribute}}"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="type">Type</label></td>
@@ -22,20 +26,21 @@
 						<option value="string">string</option>
 						<option value="float">float</option>
 						<option value="date">date</option>
+						<option value="boolean">boolean</option>
 					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="primaryKey">PrimaryKey</label></td>
 				<td><select id="primaryKey" name="primaryKey">
-						<option value="true">true</option>
-						<option value="false">false</option>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
 					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="required">Required</label></td>
 				<td><select id="required" name="required">
-						<option value="true">true</option>
-						<option value="false">false</option>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
 					</select></td>
 			</tr>
 			</table>
@@ -80,12 +85,13 @@
 		},
 		update: function() {
 			var record = {}
+			record.id = Number(this.$.id.value)
 			record.model = this.$.model.key
 			record.attribute = this.$.attribute.value
 			record.type = this.$.type.value
-			record.primaryKey = Number(this.$.primaryKey.value)
-			record.required = Number(this.$.required.value)
-			this.$.ajax.url = document.getElementById("config").server + "Attribute/" +record.model
+			record.primaryKey = this.$.primaryKey.value
+			record.required = this.$.required.value
+			this.$.ajax.url = document.getElementById("config").server + "Attribute/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},

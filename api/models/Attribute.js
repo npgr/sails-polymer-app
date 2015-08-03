@@ -10,10 +10,17 @@ module.exports = {
   migrate: 'alter',
 
   attributes: {
+	//_title: 'Atributo',
+	//_unique: ['model', 'attribute'],
+	id: {
+		//description: 'Id',
+		//hide: true,
+		primaryKey: true,
+		unique: true,
+		autoIncrement: true
+	},
 	model: {
 		//description: 'Model',
-		primaryKey: true,
-		unique: false,
 		//key: id,
 		//key_type: 'integer',
 		//display: 'name',
@@ -22,27 +29,25 @@ module.exports = {
 	},
 	attribute: {
 		//description: 'Attribute',
-		type: "string",
-		primaryKey: true,
-		unique: false
+		type: "string"
 	},
 	type: {
 		//description: 'Type',
 		type: 'string',
-		enum: ['integer', 'string', 'float', 'date']
-		//,enumdes: ['integer', 'string', 'float', 'date']
+		enum: ['integer', 'string', 'float', 'date', 'boolean']
+		//,enumdes: ['integer', 'string', 'float', 'date', 'boolean']
 	},
 	primaryKey: {
 		//description: 'PrimaryKey',
 		type: 'boolean',
 		enum: [true, false]
-		//,enumdes: ['true', 'false']
+		//,enumdes: ['Yes', 'No']
 	},
 	required: {
 		//description: 'Required',
 		type: 'boolean',
 		enum: [true, false]
-		//,enumdes: ['true', 'false']
+		//,enumdes: ['Yes', 'No']
 	}
   }
 };
