@@ -42,7 +42,7 @@ html, body {
 label, h2 {
 	color: rgb(30,30,30);
 }
- table {
+table {
 	color: rgb(15,15,15);
 }
 input, select {
@@ -68,7 +68,7 @@ input, select {
 th, tfoot {
 	//background-color: darkturquoise;
 	background-color: rgb(138, 197, 212);
-	padding: 10px;
+	padding: 0px 10px;
 }
 th {
 	text-align: left;
