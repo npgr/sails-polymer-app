@@ -15,9 +15,14 @@ module.exports = {
 	id: {
 		//description: 'Id',
 		//hide: true,
+		type: 'integer',
 		primaryKey: true,
 		unique: true,
 		autoIncrement: true
+	},
+	pos: {
+		//description: 'Pos',
+		type: 'integer'
 	},
 	model: {
 		//description: 'Model',
@@ -29,7 +34,13 @@ module.exports = {
 	},
 	attribute: {
 		//description: 'Attribute',
-		type: "string"
+		type: "string",
+		required: true
+	},
+	description: {
+		//description: 'Description',
+		type: "string",
+		required: true
 	},
 	type: {
 		//description: 'Type',
@@ -37,17 +48,41 @@ module.exports = {
 		enum: ['integer', 'string', 'float', 'date', 'boolean']
 		//,enumdes: ['integer', 'string', 'float', 'date', 'boolean']
 	},
-	primaryKey: {
-		//description: 'PrimaryKey',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
-	},
 	required: {
 		//description: 'Required',
 		type: 'boolean',
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
+	},
+	enum: {
+		//description: 'Enum',
+		type: 'string'
+	},
+	ref_model: {
+		//description: 'Reference Model',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'Model'
+	},
+	key: {
+		//description: 'Key',
+		type: 'string'
+	},
+	key_type: {
+		//description: 'Key Type',
+		type: 'string',
+		enum: ['integer', 'string', 'float', 'date', 'boolean']
+		//,enumdes: ['integer', 'string', 'float', 'date', 'boolean']
+	},
+	display: {
+		//description: 'Display',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'Attribute'
 	}
   }
 };
