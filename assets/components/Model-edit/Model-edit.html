@@ -1,0 +1,76 @@
+<dom-module id="Model-edit">
+<template>
+	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Editar Model</h2>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name">Name<strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="title">Title<strong class="red"> *</strong></label></td>
+				<td><input id="title" type="text" name="title" value="{{item.title}}" required></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Model-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.id = Number(this.$.id.value)
+			record.name = this.$.name.value
+			record.title = this.$.title.value
+			this.$.ajax.url = document.getElementById("config").server + "Model/" +record.id
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("record updated")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>

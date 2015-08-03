@@ -1,0 +1,94 @@
+<dom-module id="Model-new">
+<template>
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Crear Model</h2>
+		<form id="form" action="javascript:void(0);" on-submit="create">
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name">Name<strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="title">Title<strong class="red"> *</strong></label></td>
+				<td><input id="title" type="text" name="title" required></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+			<div class="buttons">
+				<input id="submit_btn" class="hide" type="submit" value="CREAR">
+				<div class="card_line">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+				</div>
+			</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Model-new",
+		open_dialog: function() {
+			this.clear()
+			this.$.dialog.open()
+		},
+		clear: function() {
+			this.$.id.value = ''
+			this.$.name.value = ''
+			this.$.title.value = ''
+		},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		create: function() {
+			this.$.ajax2.url = document.getElementById("config").server + "Model"
+			var record = {}
+			  record.name = this.$.name.value
+			  record.title = this.$.title.value			
+			this.$.ajax2.params = record
+			this.$.ajax2.generateRequest()
+		},
+		record_created: function() {
+			alert("Created Model id="+this.$.ajax2.lastResponse.id)
+			// ask for create another one
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		submit_form: function() {
+			if (!isNaN(this.$.id.value))
+			{
+				if (this.$.id.value > 0)
+				{
+					this.$.ajax.url = document.getElementById("config").server+"Model/exist/"+this.$.id.value
+					this.$.ajax.generateRequest()
+				}
+				else this.$.submit_btn.click()
+			} else
+				this.$.submit_btn.click()
+		},
+		validate_record: function() {
+			if (this.$.ajax.lastResponse.exist)
+				alert("Registro ya Existe")
+			else
+				this.$.submit_btn.click()
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
