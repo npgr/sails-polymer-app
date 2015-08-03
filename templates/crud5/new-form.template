@@ -8,8 +8,8 @@
 		<<%= jsondata[keys[i]].model%>-select id="<%= jsondata[keys[i]].model%>_select_dialog" on-item_selected="set_select_field"></<%= jsondata[keys[i]].model%>-select><%
 		} }%>
 		<h2 class="card_title">Crear <%= title%></h2>
-		<form id="form" action="javascript:void(0);" on-submit="create">
-			<paper-dialog-scrollable>
+		<paper-dialog-scrollable>
+		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%"><%
 			for (i=0; i < keys.length; i++) { 
 				if (jsondata[keys[i]].line_c) {%>
@@ -21,7 +21,6 @@
 				%><%= jsondata[keys[i]].line_c %></td>
 			</tr><% } }%>
 			</table>
-			</paper-dialog-scrollable>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
@@ -29,7 +28,8 @@
 					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 				</div>
 			</div>
-		</form>
+		  </form>
+		</paper-dialog-scrollable>
 	</paper-dialog>
 </template>
 <script>
