@@ -1,0 +1,103 @@
+<dom-module id="Attribute-edit">
+<template>
+	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+		<h2 class="card_title">Editar Attribute</h2>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="model">Model</label></td>
+				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key={{item.model_id}} value="{{item.model_name}}" disabled on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="attribute">Attribute</label></td>
+				<td><input id="attribute" type="text" name="attribute" value="{{item.attribute}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><select id="type" name="type">
+						<option value="integer">integer</option>
+						<option value="string">string</option>
+						<option value="float">float</option>
+						<option value="date">date</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="primaryKey">PrimaryKey</label></td>
+				<td><select id="primaryKey" name="primaryKey">
+						<option value="true">true</option>
+						<option value="false">false</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="required">Required</label></td>
+				<td><select id="required" name="required">
+						<option value="true">true</option>
+						<option value="false">false</option>
+					</select></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+		</form>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Attribute-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.primaryKey.value = item.primaryKey
+			this.$.required.value = item.required
+			},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "model")
+				this.$.Model_select_dialog.open_select_dialog()
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.model = this.$.model.key
+			record.attribute = this.$.attribute.value
+			record.type = this.$.type.value
+			record.primaryKey = Number(this.$.primaryKey.value)
+			record.required = Number(this.$.required.value)
+			this.$.ajax.url = document.getElementById("config").server + "Attribute/" +record.model
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("record updated")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>

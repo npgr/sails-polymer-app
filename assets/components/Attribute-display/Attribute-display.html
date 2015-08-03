@@ -1,0 +1,62 @@
+<dom-module id="Attribute-display">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Consultar Attribute</h2>
+		  <paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="model">Model</label></td>
+				<td><input id="model" type="text" name="model" value="{{item.model_name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="attribute">Attribute</label></td>
+				<td><input id="attribute" type="text" name="attribute" value="{{item.attribute}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="integer">integer</option>
+						<option value="string">string</option>
+						<option value="float">float</option>
+						<option value="date">date</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="primaryKey">PrimaryKey</label></td>
+				<td><select id="primaryKey" name="primaryKey" disabled>
+						<option value="true">true</option>
+						<option value="false">false</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="required">Required</label></td>
+				<td><select id="required" name="required" disabled>
+						<option value="true">true</option>
+						<option value="false">false</option>
+					</select></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Attribute-display",
+		open_display_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.primaryKey.value = item.primaryKey
+			this.$.required.value = item.required
+			}
+	})
+</script>
+</dom-module>
