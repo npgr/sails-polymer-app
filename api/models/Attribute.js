@@ -68,10 +68,12 @@ module.exports = {
 	},
 	key: {
 		//description: 'Key',
+		//hide: true,
 		type: 'string'
 	},
 	key_type: {
 		//description: 'Key Type',
+		//hide: true,
 		type: 'string',
 		enum: ['integer', 'string', 'float', 'date', 'boolean']
 		//,enumdes: ['integer', 'string', 'float', 'date', 'boolean']
@@ -82,6 +84,7 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
+		//hide: true,
 		model: 'Attribute'
 	}
   }

@@ -7,6 +7,9 @@ function getInputType(type) {
 		case 'string':
 			return 'text'
 			break
+		case 'boolean':
+			return 'boolean'
+			break
 		case 'integer':
 			return 'number'
 			break
@@ -271,14 +274,24 @@ function generate_list_page(keys, key, title) {
 			 attrs += '\t\t\t\t'
 		   else	first = false
 		  if (jsondata[keys[i]].enum)
-			attrs += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+', enumdes: '+JSON.stringify(jsondata[keys[i]].enumdes)+', display: true}'
+		  {
+			attrs += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+', enumdes: '+JSON.stringify(jsondata[keys[i]].enumdes)+', display: '
+			if (!jsondata[keys[i]].hide) attrs += 'true}'
+				else attrs += 'false}'
+		  }
 		  else
 			if (!jsondata[keys[i]].model)
-				attrs += '{column: "'+keys[i]+'", type: "'+jsondata[keys[i]].type+'", display: true}'
+			{
+				attrs += '{column: "'+keys[i]+'", type: "'+jsondata[keys[i]].type+'", display: '
+				if (!jsondata[keys[i]].hide) attrs += 'true}'
+					else attrs += 'false}'
+			}
 			else 
 			{
 				attrs += '{column: "'+keys[i]+'_'+jsondata[keys[i]].key+'", type: "'+jsondata[keys[i]].key_type+'", model: "'+jsondata[keys[i]].model+'", display: false},\n\t\t\t\t'
-				attrs += '{column: "'+keys[i]+'_'+jsondata[keys[i]].display+'", type: "'+jsondata[keys[i]].type+'", model: "'+jsondata[keys[i]].model+'", display: true}'
+				attrs += '{column: "'+keys[i]+'_'+jsondata[keys[i]].display+'", type: "'+jsondata[keys[i]].type+'", model: "'+jsondata[keys[i]].model+'", display: '
+				if (!jsondata[keys[i]].hide) attrs += 'true}'
+					else attrs += 'false}'
 			}
 		  if (i < keys.length-1)
 			attrs += ',\n'

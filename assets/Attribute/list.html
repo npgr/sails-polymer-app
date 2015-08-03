@@ -233,7 +233,7 @@ Polymer({
 		this.$.ajax.url = document.getElementById("config").server + "Attribute"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
-		var _model = [{column: "id", type: "integer", display: true},
+		var _model = [{column: "id", type: "integer", display: false},
 				{column: "pos", type: "integer", display: true},
 				{column: "model_id", type: "integer", model: "Model", display: false},
 				{column: "model_name", type: "string", model: "Model", display: true},
@@ -244,10 +244,10 @@ Polymer({
 				{column: "enum", type: "string", display: true},
 				{column: "ref_model_id", type: "integer", model: "Model", display: false},
 				{column: "ref_model_name", type: "string", model: "Model", display: true},
-				{column: "key", type: "string", display: true},
-				{column: "key_type", enum: ["integer","string","float","date","boolean"], enumdes: ["integer","string","float","date","boolean"], display: true},
+				{column: "key", type: "string", display: false},
+				{column: "key_type", enum: ["integer","string","float","date","boolean"], enumdes: ["integer","string","float","date","boolean"], display: false},
 				{column: "display_id", type: "integer", model: "Attribute", display: false},
-				{column: "display_name", type: "string", model: "Attribute", display: true}
+				{column: "display_name", type: "string", model: "Attribute", display: false}
 		]
 		this.enums = {}
 		this.enums.type = {integer:"integer",string:"string",float:"float",date:"date",boolean:"boolean"}
