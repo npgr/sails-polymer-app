@@ -341,6 +341,9 @@ Polymer({
 		case "string":
 			tipo = "text"
 		break;
+		case "boolean":
+			tipo = "boolean"
+		break;
 		case "integer":
 			tipo = "number"
 		break;
@@ -385,9 +388,6 @@ Polymer({
 				this.push("opts2", {"op": column[0].enum[i], "des": column[0].enumdes[i]})
 		}
 	}
-	},
-	menu: function() {
-		
 	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
