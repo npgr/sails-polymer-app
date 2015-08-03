@@ -74,6 +74,9 @@
 				  case "string":%>
 			record.<%= keys[i]%> = this.$.<%= keys[i]%>.value<%
 					break
+					case "boolean":%>
+			record.<%= keys[i]%> = this.$.<%= keys[i]%>.value<%
+					break
 				  case "date":%>
 			if (this.$.<%= keys[i]%>.value)
 				record.<%= keys[i]%> = this.$.<%= keys[i]%>.value<%

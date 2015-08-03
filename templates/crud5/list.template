@@ -384,6 +384,9 @@ Polymer({
 		case "string":
 			tipo = "text"
 		break;
+		case "boolean":
+			tipo = "boolean"
+		break;
 		case "integer":
 			tipo = "number"
 		break;
