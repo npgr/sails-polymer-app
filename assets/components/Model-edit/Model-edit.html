@@ -24,8 +24,57 @@
 				<td><iron-icon icon="find-in-page" field="primaryKey" on-click="select_field_b"></iron-icon><input id="primaryKey" type="text" name="primaryKey" key={{item.primaryKey_id}} value="{{item.primaryKey_attribute}}" on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="AutoIncrement">Auto Increment</label></td>
-				<td><select id="AutoIncrement" name="AutoIncrement">
+				<td><label class="left_label" for="autoIncrement">Auto Increment</label></td>
+				<td><select id="autoIncrement" name="autoIncrement">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><select id="display" name="display">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="create">Create</label></td>
+				<td><select id="create" name="create">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="update">Update</label></td>
+				<td><select id="update" name="update">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="delete">Delete</label></td>
+				<td><select id="delete" name="delete">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="columns">Columns</label></td>
+				<td><select id="columns" name="columns">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="download">Download</label></td>
+				<td><select id="download" name="download">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="Menu">Menu</label></td>
+				<td><select id="Menu" name="Menu">
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
@@ -51,7 +100,14 @@
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.AutoIncrement.value = item.AutoIncrement
+			this.$.autoIncrement.value = item.autoIncrement
+			this.$.display.value = item.display
+			this.$.create.value = item.create
+			this.$.update.value = item.update
+			this.$.delete.value = item.delete
+			this.$.columns.value = item.columns
+			this.$.download.value = item.download
+			this.$.Menu.value = item.Menu
 			},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
@@ -74,7 +130,14 @@
 			record.name = this.$.name.value
 			record.title = this.$.title.value
 			record.primaryKey = this.$.primaryKey.key
-			record.AutoIncrement = this.$.AutoIncrement.value
+			record.autoIncrement = this.$.autoIncrement.value
+			record.display = this.$.display.value
+			record.create = this.$.create.value
+			record.update = this.$.update.value
+			record.delete = this.$.delete.value
+			record.columns = this.$.columns.value
+			record.download = this.$.download.value
+			record.Menu = this.$.Menu.value
 			this.$.ajax.url = document.getElementById("config").server + "Model/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()

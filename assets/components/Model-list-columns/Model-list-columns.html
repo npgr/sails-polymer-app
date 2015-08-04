@@ -36,8 +36,36 @@
 				<td><div id="primaryKey_attribute" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="AutoIncrement">Auto Increment</label></td>
-				<td><div id="AutoIncrement" on-click="change_field"></div></td>
+				<td><label class="left_label" for="autoIncrement">Auto Increment</label></td>
+				<td><div id="autoIncrement" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><div id="display" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="create">Create</label></td>
+				<td><div id="create" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="update">Update</label></td>
+				<td><div id="update" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="delete">Delete</label></td>
+				<td><div id="delete" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="columns">Columns</label></td>
+				<td><div id="columns" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="download">Download</label></td>
+				<td><div id="download" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="Menu">Menu</label></td>
+				<td><div id="Menu" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -63,7 +91,14 @@
 			this.show_field("name")
 			this.show_field("title")
 			this.show_field("primaryKey_attribute")
-			this.show_field("AutoIncrement")
+			this.show_field("autoIncrement")
+			this.show_field("display")
+			this.show_field("create")
+			this.show_field("update")
+			this.show_field("delete")
+			this.show_field("columns")
+			this.show_field("download")
+			this.show_field("Menu")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

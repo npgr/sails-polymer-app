@@ -66,8 +66,57 @@
 					</select></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="model_display">mdl Display</label></td>
+				<td><input id="model_display" type="text" name="model_display" value="{{item.model_display_name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="top_label">Top Label</label></td>
+				<td><input id="top_label" type="text" name="top_label" value="{{item.top_label}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="left_label">Left Label</label></td>
+				<td><input id="left_label" type="text" name="left_label" value="{{item.left_label}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="not_filter">Not Filter</label></td>
+				<td><select id="not_filter" name="not_filter" disabled>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="display">Display</label></td>
-				<td><input id="display" type="text" name="display" value="{{item.display_name}}" disabled></td>
+				<td><select id="display" name="display" disabled>
+						<option value="s">Show</option>
+						<option value="h">Hide</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="create">Create</label></td>
+				<td><select id="create" name="create" disabled>
+						<option value="c">Create</option>
+						<option value="r">Readonly</option>
+						<option value="h">Hide</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="update">Update</label></td>
+				<td><select id="update" name="update" disabled>
+						<option value="u">Update</option>
+						<option value="r">Readonly</option>
+						<option value="h">Hide</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="delete">Delete</label></td>
+				<td><select id="delete" name="delete" disabled>
+						<option value="s">Show</option>
+						<option value="h">Hide</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="help">Help</label></td>
+				<td><input id="help" type="text" name="help" value="{{item.help}}" disabled></td>
 			</tr>
 			</table>
 		<div class="buttons">
@@ -93,6 +142,11 @@
 			this.$.type.value = item.type
 			this.$.required.value = item.required
 			this.$.key_type.value = item.key_type
+			this.$.not_filter.value = item.not_filter
+			this.$.display.value = item.display
+			this.$.create.value = item.create
+			this.$.update.value = item.update
+			this.$.delete.value = item.delete
 			},
 		form_submit: function() {
 			this.$.submit_delete.click()

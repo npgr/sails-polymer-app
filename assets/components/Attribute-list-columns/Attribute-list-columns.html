@@ -64,8 +64,40 @@
 				<td><div id="key_type" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="display_name">Display</label></td>
-				<td><div id="display_name" on-click="change_field"></div></td>
+				<td><label class="left_label" for="model_display_name">mdl Display</label></td>
+				<td><div id="model_display_name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="top_label">Top Label</label></td>
+				<td><div id="top_label" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="left_label">Left Label</label></td>
+				<td><div id="left_label" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="not_filter">Not Filter</label></td>
+				<td><div id="not_filter" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><div id="display" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="create">Create</label></td>
+				<td><div id="create" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="update">Update</label></td>
+				<td><div id="update" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="delete">Delete</label></td>
+				<td><div id="delete" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="help">Help</label></td>
+				<td><div id="help" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -98,7 +130,15 @@
 			this.show_field("ref_model_name")
 			this.show_field("key")
 			this.show_field("key_type")
-			this.show_field("display_name")
+			this.show_field("model_display_name")
+			this.show_field("top_label")
+			this.show_field("left_label")
+			this.show_field("not_filter")
+			this.show_field("display")
+			this.show_field("create")
+			this.show_field("update")
+			this.show_field("delete")
+			this.show_field("help")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

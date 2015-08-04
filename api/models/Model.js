@@ -36,13 +36,54 @@ module.exports = {
 		//type: 'string',
 		model: 'Attribute'
 	},
-	AutoIncrement: {
+	autoIncrement: {
 		//description: 'Auto Increment',
 		type: 'boolean',
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
+	},
+	display: {
+		//description: 'Display',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	create: {
+		//description: 'Create',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	update: {
+		//description: 'Update',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	delete: {
+		//description: 'Delete',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	columns: {
+		//description: 'Columns',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	download: {
+		//description: 'Download',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	Menu: {
+		//description: 'Menu',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
 	}
-	// create, display, update, delete, columns, download, menu, menu options, item menu options
   }
 };
 

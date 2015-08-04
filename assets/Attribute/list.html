@@ -82,7 +82,15 @@ paper-menu {
 		<option value="ref_model_name">Reference Model</option>
 		<option value="key">Key</option>
 		<option value="key_type">Key Type</option>
-		<option value="display_name">Display</option>
+		<option value="model_display_name">mdl Display</option>
+		<option value="top_label">Top Label</option>
+		<option value="left_label">Left Label</option>
+		<option value="not_filter">Not Filter</option>
+		<option value="display">Display</option>
+		<option value="create">Create</option>
+		<option value="update">Update</option>
+		<option value="delete">Delete</option>
+		<option value="help">Help</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -117,7 +125,15 @@ paper-menu {
 		<option value="ref_model_name">Reference Model</option>
 		<option value="key">Key</option>
 		<option value="key_type">Key Type</option>
-		<option value="display_name">Display</option>
+		<option value="model_display_name">mdl Display</option>
+		<option value="top_label">Top Label</option>
+		<option value="left_label">Left Label</option>
+		<option value="not_filter">Not Filter</option>
+		<option value="display">Display</option>
+		<option value="create">Create</option>
+		<option value="update">Update</option>
+		<option value="delete">Delete</option>
+		<option value="help">Help</option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -171,8 +187,24 @@ paper-menu {
 			<iron-icon id="key_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_key_type" on-click="sort_key_type">Key Type<div id="key_type_sort_d" class="hide">
 			<iron-icon id="key_type_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_display_name" on-click="sort_display_name">Display<div id="display_name_sort_d" class="hide">
-			<iron-icon id="display_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_model_display_name" on-click="sort_model_display_name">mdl Display<div id="model_display_name_sort_d" class="hide">
+			<iron-icon id="model_display_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_top_label" on-click="sort_top_label">Top Label<div id="top_label_sort_d" class="hide">
+			<iron-icon id="top_label_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_left_label" on-click="sort_left_label">Left Label<div id="left_label_sort_d" class="hide">
+			<iron-icon id="left_label_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_not_filter" on-click="sort_not_filter">Not Filter<div id="not_filter_sort_d" class="hide">
+			<iron-icon id="not_filter_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_display" on-click="sort_display">Display<div id="display_sort_d" class="hide">
+			<iron-icon id="display_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_create" on-click="sort_create">Create<div id="create_sort_d" class="hide">
+			<iron-icon id="create_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_update" on-click="sort_update">Update<div id="update_sort_d" class="hide">
+			<iron-icon id="update_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_delete" on-click="sort_delete">Delete<div id="delete_sort_d" class="hide">
+			<iron-icon id="delete_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_help" on-click="sort_help">Help<div id="help_sort_d" class="hide">
+			<iron-icon id="help_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
@@ -189,7 +221,15 @@ paper-menu {
 		<td class="col_ref_model_name"></td>
 		<td class="col_key"></td>
 		<td class="col_key_type"></td>
-		<td class="col_display_name"></td>
+		<td class="col_model_display_name"></td>
+		<td class="col_top_label"></td>
+		<td class="col_left_label"></td>
+		<td class="col_not_filter"></td>
+		<td class="col_display"></td>
+		<td class="col_create"></td>
+		<td class="col_update"></td>
+		<td class="col_delete"></td>
+		<td class="col_help"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -209,7 +249,15 @@ paper-menu {
 		<template is="dom-if" if="{{column.ref_model_name}}"><td>{{item.ref_model_name}}</td></template>
 		<template is="dom-if" if="{{column.key}}"><td>{{item.key}}</td></template>
 		<template is="dom-if" if="{{column.key_type}}"><td>{{item.key_type_des}}</td></template>
-		<template is="dom-if" if="{{column.display_name}}"><td>{{item.display_name}}</td></template>
+		<template is="dom-if" if="{{column.model_display_name}}"><td>{{item.model_display_name}}</td></template>
+		<template is="dom-if" if="{{column.top_label}}"><td>{{item.top_label}}</td></template>
+		<template is="dom-if" if="{{column.left_label}}"><td>{{item.left_label}}</td></template>
+		<template is="dom-if" if="{{column.not_filter}}"><td>{{item.not_filter_des}}</td></template>
+		<template is="dom-if" if="{{column.display}}"><td>{{item.display_des}}</td></template>
+		<template is="dom-if" if="{{column.create}}"><td>{{item.create_des}}</td></template>
+		<template is="dom-if" if="{{column.update}}"><td>{{item.update_des}}</td></template>
+		<template is="dom-if" if="{{column.delete}}"><td>{{item.delete_des}}</td></template>
+		<template is="dom-if" if="{{column.help}}"><td>{{item.help}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -246,13 +294,26 @@ Polymer({
 				{column: "ref_model_name", type: "string", model: "Model", display: true},
 				{column: "key", type: "string", display: false},
 				{column: "key_type", enum: ["integer","string","float","date","boolean"], enumdes: ["integer","string","float","date","boolean"], display: false},
-				{column: "display_id", type: "integer", model: "Attribute", display: false},
-				{column: "display_name", type: "string", model: "Attribute", display: false}
+				{column: "model_display_id", type: "integer", model: "Attribute", display: false},
+				{column: "model_display_name", type: "string", model: "Attribute", display: false},
+				{column: "top_label", type: "string", display: false},
+				{column: "left_label", type: "string", display: false},
+				{column: "not_filter", enum: [true,false], enumdes: ["Yes","No"], display: false},
+				{column: "display", enum: ["s","h"], enumdes: ["Show","Hide"], display: true},
+				{column: "create", enum: ["c","r","h"], enumdes: ["Create","Readonly","Hide"], display: true},
+				{column: "update", enum: ["u","r","h"], enumdes: ["Update","Readonly","Hide"], display: true},
+				{column: "delete", enum: ["s","h"], enumdes: ["Show","Hide"], display: true},
+				{column: "help", type: "string", display: false}
 		]
 		this.enums = {}
 		this.enums.type = {integer:"integer",string:"string",float:"float",date:"date",boolean:"boolean"}
 		this.enums.required = {true:"Yes",false:"No"}
 		this.enums.key_type = {integer:"integer",string:"string",float:"float",date:"date",boolean:"boolean"}
+		this.enums.not_filter = {true:"Yes",false:"No"}
+		this.enums.display = {s:"Show",h:"Hide"}
+		this.enums.create = {c:"Create",r:"Readonly",h:"Hide"}
+		this.enums.update = {u:"Update",r:"Readonly",h:"Hide"}
+		this.enums.delete = {s:"Show",h:"Hide"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Attribute")
@@ -334,7 +395,7 @@ Polymer({
 			//this.$.Model_select_dialog.style.left = "-100px"
 			this.$.Model_select_dialog.open_select_dialog()
 		}
-		if (this.$.filter.value == "display_name"){
+		if (this.$.filter.value == "model_display_name"){
 			this.$.Attribute_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Attribute_select_dialog.style.left = "-100px"
 			this.$.Attribute_select_dialog.open_select_dialog()
@@ -392,7 +453,15 @@ Polymer({
 		this.$.ref_model_name_sort_d.classList.add("hide")
 		this.$.key_sort_d.classList.add("hide")
 		this.$.key_type_sort_d.classList.add("hide")
-		this.$.display_name_sort_d.classList.add("hide")
+		this.$.model_display_name_sort_d.classList.add("hide")
+		this.$.top_label_sort_d.classList.add("hide")
+		this.$.left_label_sort_d.classList.add("hide")
+		this.$.not_filter_sort_d.classList.add("hide")
+		this.$.display_sort_d.classList.add("hide")
+		this.$.create_sort_d.classList.add("hide")
+		this.$.update_sort_d.classList.add("hide")
+		this.$.delete_sort_d.classList.add("hide")
+		this.$.help_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -436,8 +505,32 @@ Polymer({
 	sort_key_type: function() {
 		this.sort_by_field("key_type")
 	},
-	sort_display_name: function() {
-		this.sort_by_field("display_name")
+	sort_model_display_name: function() {
+		this.sort_by_field("model_display_name")
+	},
+	sort_top_label: function() {
+		this.sort_by_field("top_label")
+	},
+	sort_left_label: function() {
+		this.sort_by_field("left_label")
+	},
+	sort_not_filter: function() {
+		this.sort_by_field("not_filter")
+	},
+	sort_display: function() {
+		this.sort_by_field("display")
+	},
+	sort_create: function() {
+		this.sort_by_field("create")
+	},
+	sort_update: function() {
+		this.sort_by_field("update")
+	},
+	sort_delete: function() {
+		this.sort_by_field("delete")
+	},
+	sort_help: function() {
+		this.sort_by_field("help")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -590,14 +683,19 @@ Polymer({
 			this.$.ajax.lastResponse[i].ref_model_name = ""
 		}
 		this.$.ajax.lastResponse[i].key_type_des= this.enums.key_type[this.$.ajax.lastResponse[i].key_type]
-		if (this.$.ajax.lastResponse[i].display){
-			this.$.ajax.lastResponse[i].display_id = this.$.ajax.lastResponse[i].display.id
-			this.$.ajax.lastResponse[i].display_name = this.$.ajax.lastResponse[i].display.name
+		if (this.$.ajax.lastResponse[i].model_display){
+			this.$.ajax.lastResponse[i].model_display_id = this.$.ajax.lastResponse[i].model_display.id
+			this.$.ajax.lastResponse[i].model_display_name = this.$.ajax.lastResponse[i].model_display.name
 		} else
 		{
-			this.$.ajax.lastResponse[i].display_id = 0
-			this.$.ajax.lastResponse[i].display_name = ""
-		}	
+			this.$.ajax.lastResponse[i].model_display_id = 0
+			this.$.ajax.lastResponse[i].model_display_name = ""
+		}
+		this.$.ajax.lastResponse[i].not_filter_des= this.enums.not_filter[this.$.ajax.lastResponse[i].not_filter]
+		this.$.ajax.lastResponse[i].display_des= this.enums.display[this.$.ajax.lastResponse[i].display]
+		this.$.ajax.lastResponse[i].create_des= this.enums.create[this.$.ajax.lastResponse[i].create]
+		this.$.ajax.lastResponse[i].update_des= this.enums.update[this.$.ajax.lastResponse[i].update]
+		this.$.ajax.lastResponse[i].delete_des= this.enums.delete[this.$.ajax.lastResponse[i].delete]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()

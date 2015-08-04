@@ -71,7 +71,14 @@ paper-menu {
 		<option value="name">Name</option>
 		<option value="title">Title</option>
 		<option value="primaryKey_attribute">Primary Key</option>
-		<option value="AutoIncrement">Auto Increment</option>
+		<option value="autoIncrement">Auto Increment</option>
+		<option value="display">Display</option>
+		<option value="create">Create</option>
+		<option value="update">Update</option>
+		<option value="delete">Delete</option>
+		<option value="columns">Columns</option>
+		<option value="download">Download</option>
+		<option value="Menu">Menu</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -99,7 +106,14 @@ paper-menu {
 		<option value="name">Name</option>
 		<option value="title">Title</option>
 		<option value="primaryKey_attribute">Primary Key</option>
-		<option value="AutoIncrement">Auto Increment</option>
+		<option value="autoIncrement">Auto Increment</option>
+		<option value="display">Display</option>
+		<option value="create">Create</option>
+		<option value="update">Update</option>
+		<option value="delete">Delete</option>
+		<option value="columns">Columns</option>
+		<option value="download">Download</option>
+		<option value="Menu">Menu</option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -139,8 +153,22 @@ paper-menu {
 			<iron-icon id="title_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_primaryKey_attribute" on-click="sort_primaryKey_attribute">Primary Key<div id="primaryKey_attribute_sort_d" class="hide">
 			<iron-icon id="primaryKey_attribute_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_AutoIncrement" on-click="sort_AutoIncrement">Auto Increment<div id="AutoIncrement_sort_d" class="hide">
-			<iron-icon id="AutoIncrement_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_autoIncrement" on-click="sort_autoIncrement">Auto Increment<div id="autoIncrement_sort_d" class="hide">
+			<iron-icon id="autoIncrement_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_display" on-click="sort_display">Display<div id="display_sort_d" class="hide">
+			<iron-icon id="display_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_create" on-click="sort_create">Create<div id="create_sort_d" class="hide">
+			<iron-icon id="create_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_update" on-click="sort_update">Update<div id="update_sort_d" class="hide">
+			<iron-icon id="update_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_delete" on-click="sort_delete">Delete<div id="delete_sort_d" class="hide">
+			<iron-icon id="delete_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_columns" on-click="sort_columns">Columns<div id="columns_sort_d" class="hide">
+			<iron-icon id="columns_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_download" on-click="sort_download">Download<div id="download_sort_d" class="hide">
+			<iron-icon id="download_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_Menu" on-click="sort_Menu">Menu<div id="Menu_sort_d" class="hide">
+			<iron-icon id="Menu_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
@@ -150,7 +178,14 @@ paper-menu {
 		<td class="col_name"></td>
 		<td class="col_title"></td>
 		<td class="col_primaryKey_attribute"></td>
-		<td class="col_AutoIncrement"></td>
+		<td class="col_autoIncrement"></td>
+		<td class="col_display"></td>
+		<td class="col_create"></td>
+		<td class="col_update"></td>
+		<td class="col_delete"></td>
+		<td class="col_columns"></td>
+		<td class="col_download"></td>
+		<td class="col_Menu"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -163,7 +198,14 @@ paper-menu {
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 		<template is="dom-if" if="{{column.title}}"><td>{{item.title}}</td></template>
 		<template is="dom-if" if="{{column.primaryKey_attribute}}"><td>{{item.primaryKey_attribute}}</td></template>
-		<template is="dom-if" if="{{column.AutoIncrement}}"><td>{{item.AutoIncrement_des}}</td></template>
+		<template is="dom-if" if="{{column.autoIncrement}}"><td>{{item.autoIncrement_des}}</td></template>
+		<template is="dom-if" if="{{column.display}}"><td>{{item.display_des}}</td></template>
+		<template is="dom-if" if="{{column.create}}"><td>{{item.create_des}}</td></template>
+		<template is="dom-if" if="{{column.update}}"><td>{{item.update_des}}</td></template>
+		<template is="dom-if" if="{{column.delete}}"><td>{{item.delete_des}}</td></template>
+		<template is="dom-if" if="{{column.columns}}"><td>{{item.columns_des}}</td></template>
+		<template is="dom-if" if="{{column.download}}"><td>{{item.download_des}}</td></template>
+		<template is="dom-if" if="{{column.Menu}}"><td>{{item.Menu_des}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -192,10 +234,24 @@ Polymer({
 				{column: "title", type: "string", display: true},
 				{column: "primaryKey_id", type: "integer", model: "Attribute", display: false},
 				{column: "primaryKey_attribute", type: "string", model: "Attribute", display: true},
-				{column: "AutoIncrement", enum: [true,false], enumdes: ["Yes","No"], display: true}
+				{column: "autoIncrement", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "display", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "create", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "update", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "delete", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "columns", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "download", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "Menu", enum: [true,false], enumdes: ["Yes","No"], display: true}
 		]
 		this.enums = {}
-		this.enums.AutoIncrement = {true:"Yes",false:"No"}
+		this.enums.autoIncrement = {true:"Yes",false:"No"}
+		this.enums.display = {true:"Yes",false:"No"}
+		this.enums.create = {true:"Yes",false:"No"}
+		this.enums.update = {true:"Yes",false:"No"}
+		this.enums.delete = {true:"Yes",false:"No"}
+		this.enums.columns = {true:"Yes",false:"No"}
+		this.enums.download = {true:"Yes",false:"No"}
+		this.enums.Menu = {true:"Yes",false:"No"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Model")
@@ -318,7 +374,14 @@ Polymer({
 		this.$.name_sort_d.classList.add("hide")
 		this.$.title_sort_d.classList.add("hide")
 		this.$.primaryKey_attribute_sort_d.classList.add("hide")
-		this.$.AutoIncrement_sort_d.classList.add("hide")
+		this.$.autoIncrement_sort_d.classList.add("hide")
+		this.$.display_sort_d.classList.add("hide")
+		this.$.create_sort_d.classList.add("hide")
+		this.$.update_sort_d.classList.add("hide")
+		this.$.delete_sort_d.classList.add("hide")
+		this.$.columns_sort_d.classList.add("hide")
+		this.$.download_sort_d.classList.add("hide")
+		this.$.Menu_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -341,8 +404,29 @@ Polymer({
 	sort_primaryKey_attribute: function() {
 		this.sort_by_field("primaryKey_attribute")
 	},
-	sort_AutoIncrement: function() {
-		this.sort_by_field("AutoIncrement")
+	sort_autoIncrement: function() {
+		this.sort_by_field("autoIncrement")
+	},
+	sort_display: function() {
+		this.sort_by_field("display")
+	},
+	sort_create: function() {
+		this.sort_by_field("create")
+	},
+	sort_update: function() {
+		this.sort_by_field("update")
+	},
+	sort_delete: function() {
+		this.sort_by_field("delete")
+	},
+	sort_columns: function() {
+		this.sort_by_field("columns")
+	},
+	sort_download: function() {
+		this.sort_by_field("download")
+	},
+	sort_Menu: function() {
+		this.sort_by_field("Menu")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -484,7 +568,14 @@ Polymer({
 			this.$.ajax.lastResponse[i].primaryKey_id = 0
 			this.$.ajax.lastResponse[i].primaryKey_attribute = ""
 		}
-		this.$.ajax.lastResponse[i].AutoIncrement_des= this.enums.AutoIncrement[this.$.ajax.lastResponse[i].AutoIncrement]	
+		this.$.ajax.lastResponse[i].autoIncrement_des= this.enums.autoIncrement[this.$.ajax.lastResponse[i].autoIncrement]
+		this.$.ajax.lastResponse[i].display_des= this.enums.display[this.$.ajax.lastResponse[i].display]
+		this.$.ajax.lastResponse[i].create_des= this.enums.create[this.$.ajax.lastResponse[i].create]
+		this.$.ajax.lastResponse[i].update_des= this.enums.update[this.$.ajax.lastResponse[i].update]
+		this.$.ajax.lastResponse[i].delete_des= this.enums.delete[this.$.ajax.lastResponse[i].delete]
+		this.$.ajax.lastResponse[i].columns_des= this.enums.columns[this.$.ajax.lastResponse[i].columns]
+		this.$.ajax.lastResponse[i].download_des= this.enums.download[this.$.ajax.lastResponse[i].download]
+		this.$.ajax.lastResponse[i].Menu_des= this.enums.Menu[this.$.ajax.lastResponse[i].Menu]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
