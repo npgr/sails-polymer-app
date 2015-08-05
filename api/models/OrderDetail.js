@@ -13,6 +13,7 @@ module.exports = {
 	//_unique: ['order', 'product'],
 	id: {
 		//description: 'Id',
+		//hide: true,
 		type: "integer",
 		max: 9999999,
 		min: 1,

@@ -1,3 +1,4 @@
+<!-- new-form: version 5.00 -->
 <dom-module id="OrderDetail-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
@@ -10,7 +11,7 @@
 			<table class="table_dialog" style="width:100%">
 			<tr>
 				<td><label class="left_label" for="id">Id</label></td>
-				<td><input id="id" type="number" name="id" min=1 max=999999 disabled></td>
+				<td><input id="id" type="number" name="id" min=1 max=9999999 disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="order">Pedido</label></td>
@@ -64,7 +65,7 @@
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = document.getElementById("config").server + "OrderDetail"
+			this.$.ajax2.url = config_server() + "OrderDetail"
 			var record = {}
 			record.order = Number(this.$.order.value)
 			record.product = this.$.product.key
@@ -86,7 +87,7 @@
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = document.getElementById("config").server+"OrderDetail/exist/"+this.$.id.value
+					this.$.ajax.url = config_server() + "OrderDetail/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()

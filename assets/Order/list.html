@@ -478,7 +478,7 @@ Polymer({
 	this.$.Order_new_dialog.open_dialog()
   },
   orderDetail: function() {		
-		window.location.href = document.getElementById("config").base_url + 'orderdetail/list?id='+ this.key + '&customer='+ 'prueba' + '&date=2015/08/14' + '&status=En Captura' 
+		window.location.href = config_base_url() + 'orderdetail/list?id='+ this.key + '&customer='+ 'prueba' + '&date=2015/08/14' + '&status=En Captura' 
 	},
   reload: function() {
 	this.$.ajax.generateRequest()
