@@ -4,6 +4,7 @@
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
+	<script src="/js/app-config/app-config.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -122,7 +123,8 @@ paper-menu {
 		<paper-menu>
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;">Consultar</paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Editar</paper-item>
-			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>
+			<!--<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>-->
+			<paper-item on-click="orderDetail" style="min-height:20px;line-height:35px;">Renglones</paper-item>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -172,12 +174,13 @@ Polymer({
 	},
 	ready: function() {
 		// For Sharepoint
-		if (typeof String.prototype.startsWith != 'function') {
+		/*if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
 			String.prototype.startsWith = function (str){
 				return this.indexOf(str) === 0;
 			}
-		}
+		}*/
+		console.log('prueba config3.js: ',config_server())
 		this.$.ajax.url = document.getElementById("config").server + "Order"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
@@ -456,6 +459,9 @@ Polymer({
   new: function() {
 	this.$.Order_new_dialog.open_dialog()
   },
+  orderDetail: function() {		
+		window.location.href = document.getElementById("config").base_url + 'orderdetail/list?id='+ this.key + '&customer='+ 'prueba' + '&date=2015/08/14' + '&status=En Captura' 
+	},
   reload: function() {
 	this.$.ajax.generateRequest()
   },
