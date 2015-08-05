@@ -50,8 +50,8 @@
 				<td><input id="ref_model" type="text" name="ref_model" value="{{item.ref_model_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="key">Key</label></td>
-				<td><input id="key" type="text" name="key" value="{{item.key}}" disabled></td>
+				<td><label class="left_label" for="model_key">Mdl Key</label></td>
+				<td><input id="model_key" type="text" name="model_key" value="{{item.model_key}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="key_type">Key Type</label></td>
@@ -76,8 +76,15 @@
 				<td><input id="left_label" type="text" name="left_label" value="{{item.left_label}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="not_filter">Not Filter</label></td>
-				<td><select id="not_filter" name="not_filter" disabled>
+				<td><label class="left_label" for="filter">Filter</label></td>
+				<td><select id="filter" name="filter" disabled>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="list">List</label></td>
+				<td><select id="list" name="list" disabled>
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
@@ -137,7 +144,8 @@
 			this.$.type.value = item.type
 			this.$.required.value = item.required
 			this.$.key_type.value = item.key_type
-			this.$.not_filter.value = item.not_filter
+			this.$.filter.value = item.filter
+			this.$.list.value = item.list
 			this.$.display.value = item.display
 			this.$.create.value = item.create
 			this.$.update.value = item.update

@@ -66,8 +66,8 @@ module.exports = {
 		//type: 'string',
 		model: 'Model'
 	},
-	key: {
-		//description: 'Key',
+	model_key: {
+		//description: 'Mdl Key',
 		//hide: true,
 		type: 'string'
 	},
@@ -99,9 +99,15 @@ module.exports = {
 		type: 'string',
 		required: true
 	},
-	not_filter: {
-		//description: 'Not Filter',
+	filter: {
+		//description: 'Filter',
 		//hide: true,
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	list: {
+		//description: 'List',
 		type: 'boolean',
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']

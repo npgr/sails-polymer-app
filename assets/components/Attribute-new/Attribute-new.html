@@ -56,8 +56,8 @@
 				<td><iron-icon icon="find-in-page" field="ref_model" on-click="select_field_b"></iron-icon><input id="ref_model" type="text" name="ref_model" key=0 on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="key">Key</label></td>
-				<td><input id="key" type="text" name="key"></td>
+				<td><label class="left_label" for="model_key">Mdl Key</label></td>
+				<td><input id="model_key" type="text" name="model_key"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="key_type">Key Type</label></td>
@@ -82,8 +82,15 @@
 				<td><input id="left_label" type="text" name="left_label" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="not_filter">Not Filter</label></td>
-				<td><select id="not_filter" name="not_filter">
+				<td><label class="left_label" for="filter">Filter</label></td>
+				<td><select id="filter" name="filter">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="list">List</label></td>
+				<td><select id="list" name="list">
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
@@ -151,7 +158,7 @@
 			this.$.enum.value = ''
 			this.$.ref_model.value = ''
 			this.$.ref_model.key = 0
-			this.$.key.value = ''
+			this.$.model_key.value = ''
 			this.$.model_display.value = ''
 			this.$.model_display.key = 0
 			this.$.top_label.value = ''
@@ -185,12 +192,13 @@
 			  record.required = this.$.required.value
 			  record.enum = this.$.enum.value
 			record.ref_model = this.$.ref_model.key
-			  record.key = this.$.key.value
+			  record.model_key = this.$.model_key.value
 			  record.key_type = this.$.key_type.value
 			record.model_display = this.$.model_display.key
 			  record.top_label = this.$.top_label.value
 			  record.left_label = this.$.left_label.value
-			  record.not_filter = this.$.not_filter.value
+			  record.filter = this.$.filter.value
+			  record.list = this.$.list.value
 			  record.display = this.$.display.value
 			  record.create = this.$.create.value
 			  record.update = this.$.update.value

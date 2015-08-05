@@ -56,8 +56,8 @@
 				<td><div id="ref_model_name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="key">Key</label></td>
-				<td><div id="key" on-click="change_field"></div></td>
+				<td><label class="left_label" for="model_key">Mdl Key</label></td>
+				<td><div id="model_key" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="key_type">Key Type</label></td>
@@ -76,8 +76,12 @@
 				<td><div id="left_label" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="not_filter">Not Filter</label></td>
-				<td><div id="not_filter" on-click="change_field"></div></td>
+				<td><label class="left_label" for="filter">Filter</label></td>
+				<td><div id="filter" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="list">List</label></td>
+				<td><div id="list" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="display">Display</label></td>
@@ -128,12 +132,13 @@
 			this.show_field("required")
 			this.show_field("enum")
 			this.show_field("ref_model_name")
-			this.show_field("key")
+			this.show_field("model_key")
 			this.show_field("key_type")
 			this.show_field("model_display_name")
 			this.show_field("top_label")
 			this.show_field("left_label")
-			this.show_field("not_filter")
+			this.show_field("filter")
+			this.show_field("list")
 			this.show_field("display")
 			this.show_field("create")
 			this.show_field("update")
