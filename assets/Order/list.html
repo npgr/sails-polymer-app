@@ -4,7 +4,7 @@
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
-	<script src="/js/app-config/app-config.js"></script>
+	<script src="/components/app-config/app-config.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -23,7 +23,6 @@
 	<link rel="import" href="/components/Order-edit/Order-edit.html">
 	<link rel="import" href="/components/Order-delete/Order-delete.html">
 	<link rel="import" href="/components/Customer-select/Customer-select.html">
-	<link rel="import" href="/components/app-config/app-config.html">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -180,8 +179,7 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}*/
-		console.log('prueba config3.js: ',config_server())
-		this.$.ajax.url = document.getElementById("config").server + "Order"
+		this.$.ajax.url = config_server() + "Order"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
@@ -202,6 +200,26 @@ Polymer({
 		_model = {}
 		this.show_columns()
 		this.input_type()
+	},
+	params: function(){  // Get URL params (after ?)
+		var query_string = {};
+		var query = window.location.search.substring(1);
+		var vars = query.split("&");
+		for (var i=0;i<vars.length;i++) {
+			var pair = vars[i].split("=");
+			// If first entry with this name
+			if (typeof query_string[pair[0]] === "undefined") {
+				query_string[pair[0]] = decodeURIComponent(pair[1]);
+				// If second entry with this name
+			} else if (typeof query_string[pair[0]] === "string") {
+				var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+				query_string[pair[0]] = arr;
+				// If third or later entry with this name
+			} else {
+				query_string[pair[0]].push(decodeURIComponent(pair[1]));
+			}
+		} 
+		return query_string;
 	},
 	list_columns: function() {
 		this.$.Order_list_columns.open_list_columns(this.column)
@@ -450,12 +468,12 @@ Polymer({
 	var item = this.data.find(filtro)[0]
 	this.$.Order_edit_dialog.open_dialog(item)
   },
-  delete: function(e) {
+  /*delete: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Order_delete_dialog.open_delete_dialog(item)
-  },
+  },*/
   new: function() {
 	this.$.Order_new_dialog.open_dialog()
   },
@@ -493,7 +511,6 @@ Polymer({
 });
 </script>
 </dom-module>
-<app-config id="config"></app-config>
 <paper-material class="card" elevation="2">
 	<Order-list></Order-list>
 </paper-material>

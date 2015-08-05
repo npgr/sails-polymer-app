@@ -72,7 +72,7 @@
 			if (this.$.date.value)
 				record.date = this.$.date.value
 			record.status = this.$.status.value
-			this.$.ajax.url = document.getElementById("config").server + "Order/" +record.id
+			this.$.ajax.url = config_server() + "Order/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},

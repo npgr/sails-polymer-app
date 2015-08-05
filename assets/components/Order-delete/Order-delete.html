@@ -53,7 +53,7 @@
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = document.getElementById("config").server+"Order/"+this.item.id
+			this.$.ajax.url = config_server() + "Order/"+this.item.id
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {

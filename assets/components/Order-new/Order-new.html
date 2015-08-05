@@ -67,7 +67,7 @@
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = document.getElementById("config").server + "Order"
+			this.$.ajax2.url = config_server() + "Order"
 			var record = {}
 			record.customer = this.$.customer.key
 			if (this.$.date.value)
@@ -90,7 +90,7 @@
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = document.getElementById("config").server+"Order/exist/"+this.$.id.value
+					this.$.ajax.url = config_server() + "Order/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()
