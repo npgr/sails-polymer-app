@@ -1,10 +1,10 @@
 <dom-module id="Category-delete">
 <template>
-	<iron-ajax id="ajax" url='/Category/' method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Borrar Categoria</h2>
+		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
-			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
 				<td><label class="left_label" for="id">Id</label></td>
@@ -15,7 +15,6 @@
 				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
 			</tr>
 			</table>
-			</paper-dialog-scrollable>
 		<div class="buttons">
 			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
 			<div class="card_line">
@@ -24,6 +23,7 @@
 			</div>
 		</div>
 		</form>
+		</paper-dialog-scrollable>
 	</paper-dialog>
 </template>
 <script>
@@ -40,13 +40,17 @@
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = '/Category/'+this.item.id
+			this.$.ajax.url = document.getElementById("config").server+"Category/"+this.item.id
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {
 			alert("record deleted")
 			this.$.dialog.close()
 			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
 		}
 	})
 </script>

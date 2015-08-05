@@ -1,61 +1,92 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
-<link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
-<link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
-
 <dom-module id="Customer-new">
 <template>
-	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="error_record"></iron-ajax>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Crear Cliente</h2>
-		<form id="form" action="/Customer/create" method="POST">
-			<paper-dialog-scrollable>
-			<div vertical layout>
-				<div class="card_line">
-					<label class="left_label" for="id">Código</label>
-					<input id="id" type="number" name="id" min=100 max=999999 required>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="name">Nombre</label>
-					<input id="name" type="text" name="name" maxlength=35 required>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="city">Ciudad</label>
-					<input id="city" type="text" name="city" maxlength=25 required>
-				</div>
-				<div class="card_line">
-					<label class="left_label" for="status">status</label>
-					<select id="status" name="status">
+		<paper-dialog-scrollable>
+		  <form id="form" action="javascript:void(0);" on-submit="create">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Código</label></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name">Nombre<strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="city">Ciudad<strong class="red"> *</strong></label></td>
+				<td><input id="city" type="text" name="city" maxlength=25 required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="Address">Dirección</label></td>
+				<td><input id="Address" type="text" name="Address"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">status</label></td>
+				<td><select id="status" name="status">
 						<option value="A">Activo</option>
 						<option value="I">Inactivo</option>
-					</select>
-				</div>
-			 </div>
-			</paper-dialog-scrollable>
+					</select></td>
+			</tr>
+			</table>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
-					<paper-button id="create_btn" class="btn" on-click="create" raised>CREAR</paper-button>
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
 					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 				</div>
 			</div>
-		</form>
+		  </form>
+		</paper-dialog-scrollable>
 	</paper-dialog>
 </template>
 <script>
 	Polymer({
 		is: "Customer-new",
 		open_dialog: function() {
+			this.clear()
 			this.$.dialog.open()
 		},
+		clear: function() {
+			this.$.id.value = ''
+			this.$.name.value = ''
+			this.$.city.value = ''
+			this.$.Address.value = ''
+		},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
 		create: function() {
+			this.$.ajax2.url = document.getElementById("config").server + "Customer"
+			var record = {}
+			  record.name = this.$.name.value
+			  record.city = this.$.city.value
+			  record.Address = this.$.Address.value
+			  record.status = this.$.status.value			
+			this.$.ajax2.params = record
+			this.$.ajax2.generateRequest()
+		},
+		record_created: function() {
+			alert("Created Cliente id="+this.$.ajax2.lastResponse.id)
+			// ask for create another one
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		submit_form: function() {
 			if (!isNaN(this.$.id.value))
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = "/Customer/exist/"+this.$.id.value
+					this.$.ajax.url = document.getElementById("config").server+"Customer/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()
@@ -68,7 +99,8 @@
 			else
 				this.$.submit_btn.click()
 		},
-		error_record: function() {
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
 			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
 		}
 	})

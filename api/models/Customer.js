@@ -14,23 +14,28 @@ module.exports = {
 		//columnName: 'matnr',
 		//description: 'Código',
 		type: "integer",
-		max: 999999,
-		min: 100,
+		//no_max: 999999,
+		//no_min: 100,
 		primaryKey: true,
-		required: true,
-		unique: true
+		unique: true,
+		autoIncrement: true
 	},
 	name: {
 		//description: 'Nombre',
 		type: 'string',
-		required: true,
-		maxLength: 35
+		required: true
+		//,no_maxLength: 35
 	},
 	city: {
 		//description: 'Ciudad',
 		type: 'string',
 		required: true,
 		maxLength: 25
+	},
+	Address: {
+		//description: 'Dirección',
+		//hide: true,
+		type: 'string'
 	},
 	status: {
 		//description: 'status',

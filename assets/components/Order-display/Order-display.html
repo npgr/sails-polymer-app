@@ -1,30 +1,27 @@
-<dom-module id="Customer-display">
+<dom-module id="Order-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Consultar Cliente</h2>
+		<h2 class="card_title">Consultar Pedido</h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Código</label></td>
+				<td><label class="left_label" for="id">Id</label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name">Nombre</label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
+				<td><label class="left_label" for="customer">Cliente</label></td>
+				<td><input id="customer" type="text" name="customer" value="{{item.customer_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="city">Ciudad</label></td>
-				<td><input id="city" type="text" name="city" value="{{item.city}}" disabled></td>
+				<td><label class="left_label" for="date">Fecha</label></td>
+				<td><input id="date" type="date" name="date" value="{{item.date}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Address">Dirección</label></td>
-				<td><input id="Address" type="text" name="Address" value="{{item.Address}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="status">status</label></td>
+				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status" disabled>
-						<option value="A">Activo</option>
-						<option value="I">Inactivo</option>
+						<option value="1">En Captura</option>
+						<option value="2">En Despacho</option>
+						<option value="3">Despachado</option>
 					</select></td>
 			</tr>
 			</table>
@@ -38,7 +35,7 @@
 </template>
 <script>
 	Polymer({
-		is: "Customer-display",
+		is: "Order-display",
 		open_display_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)

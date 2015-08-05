@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Listar Producto</title>
+	<title>Listar Categoria</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
@@ -16,12 +16,11 @@
 	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-	<link rel="import" href="/components/Product-list-columns/Product-list-columns.html">
-	<link rel="import" href="/components/Product-new/Product-new.html">
-	<link rel="import" href="/components/Product-display/Product-display.html">
-	<link rel="import" href="/components/Product-edit/Product-edit.html">
-	<link rel="import" href="/components/Product-delete/Product-delete.html">
-	<link rel="import" href="/components/Category-select/Category-select.html">
+	<link rel="import" href="/components/Category-list-columns/Category-list-columns.html">
+	<link rel="import" href="/components/Category-new/Category-new.html">
+	<link rel="import" href="/components/Category-display/Category-display.html">
+	<link rel="import" href="/components/Category-edit/Category-edit.html">
+	<link rel="import" href="/components/Category-delete/Category-delete.html">
 	<link rel="import" href="/components/app-config/app-config.html">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
@@ -55,24 +54,19 @@ paper-menu {
 	margin-bottom: 0px;
 }
 </style>
-<dom-module id="Product-list">
+<dom-module id="Category-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<Product-list-columns id="Product_list_columns" on-close="update_columns"></Product-list-columns>
-	<Product-new id="Product_new_dialog" on-close="reload"></Product-new>
-	<Product-display id="Product_display_dialog"></Product-display>
-	<Product-edit id="Product_edit_dialog" on-close="reload"></Product-edit>
-	<Product-delete id="Product_delete_dialog" on-close="reload"></Product-delete>
-	<Category-select id="Category_select_dialog" on-item_selected="set_select_field"></Category-select>
+	<Category-list-columns id="Category_list_columns" on-close="update_columns"></Category-list-columns>
+	<Category-new id="Category_new_dialog" on-close="reload"></Category-new>
+	<Category-display id="Category_display_dialog"></Category-display>
+	<Category-edit id="Category_edit_dialog" on-close="reload"></Category-edit>
+	<Category-delete id="Category_delete_dialog" on-close="reload"></Category-delete>
 	
-	<div class="card_title">Listar Producto</div>
+	<div class="card_title">Listar Categoria</div>
 	<select id="filter" on-change="input_type">
 		<option value="id">Id</option>
 		<option value="name">Nombre</option>
-		<option value="Categoria_name">Categoria</option>
-		<option value="stock">Existencia</option>
-		<option value="price">Precio</option>
-		<option value="status">Status</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -98,10 +92,6 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id">Id</option>
 		<option value="name">Nombre</option>
-		<option value="Categoria_name">Categoria</option>
-		<option value="stock">Existencia</option>
-		<option value="price">Precio</option>
-		<option value="status">Status</option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -120,7 +110,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 	
-	<a href="{{download_data}}" id="link" class="hide" download="Producto.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="Categoria.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -137,14 +127,6 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_name" on-click="sort_name">Nombre<div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_Categoria_name" on-click="sort_Categoria_name">Categoria<div id="Categoria_name_sort_d" class="hide">
-			<iron-icon id="Categoria_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_stock" on-click="sort_stock">Existencia<div id="stock_sort_d" class="hide">
-			<iron-icon id="stock_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_price" on-click="sort_price">Precio<div id="price_sort_d" class="hide">
-			<iron-icon id="price_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_status" on-click="sort_status">Status<div id="status_sort_d" class="hide">
-			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
@@ -152,10 +134,6 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_name"></td>
-		<td class="col_Categoria_name"></td>
-		<td class="col_stock"></td>
-		<td class="col_price"></td>
-		<td class="col_status"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -166,10 +144,6 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
-		<template is="dom-if" if="{{column.Categoria_name}}"><td>{{item.Categoria_name}}</td></template>
-		<template is="dom-if" if="{{column.stock}}"><td>{{item.stock}}</td></template>
-		<template is="dom-if" if="{{column.price}}"><td>{{item.price}}</td></template>
-		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -177,7 +151,7 @@ paper-menu {
 </template>
 <script>
 Polymer({
-	is: "Product-list",
+	is: "Category-list",
 	properties: {
 		//cur_sort: { field: "id", isdesc: false },
 		//cur_filter: {}
@@ -190,23 +164,17 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.$.ajax.url = document.getElementById("config").server + "Product"
+		this.$.ajax.url = document.getElementById("config").server + "Category"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
-				{column: "name", type: "string", display: true},
-				{column: "Categoria_id", type: "integer", model: "Category", display: false},
-				{column: "Categoria_name", type: "string", model: "Category", display: true},
-				{column: "stock", type: "integer", display: true},
-				{column: "price", type: "float", display: true},
-				{column: "status", enum: ["A","B","I"], enumdes: ["Activo","Bloqueado","Inactivo"], display: true}
+				{column: "name", type: "string", display: true}
 		]
 		this.enums = {}
-		this.enums.status = {A:"Activo",B:"Bloqueado",I:"Inactivo"}
 		//var _data = <%- data %>
 		var db = new loki()
-		this.data = db.addCollection("data_Product")
-		this.model = db.addCollection("model_Product")
+		this.data = db.addCollection("data_Category")
+		this.model = db.addCollection("model_Category")
 		this.reload()
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
@@ -215,11 +183,11 @@ Polymer({
 		this.input_type()
 	},
 	list_columns: function() {
-		this.$.Product_list_columns.open_list_columns(this.column)
+		this.$.Category_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
 
-		this.column = this.$.Product_list_columns.column
+		this.column = this.$.Category_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
 			this.model.data[i].display = this.column[this.model.data[i].column]
 			
@@ -274,11 +242,6 @@ Polymer({
 	},
 	select_field: function(e) {
 		this.field = e.toElement.id
-		if (this.$.filter.value == "Categoria_name"){
-			this.$.Category_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.Category_select_dialog.style.left = "-100px"
-			this.$.Category_select_dialog.open_select_dialog()
-		}
 	},
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -323,10 +286,6 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
-		this.$.Categoria_name_sort_d.classList.add("hide")
-		this.$.stock_sort_d.classList.add("hide")
-		this.$.price_sort_d.classList.add("hide")
-		this.$.status_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -342,18 +301,6 @@ Polymer({
 	},
 	sort_name: function() {
 		this.sort_by_field("name")
-	},
-	sort_Categoria_name: function() {
-		this.sort_by_field("Categoria_name")
-	},
-	sort_stock: function() {
-		this.sort_by_field("stock")
-	},
-	sort_price: function() {
-		this.sort_by_field("price")
-	},
-	sort_status: function() {
-		this.sort_by_field("status")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -461,22 +408,22 @@ Polymer({
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Product_display_dialog.open_display_dialog(item)
+	this.$.Category_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Product_edit_dialog.open_dialog(item)
+	this.$.Category_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Product_delete_dialog.open_delete_dialog(item)
+	this.$.Category_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Product_new_dialog.open_dialog()
+	this.$.Category_new_dialog.open_dialog()
   },
   reload: function() {
 	this.$.ajax.generateRequest()
@@ -486,16 +433,7 @@ Polymer({
         this.data.remove(this.data.data[0])
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
-	{
-		if (this.$.ajax.lastResponse[i].Categoria){
-			this.$.ajax.lastResponse[i].Categoria_id = this.$.ajax.lastResponse[i].Categoria.id
-			this.$.ajax.lastResponse[i].Categoria_name = this.$.ajax.lastResponse[i].Categoria.name
-		} else
-		{
-			this.$.ajax.lastResponse[i].Categoria_id = 0
-			this.$.ajax.lastResponse[i].Categoria_name = ""
-		}
-		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]	
+	{	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
@@ -509,7 +447,7 @@ Polymer({
 </dom-module>
 <app-config id="config"></app-config>
 <paper-material class="card" elevation="2">
-	<Product-list></Product-list>
+	<Category-list></Category-list>
 </paper-material>
 </body>
 </html>

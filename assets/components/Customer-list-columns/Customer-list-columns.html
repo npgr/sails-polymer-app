@@ -1,4 +1,4 @@
-<dom-module id="Category-list-columns">
+<dom-module id="Customer-list-columns">
 <template>
 <style>
 	/*#dialog {
@@ -16,16 +16,28 @@
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Columnas Categoria</h2>
+		<h2 class="card_title">Columnas Cliente</h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Id</label></td>
+				<td><label class="left_label" for="id">Código</label></td>
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name">Nombre</label></td>
 				<td><div id="name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="city">Ciudad</label></td>
+				<td><div id="city" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="Address">Dirección</label></td>
+				<td><div id="Address" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">status</label></td>
+				<td><div id="status" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -39,7 +51,7 @@
 </template>
 <script>
 	Polymer({
-		is: "Category-list-columns",
+		is: "Customer-list-columns",
 		properties: {
 			//updated: false,
 			//column: {}
@@ -49,6 +61,9 @@
 			this.column= column
 			this.show_field("id")
 			this.show_field("name")
+			this.show_field("city")
+			this.show_field("Address")
+			this.show_field("status")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

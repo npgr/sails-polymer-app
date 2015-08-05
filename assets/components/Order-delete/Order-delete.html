@@ -1,8 +1,8 @@
-<dom-module id="Product-delete">
+<dom-module id="Order-delete">
 <template>
 	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Borrar Producto</h2>
+		<h2 class="card_title">Borrar Pedido</h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
 			<table class="table_dialog" style="width:100%">
@@ -11,27 +11,19 @@
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name">Nombre</label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
+				<td><label class="left_label" for="customer">Cliente</label></td>
+				<td><input id="customer" type="text" name="customer" value="{{item.customer_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Categoria">Categoria</label></td>
-				<td><input id="Categoria" type="text" name="Categoria" value="{{item.Categoria_name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="stock">Existencia</label></td>
-				<td><input id="stock" type="number" name="stock" value="{{item.stock}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="price">Precio</label></td>
-				<td><input id="price" type="float" name="price" value="{{item.price}}" disabled></td>
+				<td><label class="left_label" for="date">Fecha</label></td>
+				<td><input id="date" type="date" name="date" value="{{item.date}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status" disabled>
-						<option value="A">Activo</option>
-						<option value="B">Bloqueado</option>
-						<option value="I">Inactivo</option>
+						<option value="1">En Captura</option>
+						<option value="2">En Despacho</option>
+						<option value="3">Despachado</option>
 					</select></td>
 			</tr>
 			</table>
@@ -48,7 +40,7 @@
 </template>
 <script>
 	Polymer({
-		is: "Product-delete",
+		is: "Order-delete",
 		open_delete_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
@@ -61,7 +53,7 @@
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = document.getElementById("config").server+"Product/"+this.item.id
+			this.$.ajax.url = document.getElementById("config").server+"Order/"+this.item.id
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {

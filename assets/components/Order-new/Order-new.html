@@ -1,10 +1,10 @@
-<dom-module id="Product-new">
+<dom-module id="Order-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<Category-select id="Category_select_dialog" on-item_selected="set_select_field"></Category-select>
-		<h2 class="card_title">Crear Producto</h2>
+		<Customer-select id="Customer_select_dialog" on-item_selected="set_select_field"></Customer-select>
+		<h2 class="card_title">Crear Pedido</h2>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
@@ -13,27 +13,19 @@
 				<td><input id="id" type="number" name="id" min=1 max=999999 disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name">Nombre<strong class="red"> *</strong></label></td>
-				<td><input id="name" type="text" name="name" required></td>
+				<td><label class="left_label" for="customer">Cliente<strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="customer" on-click="select_field_b"></iron-icon><input id="customer" type="text" name="customer" key=0 required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Categoria">Categoria</label></td>
-				<td><iron-icon icon="find-in-page" field="Categoria" on-click="select_field_b"></iron-icon><input id="Categoria" type="text" name="Categoria" key=0 on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="stock">Existencia</label></td>
-				<td><input id="stock" type="number" name="stock"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="price">Precio</label></td>
-				<td><input id="price" type="float" name="price"></td>
+				<td><label class="left_label" for="date">Fecha<strong class="red"> *</strong></label></td>
+				<td><input id="date" type="date" name="date" required></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status">
-						<option value="A">Activo</option>
-						<option value="B">Bloqueado</option>
-						<option value="I">Inactivo</option>
+						<option value="1">En Captura</option>
+						<option value="2">En Despacho</option>
+						<option value="3">Despachado</option>
 					</select></td>
 			</tr>
 			</table>
@@ -50,44 +42,41 @@
 </template>
 <script>
 	Polymer({
-		is: "Product-new",
+		is: "Order-new",
 		open_dialog: function() {
 			this.clear()
 			this.$.dialog.open()
 		},
 		clear: function() {
 			this.$.id.value = ''
-			this.$.name.value = ''
-			this.$.Categoria.value = ''
-			this.$.Categoria.key = 0
-			this.$.stock.value = ''
-			this.$.price.value = ''
+			this.$.customer.value = ''
+			this.$.customer.key = 0
+			this.$.date.value = ''
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "Categoria")
-				this.$.Category_select_dialog.open_select_dialog()
+			if (this.field == "customer")
+				this.$.Customer_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = document.getElementById("config").server + "Product"
+			this.$.ajax2.url = document.getElementById("config").server + "Order"
 			var record = {}
-			  record.name = this.$.name.value
-			record.Categoria = this.$.Categoria.key
-			record.stock = Number(this.$.stock.value)
-			record.price = Number(this.$.price.value)
+			record.customer = this.$.customer.key
+			if (this.$.date.value)
+			  record.date = this.$.date.value
 			  record.status = this.$.status.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
 		},
 		record_created: function() {
-			alert("Created Producto id="+this.$.ajax2.lastResponse.id)
+			alert("Created Pedido id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
 			this.$.dialog.close()
 			this.fire('close')
@@ -97,7 +86,7 @@
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = document.getElementById("config").server+"Product/exist/"+this.$.id.value
+					this.$.ajax.url = document.getElementById("config").server+"Order/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()

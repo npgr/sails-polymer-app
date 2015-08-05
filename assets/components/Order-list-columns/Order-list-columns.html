@@ -1,4 +1,4 @@
-<dom-module id="Category-list-columns">
+<dom-module id="Order-list-columns">
 <template>
 <style>
 	/*#dialog {
@@ -16,7 +16,7 @@
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Columnas Categoria</h2>
+		<h2 class="card_title">Columnas Pedido</h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -24,8 +24,16 @@
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name">Nombre</label></td>
-				<td><div id="name" on-click="change_field"></div></td>
+				<td><label class="left_label" for="customer_name">Cliente</label></td>
+				<td><div id="customer_name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="date">Fecha</label></td>
+				<td><div id="date" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">Status</label></td>
+				<td><div id="status" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -39,7 +47,7 @@
 </template>
 <script>
 	Polymer({
-		is: "Category-list-columns",
+		is: "Order-list-columns",
 		properties: {
 			//updated: false,
 			//column: {}
@@ -48,7 +56,9 @@
 			this.updated= false,
 			this.column= column
 			this.show_field("id")
-			this.show_field("name")
+			this.show_field("customer_name")
+			this.show_field("date")
+			this.show_field("status")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

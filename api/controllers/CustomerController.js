@@ -14,7 +14,7 @@ module.exports = {
 				  else if (!data) res.json({ "exist": false})
 					else res.json({ "exist": true})
 			})
-	},
+	}/*,
 	create: function(req, res, next) {
 		var params = req.params.all();
 		Customer.create(params, function(err, data) {
@@ -54,6 +54,6 @@ module.exports = {
 			.exec(function(err, data){
 				res.render("Customer/list", {data: JSON.stringify(data)})
 			})
-	}
+	}*/
 };
 
