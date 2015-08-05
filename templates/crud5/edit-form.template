@@ -84,7 +84,7 @@
 				  default:%>
 			record.<%= keys[i]%> = Number(this.$.<%= keys[i]%>.value)<% 		
 			}}}}%>
-			this.$.ajax.url = document.getElementById("config").server + "<%= model%>/" +record.<%= key.name%>
+			this.$.ajax.url = config_server() + "<%= model%>/" +record.<%= key.name%>
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},

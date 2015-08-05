@@ -67,7 +67,7 @@
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = document.getElementById("config").server + "<%= model%>"
+			this.$.ajax2.url = config_server() + "<%= model%>"
 			var record = {}<%
 			for (i=0; i < keys.length; i++) { 
 				if ((keys[i].substring(0,1) != "_") && !(jsondata[keys[i]].autoIncrement))  {
@@ -99,7 +99,7 @@
 			{
 				if (this.$.<%= key.name%>.value > 0)
 				{
-					this.$.ajax.url = document.getElementById("config").server+"<%= model%>/exist/"+this.$.<%= key.name%>.value
+					this.$.ajax.url = config_server() + "<%= model%>/exist/"+this.$.<%= key.name%>.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()

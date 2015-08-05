@@ -1,11 +1,11 @@
-<dom-module id="app-config">
-<script>
-	Polymer({
-		is: "app-config",
-		ready: function() {
-			this.server = "http://localhost:1337/"
-			this.languaje = "Español"
-		}
-	})
-</script>		
-</dom-module>
+function config_server() {
+	return "http://localhost:1337/"
+}
+
+function config_base_url() {
+	return "http://localhost:8080/"
+}
+
+function config_language() {
+	return "Español"
+}

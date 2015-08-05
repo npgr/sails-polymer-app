@@ -25,17 +25,16 @@ function getInputType(type) {
 }
 
 function generate_app_config() {
-		var APP_CONFIG = fs.readFileSync('./templates/crud5/app-config.template', 'utf8');
-		if (!fs.existsSync('assets/components/app-config'))
-		{
-			fs.mkdirSync('assets/components/app-config')
-			fs.writeFile('assets/components/app-config/app-config.html', APP_CONFIG, function (err) {
-				if (err) console.log(err);
-				console.log('Created file assets/components/app-config/app-config.html')
-			})
-		}
-		else
-			console.log('File assets/components/app-config/app-config.html Already Exist')
+	var APP_CONFIG = fs.readFileSync('./templates/crud5/app-config.template', 'utf8');
+	if (!fs.existsSync('assets/components/app-config'))
+	{
+		fs.mkdirSync('assets/components/app-config')
+		fs.writeFile('assets/components/app-config/app-config.js', APP_CONFIG, function (err) {
+			if (err) console.log(err);
+			console.log('Created file assets/components/app-config/app-config.js')
+		})
+	}
+	else console.log('File assets/components/app-config/app-config.js already exist')
 }
 
 function generate_controller(key) {
@@ -45,8 +44,8 @@ function generate_controller(key) {
 	var controller = compiled_Controller({ 'model': model, 'key': key})
 				
 	fs.writeFile('templates/crud5/controller.js', controller, function (err) {
-			if (err) console.log(err);
-			console.log('Created file templates/crud5/controller.js')
+		if (err) console.log(err);
+		console.log('Created file templates/crud5/controller.js')
 	})
 }
 
@@ -173,12 +172,12 @@ function generate_new_form(keys, key, title) {
 	var new_form = compiled_New_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
 	// Create Folder if not exist
 	if (!fs.existsSync('assets/components/'+model+'-new'))
-			fs.mkdirSync('assets/components/'+model+'-new')
+		fs.mkdirSync('assets/components/'+model+'-new')
 	
 	fs.writeFile('assets/components/'+model+'-new/'+model+'-new.html', new_form, function (err) {
-			if (err) console.log(err);
-			console.log('Created file assets/components/'+model+'-new/'+model+'-new.html')
-		})
+		if (err) console.log(err);
+		console.log('Created file assets/components/'+model+'-new/'+model+'-new.html')
+	})
 }
 
 function generate_display_form(keys, key, title){
@@ -193,7 +192,7 @@ function generate_display_form(keys, key, title){
 	fs.writeFile('assets/components/'+model+'-display/'+model+'-display.html', display_form, function (err) {
 			if (err) console.log(err);
 			console.log('Created file assets/components/'+model+'-display/'+model+'-display.html')
-		})
+	})
 }
 
 function generate_delete_form(keys, key, title) {
@@ -203,12 +202,12 @@ function generate_delete_form(keys, key, title) {
 	var delete_form = compiled_Delete_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
 	// Create Folder if not exist
 	if (!fs.existsSync('assets/components/'+model+'-delete'))
-			fs.mkdirSync('assets/components/'+model+'-delete')
+		fs.mkdirSync('assets/components/'+model+'-delete')
 			
 	fs.writeFile('assets/components/'+model+'-delete/'+model+'-delete.html', delete_form, function (err) {
-			if (err) console.log(err);
-			console.log('Created file assets/components/'+model+'-delete/'+model+'-delete.html')
-		})
+		if (err) console.log(err);
+		console.log('Created file assets/components/'+model+'-delete/'+model+'-delete.html')
+	})
 }
 
 function generate_edit_form(keys, key, title, IMPORT_FORM) {
@@ -218,12 +217,12 @@ function generate_edit_form(keys, key, title, IMPORT_FORM) {
 	var edit_form = compiled_Edit_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
 	// Create Folder if not exist
 	if (!fs.existsSync('assets/components/'+model+'-edit'))
-			fs.mkdirSync('assets/components/'+model+'-edit')	
+		fs.mkdirSync('assets/components/'+model+'-edit')	
 
 	fs.writeFile('assets/components/'+model+'-edit/'+model+'-edit.html', edit_form, function (err) {
-			if (err) console.log(err);
-			console.log('Created file assets/components/'+model+'-edit/'+model+'-edit.html')
-		})
+		if (err) console.log(err);
+		console.log('Created file assets/components/'+model+'-edit/'+model+'-edit.html')
+	})
 }
 
 function generate_list_columns(keys, title) {
@@ -233,12 +232,12 @@ function generate_list_columns(keys, title) {
 	var list_columns = compiled_List_Columns({'title':title,'keys':keys})
 	// Create Folder if not exist
 	if (!fs.existsSync('assets/components/'+model+'-list-columns'))
-			fs.mkdirSync('assets/components/'+model+'-list-columns')	
+		fs.mkdirSync('assets/components/'+model+'-list-columns')	
 
 	fs.writeFile('assets/components/'+model+'-list-columns/'+model+'-list-columns.html', list_columns, function (err) {
-			if (err) console.log(err);
-			console.log('Created file assets/components/'+model+'-list-columns/'+model+'-list-columns.html')
-		})
+		if (err) console.log(err);
+		console.log('Created file assets/components/'+model+'-list-columns/'+model+'-list-columns.html')
+	})
 }
 
 function generate_model_select(model, display, key, description) {

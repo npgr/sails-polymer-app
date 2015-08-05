@@ -4,6 +4,7 @@
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
+	<script src="/components/app-config/app-config.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -25,7 +26,6 @@
 		if (jsondata[keys[i]].model) {%>
 	<link rel="import" href="/components/<%= jsondata[keys[i]].model%>-select/<%= jsondata[keys[i]].model%>-select.html"><%
 	} }%>
-	<link rel="import" href="/components/app-config/app-config.html">
 	<!-- Forms imports -->
 	<%= import_form %>
 </head>
@@ -196,7 +196,7 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}*/
-		this.$.ajax.url = document.getElementById("config").server + "<%= model%>"
+		this.$.ajax.url = config_server() + "<%= model%>"
 		this.cur_sort = { field: "<%= key.name %>", isdesc: true }
 		this.cur_filter = {}
 		var _model = [<%= attrs%>		]
@@ -536,7 +536,6 @@ Polymer({
 });
 </script>
 </dom-module>
-<app-config id="config"></app-config>
 <paper-material class="card" elevation="2">
 	<<%= model%>-list></<%= model%>-list>
 </paper-material>

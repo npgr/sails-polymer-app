@@ -16,7 +16,7 @@
 		is: "<%= model%>-select",
 		open_select_dialog: function() {
 			this.$.filtro.value = ""
-			this.$.ajax.url= document.getElementById("config").server+"<%= model%>"
+			this.$.ajax.url= config_server() +"<%= model%>"
 			var db = new loki()
 			this.data = db.addCollection("data_<%= model%>")
 			this.filtered_data = []
