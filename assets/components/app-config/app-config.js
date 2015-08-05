@@ -1,0 +1,11 @@
+function config_server() {
+	return "http://localhost:1337/"
+}
+
+function config_base_url() {
+	return "http://localhost:8080/"
+}
+
+function config_language() {
+	return "Español"
+}

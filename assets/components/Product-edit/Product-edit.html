@@ -81,7 +81,7 @@
 			record.stock = Number(this.$.stock.value)
 			record.price = Number(this.$.price.value)
 			record.status = this.$.status.value
-			this.$.ajax.url = document.getElementById("config").server + "Product/" +record.id
+			this.$.ajax.url = config_server() + "Product/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},
