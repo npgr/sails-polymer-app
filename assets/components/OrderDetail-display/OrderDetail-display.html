@@ -1,0 +1,44 @@
+<dom-module id="OrderDetail-display">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Consultar Detalle Pedido</h2>
+		  <paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="order">Pedido</label></td>
+				<td><input id="order" type="number" name="order" value="{{item.order}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="product">Producto</label></td>
+				<td><input id="product" type="text" name="product" value="{{item.product_name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="quantity">Cantidad</label></td>
+				<td><input id="quantity" type="number" name="quantity" value="{{item.quantity}}" disabled></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "OrderDetail-display",
+		open_display_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			}
+	})
+</script>
+</dom-module>
