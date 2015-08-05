@@ -34,6 +34,7 @@
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
+					Repetir <input id="repeat" type="checkbox" name="repeat">
 					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
 					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
 				</div>
@@ -78,8 +79,11 @@
 		record_created: function() {
 			alert("Created Cliente id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
-			this.$.dialog.close()
-			this.fire('close')
+			if (!this.$.repeat.checked) {
+				this.$.dialog.close()
+				this.fire('close')
+			} else 
+				this.clear()
 		},
 		submit_form: function() {
 			if (!isNaN(this.$.id.value))
