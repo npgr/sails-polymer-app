@@ -26,6 +26,7 @@ html, body {
 #dialog {
 	background-color: aliceblue;
 	border-radius: 8px;
+	width: 30em;
 }
 .btn {
 	//background-color: darkturquoise;
