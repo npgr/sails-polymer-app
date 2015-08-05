@@ -67,7 +67,7 @@ paper-menu {
 	
 	<div class="card_title">Listar Pedido</div>
 	<select id="filter" on-change="input_type">
-		<option value="id">Id</option>
+		<option value="id">Pedido</option>
 		<option value="customer_name">Cliente</option>
 		<option value="date">Fecha</option>
 		<option value="status">Status</option>
@@ -94,7 +94,7 @@ paper-menu {
 	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
-		<option value="id">Id</option>
+		<option value="id">Pedido</option>
 		<option value="customer_name">Cliente</option>
 		<option value="date">Fecha</option>
 		<option value="status">Status</option>
@@ -129,7 +129,7 @@ paper-menu {
 	<thead>
 	  <tr>
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
-		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
+		<th class="col_id" on-click="sort_id">Pedido<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_customer_name" on-click="sort_customer_name">Cliente<div id="customer_name_sort_d" class="hide">
 			<iron-icon id="customer_name_sort" icon="arrow-drop-up"></iron-icon></div></th>

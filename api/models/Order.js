@@ -11,7 +11,7 @@ module.exports = {
   attributes: {
 	//_title: 'Pedido',
 	id: {
-		//description: 'Id',
+		//description: 'Pedido',
 		type: "integer",
 		max: 999999,
 		min: 1,
