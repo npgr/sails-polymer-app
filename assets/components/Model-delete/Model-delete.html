@@ -1,3 +1,4 @@
+<!-- delete-form: version 5.00 -->
 <dom-module id="Model-delete">
 <template>
 	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
@@ -112,7 +113,7 @@
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = document.getElementById("config").server+"Model/"+this.item.id
+			this.$.ajax.url = config_server() + "Model/"+this.item.id
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {
