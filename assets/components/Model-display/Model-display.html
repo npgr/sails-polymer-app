@@ -22,57 +22,19 @@
 				<td><input id="primaryKey" type="text" name="primaryKey" value="{{item.primaryKey_attribute}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="autoIncrement">Auto Increment</label></td>
+				<td><label class="left_label" for="autoIncrement">AutoIncrement</label></td>
 				<td><select id="autoIncrement" name="autoIncrement" disabled>
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="display">Display</label></td>
-				<td><select id="display" name="display" disabled>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
+				<td><label class="left_label" for="unique">Unique</label></td>
+				<td><input id="unique" type="text" name="unique" value="{{item.unique}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="create">Create</label></td>
-				<td><select id="create" name="create" disabled>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="update">Update</label></td>
-				<td><select id="update" name="update" disabled>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="delete">Delete</label></td>
-				<td><select id="delete" name="delete" disabled>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="columns">Columns</label></td>
-				<td><select id="columns" name="columns" disabled>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="download">Download</label></td>
-				<td><select id="download" name="download" disabled>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="Menu">Menu</label></td>
-				<td><select id="Menu" name="Menu" disabled>
+				<td><label class="left_label" for="menu">Menu</label></td>
+				<td><select id="menu" name="menu" disabled>
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
@@ -96,13 +58,7 @@
 		},
 		set_select_fields(item) {
 			this.$.autoIncrement.value = item.autoIncrement
-			this.$.display.value = item.display
-			this.$.create.value = item.create
-			this.$.update.value = item.update
-			this.$.delete.value = item.delete
-			this.$.columns.value = item.columns
-			this.$.download.value = item.download
-			this.$.Menu.value = item.Menu
+			this.$.menu.value = item.menu
 			}
 	})
 </script>

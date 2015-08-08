@@ -13,6 +13,7 @@ module.exports = {
 	//_title: 'Modelo',
 	id: {
 		//description: 'Id',
+		//hide: true,
 		type: "integer",
 		primaryKey: true,
 		autoIncrement: true,
@@ -21,7 +22,8 @@ module.exports = {
 	name: {
 		//description: 'Name',
 		type: 'string',
-		required: true
+		required: true,
+		unique: true
 	},
 	title: {
 		//description: 'Title',
@@ -37,53 +39,46 @@ module.exports = {
 		model: 'Attribute'
 	},
 	autoIncrement: {
-		//description: 'Auto Increment',
+		//description: 'AutoIncrement',
 		type: 'boolean',
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
 	},
-	display: {
-		//description: 'Display',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
+	unique: {
+		//description: 'Unique',
+		type: 'string'
 	},
-	create: {
-		//description: 'Create',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
-	},
-	update: {
-		//description: 'Update',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
-	},
-	delete: {
-		//description: 'Delete',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
-	},
-	columns: {
-		//description: 'Columns',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
-	},
-	download: {
-		//description: 'Download',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
-	},
-	Menu: {
+	menu: {
 		//description: 'Menu',
 		type: 'boolean',
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
 	}
+  }
+//End Attributes
+  ,afterCreate: function (values, next) {
+	errorx = function errorx(err, data) {
+		if (err) {
+			console.log('Error After Create Model: ', err)
+			return next(err);
+		}
+		//res.redirect("<%= model%>/list")
+	}
+	var functionx = {model: values.id, name:'list',type:'list', enable:true, width:300, width_unit:'px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-new',type:'new', enable:true, width:300, width_unit:'px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-display',type:'display', enable:true, width:300, width_unit:'px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-edit',type:'edit', enable:true, width:300, width_unit:'px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-delete',type:'delete', enable:true, width:300, width_unit:'px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-columns',type:'columns', enable:true, width:300, width_unit:'px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-download',type:'download', enable:true, width:300, width_unit:'px'}
+	ModelFunction.create(functionx, errorx)
+	next()
   }
 };
 

@@ -1,5 +1,5 @@
 <!-- list-columns: version 5.00 -->
-<dom-module id="Model-list-columns">
+<dom-module id="ModelFunction-list-columns">
 <template>
 <style>
 	/*#dialog {
@@ -17,7 +17,7 @@
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Columnas Modelo</h2>
+		<h2 class="card_title">Columnas Funcion</h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -25,28 +25,28 @@
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="model_name">Model</label></td>
+				<td><div id="model_name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="name">Name</label></td>
 				<td><div id="name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="title">Title</label></td>
-				<td><div id="title" on-click="change_field"></div></td>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><div id="type" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="primaryKey_attribute">Primary Key</label></td>
-				<td><div id="primaryKey_attribute" on-click="change_field"></div></td>
+				<td><label class="left_label" for="enable">Enable</label></td>
+				<td><div id="enable" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="autoIncrement">AutoIncrement</label></td>
-				<td><div id="autoIncrement" on-click="change_field"></div></td>
+				<td><label class="left_label" for="width">Width</label></td>
+				<td><div id="width" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="unique">Unique</label></td>
-				<td><div id="unique" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="menu">Menu</label></td>
-				<td><div id="menu" on-click="change_field"></div></td>
+				<td><label class="left_label" for="width_unit">Unit</label></td>
+				<td><div id="width_unit" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -60,7 +60,7 @@
 </template>
 <script>
 	Polymer({
-		is: "Model-list-columns",
+		is: "ModelFunction-list-columns",
 		properties: {
 			//updated: false,
 			//column: {}
@@ -69,12 +69,12 @@
 			this.updated= false,
 			this.column= column
 			this.show_field("id")
+			this.show_field("model_name")
 			this.show_field("name")
-			this.show_field("title")
-			this.show_field("primaryKey_attribute")
-			this.show_field("autoIncrement")
-			this.show_field("unique")
-			this.show_field("menu")
+			this.show_field("type")
+			this.show_field("enable")
+			this.show_field("width")
+			this.show_field("width_unit")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {

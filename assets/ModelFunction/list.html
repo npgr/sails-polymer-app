@@ -1,7 +1,7 @@
 <html>
 <!-- list template: version 5.01 -->
 <head>
-	<title>Listar Modelo</title>
+	<title>Listar Funcion</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
@@ -18,12 +18,12 @@
 	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-	<link rel="import" href="/components/Model-list-columns/Model-list-columns.html">
-	<link rel="import" href="/components/Model-new/Model-new.html">
-	<link rel="import" href="/components/Model-display/Model-display.html">
-	<link rel="import" href="/components/Model-edit/Model-edit.html">
-	<link rel="import" href="/components/Model-delete/Model-delete.html">
-	<link rel="import" href="/components/Attribute-select/Attribute-select.html">
+	<link rel="import" href="/components/ModelFunction-list-columns/ModelFunction-list-columns.html">
+	<link rel="import" href="/components/ModelFunction-new/ModelFunction-new.html">
+	<link rel="import" href="/components/ModelFunction-display/ModelFunction-display.html">
+	<link rel="import" href="/components/ModelFunction-edit/ModelFunction-edit.html">
+	<link rel="import" href="/components/ModelFunction-delete/ModelFunction-delete.html">
+	<link rel="import" href="/components/Model-select/Model-select.html">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -56,25 +56,25 @@ paper-menu {
 	margin-bottom: 0px;
 }
 </style>
-<dom-module id="Model-list">
+<dom-module id="ModelFunction-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<Model-list-columns id="Model_list_columns" on-close="update_columns"></Model-list-columns>
-	<Model-new id="Model_new_dialog" on-close="reload"></Model-new>
-	<Model-display id="Model_display_dialog"></Model-display>
-	<Model-edit id="Model_edit_dialog" on-close="reload"></Model-edit>
-	<Model-delete id="Model_delete_dialog" on-close="reload"></Model-delete>
-	<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
+	<ModelFunction-list-columns id="ModelFunction_list_columns" on-close="update_columns"></ModelFunction-list-columns>
+	<ModelFunction-new id="ModelFunction_new_dialog" on-close="reload"></ModelFunction-new>
+	<ModelFunction-display id="ModelFunction_display_dialog"></ModelFunction-display>
+	<ModelFunction-edit id="ModelFunction_edit_dialog" on-close="reload"></ModelFunction-edit>
+	<ModelFunction-delete id="ModelFunction_delete_dialog" on-close="reload"></ModelFunction-delete>
+	<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
 	
-	<div class="card_title">Listar Modelo</div>
+	<div class="card_title">Listar Funcion</div>
 	<select id="filter" on-change="input_type">
 		<option value="id">Id</option>
+		<option value="model_name">Model</option>
 		<option value="name">Name</option>
-		<option value="title">Title</option>
-		<option value="primaryKey_attribute">Primary Key</option>
-		<option value="autoIncrement">AutoIncrement</option>
-		<option value="unique">Unique</option>
-		<option value="menu">Menu</option>
+		<option value="type">Type</option>
+		<option value="enable">Enable</option>
+		<option value="width">Width</option>
+		<option value="width_unit">Unit</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -99,12 +99,12 @@ paper-menu {
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id">Id</option>
+		<option value="model_name">Model</option>
 		<option value="name">Name</option>
-		<option value="title">Title</option>
-		<option value="primaryKey_attribute">Primary Key</option>
-		<option value="autoIncrement">AutoIncrement</option>
-		<option value="unique">Unique</option>
-		<option value="menu">Menu</option>
+		<option value="type">Type</option>
+		<option value="enable">Enable</option>
+		<option value="width">Width</option>
+		<option value="width_unit">Unit</option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -123,7 +123,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 	
-	<a href="{{download_data}}" id="link" class="hide" download="Modelo.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="Funcion.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -138,30 +138,30 @@ paper-menu {
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_model_name" on-click="sort_model_name">Model<div id="model_name_sort_d" class="hide">
+			<iron-icon id="model_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_name" on-click="sort_name">Name<div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_title" on-click="sort_title">Title<div id="title_sort_d" class="hide">
-			<iron-icon id="title_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_primaryKey_attribute" on-click="sort_primaryKey_attribute">Primary Key<div id="primaryKey_attribute_sort_d" class="hide">
-			<iron-icon id="primaryKey_attribute_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_autoIncrement" on-click="sort_autoIncrement">AutoIncrement<div id="autoIncrement_sort_d" class="hide">
-			<iron-icon id="autoIncrement_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_unique" on-click="sort_unique">Unique<div id="unique_sort_d" class="hide">
-			<iron-icon id="unique_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_menu" on-click="sort_menu">Menu<div id="menu_sort_d" class="hide">
-			<iron-icon id="menu_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_type" on-click="sort_type">Type<div id="type_sort_d" class="hide">
+			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_enable" on-click="sort_enable">Enable<div id="enable_sort_d" class="hide">
+			<iron-icon id="enable_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_width" on-click="sort_width">Width<div id="width_sort_d" class="hide">
+			<iron-icon id="width_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_width_unit" on-click="sort_width_unit">Unit<div id="width_unit_sort_d" class="hide">
+			<iron-icon id="width_unit_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
+		<td class="col_model_name"></td>
 		<td class="col_name"></td>
-		<td class="col_title"></td>
-		<td class="col_primaryKey_attribute"></td>
-		<td class="col_autoIncrement"></td>
-		<td class="col_unique"></td>
-		<td class="col_menu"></td>
+		<td class="col_type"></td>
+		<td class="col_enable"></td>
+		<td class="col_width"></td>
+		<td class="col_width_unit"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -171,12 +171,12 @@ paper-menu {
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
+		<template is="dom-if" if="{{column.model_name}}"><td>{{item.model_name}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
-		<template is="dom-if" if="{{column.title}}"><td>{{item.title}}</td></template>
-		<template is="dom-if" if="{{column.primaryKey_attribute}}"><td>{{item.primaryKey_attribute}}</td></template>
-		<template is="dom-if" if="{{column.autoIncrement}}"><td>{{item.autoIncrement_des}}</td></template>
-		<template is="dom-if" if="{{column.unique}}"><td>{{item.unique}}</td></template>
-		<template is="dom-if" if="{{column.menu}}"><td>{{item.menu_des}}</td></template>
+		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
+		<template is="dom-if" if="{{column.enable}}"><td>{{item.enable_des}}</td></template>
+		<template is="dom-if" if="{{column.width}}"><td>{{item.width}}</td></template>
+		<template is="dom-if" if="{{column.width_unit}}"><td>{{item.width_unit_des}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -184,7 +184,7 @@ paper-menu {
 </template>
 <script>
 Polymer({
-	is: "Model-list",
+	is: "ModelFunction-list",
 	properties: {
 		//cur_sort: { field: "id", isdesc: false },
 		//cur_filter: {}
@@ -197,25 +197,26 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}*/
-		this.$.ajax.url = config_server() + "Model"
+		this.$.ajax.url = config_server() + "ModelFunction"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: false},
+				{column: "model_id", type: "integer", model: "Model", display: false},
+				{column: "model_name", type: "string", model: "Model", display: true},
 				{column: "name", type: "string", display: true},
-				{column: "title", type: "string", display: true},
-				{column: "primaryKey_id", type: "integer", model: "Attribute", display: false},
-				{column: "primaryKey_attribute", type: "string", model: "Attribute", display: true},
-				{column: "autoIncrement", enum: [true,false], enumdes: ["Yes","No"], display: true},
-				{column: "unique", type: "string", display: true},
-				{column: "menu", enum: [true,false], enumdes: ["Yes","No"], display: true}
+				{column: "type", enum: ["list","display","edit","new","delete","columns","select","download"], enumdes: ["List","Display","Edit","New","Delete","Columns","Select","Download"], display: true},
+				{column: "enable", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "width", type: "integer", display: true},
+				{column: "width_unit", enum: ["px","porc","em"], enumdes: ["px","porc","em"], display: true}
 		]
 		this.enums = {}
-		this.enums.autoIncrement = {true:"Yes",false:"No"}
-		this.enums.menu = {true:"Yes",false:"No"}
+		this.enums.type = {list:"List",display:"Display",edit:"Edit",new:"New",delete:"Delete",columns:"Columns",select:"Select",download:"Download"}
+		this.enums.enable = {true:"Yes",false:"No"}
+		this.enums.width_unit = {px:"px",porc:"porc",em:"em"}
 		//var _data = <%- data %>
 		var db = new loki()
-		this.data = db.addCollection("data_Model")
-		this.model = db.addCollection("model_Model")
+		this.data = db.addCollection("data_ModelFunction")
+		this.model = db.addCollection("model_ModelFunction")
 		this.reload()
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
@@ -244,11 +245,11 @@ Polymer({
 		return query_string;
 	},
 	list_columns: function() {
-		this.$.Model_list_columns.open_list_columns(this.column)
+		this.$.ModelFunction_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
 
-		this.column = this.$.Model_list_columns.column
+		this.column = this.$.ModelFunction_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
 			this.model.data[i].display = this.column[this.model.data[i].column]
 			
@@ -314,10 +315,10 @@ Polymer({
 		}
 		if (filter != "")
 		{
-		  if (this.$[filter].value == "primaryKey_attribute"){
-			this.$.Attribute_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.Attribute_select_dialog.style.left = "-100px"
-			this.$.Attribute_select_dialog.open_select_dialog()
+		  if (this.$[filter].value == "model_name"){
+			this.$.Model_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.Model_select_dialog.style.left = "-100px"
+			this.$.Model_select_dialog.open_select_dialog()
 		  }
 		}
 	},
@@ -363,12 +364,12 @@ Polymer({
 	},
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
+		this.$.model_name_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
-		this.$.title_sort_d.classList.add("hide")
-		this.$.primaryKey_attribute_sort_d.classList.add("hide")
-		this.$.autoIncrement_sort_d.classList.add("hide")
-		this.$.unique_sort_d.classList.add("hide")
-		this.$.menu_sort_d.classList.add("hide")
+		this.$.type_sort_d.classList.add("hide")
+		this.$.enable_sort_d.classList.add("hide")
+		this.$.width_sort_d.classList.add("hide")
+		this.$.width_unit_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -382,23 +383,23 @@ Polymer({
 	sort_id: function() {
 		this.sort_by_field("id")
 	},
+	sort_model_name: function() {
+		this.sort_by_field("model_name")
+	},
 	sort_name: function() {
 		this.sort_by_field("name")
 	},
-	sort_title: function() {
-		this.sort_by_field("title")
+	sort_type: function() {
+		this.sort_by_field("type")
 	},
-	sort_primaryKey_attribute: function() {
-		this.sort_by_field("primaryKey_attribute")
+	sort_enable: function() {
+		this.sort_by_field("enable")
 	},
-	sort_autoIncrement: function() {
-		this.sort_by_field("autoIncrement")
+	sort_width: function() {
+		this.sort_by_field("width")
 	},
-	sort_unique: function() {
-		this.sort_by_field("unique")
-	},
-	sort_menu: function() {
-		this.sort_by_field("menu")
+	sort_width_unit: function() {
+		this.sort_by_field("width_unit")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -506,22 +507,22 @@ Polymer({
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Model_display_dialog.open_display_dialog(item)
+	this.$.ModelFunction_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Model_edit_dialog.open_dialog(item)
+	this.$.ModelFunction_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Model_delete_dialog.open_delete_dialog(item)
+	this.$.ModelFunction_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Model_new_dialog.open_dialog()
+	this.$.ModelFunction_new_dialog.open_dialog()
   },
   reload: function() {
 	this.$.ajax.generateRequest()
@@ -532,16 +533,17 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
-		if (this.$.ajax.lastResponse[i].primaryKey){
-			this.$.ajax.lastResponse[i].primaryKey_id = this.$.ajax.lastResponse[i].primaryKey.id
-			this.$.ajax.lastResponse[i].primaryKey_attribute = this.$.ajax.lastResponse[i].primaryKey.attribute
+		if (this.$.ajax.lastResponse[i].model){
+			this.$.ajax.lastResponse[i].model_id = this.$.ajax.lastResponse[i].model.id
+			this.$.ajax.lastResponse[i].model_name = this.$.ajax.lastResponse[i].model.name
 		} else
 		{
-			this.$.ajax.lastResponse[i].primaryKey_id = 0
-			this.$.ajax.lastResponse[i].primaryKey_attribute = ""
+			this.$.ajax.lastResponse[i].model_id = 0
+			this.$.ajax.lastResponse[i].model_name = ""
 		}
-		this.$.ajax.lastResponse[i].autoIncrement_des= this.enums.autoIncrement[this.$.ajax.lastResponse[i].autoIncrement]
-		this.$.ajax.lastResponse[i].menu_des= this.enums.menu[this.$.ajax.lastResponse[i].menu]	
+		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
+		this.$.ajax.lastResponse[i].enable_des= this.enums.enable[this.$.ajax.lastResponse[i].enable]
+		this.$.ajax.lastResponse[i].width_unit_des= this.enums.width_unit[this.$.ajax.lastResponse[i].width_unit]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
@@ -554,7 +556,7 @@ Polymer({
 </script>
 </dom-module>
 <paper-material class="card" elevation="2">
-	<Model-list></Model-list>
+	<ModelFunction-list></ModelFunction-list>
 </paper-material>
 </body>
 </html>

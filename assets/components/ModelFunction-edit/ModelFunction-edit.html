@@ -1,10 +1,10 @@
 <!-- edit-form: version 5.00 -->
-<dom-module id="Model-edit">
+<dom-module id="ModelFunction-edit">
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
-		<h2 class="card_title">Editar Modelo</h2>
+		<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+		<h2 class="card_title">Editar Funcion</h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
@@ -13,33 +13,43 @@
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="model">Model</label></td>
+				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key={{item.model_id}} value="{{item.model_name}}" on-click="select_field" readonly></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="name">Name<strong class="red"> *</strong></label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="title">Title<strong class="red"> *</strong></label></td>
-				<td><input id="title" type="text" name="title" value="{{item.title}}" required></td>
+				<td><label class="left_label" for="type">Type<strong class="red"> *</strong></label></td>
+				<td><select id="type" name="type">
+						<option value="list">List</option>
+						<option value="display">Display</option>
+						<option value="edit">Edit</option>
+						<option value="new">New</option>
+						<option value="delete">Delete</option>
+						<option value="columns">Columns</option>
+						<option value="select">Select</option>
+						<option value="download">Download</option>
+					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="primaryKey">Primary Key</label></td>
-				<td><iron-icon icon="find-in-page" field="primaryKey" on-click="select_field_b"></iron-icon><input id="primaryKey" type="text" name="primaryKey" key={{item.primaryKey_id}} value="{{item.primaryKey_attribute}}" on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="autoIncrement">AutoIncrement</label></td>
-				<td><select id="autoIncrement" name="autoIncrement">
+				<td><label class="left_label" for="enable">Enable</label></td>
+				<td><select id="enable" name="enable">
 						<option value="true">Yes</option>
 						<option value="false">No</option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="unique">Unique</label></td>
-				<td><input id="unique" type="text" name="unique" value="{{item.unique}}"></td>
+				<td><label class="left_label" for="width">Width<strong class="red"> *</strong></label></td>
+				<td><input id="width" type="number" name="width" value="{{item.width}}" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="menu">Menu</label></td>
-				<td><select id="menu" name="menu">
-						<option value="true">Yes</option>
-						<option value="false">No</option>
+				<td><label class="left_label" for="width_unit">Unit<strong class="red"> *</strong></label></td>
+				<td><select id="width_unit" name="width_unit">
+						<option value="px">px</option>
+						<option value="porc">porc</option>
+						<option value="em">em</option>
 					</select></td>
 			</tr>
 			</table>
@@ -56,23 +66,24 @@
 </template>
 <script>
 	Polymer({
-		is: "Model-edit",
+		is: "ModelFunction-edit",
 		open_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.autoIncrement.value = item.autoIncrement
-			this.$.menu.value = item.menu
+			this.$.type.value = item.type
+			this.$.enable.value = item.enable
+			this.$.width_unit.value = item.width_unit
 			},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "primaryKey")
-				this.$.Attribute_select_dialog.open_select_dialog()
+			if (this.field == "model")
+				this.$.Model_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -84,13 +95,13 @@
 		update: function() {
 			var record = {}
 			record.id = Number(this.$.id.value)
+			record.model = this.$.model.key
 			record.name = this.$.name.value
-			record.title = this.$.title.value
-			record.primaryKey = this.$.primaryKey.key
-			record.autoIncrement = this.$.autoIncrement.value
-			record.unique = this.$.unique.value
-			record.menu = this.$.menu.value
-			this.$.ajax.url = config_server() + "Model/" +record.id
+			record.type = this.$.type.value
+			record.enable = this.$.enable.value
+			record.width = Number(this.$.width.value)
+			record.width_unit = this.$.width_unit.value
+			this.$.ajax.url = config_server() + "ModelFunction/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},
