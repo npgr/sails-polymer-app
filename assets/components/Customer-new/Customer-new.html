@@ -1,3 +1,4 @@
+<!-- new-form: version 5.00 -->
 <dom-module id="Customer-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
@@ -67,7 +68,7 @@
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = document.getElementById("config").server + "Customer"
+			this.$.ajax2.url = config_server() + "Customer"
 			var record = {}
 			  record.name = this.$.name.value
 			  record.city = this.$.city.value
@@ -90,7 +91,7 @@
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = document.getElementById("config").server+"Customer/exist/"+this.$.id.value
+					this.$.ajax.url = config_server() + "Customer/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()
