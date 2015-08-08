@@ -300,14 +300,24 @@ Polymer({
 		}
 	},
 	select_field: function(e) {
-		this.field = e.toElement.id<% 
+		this.field = e.toElement.id
+		var filter = ""
+		switch (this.field) {
+		  case "filtro":
+			filter = "filter"
+		  break;
+		  case "filtro2":
+			filter = "filter2"
+		  break;
+		}
+		if (filter != "")<% 
 		for (i=0; i < keys.length; i++) {
 			if (jsondata[keys[i]].model) {%>
-		if (this.$.filter.value == "<%= keys[i]%>_<%= jsondata[keys[i]].display%>"){
+		  if (this.$[filter].value == "<%= keys[i]%>_<%= jsondata[keys[i]].display%>"){
 			this.$.<%= jsondata[keys[i]].model%>_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.<%= jsondata[keys[i]].model%>_select_dialog.style.left = "-100px"
 			this.$.<%= jsondata[keys[i]].model%>_select_dialog.open_select_dialog()
-		}<%} }%>
+		  }<%} }%>
 	},
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
