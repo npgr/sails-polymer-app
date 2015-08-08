@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.00 -->
+<!-- list template: version 5.01 -->
 <head>
 	<title>Listar Modelo</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -354,11 +354,13 @@ Polymer({
 		  break;
 		}
 		if (filter != "")
+		{
 		  if (this.$[filter].value == "primaryKey_attribute"){
 			this.$.Attribute_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Attribute_select_dialog.style.left = "-100px"
 			this.$.Attribute_select_dialog.open_select_dialog()
 		  }
+		}
 	},
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name

@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.00 -->
+<!-- list template: version 5.01 -->
 <head>
 	<title>Listar <%= title%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -310,7 +310,8 @@ Polymer({
 			filter = "filter2"
 		  break;
 		}
-		if (filter != "")<% 
+		if (filter != "")
+		{<% 
 		for (i=0; i < keys.length; i++) {
 			if (jsondata[keys[i]].model) {%>
 		  if (this.$[filter].value == "<%= keys[i]%>_<%= jsondata[keys[i]].display%>"){
@@ -318,6 +319,7 @@ Polymer({
 			//this.$.<%= jsondata[keys[i]].model%>_select_dialog.style.left = "-100px"
 			this.$.<%= jsondata[keys[i]].model%>_select_dialog.open_select_dialog()
 		  }<%} }%>
+		}
 	},
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name

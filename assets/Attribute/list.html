@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.00 -->
+<!-- list template: version 5.01 -->
 <head>
 	<title>Listar Atributo</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -414,20 +414,32 @@ Polymer({
 	},
 	select_field: function(e) {
 		this.field = e.toElement.id
-		if (this.$.filter.value == "model_name"){
+		var filter = ""
+		switch (this.field) {
+		  case "filtro":
+			filter = "filter"
+		  break;
+		  case "filtro2":
+			filter = "filter2"
+		  break;
+		}
+		if (filter != "")
+		{
+		  if (this.$[filter].value == "model_name"){
 			this.$.Model_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Model_select_dialog.style.left = "-100px"
 			this.$.Model_select_dialog.open_select_dialog()
-		}
-		if (this.$.filter.value == "ref_model_name"){
+		  }
+		  if (this.$[filter].value == "ref_model_name"){
 			this.$.Model_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Model_select_dialog.style.left = "-100px"
 			this.$.Model_select_dialog.open_select_dialog()
-		}
-		if (this.$.filter.value == "model_display_name"){
+		  }
+		  if (this.$[filter].value == "model_display_name"){
 			this.$.Attribute_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Attribute_select_dialog.style.left = "-100px"
 			this.$.Attribute_select_dialog.open_select_dialog()
+		  }
 		}
 	},
 	set_select_field: function(e) {
