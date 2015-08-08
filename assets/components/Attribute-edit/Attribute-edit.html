@@ -1,3 +1,4 @@
+<!-- edit-form: version 5.00 -->
 <dom-module id="Attribute-edit">
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
@@ -201,7 +202,7 @@
 			record.update = this.$.update.value
 			record.delete = this.$.delete.value
 			record.help = this.$.help.value
-			this.$.ajax.url = document.getElementById("config").server + "Attribute/" +record.id
+			this.$.ajax.url = config_server() + "Attribute/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},
