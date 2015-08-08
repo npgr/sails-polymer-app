@@ -37,6 +37,19 @@ function generate_app_config() {
 	else console.log('File assets/components/app-config/app-config.js already exist')
 }
 
+function generate_app_util() {
+	var APP_UTIL = fs.readFileSync('./templates/crud5/app-util.template', 'utf8');
+	if (!fs.existsSync('assets/components/app-util'))
+	{
+		fs.mkdirSync('assets/components/app-util')
+		fs.writeFile('assets/components/app-util/app-util.js', APP_UTIL, function (err) {
+			if (err) console.log(err);
+			console.log('Created file assets/components/app-util/app-util.js')
+		})
+	}
+	else console.log('File assets/components/app-util/app-util.js already exist')
+}
+
 function generate_controller(key) {
 	var CONTROLLER_TEMPLATE = fs.readFileSync('./templates/crud5/controller.template', 'utf8');
 	var compiled_Controller = _.template(CONTROLLER_TEMPLATE)
@@ -351,6 +364,7 @@ exports.generate = function(crud) {
 
 	generate_controller(key)
 	generate_app_config()
+	generate_app_util()
 	generate_new_form(keys, key, title)
 	generate_display_form(keys, key, title)
 	generate_delete_form(keys, key, title)	

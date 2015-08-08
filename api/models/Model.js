@@ -10,7 +10,7 @@ module.exports = {
   migrate: 'alter',
 
   attributes: {
-	//_title: 'Modelo',
+	//_title: 'Model',
 	id: {
 		//description: 'Id',
 		//hide: true,

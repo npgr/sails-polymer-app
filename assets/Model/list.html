@@ -130,6 +130,8 @@ paper-menu {
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;">Consultar</paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Editar</paper-item>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>
+			<paper-item on-click="attributes" style="min-height:20px;line-height:35px;">Attributes</paper-item>
+			<paper-item on-click="functions" style="min-height:20px;line-height:35px;">Functions</paper-item>		
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -522,6 +524,12 @@ Polymer({
   },
   new: function() {
 	this.$.Model_new_dialog.open_dialog()
+  },
+  attributes: function() {
+	window.location.href = config_base_url() + 'attribute/list?model='+ this.key 
+  },
+  functions: function() {
+	window.location.href = config_base_url() + 'modelfunction/list?model='+ this.key 
   },
   reload: function() {
 	this.$.ajax.generateRequest()
