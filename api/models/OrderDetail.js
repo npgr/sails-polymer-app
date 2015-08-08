@@ -39,5 +39,6 @@ module.exports = {
 		type: 'integer'
 	}
   }
+//End Attributes
 };
 
