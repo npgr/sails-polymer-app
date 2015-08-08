@@ -1,3 +1,4 @@
+<!-- select-model: version 5.00 -->
 <dom-module id="Product-select">
 <template>
 	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
@@ -16,7 +17,7 @@
 		is: "Product-select",
 		open_select_dialog: function() {
 			this.$.filtro.value = ""
-			this.$.ajax.url= document.getElementById("config").server+"Product"
+			this.$.ajax.url= config_server() +"Product"
 			var db = new loki()
 			this.data = db.addCollection("data_Product")
 			this.filtered_data = []

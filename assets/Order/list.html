@@ -1,4 +1,5 @@
 <html>
+<!-- list template: version 5.01 -->
 <head>
 	<title>Listar Pedido</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -281,10 +282,22 @@ Polymer({
 	},
 	select_field: function(e) {
 		this.field = e.toElement.id
-		if (this.$.filter.value == "customer_name"){
+		var filter = ""
+		switch (this.field) {
+		  case "filtro":
+			filter = "filter"
+		  break;
+		  case "filtro2":
+			filter = "filter2"
+		  break;
+		}
+		if (filter != "")
+		{
+		  if (this.$[filter].value == "customer_name"){
 			this.$.Customer_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Customer_select_dialog.style.left = "-100px"
 			this.$.Customer_select_dialog.open_select_dialog()
+		  }
 		}
 	},
 	set_select_field: function(e) {
