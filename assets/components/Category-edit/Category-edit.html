@@ -1,3 +1,4 @@
+<!-- edit-form: version 5.00 -->
 <dom-module id="Category-edit">
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
@@ -53,7 +54,7 @@
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.name = this.$.name.value
-			this.$.ajax.url = document.getElementById("config").server + "Category/" +record.id
+			this.$.ajax.url = config_server() + "Category/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},
