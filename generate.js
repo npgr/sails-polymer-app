@@ -54,7 +54,13 @@ function get_model(cb)
 			}
 			else {
 				var start = data.indexOf("attributes: {")
-				var end = data.indexOf("};")
+				//var end = data.indexOf("};")
+				var end = data.indexOf("//End Attributes")
+				if (end == -1)
+				{
+					console.log('Missing //End Attributes directive on model file')
+					process.exit()
+				}
 				data = data.substring(start+12, end-1)
 				//jsondata = JSON.parse(data)
 				// pending replace all //
