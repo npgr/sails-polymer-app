@@ -6,6 +6,7 @@
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
+	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -257,13 +258,7 @@ Polymer({
 		}
 	},
 	date_dma: function(datex) {
-		if (datex) {
-			var year = datex.substring( 0, 4)
-			var month = datex.substring( 5, 7)
-			var day = datex.substring( 8, 10)
-			return day+'/'+month+'/'+year
-		}
-		//else return ''
+		return datex_dma(datex)
 	},
 	logic_operator: function() {
 		if (this.$.logic.value == "-") {

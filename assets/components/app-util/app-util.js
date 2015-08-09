@@ -21,3 +21,13 @@ function url_params()
 	} 
 	return query_string;
 }
+
+function datex_dma(datex) {
+	if (datex) {
+		var year = datex.substring( 0, 4)
+		var month = datex.substring( 5, 7)
+		var day = datex.substring( 8, 10)
+		return day+'/'+month+'/'+year
+	}
+	//else return ''
+}
