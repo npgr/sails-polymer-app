@@ -54,8 +54,8 @@ module.exports = {
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
 	}
-  }
 //End Attributes
+  }
   ,afterCreate: function (values, next) {
 	errorx = function errorx(err, data) {
 		if (err) {

@@ -62,6 +62,7 @@ function get_model(cb)
 					process.exit()
 				}
 				data = data.substring(start+12, end-1)
+				data += '}'
 				//jsondata = JSON.parse(data)
 				// pending replace all //
 				data = data.replace(/\//g, '')
