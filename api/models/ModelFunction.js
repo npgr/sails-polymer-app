@@ -56,19 +56,23 @@ module.exports = {
 		//,enumdes: ['px','porc','em']
 	}
 //End Attributes
-	,toJSON: function () {
+	/*,toJSON: function () {
       var obj = this.toObject();
 
-      var x = {id: obj.model.id, name: obj.model.name}
+      //var x = {id: obj.model.id, name: obj.model.name}
 	  
-	  delete obj.model;
+	  //delete obj.model;
+	  delete obj.model.createdAt;
+	  delete obj.model.updatedAt;
 	  delete obj.createdAt;
 	  delete obj.updatedAt;
+	  delete obj.type;
 	  
-	  obj.model = x
+	  //obj.model = x
+	  obj.model_name= obj.model.name
 
       return obj;
-    }
+    }*/
   }
 };
 
