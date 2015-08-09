@@ -56,5 +56,6 @@ module.exports = {
 		//,enumdes: ['px','porc','em']
 	}
   }
+//End Attributes
 };
 

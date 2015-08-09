@@ -142,5 +142,6 @@ module.exports = {
 		type: 'string'
 	}
   }
+//End Attributes
 };
 

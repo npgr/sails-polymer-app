@@ -1,11 +1,12 @@
 <html>
-<!-- list template: version 5.01 -->
+<!-- list template: version 5.03 -->
 <head>
-	<title>Listar Modelo</title>
+	<title>Listar Model</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
+	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -66,7 +67,7 @@ paper-menu {
 	<Model-delete id="Model_delete_dialog" on-close="reload"></Model-delete>
 	<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
 	
-	<div class="card_title">Listar Modelo</div>
+	<div class="card_title">Listar Model</div>
 	<select id="filter" on-change="input_type">
 		<option value="id">Id</option>
 		<option value="name">Name</option>
@@ -123,7 +124,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 	
-	<a href="{{download_data}}" id="link" class="hide" download="Modelo.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="Model.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -131,7 +132,7 @@ paper-menu {
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Editar</paper-item>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>
 			<paper-item on-click="attributes" style="min-height:20px;line-height:35px;">Attributes</paper-item>
-			<paper-item on-click="functions" style="min-height:20px;line-height:35px;">Functions</paper-item>		
+			<paper-item on-click="functions" style="min-height:20px;line-height:35px;">Functions</paper-item>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -170,7 +171,7 @@ paper-menu {
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
 		<td class="ops">
-			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
+			<paper-icon-button key="{{item.id}}" name="{{item.name}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
@@ -193,12 +194,12 @@ Polymer({
 	},
 	ready: function() {
 		// For Sharepoint
-		/*if (typeof String.prototype.startsWith != 'function') {
+		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
 			String.prototype.startsWith = function (str){
 				return this.indexOf(str) === 0;
 			}
-		}*/
+		}
 		this.$.ajax.url = config_server() + "Model"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
@@ -224,26 +225,6 @@ Polymer({
 		_model = {}
 		this.show_columns()
 		this.input_type()
-	},
-	params: function(){  // Get URL params (after ?)
-		var query_string = {};
-		var query = window.location.search.substring(1);
-		var vars = query.split("&");
-		for (var i=0;i<vars.length;i++) {
-			var pair = vars[i].split("=");
-			// If first entry with this name
-			if (typeof query_string[pair[0]] === "undefined") {
-				query_string[pair[0]] = decodeURIComponent(pair[1]);
-				// If second entry with this name
-			} else if (typeof query_string[pair[0]] === "string") {
-				var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-				query_string[pair[0]] = arr;
-				// If third or later entry with this name
-			} else {
-				query_string[pair[0]].push(decodeURIComponent(pair[1]));
-			}
-		} 
-		return query_string;
 	},
 	list_columns: function() {
 		this.$.Model_list_columns.open_list_columns(this.column)
@@ -280,13 +261,7 @@ Polymer({
 		}
 	},
 	date_dma: function(datex) {
-		if (datex) {
-			var year = datex.substring( 0, 4)
-			var month = datex.substring( 5, 7)
-			var day = datex.substring( 8, 10)
-			return day+'/'+month+'/'+year
-		}
-		//else return ''
+		return datex_dma(datex)
 	},
 	logic_operator: function() {
 		if (this.$.logic.value == "-") {
@@ -500,6 +475,7 @@ Polymer({
 	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
+		this.name = e.toElement.offsetParent.name
 		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+20+"px"
 		this.$.menu_dialog.style.left = "30px"
 		this.$.menu_dialog.open()
@@ -526,10 +502,10 @@ Polymer({
 	this.$.Model_new_dialog.open_dialog()
   },
   attributes: function() {
-	window.location.href = config_base_url() + 'attribute/list?model='+ this.key 
+	window.location.href = config_base_url() + 'attribute/list?model='+ this.name 
   },
   functions: function() {
-	window.location.href = config_base_url() + 'modelfunction/list?model='+ this.key 
+	window.location.href = config_base_url() + 'modelfunction/list?model='+ this.name 
   },
   reload: function() {
 	this.$.ajax.generateRequest()
