@@ -40,5 +40,6 @@ module.exports = {
 		//,enumdes: ['En Captura', 'En Despacho', 'Despachado']
 	}
   }
+//End Attributes
 };
 

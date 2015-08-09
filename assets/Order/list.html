@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.01 -->
+<!-- list template: version 5.03 -->
 <head>
 	<title>Listar Pedido</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -175,12 +175,12 @@ Polymer({
 	},
 	ready: function() {
 		// For Sharepoint
-		/*if (typeof String.prototype.startsWith != 'function') {
+		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
 			String.prototype.startsWith = function (str){
 				return this.indexOf(str) === 0;
 			}
-		}*/
+		}
 		this.$.ajax.url = config_server() + "Order"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
@@ -202,26 +202,6 @@ Polymer({
 		_model = {}
 		this.show_columns()
 		this.input_type()
-	},
-	params: function(){  // Get URL params (after ?)
-		var query_string = {};
-		var query = window.location.search.substring(1);
-		var vars = query.split("&");
-		for (var i=0;i<vars.length;i++) {
-			var pair = vars[i].split("=");
-			// If first entry with this name
-			if (typeof query_string[pair[0]] === "undefined") {
-				query_string[pair[0]] = decodeURIComponent(pair[1]);
-				// If second entry with this name
-			} else if (typeof query_string[pair[0]] === "string") {
-				var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-				query_string[pair[0]] = arr;
-				// If third or later entry with this name
-			} else {
-				query_string[pair[0]].push(decodeURIComponent(pair[1]));
-			}
-		} 
-		return query_string;
 	},
 	list_columns: function() {
 		this.$.Order_list_columns.open_list_columns(this.column)

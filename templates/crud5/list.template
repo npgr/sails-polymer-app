@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.02 -->
+<!-- list template: version 5.03 -->
 <head>
 	<title>Listar <%= title%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -257,13 +257,7 @@ Polymer({
 		}
 	},
 	date_dma: function(datex) {
-		if (datex) {
-			var year = datex.substring( 0, 4)
-			var month = datex.substring( 5, 7)
-			var day = datex.substring( 8, 10)
-			return day+'/'+month+'/'+year
-		}
-		//else return ''
+		return datex_dma(datex)
 	},
 	logic_operator: function() {
 		if (this.$.logic.value == "-") {
