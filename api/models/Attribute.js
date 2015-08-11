@@ -141,7 +141,29 @@ module.exports = {
 		//hide: true,
 		type: 'string'
 	}
-  }
 //End Attributes
+  },
+	afterCreate: function (attr, next) {
+		errorx = function errorx(err, data) {
+			if (err) {
+				console.log('Error After Create Model: ', err)
+				return next(err);
+			}
+			//res.redirect("<%= model%>/list")
+		}
+		ModelFunction.find({model: attr.model})
+			.exec(function(err, func) {
+				//console.log('function: ',func)
+				var funcAttr = {}
+				for (i=0; i < func.length; i++) {
+				  if (func[i].type != "download" && func[i].type != "columns")
+				  {
+					funcAttr = {model: func[i].model, functionx: func[i].id, attribute: attr.id, display:'Yes'}
+					FunctionAttribute.create(funcAttr, errorx)
+				  }
+				}
+				next()
+		})
+	}
 };
 
