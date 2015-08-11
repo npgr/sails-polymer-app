@@ -41,6 +41,12 @@ module.exports = {
 		//display: 'name',
 		//type: 'string',
 		model: 'Attribute'
+	},
+	display: {
+		//description: 'Attribute',
+		type: 'string',
+		enum: ['Yes', 'ReadOnly', 'No']
+		//,enumdes: ['Yes', 'ReadOnly', 'No']
 	}
 //End Attributes
 	/*,toJSON: function () {
