@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.04 -->
+<!-- list template: version 5.05 -->
 <head>
 	<title>Listar Model</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -320,6 +320,25 @@ Polymer({
 					this.$.filtro.value = stored_filter.value
 				else
 					this.$.filtro.value = Number(stored_filter.value)
+			if  (stored_filter.filter2)
+			{
+				this.$.logic.value = stored_filter.logic
+				this.logic_operator()
+				this.$.filter2.value = stored_filter.filter2
+				this.$.op2.value = stored_filter.op2
+				this.input_type(2)
+				var column = this.model.find({ "column": this.$.filter2.value})
+				if (column[0].enum)
+					if (column[0].type != "number")
+						this.$.select2.value = stored_filter.value2
+					else
+						this.$.select2.value = Number(stored_filter.value2)
+				else
+					if (column[0].type != "number")
+						this.$.filtro2.value = stored_filter.value2
+					else
+						this.$.filtro2.value = Number(stored_filter.value2)
+			}
 			this.filter()
 		}
 	},
@@ -340,11 +359,13 @@ Polymer({
 			valor[op] = this.$.select.value
 		this.cur_filter[name] = valor
 		stored_filter.value = valor[op]
-		localStorage["Model-list-filter"] = JSON.stringify(stored_filter)
 		if (this.$.logic.value != "-")
 		{
 			name = this.$.filter2.value
 			op = this.$.op2.value
+			stored_filter.logic = this.$.logic.value
+			stored_filter.filter2 = name
+			stored_filter.op2 = op 
 			valor = {}
 			var logic_op = this.$.logic.value
 			var filtro2 = {}
@@ -355,11 +376,13 @@ Polymer({
 					valor[op] = this.$.filtro2.value
 			else 
 				valor[op] = this.$.select2.value
+			stored_filter.value2 = valor[op]
 			filtro2[name] = valor
 			var filtro = this.cur_filter
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
+		localStorage["Model-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
