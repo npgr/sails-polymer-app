@@ -1,0 +1,96 @@
+<!-- list-columns: version 5.00 -->
+<dom-module id="FunctionAttribute-list-columns">
+<template>
+<style>
+	/*#dialog {
+		width: 24em;
+	}*/
+	.green {
+		background-color: green;
+		color: white;
+		height: 30px;
+	}
+	.orange {
+		color: white;
+		background-color: orange;
+		height: 30px;
+	}
+</style>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Columnas Funcion Attributes</h2>
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><div id="id" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="model_name">Model</label></td>
+				<td><div id="model_name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="functionx_name">Function</label></td>
+				<td><div id="functionx_name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="attribute_attribute">Attribute</label></td>
+				<td><div id="attribute_attribute" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><div id="display" on-click="change_field"></div></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "FunctionAttribute-list-columns",
+		properties: {
+			//updated: false,
+			//column: {}
+		},
+		open_list_columns: function(column) {
+			this.updated= false,
+			this.column= column
+			this.show_field("id")
+			this.show_field("model_name")
+			this.show_field("functionx_name")
+			this.show_field("attribute_attribute")
+			this.show_field("display")
+			this.$.dialog.open()
+		},
+		change_field: function(e) {
+			var field = e.toElement.id
+			this.column[field] = !this.column[field]
+			this.show_field(field)
+		},
+		show_field: function(field) {
+			if (this.column[field])
+			{
+				this.$[field].innerHTML = "Visible"
+				this.$[field].classList.remove("orange")
+				this.$[field].classList.add("green")
+			}
+			else
+			{
+				this.$[field].innerHTML = "Oculto"
+				this.$[field].classList.remove("green")
+				this.$[field].classList.add("orange")
+			}
+		},
+		submit_form: function() {
+			this.updated = true
+			this.$.dialog.close()
+			this.fire('close')
+		}
+	})
+</script>
+</dom-module>

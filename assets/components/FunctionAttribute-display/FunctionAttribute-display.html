@@ -1,0 +1,54 @@
+<!-- display-form: version 5.00 -->
+<dom-module id="FunctionAttribute-display">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Consultar Funcion Attributes</h2>
+		  <paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="model">Model</label></td>
+				<td><input id="model" type="text" name="model" value="{{item.model_name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="functionx">Function</label></td>
+				<td><input id="functionx" type="text" name="functionx" value="{{item.functionx_name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="attribute">Attribute</label></td>
+				<td><input id="attribute" type="text" name="attribute" value="{{item.attribute_attribute}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><select id="display" name="display" disabled>
+						<option value="Yes">Yes</option>
+						<option value="ReadOnly">ReadOnly</option>
+						<option value="No">No</option>
+					</select></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "FunctionAttribute-display",
+		open_display_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.display.value = item.display
+			}
+	})
+</script>
+</dom-module>

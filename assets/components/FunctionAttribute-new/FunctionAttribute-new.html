@@ -1,0 +1,126 @@
+<!-- new-form: version 5.00 -->
+<dom-module id="FunctionAttribute-new">
+<template>
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+		<ModelFunction-select id="ModelFunction_select_dialog" on-item_selected="set_select_field"></ModelFunction-select>
+		<Attribute-select id="Attribute_select_dialog" on-item_selected="set_select_field"></Attribute-select>
+		<h2 class="card_title">Crear Funcion Attributes</h2>
+		<paper-dialog-scrollable>
+		  <form id="form" action="javascript:void(0);" on-submit="create">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="model">Model</label></td>
+				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key=0 on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="functionx">Function</label></td>
+				<td><iron-icon icon="find-in-page" field="functionx" on-click="select_field_b"></iron-icon><input id="functionx" type="text" name="functionx" key=0 on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="attribute">Attribute</label></td>
+				<td><iron-icon icon="find-in-page" field="attribute" on-click="select_field_b"></iron-icon><input id="attribute" type="text" name="attribute" key=0 on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display">Display</label></td>
+				<td><select id="display" name="display">
+						<option value="Yes">Yes</option>
+						<option value="ReadOnly">ReadOnly</option>
+						<option value="No">No</option>
+					</select></td>
+			</tr>
+			</table>
+			<div class="buttons">
+				<input id="submit_btn" class="hide" type="submit" value="CREAR">
+				<div class="card_line">
+					Repetir <input id="repeat" type="checkbox" name="repeat">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+				</div>
+			</div>
+		  </form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "FunctionAttribute-new",
+		open_dialog: function() {
+			this.clear()
+			this.$.dialog.open()
+		},
+		clear: function() {
+			this.$.id.value = ''
+			this.$.model.value = ''
+			this.$.model.key = 0
+			this.$.functionx.value = ''
+			this.$.functionx.key = 0
+			this.$.attribute.value = ''
+			this.$.attribute.key = 0
+		},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "model")
+				this.$.Model_select_dialog.open_select_dialog()
+			if (this.field == "functionx")
+				this.$.ModelFunction_select_dialog.open_select_dialog()
+			if (this.field == "attribute")
+				this.$.Attribute_select_dialog.open_select_dialog()
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		create: function() {
+			this.$.ajax2.url = config_server() + "FunctionAttribute"
+			var record = {}
+			record.model = this.$.model.key
+			record.functionx = this.$.functionx.key
+			record.attribute = this.$.attribute.key
+			  record.display = this.$.display.value			
+			this.$.ajax2.params = record
+			this.$.ajax2.generateRequest()
+		},
+		record_created: function() {
+			alert("Created Funcion Attributes id="+this.$.ajax2.lastResponse.id)
+			// ask for create another one
+			if (!this.$.repeat.checked) {
+				this.$.dialog.close()
+				this.fire('close')
+			} else 
+				this.clear()
+		},
+		submit_form: function() {
+			if (!isNaN(this.$.id.value))
+			{
+				if (this.$.id.value > 0)
+				{
+					this.$.ajax.url = config_server() + "FunctionAttribute/exist/"+this.$.id.value
+					this.$.ajax.generateRequest()
+				}
+				else this.$.submit_btn.click()
+			} else
+				this.$.submit_btn.click()
+		},
+		validate_record: function() {
+			if (this.$.ajax.lastResponse.exist)
+				alert("Registro ya Existe")
+			else
+				this.$.submit_btn.click()
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
