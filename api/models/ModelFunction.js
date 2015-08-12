@@ -43,6 +43,12 @@ module.exports = {
 		enum: [true,false]
 		//,enumdes: ["Yes","No"]
 	},
+	save_filter: {
+		//description: 'Save Filter',
+		type: 'boolean',
+		enum: [true,false]
+		//,enumdes: ["Yes","No"]
+	},
 	width: {
 		//description: 'Width',
 		type: 'integer',
@@ -56,23 +62,21 @@ module.exports = {
 		//,enumdes: ['px','porc','em']
 	}
 //End Attributes
-	/*,toJSON: function () {
+	,toJSON: function () {
       var obj = this.toObject();
-
-      //var x = {id: obj.model.id, name: obj.model.name}
 	  
-	  //delete obj.model;
 	  delete obj.model.createdAt;
 	  delete obj.model.updatedAt;
+	  delete obj.model.title;
+	  delete obj.model.primaryKey;
+	  delete obj.model.autoIncrement;
+	  delete obj.model.unique;
+	  delete obj.model.menu;
 	  delete obj.createdAt;
 	  delete obj.updatedAt;
-	  delete obj.type;
-	  
-	  //obj.model = x
-	  obj.model_name= obj.model.name
 
       return obj;
-    }*/
+    }
   }
 };
 
