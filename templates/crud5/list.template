@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.05 -->
+<!-- list template: version 5.06 -->
 <head>
 	<title>Listar <%= title%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -191,6 +191,7 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+		this.save_filters = true  //Save filter or Get from parameter
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -221,7 +222,8 @@ Polymer({
 		_model = {}
 		this.show_columns()
 		this.input_type()
-		this.set_filter() //from localStorage
+		if (this.save_filters)
+			this.set_filter() //from localStorage
 	},
 	list_columns: function() {
 		this.$.<%= model%>_list_columns.open_list_columns(this.column)
@@ -380,7 +382,8 @@ Polymer({
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
-		localStorage["<%= model%>-list-filter"] = JSON.stringify(stored_filter)
+		if (this.save_filters)
+			localStorage["<%= model%>-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
