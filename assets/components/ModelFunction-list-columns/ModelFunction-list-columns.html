@@ -41,6 +41,10 @@
 				<td><div id="enable" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="save_filter">Save Filter</label></td>
+				<td><div id="save_filter" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="width">Width</label></td>
 				<td><div id="width" on-click="change_field"></div></td>
 			</tr>
@@ -73,6 +77,7 @@
 			this.show_field("name")
 			this.show_field("type")
 			this.show_field("enable")
+			this.show_field("save_filter")
 			this.show_field("width")
 			this.show_field("width_unit")
 			this.$.dialog.open()

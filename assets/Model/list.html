@@ -552,10 +552,14 @@ Polymer({
 	this.$.Model_new_dialog.open_dialog()
   },
   attributes: function() {
-	window.location.href = config_base_url() + 'attribute/list?model='+ this.name 
+	var par = {filter: "model_name", op: "$eq", value: this.name}
+	localStorage["Attribute-list-filter"] = JSON.stringify(par) 
+	window.location.href = config_base_url() + 'attribute/list'
   },
   functions: function() {
-	window.location.href = config_base_url() + 'modelfunction/list?model='+ this.name 
+	var par = {filter: "model_name", op: "$eq", value: this.name}
+	localStorage["ModelFunction-list-filter"] = JSON.stringify(par) 
+	window.location.href = config_base_url() + 'modelfunction/list'
   },
   reload: function() {
 	this.$.ajax.generateRequest()

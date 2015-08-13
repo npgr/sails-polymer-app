@@ -41,6 +41,13 @@
 					</select></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="save_filter">Save Filter</label></td>
+				<td><select id="save_filter" name="save_filter">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="width">Width<strong class="red"> *</strong></label></td>
 				<td><input id="width" type="number" name="width" value="{{item.width}}" required></td>
 			</tr>
@@ -75,6 +82,7 @@
 		set_select_fields(item) {
 			this.$.type.value = item.type
 			this.$.enable.value = item.enable
+			this.$.save_filter.value = item.save_filter
 			this.$.width_unit.value = item.width_unit
 			},
 		select_field_b: function(e) {
@@ -99,6 +107,7 @@
 			record.name = this.$.name.value
 			record.type = this.$.type.value
 			record.enable = this.$.enable.value
+			record.save_filter = this.$.save_filter.value
 			record.width = Number(this.$.width.value)
 			record.width_unit = this.$.width_unit.value
 			this.$.ajax.url = config_server() + "ModelFunction/" +record.id

@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.03 -->
+<!-- list template: version 5.06 -->
 <head>
 	<title>Listar Funcion</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -74,6 +74,7 @@ paper-menu {
 		<option value="name">Name</option>
 		<option value="type">Type</option>
 		<option value="enable">Enable</option>
+		<option value="save_filter">Save Filter</option>
 		<option value="width">Width</option>
 		<option value="width_unit">Unit</option>
 	</select>
@@ -104,6 +105,7 @@ paper-menu {
 		<option value="name">Name</option>
 		<option value="type">Type</option>
 		<option value="enable">Enable</option>
+		<option value="save_filter">Save Filter</option>
 		<option value="width">Width</option>
 		<option value="width_unit">Unit</option>
 	</select>
@@ -147,6 +149,8 @@ paper-menu {
 			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_enable" on-click="sort_enable">Enable<div id="enable_sort_d" class="hide">
 			<iron-icon id="enable_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_save_filter" on-click="sort_save_filter">Save Filter<div id="save_filter_sort_d" class="hide">
+			<iron-icon id="save_filter_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_width" on-click="sort_width">Width<div id="width_sort_d" class="hide">
 			<iron-icon id="width_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_width_unit" on-click="sort_width_unit">Unit<div id="width_unit_sort_d" class="hide">
@@ -161,6 +165,7 @@ paper-menu {
 		<td class="col_name"></td>
 		<td class="col_type"></td>
 		<td class="col_enable"></td>
+		<td class="col_save_filter"></td>
 		<td class="col_width"></td>
 		<td class="col_width_unit"></td>
 	</tr>
@@ -176,6 +181,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
 		<template is="dom-if" if="{{column.enable}}"><td>{{item.enable_des}}</td></template>
+		<template is="dom-if" if="{{column.save_filter}}"><td>{{item.save_filter_des}}</td></template>
 		<template is="dom-if" if="{{column.width}}"><td>{{item.width}}</td></template>
 		<template is="dom-if" if="{{column.width_unit}}"><td>{{item.width_unit_des}}</td></template>
 	</tr>
@@ -191,6 +197,7 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+		this.save_filters = true  //Save filter or Get from parameter
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -207,12 +214,14 @@ Polymer({
 				{column: "name", type: "string", display: true},
 				{column: "type", enum: ["list","display","edit","new","delete","columns","select","download"], enumdes: ["List","Display","Edit","New","Delete","Columns","Select","Download"], display: true},
 				{column: "enable", enum: [true,false], enumdes: ["Yes","No"], display: true},
+				{column: "save_filter", enum: [true,false], enumdes: ["Yes","No"], display: true},
 				{column: "width", type: "integer", display: true},
 				{column: "width_unit", enum: ["px","porc","em"], enumdes: ["px","porc","em"], display: true}
 		]
 		this.enums = {}
 		this.enums.type = {list:"List",display:"Display",edit:"Edit",new:"New",delete:"Delete",columns:"Columns",select:"Select",download:"Download"}
 		this.enums.enable = {true:"Yes",false:"No"}
+		this.enums.save_filter = {true:"Yes",false:"No"}
 		this.enums.width_unit = {px:"px",porc:"porc",em:"em"}
 		//var _data = <%- data %>
 		var db = new loki()
@@ -224,16 +233,8 @@ Polymer({
 		_model = {}
 		this.show_columns()
 		this.input_type()
-		order = url_params()
-		if (order.model){
-			this.$.filter.value = "model_name"
-			this.$.filter.setAttribute("disabled","")
-			this.$.op.value = "$eq"
-			this.$.op.setAttribute("disabled","")
-			this.input_type()
-			this.$.filtro.value = order.model
-			//this.$.filtro.setAttribute("Readonly","")
-		}
+		if (this.save_filters)
+			this.set_filter() //from localStorage
 	},
 	list_columns: function() {
 		this.$.ModelFunction_list_columns.open_list_columns(this.column)
@@ -310,9 +311,52 @@ Polymer({
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
 	},
+	set_filter: function() {
+		if (localStorage["ModelFunction-list-filter"])
+		{
+			var stored_filter = JSON.parse(localStorage["ModelFunction-list-filter"])
+			this.$.filter.value = stored_filter.filter
+			this.$.op.value = stored_filter.op
+			this.input_type()
+			var column = this.model.find({ "column": this.$.filter.value})
+			if (column[0].enum)
+				if (column[0].type != "number")
+					this.$.select.value = stored_filter.value
+				else
+					this.$.select.value = Number(stored_filter.value)
+			else
+				if (column[0].type != "number")
+					this.$.filtro.value = stored_filter.value
+				else
+					this.$.filtro.value = Number(stored_filter.value)
+			if  (stored_filter.filter2)
+			{
+				this.$.logic.value = stored_filter.logic
+				this.logic_operator()
+				this.$.filter2.value = stored_filter.filter2
+				this.$.op2.value = stored_filter.op2
+				this.input_type(2)
+				var column = this.model.find({ "column": this.$.filter2.value})
+				if (column[0].enum)
+					if (column[0].type != "number")
+						this.$.select2.value = stored_filter.value2
+					else
+						this.$.select2.value = Number(stored_filter.value2)
+				else
+					if (column[0].type != "number")
+						this.$.filtro2.value = stored_filter.value2
+					else
+						this.$.filtro2.value = Number(stored_filter.value2)
+			}
+			this.filter()
+		}
+	},
 	filter: function() {
-		var name = this.$.filter.value
-		var op = this.$.op.value 
+		var stored_filter = {}
+ 		var name = this.$.filter.value
+		stored_filter.filter = name
+		var op = this.$.op.value
+		stored_filter.op = op 
 		var valor = {}
 		this.cur_filter = {}
 		if (this.$.filtro.getAttribute("class") != "hide")
@@ -323,10 +367,14 @@ Polymer({
 		else 
 			valor[op] = this.$.select.value
 		this.cur_filter[name] = valor
+		stored_filter.value = valor[op]
 		if (this.$.logic.value != "-")
 		{
 			name = this.$.filter2.value
 			op = this.$.op2.value
+			stored_filter.logic = this.$.logic.value
+			stored_filter.filter2 = name
+			stored_filter.op2 = op 
 			valor = {}
 			var logic_op = this.$.logic.value
 			var filtro2 = {}
@@ -337,11 +385,14 @@ Polymer({
 					valor[op] = this.$.filtro2.value
 			else 
 				valor[op] = this.$.select2.value
+			stored_filter.value2 = valor[op]
 			filtro2[name] = valor
 			var filtro = this.cur_filter
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
+		if (this.save_filters)
+			localStorage["ModelFunction-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
@@ -353,6 +404,7 @@ Polymer({
 		this.$.name_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
 		this.$.enable_sort_d.classList.add("hide")
+		this.$.save_filter_sort_d.classList.add("hide")
 		this.$.width_sort_d.classList.add("hide")
 		this.$.width_unit_sort_d.classList.add("hide")
 	},
@@ -379,6 +431,9 @@ Polymer({
 	},
 	sort_enable: function() {
 		this.sort_by_field("enable")
+	},
+	sort_save_filter: function() {
+		this.sort_by_field("save_filter")
 	},
 	sort_width: function() {
 		this.sort_by_field("width")
@@ -528,6 +583,7 @@ Polymer({
 		}
 		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
 		this.$.ajax.lastResponse[i].enable_des= this.enums.enable[this.$.ajax.lastResponse[i].enable]
+		this.$.ajax.lastResponse[i].save_filter_des= this.enums.save_filter[this.$.ajax.lastResponse[i].save_filter]
 		this.$.ajax.lastResponse[i].width_unit_des= this.enums.width_unit[this.$.ajax.lastResponse[i].width_unit]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
