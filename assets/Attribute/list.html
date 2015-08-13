@@ -683,7 +683,9 @@ Polymer({
 	}
 	},
 	menu: function() {
-		
+		var par = {filter: "model_name", op: "$eq", value: this.$.filtro.value}
+		localStorage["FunctionAttribute-list-filter"] = JSON.stringify(par) 
+		window.location.href = config_base_url() + 'functionattribute/list'
 	},
 	download: function() {
 		var x2js = new X2JS();
