@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.03 -->
+<!-- list template: version 5.06 -->
 <head>
 	<title>Listar Funcion Attributes</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -183,6 +183,7 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+		this.save_filters = true  //Save filter or Get from parameter
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -214,6 +215,8 @@ Polymer({
 		_model = {}
 		this.show_columns()
 		this.input_type()
+		if (this.save_filters)
+			this.set_filter() //from localStorage
 	},
 	list_columns: function() {
 		this.$.FunctionAttribute_list_columns.open_list_columns(this.column)
@@ -300,9 +303,52 @@ Polymer({
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
 	},
+	set_filter: function() {
+		if (localStorage["FunctionAttribute-list-filter"])
+		{
+			var stored_filter = JSON.parse(localStorage["FunctionAttribute-list-filter"])
+			this.$.filter.value = stored_filter.filter
+			this.$.op.value = stored_filter.op
+			this.input_type()
+			var column = this.model.find({ "column": this.$.filter.value})
+			if (column[0].enum)
+				if (column[0].type != "number")
+					this.$.select.value = stored_filter.value
+				else
+					this.$.select.value = Number(stored_filter.value)
+			else
+				if (column[0].type != "number")
+					this.$.filtro.value = stored_filter.value
+				else
+					this.$.filtro.value = Number(stored_filter.value)
+			if  (stored_filter.filter2)
+			{
+				this.$.logic.value = stored_filter.logic
+				this.logic_operator()
+				this.$.filter2.value = stored_filter.filter2
+				this.$.op2.value = stored_filter.op2
+				this.input_type(2)
+				var column = this.model.find({ "column": this.$.filter2.value})
+				if (column[0].enum)
+					if (column[0].type != "number")
+						this.$.select2.value = stored_filter.value2
+					else
+						this.$.select2.value = Number(stored_filter.value2)
+				else
+					if (column[0].type != "number")
+						this.$.filtro2.value = stored_filter.value2
+					else
+						this.$.filtro2.value = Number(stored_filter.value2)
+			}
+			this.filter()
+		}
+	},
 	filter: function() {
-		var name = this.$.filter.value
-		var op = this.$.op.value 
+		var stored_filter = {}
+ 		var name = this.$.filter.value
+		stored_filter.filter = name
+		var op = this.$.op.value
+		stored_filter.op = op 
 		var valor = {}
 		this.cur_filter = {}
 		if (this.$.filtro.getAttribute("class") != "hide")
@@ -313,10 +359,14 @@ Polymer({
 		else 
 			valor[op] = this.$.select.value
 		this.cur_filter[name] = valor
+		stored_filter.value = valor[op]
 		if (this.$.logic.value != "-")
 		{
 			name = this.$.filter2.value
 			op = this.$.op2.value
+			stored_filter.logic = this.$.logic.value
+			stored_filter.filter2 = name
+			stored_filter.op2 = op 
 			valor = {}
 			var logic_op = this.$.logic.value
 			var filtro2 = {}
@@ -327,11 +377,14 @@ Polymer({
 					valor[op] = this.$.filtro2.value
 			else 
 				valor[op] = this.$.select2.value
+			stored_filter.value2 = valor[op]
 			filtro2[name] = valor
 			var filtro = this.cur_filter
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
+		if (this.save_filters)
+			localStorage["FunctionAttribute-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
