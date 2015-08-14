@@ -6,26 +6,39 @@
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Código</label></td>
+				<td><label class="left_label" for="id">id</label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="code">Code</label></td>
+				<td><input id="code" type="text" name="code" value="{{item.code}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name">Nombre</label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="balance">Balance</label></td>
+				<td><input id="balance" type="float" name="balance" value="{{item.balance}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="creditLimit">Credit</label></td>
+				<td><input id="creditLimit" type="float" name="creditLimit" value="{{item.creditLimit}}" disabled></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="city">Ciudad</label></td>
 				<td><input id="city" type="text" name="city" value="{{item.city}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Address">Dirección</label></td>
-				<td><input id="Address" type="text" name="Address" value="{{item.Address}}" disabled></td>
+				<td><label class="left_label" for="address">Dirección</label></td>
+				<td><input id="address" type="text" name="address" value="{{item.address}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="status">status</label></td>
+				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status" disabled>
 						<option value="A">Activo</option>
 						<option value="I">Inactivo</option>
+						<option value="B">Bloqued</option>
 					</select></td>
 			</tr>
 			</table>

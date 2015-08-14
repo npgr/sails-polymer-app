@@ -8,26 +8,39 @@
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Código</label></td>
+				<td><label class="left_label" for="id">id</label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="code">Code</label></td>
+				<td><input id="code" type="text" name="code" value="{{item.code}}"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name">Nombre<strong class="red"> *</strong></label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="balance">Balance</label></td>
+				<td><input id="balance" type="float" name="balance" value="{{item.balance}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="creditLimit">Credit</label></td>
+				<td><input id="creditLimit" type="float" name="creditLimit" value="{{item.creditLimit}}"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="city">Ciudad<strong class="red"> *</strong></label></td>
 				<td><input id="city" type="text" name="city" value="{{item.city}}" maxlength=25 required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Address">Dirección</label></td>
-				<td><input id="Address" type="text" name="Address" value="{{item.Address}}"></td>
+				<td><label class="left_label" for="address">Dirección</label></td>
+				<td><input id="address" type="text" name="address" value="{{item.address}}"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="status">status</label></td>
+				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status">
 						<option value="A">Activo</option>
 						<option value="I">Inactivo</option>
+						<option value="B">Bloqued</option>
 					</select></td>
 			</tr>
 			</table>
@@ -69,9 +82,12 @@
 		update: function() {
 			var record = {}
 			record.id = Number(this.$.id.value)
+			record.code = this.$.code.value
 			record.name = this.$.name.value
+			record.balance = Number(this.$.balance.value)
+			record.creditLimit = Number(this.$.creditLimit.value)
 			record.city = this.$.city.value
-			record.Address = this.$.Address.value
+			record.address = this.$.address.value
 			record.status = this.$.status.value
 			this.$.ajax.url = config_server() + "Customer/" +record.id
 			this.$.ajax.params = record

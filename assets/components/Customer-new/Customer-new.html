@@ -9,26 +9,39 @@
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Código</label></td>
+				<td><label class="left_label" for="id">id</label></td>
 				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="code">Code</label></td>
+				<td><input id="code" type="text" name="code"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name">Nombre<strong class="red"> *</strong></label></td>
 				<td><input id="name" type="text" name="name" required></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="balance">Balance</label></td>
+				<td><input id="balance" type="float" name="balance"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="creditLimit">Credit</label></td>
+				<td><input id="creditLimit" type="float" name="creditLimit"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="city">Ciudad<strong class="red"> *</strong></label></td>
 				<td><input id="city" type="text" name="city" maxlength=25 required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Address">Dirección</label></td>
-				<td><input id="Address" type="text" name="Address"></td>
+				<td><label class="left_label" for="address">Dirección</label></td>
+				<td><input id="address" type="text" name="address"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="status">status</label></td>
+				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status">
 						<option value="A">Activo</option>
 						<option value="I">Inactivo</option>
+						<option value="B">Bloqued</option>
 					</select></td>
 			</tr>
 			</table>
@@ -53,9 +66,12 @@
 		},
 		clear: function() {
 			this.$.id.value = ''
+			this.$.code.value = ''
 			this.$.name.value = ''
+			this.$.balance.value = ''
+			this.$.creditLimit.value = ''
 			this.$.city.value = ''
-			this.$.Address.value = ''
+			this.$.address.value = ''
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
@@ -70,9 +86,12 @@
 		create: function() {
 			this.$.ajax2.url = config_server() + "Customer"
 			var record = {}
+			  record.code = this.$.code.value
 			  record.name = this.$.name.value
+			record.balance = Number(this.$.balance.value)
+			record.creditLimit = Number(this.$.creditLimit.value)
 			  record.city = this.$.city.value
-			  record.Address = this.$.Address.value
+			  record.address = this.$.address.value
 			  record.status = this.$.status.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()

@@ -21,23 +21,35 @@
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Código</label></td>
+				<td><label class="left_label" for="id">id</label></td>
 				<td><div id="id" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="code">Code</label></td>
+				<td><div id="code" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name">Nombre</label></td>
 				<td><div id="name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="balance">Balance</label></td>
+				<td><div id="balance" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="creditLimit">Credit</label></td>
+				<td><div id="creditLimit" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="city">Ciudad</label></td>
 				<td><div id="city" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Address">Dirección</label></td>
-				<td><div id="Address" on-click="change_field"></div></td>
+				<td><label class="left_label" for="address">Dirección</label></td>
+				<td><div id="address" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="status">status</label></td>
+				<td><label class="left_label" for="status">Status</label></td>
 				<td><div id="status" on-click="change_field"></div></td>
 			</tr>
 			</table>
@@ -61,9 +73,12 @@
 			this.updated= false,
 			this.column= column
 			this.show_field("id")
+			this.show_field("code")
 			this.show_field("name")
+			this.show_field("balance")
+			this.show_field("creditLimit")
 			this.show_field("city")
-			this.show_field("Address")
+			this.show_field("address")
 			this.show_field("status")
 			this.$.dialog.open()
 		},

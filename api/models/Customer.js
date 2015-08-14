@@ -7,12 +7,12 @@
 
 module.exports = {
 	
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
 	//_title: 'Cliente',
 	id: {
 		//columnName: 'matnr',
-		//description: 'Código',
+		//description: 'id',
 		type: "integer",
 		//no_max: 999999,
 		//no_min: 100,
@@ -20,11 +20,23 @@ module.exports = {
 		unique: true,
 		autoIncrement: true
 	},
+	code: {
+		//description: 'Code',
+		type: 'string'
+	},
 	name: {
 		//description: 'Nombre',
 		type: 'string',
 		required: true
 		//,no_maxLength: 35
+	},
+	balance: {
+		//description: 'Balance',
+		type: 'float'
+	},
+	creditLimit: {
+		//description: 'Credit',
+		type: 'float'
 	},
 	city: {
 		//description: 'Ciudad',
@@ -32,18 +44,18 @@ module.exports = {
 		required: true,
 		maxLength: 25
 	},
-	Address: {
+	address: {
 		//description: 'Dirección',
 		//hide: true,
 		type: 'string'
 	},
 	status: {
-		//description: 'status',
+		//description: 'Status',
 		type: 'string',
-		enum: ['A', 'I']
-		//,enumdes: ['Activo', 'Inactivo']
-	},
-	
+		enum: ['A', 'I', 'B']
+		//,enumdes: ['Activo', 'Inactivo', 'Bloqueado']
+	}
+//End Attributes	
   }
 };
 

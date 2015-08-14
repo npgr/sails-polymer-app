@@ -1,11 +1,12 @@
 <html>
-<!-- list template: version 5.01 -->
+<!-- list template: version 5.07 -->
 <head>
 	<title>Listar Cliente</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
+	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -33,7 +34,7 @@
 <body>
 <style>
 .card {
-	width: 65em;
+	width: 80em;
 }
 th div {
 	display: inline;
@@ -66,11 +67,14 @@ paper-menu {
 	
 	<div class="card_title">Listar Cliente</div>
 	<select id="filter" on-change="input_type">
-		<option value="id">Código</option>
+		<option value="id">id</option>
+		<option value="code">Code</option>
 		<option value="name">Nombre</option>
+		<option value="balance">Balance</option>
+		<option value="creditLimit">Credit</option>
 		<option value="city">Ciudad</option>
-		<option value="Address">Dirección</option>
-		<option value="status">status</option>
+		<option value="address">Dirección</option>
+		<option value="status">Status</option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -94,11 +98,14 @@ paper-menu {
 	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
-		<option value="id">Código</option>
+		<option value="id">id</option>
+		<option value="code">Code</option>
 		<option value="name">Nombre</option>
+		<option value="balance">Balance</option>
+		<option value="creditLimit">Credit</option>
 		<option value="city">Ciudad</option>
-		<option value="Address">Dirección</option>
-		<option value="status">status</option>
+		<option value="address">Dirección</option>
+		<option value="status">Status</option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq">Igual a</option>
@@ -130,15 +137,21 @@ paper-menu {
 	<thead>
 	  <tr>
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
-		<th class="col_id" on-click="sort_id">Código<div id="id_sort_d" class="hide">
+		<th class="col_id" on-click="sort_id">id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_code" on-click="sort_code">Code<div id="code_sort_d" class="hide">
+			<iron-icon id="code_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_name" on-click="sort_name">Nombre<div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_balance" on-click="sort_balance">Balance<div id="balance_sort_d" class="hide">
+			<iron-icon id="balance_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_creditLimit" on-click="sort_creditLimit">Credit<div id="creditLimit_sort_d" class="hide">
+			<iron-icon id="creditLimit_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_city" on-click="sort_city">Ciudad<div id="city_sort_d" class="hide">
 			<iron-icon id="city_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_Address" on-click="sort_Address">Dirección<div id="Address_sort_d" class="hide">
-			<iron-icon id="Address_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_status" on-click="sort_status">status<div id="status_sort_d" class="hide">
+		<th class="col_address" on-click="sort_address">Dirección<div id="address_sort_d" class="hide">
+			<iron-icon id="address_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_status" on-click="sort_status">Status<div id="status_sort_d" class="hide">
 			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
@@ -146,9 +159,12 @@ paper-menu {
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
+		<td class="col_code"></td>
 		<td class="col_name"></td>
+		<td class="col_balance"></td>
+		<td class="col_creditLimit"></td>
 		<td class="col_city"></td>
-		<td class="col_Address"></td>
+		<td class="col_address"></td>
 		<td class="col_status"></td>
 	</tr>
 	</tfoot>-->
@@ -159,9 +175,12 @@ paper-menu {
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
+		<template is="dom-if" if="{{column.code}}"><td>{{item.code}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
+		<template is="dom-if" if="{{column.balance}}"><td>{{item.balance}}</td></template>
+		<template is="dom-if" if="{{column.creditLimit}}"><td>{{item.creditLimit}}</td></template>
 		<template is="dom-if" if="{{column.city}}"><td>{{item.city}}</td></template>
-		<template is="dom-if" if="{{column.Address}}"><td>{{item.Address}}</td></template>
+		<template is="dom-if" if="{{column.address}}"><td>{{item.address}}</td></template>
 		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
 	</tr>
 	</template>
@@ -177,23 +196,26 @@ Polymer({
 	},
 	ready: function() {
 		// For Sharepoint
-		/*if (typeof String.prototype.startsWith != 'function') {
+		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
 			String.prototype.startsWith = function (str){
 				return this.indexOf(str) === 0;
 			}
-		}*/
+		}
 		this.$.ajax.url = config_server() + "Customer"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
+				{column: "code", type: "string", display: true},
 				{column: "name", type: "string", display: true},
+				{column: "balance", type: "float", display: true},
+				{column: "creditLimit", type: "float", display: true},
 				{column: "city", type: "string", display: true},
-				{column: "Address", type: "string", display: false},
-				{column: "status", enum: ["A","I"], enumdes: ["Activo","Inactivo"], display: true}
+				{column: "address", type: "string", display: false},
+				{column: "status", enum: ["A","I","B"], enumdes: ["Activo","Inactivo","Bloqued"], display: true}
 		]
 		this.enums = {}
-		this.enums.status = {A:"Activo",I:"Inactivo"}
+		this.enums.status = {A:"Activo",I:"Inactivo",B:"Bloqued"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Customer")
@@ -202,38 +224,21 @@ Polymer({
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
-		this.show_columns()
 		this.input_type()
-	},
-	params: function(){  // Get URL params (after ?)
-		var query_string = {};
-		var query = window.location.search.substring(1);
-		var vars = query.split("&");
-		for (var i=0;i<vars.length;i++) {
-			var pair = vars[i].split("=");
-			// If first entry with this name
-			if (typeof query_string[pair[0]] === "undefined") {
-				query_string[pair[0]] = decodeURIComponent(pair[1]);
-				// If second entry with this name
-			} else if (typeof query_string[pair[0]] === "string") {
-				var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-				query_string[pair[0]] = arr;
-				// If third or later entry with this name
-			} else {
-				query_string[pair[0]].push(decodeURIComponent(pair[1]));
-			}
-		} 
-		return query_string;
+		this.set_filter() //and columns & sort from localStorage
 	},
 	list_columns: function() {
 		this.$.Customer_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
-
+		var columns = {}
 		this.column = this.$.Customer_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
+		{
 			this.model.data[i].display = this.column[this.model.data[i].column]
-			
+			columns[this.model.data[i].column] = this.column[this.model.data[i].column]
+		}
+		localStorage["Customer-list-columns"] = JSON.stringify(columns)
 		this.show_columns()
 		// reset filter
 		this.$.filter.value = "id"
@@ -260,13 +265,7 @@ Polymer({
 		}
 	},
 	date_dma: function(datex) {
-		if (datex) {
-			var year = datex.substring( 0, 4)
-			var month = datex.substring( 5, 7)
-			var day = datex.substring( 8, 10)
-			return day+'/'+month+'/'+year
-		}
-		//else return ''
+		return datex_dma(datex)
 	},
 	logic_operator: function() {
 		if (this.$.logic.value == "-") {
@@ -301,9 +300,59 @@ Polymer({
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
 	},
+	set_filter: function() {
+		if (localStorage["Customer-list-filter"])
+		{
+			var stored_filter = JSON.parse(localStorage["Customer-list-filter"])
+			this.$.filter.value = stored_filter.filter
+			this.$.op.value = stored_filter.op
+			this.input_type()
+			var column = this.model.find({ "column": this.$.filter.value})
+			if (column[0].enum)
+				if (column[0].type != "number")
+					this.$.select.value = stored_filter.value
+				else
+					this.$.select.value = Number(stored_filter.value)
+			else
+				if (column[0].type != "number")
+					this.$.filtro.value = stored_filter.value
+				else
+					this.$.filtro.value = Number(stored_filter.value)
+			if  (stored_filter.filter2)
+			{
+				this.$.logic.value = stored_filter.logic
+				this.logic_operator()
+				this.$.filter2.value = stored_filter.filter2
+				this.$.op2.value = stored_filter.op2
+				this.input_type(2)
+				var column = this.model.find({ "column": this.$.filter2.value})
+				if (column[0].enum)
+					if (column[0].type != "number")
+						this.$.select2.value = stored_filter.value2
+					else
+						this.$.select2.value = Number(stored_filter.value2)
+				else
+					if (column[0].type != "number")
+						this.$.filtro2.value = stored_filter.value2
+					else
+						this.$.filtro2.value = Number(stored_filter.value2)
+			}
+			this.filter()
+		}
+		if (localStorage["Customer-list-columns"])
+		{
+			var columns = JSON.parse(localStorage["Customer-list-columns"])
+			for (i=0; i < this.model.data.length; i++ )
+			  this.model.data[i].display = columns[this.model.data[i].column]
+		}
+		this.show_columns()
+	},
 	filter: function() {
-		var name = this.$.filter.value
-		var op = this.$.op.value 
+		var stored_filter = {}
+ 		var name = this.$.filter.value
+		stored_filter.filter = name
+		var op = this.$.op.value
+		stored_filter.op = op 
 		var valor = {}
 		this.cur_filter = {}
 		if (this.$.filtro.getAttribute("class") != "hide")
@@ -314,10 +363,14 @@ Polymer({
 		else 
 			valor[op] = this.$.select.value
 		this.cur_filter[name] = valor
+		stored_filter.value = valor[op]
 		if (this.$.logic.value != "-")
 		{
 			name = this.$.filter2.value
 			op = this.$.op2.value
+			stored_filter.logic = this.$.logic.value
+			stored_filter.filter2 = name
+			stored_filter.op2 = op 
 			valor = {}
 			var logic_op = this.$.logic.value
 			var filtro2 = {}
@@ -328,11 +381,13 @@ Polymer({
 					valor[op] = this.$.filtro2.value
 			else 
 				valor[op] = this.$.select2.value
+			stored_filter.value2 = valor[op]
 			filtro2[name] = valor
 			var filtro = this.cur_filter
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
+		localStorage["Customer-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
@@ -340,9 +395,12 @@ Polymer({
 	},
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
+		this.$.code_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
+		this.$.balance_sort_d.classList.add("hide")
+		this.$.creditLimit_sort_d.classList.add("hide")
 		this.$.city_sort_d.classList.add("hide")
-		this.$.Address_sort_d.classList.add("hide")
+		this.$.address_sort_d.classList.add("hide")
 		this.$.status_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
@@ -357,14 +415,23 @@ Polymer({
 	sort_id: function() {
 		this.sort_by_field("id")
 	},
+	sort_code: function() {
+		this.sort_by_field("code")
+	},
 	sort_name: function() {
 		this.sort_by_field("name")
+	},
+	sort_balance: function() {
+		this.sort_by_field("balance")
+	},
+	sort_creditLimit: function() {
+		this.sort_by_field("creditLimit")
 	},
 	sort_city: function() {
 		this.sort_by_field("city")
 	},
-	sort_Address: function() {
-		this.sort_by_field("Address")
+	sort_address: function() {
+		this.sort_by_field("address")
 	},
 	sort_status: function() {
 		this.sort_by_field("status")
