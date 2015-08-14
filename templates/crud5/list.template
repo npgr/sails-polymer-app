@@ -34,7 +34,7 @@
 <body>
 <style>
 .card {
-	width: 90em;
+	width: 80em;
 }
 th div {
 	display: inline;
