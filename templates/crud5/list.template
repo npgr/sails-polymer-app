@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.06 -->
+<!-- list template: version 5.07 -->
 <head>
 	<title>Listar <%= title%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -191,7 +191,6 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
-		this.save_filters = true  //Save filter or Get from parameter
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -220,20 +219,21 @@ Polymer({
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
-		this.show_columns()
 		this.input_type()
-		if (this.save_filters)
-			this.set_filter() //from localStorage
+		this.set_filter() //and columns & sort from localStorage
 	},
 	list_columns: function() {
 		this.$.<%= model%>_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
-
+		var columns = {}
 		this.column = this.$.<%= model%>_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
+		{
 			this.model.data[i].display = this.column[this.model.data[i].column]
-			
+			columns[this.model.data[i].column] = this.column[this.model.data[i].column]
+		}
+		localStorage["<%= model%>-list-columns"] = JSON.stringify(columns)
 		this.show_columns()
 		// reset filter
 		this.$.filter.value = "<%= key.name%>"
@@ -341,6 +341,13 @@ Polymer({
 			}
 			this.filter()
 		}
+		if (localStorage["<%= model%>-list-columns"])
+		{
+			var columns = JSON.parse(localStorage["<%= model%>-list-columns"])
+			for (i=0; i < this.model.data.length; i++ )
+			  this.model.data[i].display = columns[this.model.data[i].column]
+		}
+		this.show_columns()
 	},
 	filter: function() {
 		var stored_filter = {}
@@ -382,8 +389,7 @@ Polymer({
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
-		if (this.save_filters)
-			localStorage["<%= model%>-list-filter"] = JSON.stringify(stored_filter)
+		localStorage["<%= model%>-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
