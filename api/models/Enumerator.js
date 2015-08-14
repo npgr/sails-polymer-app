@@ -8,7 +8,7 @@
 
 module.exports = {
 
-	migrate: 'alter',
+	//migrate: 'alter',
 	
 	
   attributes: {
