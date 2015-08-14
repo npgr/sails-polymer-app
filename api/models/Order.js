@@ -7,7 +7,7 @@
 
 module.exports = {
 
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
 	//_title: 'Pedido',
 	id: {
@@ -33,13 +33,17 @@ module.exports = {
 		type: 'date',
 		required: true
 	},
+	amount: {
+		//description: 'Amount',
+		type: 'Float'
+	},
 	status: {
 		//description: 'Status',
 		type: 'string',
 		enum: ['1','2','3']
 		//,enumdes: ['En Captura', 'En Despacho', 'Despachado']
 	}
-  }
 //End Attributes
+  }
 };
 

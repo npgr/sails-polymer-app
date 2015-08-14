@@ -22,6 +22,10 @@
 				<td><input id="date" type="date" name="date" required></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="amount">Amount</label></td>
+				<td><input id="amount" type="text" name="amount"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status">
 						<option value="1">En Captura</option>
@@ -54,6 +58,7 @@
 			this.$.customer.value = ''
 			this.$.customer.key = 0
 			this.$.date.value = ''
+			this.$.amount.value = ''
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
@@ -73,6 +78,7 @@
 			record.customer = this.$.customer.key
 			if (this.$.date.value)
 			  record.date = this.$.date.value
+			record.amount = Number(this.$.amount.value)
 			  record.status = this.$.status.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()

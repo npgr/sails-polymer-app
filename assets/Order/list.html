@@ -1,5 +1,5 @@
 <html>
-<!-- list template: version 5.03 -->
+<!-- list template: version 5.07 -->
 <head>
 	<title>Listar Pedido</title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
@@ -35,7 +35,7 @@
 <body>
 <style>
 .card {
-	width: 63em;
+	width: 80em;
 }
 th div {
 	display: inline;
@@ -72,6 +72,7 @@ paper-menu {
 		<option value="id">Pedido</option>
 		<option value="customer_name">Cliente</option>
 		<option value="date">Fecha</option>
+		<option value="amount">Amount</option>
 		<option value="status">Status</option>
 	</select>
 	<select id="op">   
@@ -99,6 +100,7 @@ paper-menu {
 		<option value="id">Pedido</option>
 		<option value="customer_name">Cliente</option>
 		<option value="date">Fecha</option>
+		<option value="amount">Amount</option>
 		<option value="status">Status</option>
 	</select>
 	<select id="op2" class="hide" >   
@@ -124,8 +126,7 @@ paper-menu {
 		<paper-menu>
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;">Consultar</paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Editar</paper-item>
-			<!--<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>-->
-			<paper-item on-click="orderDetail" style="min-height:20px;line-height:35px;">Renglones</paper-item>
+			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -138,6 +139,8 @@ paper-menu {
 			<iron-icon id="customer_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_date" on-click="sort_date">Fecha<div id="date_sort_d" class="hide">
 			<iron-icon id="date_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_amount" on-click="sort_amount">Amount<div id="amount_sort_d" class="hide">
+			<iron-icon id="amount_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_status" on-click="sort_status">Status<div id="status_sort_d" class="hide">
 			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
@@ -148,6 +151,7 @@ paper-menu {
 		<td class="col_id"></td>
 		<td class="col_customer_name"></td>
 		<td class="col_date"></td>
+		<td class="col_amount"></td>
 		<td class="col_status"></td>
 	</tr>
 	</tfoot>-->
@@ -160,6 +164,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.customer_name}}"><td>{{item.customer_name}}</td></template>
 		<template is="dom-if" if="{{column.date}}"><td>{{date_dma(item.date)}}</td></template>
+		<template is="dom-if" if="{{column.amount}}"><td>{{item.amount}}</td></template>
 		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
 	</tr>
 	</template>
@@ -188,6 +193,7 @@ Polymer({
 				{column: "customer_id", type: "integer", model: "Customer", display: false},
 				{column: "customer_name", type: "string", model: "Customer", display: true},
 				{column: "date", type: "date", display: true},
+				{column: "amount", type: "Float", display: true},
 				{column: "status", enum: ["1","2","3"], enumdes: ["En Captura","En Despacho","Despachado"], display: true}
 		]
 		this.enums = {}
@@ -200,18 +206,21 @@ Polymer({
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
-		this.show_columns()
 		this.input_type()
+		this.set_filter() //and columns & sort from localStorage
 	},
 	list_columns: function() {
 		this.$.Order_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
-
+		var columns = {}
 		this.column = this.$.Order_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
+		{
 			this.model.data[i].display = this.column[this.model.data[i].column]
-			
+			columns[this.model.data[i].column] = this.column[this.model.data[i].column]
+		}
+		localStorage["Order-list-columns"] = JSON.stringify(columns)
 		this.show_columns()
 		// reset filter
 		this.$.filter.value = "id"
@@ -278,9 +287,59 @@ Polymer({
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
 	},
+	set_filter: function() {
+		if (localStorage["Order-list-filter"])
+		{
+			var stored_filter = JSON.parse(localStorage["Order-list-filter"])
+			this.$.filter.value = stored_filter.filter
+			this.$.op.value = stored_filter.op
+			this.input_type()
+			var column = this.model.find({ "column": this.$.filter.value})
+			if (column[0].enum)
+				if (column[0].type != "number")
+					this.$.select.value = stored_filter.value
+				else
+					this.$.select.value = Number(stored_filter.value)
+			else
+				if (column[0].type != "number")
+					this.$.filtro.value = stored_filter.value
+				else
+					this.$.filtro.value = Number(stored_filter.value)
+			if  (stored_filter.filter2)
+			{
+				this.$.logic.value = stored_filter.logic
+				this.logic_operator()
+				this.$.filter2.value = stored_filter.filter2
+				this.$.op2.value = stored_filter.op2
+				this.input_type(2)
+				var column = this.model.find({ "column": this.$.filter2.value})
+				if (column[0].enum)
+					if (column[0].type != "number")
+						this.$.select2.value = stored_filter.value2
+					else
+						this.$.select2.value = Number(stored_filter.value2)
+				else
+					if (column[0].type != "number")
+						this.$.filtro2.value = stored_filter.value2
+					else
+						this.$.filtro2.value = Number(stored_filter.value2)
+			}
+			this.filter()
+		}
+		if (localStorage["Order-list-columns"])
+		{
+			var columns = JSON.parse(localStorage["Order-list-columns"])
+			for (i=0; i < this.model.data.length; i++ )
+			  this.model.data[i].display = columns[this.model.data[i].column]
+		}
+		this.show_columns()
+	},
 	filter: function() {
-		var name = this.$.filter.value
-		var op = this.$.op.value 
+		var stored_filter = {}
+ 		var name = this.$.filter.value
+		stored_filter.filter = name
+		var op = this.$.op.value
+		stored_filter.op = op 
 		var valor = {}
 		this.cur_filter = {}
 		if (this.$.filtro.getAttribute("class") != "hide")
@@ -291,10 +350,14 @@ Polymer({
 		else 
 			valor[op] = this.$.select.value
 		this.cur_filter[name] = valor
+		stored_filter.value = valor[op]
 		if (this.$.logic.value != "-")
 		{
 			name = this.$.filter2.value
 			op = this.$.op2.value
+			stored_filter.logic = this.$.logic.value
+			stored_filter.filter2 = name
+			stored_filter.op2 = op 
 			valor = {}
 			var logic_op = this.$.logic.value
 			var filtro2 = {}
@@ -305,11 +368,13 @@ Polymer({
 					valor[op] = this.$.filtro2.value
 			else 
 				valor[op] = this.$.select2.value
+			stored_filter.value2 = valor[op]
 			filtro2[name] = valor
 			var filtro = this.cur_filter
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
+		localStorage["Order-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
@@ -319,6 +384,7 @@ Polymer({
 		this.$.id_sort_d.classList.add("hide")
 		this.$.customer_name_sort_d.classList.add("hide")
 		this.$.date_sort_d.classList.add("hide")
+		this.$.amount_sort_d.classList.add("hide")
 		this.$.status_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
@@ -338,6 +404,9 @@ Polymer({
 	},
 	sort_date: function() {
 		this.sort_by_field("date")
+	},
+	sort_amount: function() {
+		this.sort_by_field("amount")
 	},
 	sort_status: function() {
 		this.sort_by_field("status")
@@ -456,18 +525,15 @@ Polymer({
 	var item = this.data.find(filtro)[0]
 	this.$.Order_edit_dialog.open_dialog(item)
   },
-  /*delete: function(e) {
+  delete: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Order_delete_dialog.open_delete_dialog(item)
-  },*/
+  },
   new: function() {
 	this.$.Order_new_dialog.open_dialog()
   },
-  orderDetail: function() {		
-		window.location.href = config_base_url() + 'orderdetail/list?id='+ this.key + '&customer='+ 'prueba' + '&date=2015/08/14' + '&status=En Captura' 
-	},
   reload: function() {
 	this.$.ajax.generateRequest()
   },

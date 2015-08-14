@@ -33,6 +33,10 @@
 				<td><div id="date" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="amount">Amount</label></td>
+				<td><div id="amount" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="status">Status</label></td>
 				<td><div id="status" on-click="change_field"></div></td>
 			</tr>
@@ -59,6 +63,7 @@
 			this.show_field("id")
 			this.show_field("customer_name")
 			this.show_field("date")
+			this.show_field("amount")
 			this.show_field("status")
 			this.$.dialog.open()
 		},
