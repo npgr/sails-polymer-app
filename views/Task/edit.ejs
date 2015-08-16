@@ -1,0 +1,165 @@
+<!-- edit-form: version 5.00 -->
+<dom-module id="Task-edit">
+<template>
+	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
+		<h2 class="card_title">Editar Activity</h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Activity<strong class="red"> *</strong></label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><select id="type" name="type">
+						<option value="i">incidente</option>
+						<option value="t">tarea</option>
+						<option value="c">cambio</option>
+						<option value="p">proyecto</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">Status</label></td>
+				<td><select id="status" name="status">
+						<option value="p">Pendiente</option>
+						<option value="e">En curso</option>
+						<option value="s">Stand by</option>
+						<option value="c">Certificacion</option>
+						<option value="x">Cerrado</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="parent">Parent</label></td>
+				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key={{item.parent_id}} value="{{item.parent_activity}}" on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="prioridad">Prioridad</label></td>
+				<td><select id="prioridad" name="prioridad">
+						<option value="b">Baja</option>
+						<option value="m">Media</option>
+						<option value="a">Alta</option>
+						<option value="c">Critica</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester">Solicitante<strong class="red"> *</strong></label></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd">Solicitud<strong class="red"> *</strong></label></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start">Inicio</label></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end">Fin</label></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable">Responsable</label></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}"></td>
+			</tr>
+			</table>
+			<div class="buttons">
+			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			  <div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+			  </div>
+			</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.status.value = item.status
+			this.$.prioridad.value = item.prioridad
+			},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "parent")
+				this.$.Task_select_dialog.open_select_dialog()
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.id = Number(this.$.id.value)
+			record.activity = this.$.activity.value
+			record.type = this.$.type.value
+			record.status = this.$.status.value
+			record.parent = this.$.parent.key
+			record.prioridad = this.$.prioridad.value
+			record.requester = this.$.requester.value
+			if (this.$.requestd.value)
+				record.requestd = this.$.requestd.value
+			if (this.$.start.value)
+				record.start = this.$.start.value
+			if (this.$.fcompromiso.value)
+				record.fcompromiso = this.$.fcompromiso.value
+			if (this.$.end.value)
+				record.end = this.$.end.value
+			record.responsable = this.$.responsable.value
+			if (this.$.ultseguimiento.value)
+				record.ultseguimiento = this.$.ultseguimiento.value
+			if (this.$.proxseguimiento.value)
+				record.proxseguimiento = this.$.proxseguimiento.value
+			record.observacion = this.$.observacion.value
+			this.$.ajax.url = config_server() + "Task/" +record.id
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("record updated")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>

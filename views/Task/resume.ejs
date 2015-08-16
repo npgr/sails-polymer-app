@@ -1,0 +1,107 @@
+<!-- resume-bar: version 1.00 -->
+<dom-module id="Task-resume-bar">
+<template>
+	<iron-ajax id="ajax_type" handle-as="json" on-response="load_type" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax_status" handle-as="json" on-response="load_status" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax_prioridad" handle-as="json" on-response="load_prioridad" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax_requester" handle-as="json" on-response="load_requester" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax_responsable" handle-as="json" on-response="load_responsable" on-error="ajax_error"></iron-ajax>
+	<div>
+		<strong>MENU</strong>
+		<br>
+		<br>
+		<strong>Types</strong>
+		<template id="template_type" is="dom-repeat" items="{{type_list}}">
+			<div>{{item.type}}</div>
+		</template>
+		<br>
+		<strong>Status</strong>
+		<template id="template_type" is="dom-repeat" items="{{status_list}}">
+			<div>{{item.status}}</div>
+		</template>
+		<br>
+		<strong>Prioridad</strong>
+		<template id="template_prioridad" is="dom-repeat" items="{{prioridad_list}}">
+			<div>{{item.prioridad}}</div>
+		</template>
+		<br>
+		<strong>Solicitante</strong>
+		<template id="template_requester" is="dom-repeat" items="{{requester_list}}">
+			<div>{{item.requester}}</div>
+		</template>
+		<br>
+		<strong>Responsable</strong>
+		<template id="template_responsable" is="dom-repeat" items="{{responsable_list}}">
+			<div>{{item.responsable}}</div>
+		</template>
+	</div>
+</template>
+<script>
+	Polymer({
+		is: "Task-resume-bar",
+		ready: function() {
+			this.$.ajax_type.url = config_server() + "Task/bytype"
+			this.$.ajax_type.generateRequest()
+			this.$.ajax_status.url = config_server() + "Task/bystatus"
+			this.$.ajax_status.generateRequest()
+			this.$.ajax_prioridad.url = config_server() + "Task/byprioridad"
+			this.$.ajax_prioridad.generateRequest()
+			this.$.ajax_requester.url = config_server() + "Task/byrequester"
+			this.$.ajax_requester.generateRequest()
+			this.$.ajax_responsable.url = config_server() + "Task/byresponsable"
+			this.$.ajax_responsable.generateRequest()
+			this.enums = {}
+			this.enums.type = {i:"incidente",t:"tarea",c:"cambio",p:"proyecto"}
+			this.enums.status = {p:"Pendiente",e:"En curso",s:"Stand by",c:"Certificacion",x:"Cerrado"}
+			this.enums.prioridad = {b:"Baja",m:"Media",a:"Alta",c:"Critica"}
+		},
+		load_type: function() {
+			this.type_list = []
+			var type = {}
+			for (i=0; i< this.$.ajax_type.lastResponse.length; i++)
+			{
+				type = {"type": this.enums.type[this.$.ajax_type.lastResponse[i].type] + ' ('+ 
+				        this.$.ajax_type.lastResponse[i].count +')'}
+				this.push("type_list", type)
+			}
+		},
+		load_status: function() {
+			this.status_list = []
+			var status = {}
+			for (i=0; i< this.$.ajax_status.lastResponse.length; i++)
+			{
+				status = {"status": this.enums.status[this.$.ajax_status.lastResponse[i].status] + ' ('+ 
+				        this.$.ajax_type.lastResponse[i].count +')'}
+				this.push("status_list", status)
+			}
+		},
+		load_prioridad: function() {
+			this.prioridad_list = []
+			var prioridad = {}
+			for (i=0; i< this.$.ajax_prioridad.lastResponse.length; i++)
+			{
+				prioridad = {"prioridad": this.enums.prioridad[this.$.ajax_prioridad.lastResponse[i].prioridad] + ' ('+ this.$.ajax_prioridad.lastResponse[i].count +')'}
+				this.push("prioridad_list", prioridad)
+			}
+		},
+		load_requester: function() {
+			this.requester_list = []
+			var requester = {}
+			for (i=0; i< this.$.ajax_requester.lastResponse.length; i++)
+			{
+				requester = {requester: this.$.ajax_requester.lastResponse[i].requester + ' (' + this.$.ajax_requester.lastResponse[i].count+ ')'}
+				this.push("requester_list", requester)
+			}
+		},
+		load_responsable: function() {
+			this.responsable_list = []
+			var responsable = {}
+			for (i=0; i< this.$.ajax_responsable.lastResponse.length; i++)
+			{
+				responsable = {responsable: this.$.ajax_responsable.lastResponse[i].responsable + ' (' + this.$.ajax_responsable.lastResponse[i].count + ')'}
+				this.push("responsable_list", responsable)
+			}
+		}
+	})
+</script>
+</dom-module>

@@ -15,6 +15,24 @@ module.exports = {
 					else res.json({ "exist": true})
 			})
 	},
+	display: function(req, res) {
+		res.render("Task/display")
+	},
+	new: function (req, res) {
+		res.render("Task/new")
+	},
+	edit: function (req, res) {
+		res.render("Task/edit")
+	},
+	delete: function (req, res) {
+		res.render("Task/delete")
+	},
+	columns: function (req, res) {
+		res.render("Task/columns")
+	},
+	select: function (req, res) {
+		res.render("Task/select")
+	},
 	list : function (req, res) {
 		Task.find()
 			.exec(function(err, data){

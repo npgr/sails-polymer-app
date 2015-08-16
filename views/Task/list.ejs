@@ -1,8 +1,12 @@
+<html>
+<!-- list template: version 5.10 -->
 <head>
-	<title>Listar Actividad</title>
+	<title><%= __('List %s',__('Activity'))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
+	<script src="/components/app-config/app-config.js"></script>
+	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/paper-input/paper-input.html">
@@ -15,11 +19,12 @@
 	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-	<link rel="import" href="/components/Task-list-columns/Task-list-columns.html">
-	<link rel="import" href="/components/Task-new/Task-new.html">
-	<link rel="import" href="/components/Task-display/Task-display.html">
-	<link rel="import" href="/components/Task-edit/Task-edit.html">
-	<link rel="import" href="/components/Task-delete/Task-delete.html">
+	<link rel="import" href="/Task/display">
+	<link rel="import" href="/Task/edit">
+	<link rel="import" href="/Task/delete">
+	<link rel="import" href="/Task/columns">
+	<link rel="import" href="/Task/select">
+	<link rel="import" href="/Task/new">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -27,9 +32,10 @@
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
 </head>
+<body>
 <style>
 .card {
-	width: 90em;
+	width: 85em;
 }
 th div {
 	display: inline;
@@ -53,24 +59,31 @@ paper-menu {
 </style>
 <dom-module id="Task-list">
 <template>
-	<iron-ajax id="ajax" url="/Task" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<Task-list-columns id="Task_list_columns" on-close="update_columns"></Task-list-columns>
 	<Task-new id="Task_new_dialog" on-close="reload"></Task-new>
 	<Task-display id="Task_display_dialog"></Task-display>
 	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
+	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
 	
-	<div class="card_title">Listar Actividad</div>
+	<div class="card_title"><%= __('List %s',__('Activity'))%></div>
 	<select id="filter" on-change="input_type">
-		<option value="id">Id</option>
-		<option value="activity">Actividad</option>
-		<option value="finicio">Inicio</option>
-		<option value="fcompromiso">Compromiso</option>
-		<option value="responsable">Responsable</option>
-		<option value="proyecto">Proyecto</option>
-		<option value="ultseguimiento">Ult Seg</option>
-		<option value="proxseguimiento">Prox Seg</option>
-		<option value="observacion">observacion</option>
+		<option value="id"><%= __('Id')%></option>
+		<option value="activity"><%= __('Activity')%></option>
+		<option value="type"><%= __('Type')%></option>
+		<option value="status"><%= __('Status')%></option>
+		<option value="parent_activity"><%= __('Parent')%></option>
+		<option value="prioridad"><%= __('Prioridad')%></option>
+		<option value="requester"><%= __('Solicitante')%></option>
+		<option value="requestd"><%= __('Solicitud')%></option>
+		<option value="start"><%= __('Inicio')%></option>
+		<option value="fcompromiso"><%= __('Compromiso')%></option>
+		<option value="end"><%= __('Fin')%></option>
+		<option value="responsable"><%= __('Responsable')%></option>
+		<option value="ultseguimiento"><%= __('Ult Seg')%></option>
+		<option value="proxseguimiento"><%= __('Prox Seg')%></option>
+		<option value="observacion"><%= __('observacion')%></option>
 	</select>
 	<select id="op">   
 		<option value="$eq">Igual a</option>
@@ -79,7 +92,7 @@ paper-menu {
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
 	</select>
-	<input id="filtro" type="{{tipo}}"></input>
+	<input id="filtro" type="{{tipo}}" on-click="select_field">
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -91,14 +104,21 @@ paper-menu {
 		<option value="$or">Or</option>
 	</select>
 	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id">Id</option>
-		<option value="activity">Actividad</option>
-		<option value="finicio">Inicio</option>
+		<option value="activity">Activity</option>
+		<option value="type">Type</option>
+		<option value="status">Status</option>
+		<option value="parent_activity">Parent</option>
+		<option value="prioridad">Prioridad</option>
+		<option value="requester">Solicitante</option>
+		<option value="requestd">Solicitud</option>
+		<option value="start">Inicio</option>
 		<option value="fcompromiso">Compromiso</option>
+		<option value="end">Fin</option>
 		<option value="responsable">Responsable</option>
-		<option value="proyecto">Proyecto</option>
 		<option value="ultseguimiento">Ult Seg</option>
 		<option value="proxseguimiento">Prox Seg</option>
 		<option value="observacion">observacion</option>
@@ -110,7 +130,7 @@ paper-menu {
 		<option value="$gte">Mayor o igual a</option>
 		<option value="$lte">Menor o igual a</option>
 	</select>
-	<input id="filtro2" class="hide" type="{{tipo2}}"></input>
+	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field">
 	<select id="select2" class="hide">
 	  <template is="dom-repeat" items="{{opts2}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -120,7 +140,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 	
-	<a href="{{download_data}}" id="link" class="hide" download="Actividad.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -135,16 +155,28 @@ paper-menu {
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_activity" on-click="sort_activity">Actividad<div id="activity_sort_d" class="hide">
+		<th class="col_activity" on-click="sort_activity">Activity<div id="activity_sort_d" class="hide">
 			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_finicio" on-click="sort_finicio">Inicio<div id="finicio_sort_d" class="hide">
-			<iron-icon id="finicio_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_type" on-click="sort_type">Type<div id="type_sort_d" class="hide">
+			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_status" on-click="sort_status">Status<div id="status_sort_d" class="hide">
+			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_parent_activity" on-click="sort_parent_activity">Parent<div id="parent_activity_sort_d" class="hide">
+			<iron-icon id="parent_activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_prioridad" on-click="sort_prioridad">Prioridad<div id="prioridad_sort_d" class="hide">
+			<iron-icon id="prioridad_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_requester" on-click="sort_requester">Solicitante<div id="requester_sort_d" class="hide">
+			<iron-icon id="requester_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_requestd" on-click="sort_requestd">Solicitud<div id="requestd_sort_d" class="hide">
+			<iron-icon id="requestd_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_start" on-click="sort_start">Inicio<div id="start_sort_d" class="hide">
+			<iron-icon id="start_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_fcompromiso" on-click="sort_fcompromiso">Compromiso<div id="fcompromiso_sort_d" class="hide">
 			<iron-icon id="fcompromiso_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_end" on-click="sort_end">Fin<div id="end_sort_d" class="hide">
+			<iron-icon id="end_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_responsable" on-click="sort_responsable">Responsable<div id="responsable_sort_d" class="hide">
 			<iron-icon id="responsable_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_proyecto" on-click="sort_proyecto">Proyecto<div id="proyecto_sort_d" class="hide">
-			<iron-icon id="proyecto_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_ultseguimiento" on-click="sort_ultseguimiento">Ult Seg<div id="ultseguimiento_sort_d" class="hide">
 			<iron-icon id="ultseguimiento_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_proxseguimiento" on-click="sort_proxseguimiento">Prox Seg<div id="proxseguimiento_sort_d" class="hide">
@@ -153,20 +185,26 @@ paper-menu {
 			<iron-icon id="observacion_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
-	<tfoot>
+	<!--<tfoot>
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_activity"></td>
-		<td class="col_finicio"></td>
+		<td class="col_type"></td>
+		<td class="col_status"></td>
+		<td class="col_parent_activity"></td>
+		<td class="col_prioridad"></td>
+		<td class="col_requester"></td>
+		<td class="col_requestd"></td>
+		<td class="col_start"></td>
 		<td class="col_fcompromiso"></td>
+		<td class="col_end"></td>
 		<td class="col_responsable"></td>
-		<td class="col_proyecto"></td>
 		<td class="col_ultseguimiento"></td>
-		<td class="col_proxseguimiento">Total</td>
-		<td class="col_observacion"><strong>{{regs}}</strong></td>
+		<td class="col_proxseguimiento"></td>
+		<td class="col_observacion"></td>
 	</tr>
-	</tfoot>
+	</tfoot>-->
 	<tbody>
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
@@ -175,10 +213,16 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.activity}}"><td>{{item.activity}}</td></template>
-		<template is="dom-if" if="{{column.finicio}}"><td>{{date_dma(item.finicio)}}</td></template>
+		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
+		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
+		<template is="dom-if" if="{{column.parent_activity}}"><td>{{item.parent_activity}}</td></template>
+		<template is="dom-if" if="{{column.prioridad}}"><td>{{item.prioridad_des}}</td></template>
+		<template is="dom-if" if="{{column.requester}}"><td>{{item.requester}}</td></template>
+		<template is="dom-if" if="{{column.requestd}}"><td>{{date_dma(item.requestd)}}</td></template>
+		<template is="dom-if" if="{{column.start}}"><td>{{date_dma(item.start)}}</td></template>
 		<template is="dom-if" if="{{column.fcompromiso}}"><td>{{date_dma(item.fcompromiso)}}</td></template>
+		<template is="dom-if" if="{{column.end}}"><td>{{date_dma(item.end)}}</td></template>
 		<template is="dom-if" if="{{column.responsable}}"><td>{{item.responsable}}</td></template>
-		<template is="dom-if" if="{{column.proyecto}}"><td>{{item.proyecto}}</td></template>
 		<template is="dom-if" if="{{column.ultseguimiento}}"><td>{{date_dma(item.ultseguimiento)}}</td></template>
 		<template is="dom-if" if="{{column.proxseguimiento}}"><td>{{date_dma(item.proxseguimiento)}}</td></template>
 		<template is="dom-if" if="{{column.observacion}}"><td>{{item.observacion}}</td></template>
@@ -202,51 +246,53 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
+		this.$.ajax.url = config_server() + "Task"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
-				{column: "finicio", type: "date", display: true},
+				{column: "type", enum: ["i","t","c","p"], enumdes: ["incidente","tarea","cambio","proyecto"], display: true},
+				{column: "status", enum: ["p","e","s","c","x"], enumdes: ["Pendiente","En curso","Stand by","Certificacion","Cerrado"], display: true},
+				{column: "parent_id", type: "integer", model: "Task", display: false},
+				{column: "parent_activity", type: "string", model: "Task", display: true},
+				{column: "prioridad", enum: ["b","m","a","c"], enumdes: ["Baja","Media","Alta","Critica"], display: true},
+				{column: "requester", type: "string", display: true},
+				{column: "requestd", type: "date", display: true},
+				{column: "start", type: "date", display: true},
 				{column: "fcompromiso", type: "date", display: true},
+				{column: "end", type: "date", display: false},
 				{column: "responsable", type: "string", display: true},
-				{column: "proyecto", type: "string", display: true},
-				{column: "ultseguimiento", type: "date", display: true},
-				{column: "proxseguimiento", type: "date", display: true},
+				{column: "ultseguimiento", type: "date", display: false},
+				{column: "proxseguimiento", type: "date", display: false},
 				{column: "observacion", type: "string", display: true}
 		]
 		this.enums = {}
-		var _data = <%- data %>
+		this.enums.type = {i:"incidente",t:"tarea",c:"cambio",p:"proyecto"}
+		this.enums.status = {p:"Pendiente",e:"En curso",s:"Stand by",c:"Certificacion",x:"Cerrado"}
+		this.enums.prioridad = {b:"Baja",m:"Media",a:"Alta",c:"Critica"}
+		//var _data = <%- data %>
 		var db = new loki()
-		this.data = db.addCollection("data")
-		this.model = db.addCollection("model")
-		for (i=0; i< _data.length ; i++){
-		  if(_data[i].finicio)
-		    _data[i].finicio = _data[i].finicio.substring(0,10)
-		  if(_data[i].fcompromiso)
-		    _data[i].fcompromiso = _data[i].fcompromiso.substring(0,10)
-		  if(_data[i].ultseguimiento)
-		    _data[i].ultseguimiento = _data[i].ultseguimiento.substring(0,10)
-		  if(_data[i].proxseguimiento)
-		    _data[i].proxseguimiento = _data[i].proxseguimiento.substring(0,10)
-			this.data.insert(_data[i])
-		}
-		_data = {}
+		this.data = db.addCollection("data_Task")
+		this.model = db.addCollection("model_Task")
+		this.reload()
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
-		this.show_columns()
-		this.filtered_data = [{id: ""}]
 		this.input_type()
+		this.set_filter() //and columns & sort from localStorage
 	},
 	list_columns: function() {
 		this.$.Task_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
-
+		var columns = {}
 		this.column = this.$.Task_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
+		{
 			this.model.data[i].display = this.column[this.model.data[i].column]
-			
+			columns[this.model.data[i].column] = this.column[this.model.data[i].column]
+		}
+		localStorage["Task-list-columns"] = JSON.stringify(columns)
 		this.show_columns()
 		// reset filter
 		this.$.filter.value = "id"
@@ -273,13 +319,7 @@ Polymer({
 		}
 	},
 	date_dma: function(datex) {
-		if (datex) {
-			var year = datex.substring( 0, 4)
-			var month = datex.substring( 5, 7)
-			var day = datex.substring( 8, 10)
-			return day+'/'+month+'/'+year
-		}
-		//else return ''
+		return datex_dma(datex)
 	},
 	logic_operator: function() {
 		if (this.$.logic.value == "-") {
@@ -296,9 +336,82 @@ Polymer({
 			//this.$.select2.className = ""
 		}
 	},
+	select_field: function(e) {
+		this.field = e.toElement.id
+		var filter = ""
+		switch (this.field) {
+		  case "filtro":
+			filter = "filter"
+		  break;
+		  case "filtro2":
+			filter = "filter2"
+		  break;
+		}
+		if (filter != "")
+		{
+		  if (this.$[filter].value == "parent_activity"){
+			this.$.Task_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.Task_select_dialog.style.left = "-100px"
+			this.$.Task_select_dialog.open_select_dialog()
+		  }
+		}
+	},
+	set_select_field: function(e) {
+		this.$[this.field].value = this.$[e.srcElement.id].item.name
+	},
+	set_filter: function() {
+		if (localStorage["Task-list-filter"])
+		{
+			var stored_filter = JSON.parse(localStorage["Task-list-filter"])
+			this.$.filter.value = stored_filter.filter
+			this.$.op.value = stored_filter.op
+			this.input_type()
+			var column = this.model.find({ "column": this.$.filter.value})
+			if (column[0].enum)
+				if (column[0].type != "number")
+					this.$.select.value = stored_filter.value
+				else
+					this.$.select.value = Number(stored_filter.value)
+			else
+				if (column[0].type != "number")
+					this.$.filtro.value = stored_filter.value
+				else
+					this.$.filtro.value = Number(stored_filter.value)
+			if  (stored_filter.filter2)
+			{
+				this.$.logic.value = stored_filter.logic
+				this.logic_operator()
+				this.$.filter2.value = stored_filter.filter2
+				this.$.op2.value = stored_filter.op2
+				this.input_type(2)
+				var column = this.model.find({ "column": this.$.filter2.value})
+				if (column[0].enum)
+					if (column[0].type != "number")
+						this.$.select2.value = stored_filter.value2
+					else
+						this.$.select2.value = Number(stored_filter.value2)
+				else
+					if (column[0].type != "number")
+						this.$.filtro2.value = stored_filter.value2
+					else
+						this.$.filtro2.value = Number(stored_filter.value2)
+			}
+			this.filter()
+		}
+		if (localStorage["Task-list-columns"])
+		{
+			var columns = JSON.parse(localStorage["Task-list-columns"])
+			for (i=0; i < this.model.data.length; i++ )
+			  this.model.data[i].display = columns[this.model.data[i].column]
+		}
+		this.show_columns()
+	},
 	filter: function() {
-		var name = this.$.filter.value
-		var op = this.$.op.value 
+		var stored_filter = {}
+ 		var name = this.$.filter.value
+		stored_filter.filter = name
+		var op = this.$.op.value
+		stored_filter.op = op 
 		var valor = {}
 		this.cur_filter = {}
 		if (this.$.filtro.getAttribute("class") != "hide")
@@ -309,10 +422,14 @@ Polymer({
 		else 
 			valor[op] = this.$.select.value
 		this.cur_filter[name] = valor
+		stored_filter.value = valor[op]
 		if (this.$.logic.value != "-")
 		{
 			name = this.$.filter2.value
 			op = this.$.op2.value
+			stored_filter.logic = this.$.logic.value
+			stored_filter.filter2 = name
+			stored_filter.op2 = op 
 			valor = {}
 			var logic_op = this.$.logic.value
 			var filtro2 = {}
@@ -323,11 +440,13 @@ Polymer({
 					valor[op] = this.$.filtro2.value
 			else 
 				valor[op] = this.$.select2.value
+			stored_filter.value2 = valor[op]
 			filtro2[name] = valor
 			var filtro = this.cur_filter
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
+		localStorage["Task-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
@@ -336,16 +455,21 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.activity_sort_d.classList.add("hide")
-		this.$.finicio_sort_d.classList.add("hide")
+		this.$.type_sort_d.classList.add("hide")
+		this.$.status_sort_d.classList.add("hide")
+		this.$.parent_activity_sort_d.classList.add("hide")
+		this.$.prioridad_sort_d.classList.add("hide")
+		this.$.requester_sort_d.classList.add("hide")
+		this.$.requestd_sort_d.classList.add("hide")
+		this.$.start_sort_d.classList.add("hide")
 		this.$.fcompromiso_sort_d.classList.add("hide")
+		this.$.end_sort_d.classList.add("hide")
 		this.$.responsable_sort_d.classList.add("hide")
-		this.$.proyecto_sort_d.classList.add("hide")
 		this.$.ultseguimiento_sort_d.classList.add("hide")
 		this.$.proxseguimiento_sort_d.classList.add("hide")
 		this.$.observacion_sort_d.classList.add("hide")
 	},
-	sort_by_field: function(field)
-	{
+	sort_by_field: function(field) {
 		this.hide_sort_icons()
 		this.sort(field)
 		if (this.cur_sort.isdesc)
@@ -360,17 +484,35 @@ Polymer({
 	sort_activity: function() {
 		this.sort_by_field("activity")
 	},
-	sort_finicio: function() {
-		this.sort_by_field("finicio")
+	sort_type: function() {
+		this.sort_by_field("type")
+	},
+	sort_status: function() {
+		this.sort_by_field("status")
+	},
+	sort_parent_activity: function() {
+		this.sort_by_field("parent_activity")
+	},
+	sort_prioridad: function() {
+		this.sort_by_field("prioridad")
+	},
+	sort_requester: function() {
+		this.sort_by_field("requester")
+	},
+	sort_requestd: function() {
+		this.sort_by_field("requestd")
+	},
+	sort_start: function() {
+		this.sort_by_field("start")
 	},
 	sort_fcompromiso: function() {
 		this.sort_by_field("fcompromiso")
 	},
+	sort_end: function() {
+		this.sort_by_field("end")
+	},
 	sort_responsable: function() {
 		this.sort_by_field("responsable")
-	},
-	sort_proyecto: function() {
-		this.sort_by_field("proyecto")
 	},
 	sort_ultseguimiento: function() {
 		this.sort_by_field("ultseguimiento")
@@ -409,6 +551,9 @@ Polymer({
 		switch(column[0].type) {
 		case "string":
 			tipo = "text"
+		break;
+		case "boolean":
+			tipo = "boolean"
 		break;
 		case "integer":
 			tipo = "number"
@@ -476,8 +621,8 @@ Polymer({
 	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
-	
-		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+20+"px"
+		this.$.menu_dialog.style.left = "30px"
 		this.$.menu_dialog.open()
 	},
   display: function(e) {
@@ -510,14 +655,29 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
-	  if (this.$.ajax.lastResponse[i].finicio)
-		this.$.ajax.lastResponse[i].finicio = this.$.ajax.lastResponse[i].finicio.substring(0,10)
+	  if (this.$.ajax.lastResponse[i].requestd)
+		this.$.ajax.lastResponse[i].requestd = this.$.ajax.lastResponse[i].requestd.substring(0,10)
+	  if (this.$.ajax.lastResponse[i].start)
+		this.$.ajax.lastResponse[i].start = this.$.ajax.lastResponse[i].start.substring(0,10)
 	  if (this.$.ajax.lastResponse[i].fcompromiso)
 		this.$.ajax.lastResponse[i].fcompromiso = this.$.ajax.lastResponse[i].fcompromiso.substring(0,10)
+	  if (this.$.ajax.lastResponse[i].end)
+		this.$.ajax.lastResponse[i].end = this.$.ajax.lastResponse[i].end.substring(0,10)
 	  if (this.$.ajax.lastResponse[i].ultseguimiento)
 		this.$.ajax.lastResponse[i].ultseguimiento = this.$.ajax.lastResponse[i].ultseguimiento.substring(0,10)
 	  if (this.$.ajax.lastResponse[i].proxseguimiento)
 		this.$.ajax.lastResponse[i].proxseguimiento = this.$.ajax.lastResponse[i].proxseguimiento.substring(0,10)
+		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
+		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]
+		if (this.$.ajax.lastResponse[i].parent){
+			this.$.ajax.lastResponse[i].parent_id = this.$.ajax.lastResponse[i].parent.id
+			this.$.ajax.lastResponse[i].parent_activity = this.$.ajax.lastResponse[i].parent.activity
+		} else
+		{
+			this.$.ajax.lastResponse[i].parent_id = 0
+			this.$.ajax.lastResponse[i].parent_activity = ""
+		}
+		this.$.ajax.lastResponse[i].prioridad_des= this.enums.prioridad[this.$.ajax.lastResponse[i].prioridad]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
@@ -532,3 +692,5 @@ Polymer({
 <paper-material class="card" elevation="2">
 	<Task-list></Task-list>
 </paper-material>
+</body>
+</html>

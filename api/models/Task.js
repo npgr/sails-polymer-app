@@ -9,7 +9,7 @@ module.exports = {
 
 	//migrate: "alter",
   attributes: {
-	//_title: 'Actividad',
+	//_title: 'Activity',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -18,12 +18,12 @@ module.exports = {
 		unique: true
 	},
 	activity: {
-		//description: 'Actividad',
+		//description: 'Activity',
 		type: "string",
 		required: true
 	},
 	type: {
-		//description: 'Tipo',
+		//description: 'Type',
 		type: "string",
 		enum: ["i","t","c","p"]
 		//,enumdes: ["incidente", "tarea", "cambio", "proyecto"]
@@ -43,50 +43,50 @@ module.exports = {
 		model: 'Task'
 	},
 	prioridad: {
-		//description: 'Prioridad',
+		//description: 'Priority',
 		type: "string",
 		enum: ["b", "m", "a", "c"]
 		//,enumdes: ["Baja", "Media", "Alta", "Critica"]
 	},
 	requester: {
-		//description: 'Solicitante',
+		//description: 'Requester',
 		type: "string",
 		required: true
 	},
 	requestd: {
-		//description: 'Solicitud',
+		//description: 'Request',
 		type: "date",
 		required: true
 	},
 	start: {
-		//description: 'Inicio',
+		//description: 'Start',
 		type: "date"
 	},
 	fcompromiso: {
-		//description: 'Compromiso',
+		//description: 'Commit',
 		type: "date"
 	},
 	end: {
-		//description: 'Fin',
+		//description: 'End',
 		//hide: true,
 		type: "date"
 	},
 	responsable: {
-		//description: 'Responsable',
+		//description: 'Responsible',
 		type: "string"
 	},
 	ultseguimiento: {
-		//description: 'Ult Seg',
+		//description: 'Last Track',
 		//hide: true,
 		type: "date"
 	}, 
 	proxseguimiento: {
-		//description: 'Prox Seg',
+		//description: 'Next Track',
 		//hide: true,
 		type: "date"
 	},
 	observacion: {
-		//description: 'observacion',
+		//description: 'Notes',
 		type: "string"
 	}
 //End Attributes
