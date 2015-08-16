@@ -22,35 +22,35 @@ module.exports = {
 			})
 	},
 	bytype: function(req, res) {
-		Task.query('SELECT type, count(*) FROM task group by type order by count', function(err, data) {
+		Task.query('SELECT type, count(*) FROM task group by type order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)
 		});
 	},
 	bystatus: function(req, res) {
-		Task.query('SELECT status, count(*) FROM task group by status order by count', function(err, data) {
+		Task.query('SELECT status, count(*) FROM task group by status order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)
 		});
 	},
 	byprioridad: function(req, res) {
-		Task.query('SELECT prioridad, count(*) FROM task group by prioridad order by count', function(err, data) {
+		Task.query('SELECT prioridad, count(*) FROM task group by prioridad order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)
 		});
 	},
 	byrequester: function(req, res) {
-		Task.query('SELECT requester, count(*) FROM task group by requester order by count', function(err, data) {
+		Task.query('SELECT requester, count(*) FROM task group by requester order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)
 		});
 	},
 	byresponsable: function(req, res) {
-		Task.query('SELECT responsable, count(*) FROM task group by responsable order by count', function(err, data) {
+		Task.query('SELECT responsable, count(*) FROM task group by responsable order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)
