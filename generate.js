@@ -26,8 +26,13 @@ switch(option) {
         break;
 	case 'crud4':
 		crud(4)
-	case 'crud5':
+		break;
+	case 'crud5': // Client Side
 		crud(5)
+		break;
+	case 'crud6': // Server Side - i18n
+		crud(6)
+		break;
     default:
         console.log('arguments for this commando are: ')
 }
@@ -94,9 +99,16 @@ function crud(n)
 			case 4:
 				// using lodash templates
 				crud4.generate('crud')
-			case 5:
-				// complex filter + date fields + select columns + item menu + download data
+			break;
+			case 5:  // Client Side
+				// complex filter + date fields + select columns + item menu + download data + status fields
+				// Save Filter & Columns + Model refences + Ajax
 				crud5.generate('crud')
+			break;
+			case 6:  // Server Side
+				// Same as Clien Side plus i18n 
+				crud5.generate('crud6')
+			break;
 		  }  
 	})
 }
