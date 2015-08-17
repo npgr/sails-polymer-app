@@ -1,0 +1,33 @@
+{
+  "List": "Listar",
+  "Create": "Crear",
+  "Display": "Consultar",
+  "Delete": "Borrar",
+  "Edit": "Editar",
+  "Equal to": "Igual a",
+  "Different to": "Diferente a",
+  "Greater or Equal to": "Mayor o igual a",
+  "Less or Equal to": "Menor o igual a",
+  "Contains": "Contiene",
+  "Find": "Buscar",
+  "Columns": "Columnas",
+  "Change": "Cambiar",
+  "Exit": "Salir",
+  "Repeat": "Repetir",
+  "Task": ""
+  ,"Id": "Id"
+  ,"Activity": "Actividad"
+  ,"Type": "Tipo"
+  ,"Status": "Status"
+  ,"Parent": "Parent"
+  ,"Priority": "Prioridad"
+  ,"Requester": "Solicitantante"
+  ,"Request": "Solicitud"
+  ,"Start": "Inicio"
+  ,"Commit": "Compromiso"
+  ,"End": "Fin"
+  ,"Responsible": "Responsable"
+  ,"Last Track": "Ult Seguimiento"
+  ,"Next Track": "Prox Seguimiento"
+  ,"Notes": "Observación"
+}
