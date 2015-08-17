@@ -16,10 +16,36 @@
 				  else if (!data) res.json({ "exist": false})
 					else res.json({ "exist": true})
 			})
-	}/*,
+	}
+	<% if (crud == 'crud6') {
+	%>, display: function(req, res) {
+		res.render("<%= model%>/display")
+	},
+	new: function (req, res) {
+		res.render("<%= model%>/new")
+	},
+	edit: function (req, res) {
+		res.render("<%= model%>/edit")
+	},
+	delete: function (req, res) {
+		res.render("<%= model%>/delete")
+	},
+	columns: function (req, res) {
+		res.render("<%= model%>/columns")
+	},
+	select: function (req, res) {
+		res.render("<%= model%>/select")
+	},
 	list : function (req, res) {
 		<%= model%>.find()
 			.exec(function(err, data){
 				res.render("<%= model%>/list", {data: JSON.stringify(data)})
 			})
+	}<% } %>
+	/*,byfield: function(req, res) {
+		<%= model%>.query('SELECT field, count(*) FROM <%= model%> group by field order by count desc', function(err, data) {
+			if (err) return res.serverError(err);
+			//return res.ok(results);
+			return res.json(data.rows)
+		});
 	}*/
