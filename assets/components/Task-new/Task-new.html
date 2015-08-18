@@ -1,11 +1,13 @@
-<!-- new-form: version 5.00 -->
+<!-- new-form: version 5.10 -->
+
+
 <dom-module id="Task-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
-		<h2 class="card_title">Crear Actividad</h2>
+		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
+		<h2 class="card_title">Create Activity</h2>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
@@ -14,26 +16,26 @@
 				<td><input id="id" type="number" name="id" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="activity">Actividad<strong class="red"> *</strong></label></td>
+				<td><label class="left_label" for="activity">Activity<strong class="red"> *</strong></label></td>
 				<td><input id="activity" type="text" name="activity" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="type">Tipo</label></td>
+				<td><label class="left_label" for="type">Type</label></td>
 				<td><select id="type" name="type">
-						<option value="i">incidente</option>
-						<option value="t">tarea</option>
-						<option value="c">cambio</option>
-						<option value="p">proyecto</option>
+						<option value="i">Incident</option>
+						<option value="t">Task</option>
+						<option value="c">Change</option>
+						<option value="p">Project</option>
 					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status">Status</label></td>
 				<td><select id="status" name="status">
-						<option value="p">Pendiente</option>
-						<option value="e">En curso</option>
+						<option value="p">Pending</option>
+						<option value="e">Working on</option>
 						<option value="s">Stand by</option>
-						<option value="c">Certificacion</option>
-						<option value="x">Cerrado</option>
+						<option value="c">Certificate</option>
+						<option value="x">Close</option>
 					</select></td>
 			</tr>
 			<tr>
@@ -41,57 +43,57 @@
 				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key=0 on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="prioridad">Prioridad</label></td>
+				<td><label class="left_label" for="prioridad">Priority</label></td>
 				<td><select id="prioridad" name="prioridad">
-						<option value="b">Baja</option>
-						<option value="m">Media</option>
-						<option value="a">Alta</option>
-						<option value="c">Critica</option>
+						<option value="b">Low</option>
+						<option value="m">Medium</option>
+						<option value="a">Hight</option>
+						<option value="c">Critic</option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requester">Solicitante<strong class="red"> *</strong></label></td>
+				<td><label class="left_label" for="requester">Requester<strong class="red"> *</strong></label></td>
 				<td><input id="requester" type="text" name="requester" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requestd">Solicitud<strong class="red"> *</strong></label></td>
+				<td><label class="left_label" for="requestd">Request<strong class="red"> *</strong></label></td>
 				<td><input id="requestd" type="date" name="requestd" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="start">Inicio</label></td>
+				<td><label class="left_label" for="start">Start</label></td>
 				<td><input id="start" type="date" name="start"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
+				<td><label class="left_label" for="fcompromiso">Commit</label></td>
 				<td><input id="fcompromiso" type="date" name="fcompromiso"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="end">Fin</label></td>
+				<td><label class="left_label" for="end">End</label></td>
 				<td><input id="end" type="date" name="end"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="responsable">Responsable</label></td>
+				<td><label class="left_label" for="responsable">Responsible</label></td>
 				<td><input id="responsable" type="text" name="responsable"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
+				<td><label class="left_label" for="ultseguimiento">Last Track</label></td>
 				<td><input id="ultseguimiento" type="date" name="ultseguimiento"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
+				<td><label class="left_label" for="proxseguimiento">Next Track</label></td>
 				<td><input id="proxseguimiento" type="date" name="proxseguimiento"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><label class="left_label" for="observacion">Notes</label></td>
 				<td><input id="observacion" type="text" name="observacion"></td>
 			</tr>
 			</table>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
-					Repetir <input id="repeat" type="checkbox" name="repeat">
-					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
-					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+					Repeat <input id="repeat" type="checkbox" name="repeat">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>Create</paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
 				</div>
 			</div>
 		  </form>
@@ -159,7 +161,7 @@
 			this.$.ajax2.generateRequest()
 		},
 		record_created: function() {
-			alert("Created Actividad id="+this.$.ajax2.lastResponse.id)
+			alert("Created Activity id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
 			if (!this.$.repeat.checked) {
 				this.$.dialog.close()
@@ -180,15 +182,15 @@
 				this.$.submit_btn.click()
 		},
 		validate_record: function() {
-			if (this.$.ajax.lastResponse.exist)
-				alert("Registro ya Existe")
+			if (this.$.ajax.lastResponse.exist) 
+				alert("Record already Exist")
 			else
 				this.$.submit_btn.click()
 		},
 		ajax_error: function() {
 			console.log(this.$.ajax.lastError)
-			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
-		}
+			alert("Error Processing Request: ", this.$.ajax.lastError)
+		}  
 	})
 </script>
 </dom-module>

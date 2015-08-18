@@ -1,4 +1,20 @@
-<!-- new-form: version 5.00 -->
+<!-- new-form: version 5.10 -->
+<% if (crud == "crud6") { 
+%> >% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%<  <% } 
+ function srv(crud, word) {
+	if (crud == "crud6")
+		return ">%= lng('" + word + "')%<"
+	 else
+	    return word
+} %>
+
 <dom-module id="<%= model%>-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
@@ -7,15 +23,19 @@
 		for (i=0; i < keys.length; i++) {
 				if (jsondata[keys[i]].model) {%>
 		<<%= jsondata[keys[i]].model%>-select id="<%= jsondata[keys[i]].model%>_select_dialog" on-item_selected="set_select_field"></<%= jsondata[keys[i]].model%>-select><%
-		} }%>
-		<h2 class="card_title">Crear <%= title%></h2>
+		} }
+	  if (crud == "crud6") { %>
+		<h2 class="card_title">>%= lng("%s %s",lng("Create"),lng("<%= title%>"))%<</h2><% 
+	  } else { %>	
+		<h2 class="card_title">Create <%= title%></h2><% 
+	  } %>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%"><%
 			for (i=0; i < keys.length; i++) { 
 				if (jsondata[keys[i]].line_c) {%>
 			<tr>
-				<td><label class="left_label" for="<%= keys[i]%>"><%= jsondata[keys[i]].description%><%
+				<td><label class="left_label" for="<%= keys[i]%>"><%= srv(crud, jsondata[keys[i]].description)%><%
 				if (jsondata[keys[i]].required) {%><strong class="red"> *</strong><%}%></label></td>
 				<td><%if (jsondata[keys[i]].model) {
 				    %><iron-icon icon="find-in-page" field="<%= keys[i]%>" on-click="select_field_b"></iron-icon><%}
@@ -25,9 +45,9 @@
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
-					Repetir <input id="repeat" type="checkbox" name="repeat">
-					<paper-button id="create_btn" class="btn" on-click="submit_form" raised>CREAR</paper-button>
-					<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+					<%= srv(crud, "Repeat ")%><input id="repeat" type="checkbox" name="repeat">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised><%= srv(crud, "Create")%></paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= srv(crud, "Exit")%></paper-button>
 				</div>
 			</div>
 		  </form>
@@ -108,15 +128,15 @@
 				this.$.submit_btn.click()
 		},
 		validate_record: function() {
-			if (this.$.ajax.lastResponse.exist)
-				alert("Registro ya Existe")
+			if (this.$.ajax.lastResponse.exist) 
+				alert("<%= srv(crud, "Record already Exist")%>")
 			else
 				this.$.submit_btn.click()
 		},
 		ajax_error: function() {
 			console.log(this.$.ajax.lastError)
-			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
-		}
+			alert("<%= srv(crud, "Error Processing Request: ")%>", this.$.ajax.lastError)
+		}  
 	})
 </script>
 </dom-module>

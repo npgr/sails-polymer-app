@@ -1,107 +1,106 @@
 <!-- new-form: version 5.10 -->
-<% 
-function lng(word) {
-	return __(word)
-}
-function lng(word1, word2, word3) {
+ <% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
 	return __(word1, word2, word3)
-}
-%>
+ }
+%>  
+
 <dom-module id="Task-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
-	  
 		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Activity"))%></h2>
-	  
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id"><%= __("Id")%></label></td>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="activity"><%= __("Activity")%><strong class="red"> *</strong></label></td>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%><strong class="red"> *</strong></label></td>
 				<td><input id="activity" type="text" name="activity" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="type"><%= __("Type")%></label></td>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
 				<td><select id="type" name="type">
-						<option value="i"><%= __("Incident")%></option>
-						<option value="t"><%= __("Task")%></option>
-						<option value="c"><%= __("Change")%></option>
-						<option value="p"><%= __("Project")%></option>
+						<option value="i"><%= lng('Incident')%></option>
+						<option value="t"><%= lng('Task')%></option>
+						<option value="c"><%= lng('Change')%></option>
+						<option value="p"><%= lng('Project')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="status"><%= __("Status")%></label></td>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
 				<td><select id="status" name="status">
-						<option value="p"><%= __("Pending")%></option>
-						<option value="e"><%= __("Working on")%></option>
-						<option value="s"><%= __("Stand by")%></option>
-						<option value="c"><%= __("Certificate")%></option>
-						<option value="x"><%= __("Close")%></option>
+						<option value="p"><%= lng('Pending')%></option>
+						<option value="e"><%= lng('Working on')%></option>
+						<option value="s"><%= lng('Stand by')%></option>
+						<option value="c"><%= lng('Certificate')%></option>
+						<option value="x"><%= lng('Close')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="parent"><%= __("Parent")%></label></td>
+				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
 				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key=0 on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="prioridad"><%= __("Priority")%></label></td>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
 				<td><select id="prioridad" name="prioridad">
-						<option value="b"><%= __("Low")%></option>
-						<option value="m"><%= __("Medium")%></option>
-						<option value="a"><%= __("Hight")%></option>
-						<option value="c"><%= __("Critic")%></option>
+						<option value="b"><%= lng('Low')%></option>
+						<option value="m"><%= lng('Medium')%></option>
+						<option value="a"><%= lng('Hight')%></option>
+						<option value="c"><%= lng('Critic')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requester"><%= __("Requester")%><strong class="red"> *</strong></label></td>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%><strong class="red"> *</strong></label></td>
 				<td><input id="requester" type="text" name="requester" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requestd"><%= __("Request")%><strong class="red"> *</strong></label></td>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%><strong class="red"> *</strong></label></td>
 				<td><input id="requestd" type="date" name="requestd" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="start"><%= __("Start")%></label></td>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
 				<td><input id="start" type="date" name="start"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="fcompromiso"><%= __("Commit")%></label></td>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
 				<td><input id="fcompromiso" type="date" name="fcompromiso"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="end"><%= __("End")%></label></td>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
 				<td><input id="end" type="date" name="end"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="responsable"><%= __("Responsible")%></label></td>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
 				<td><input id="responsable" type="text" name="responsable"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ultseguimiento"><%= __("Last Track")%></label></td>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
 				<td><input id="ultseguimiento" type="date" name="ultseguimiento"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="proxseguimiento"><%= __("Next Track")%></label></td>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
 				<td><input id="proxseguimiento" type="date" name="proxseguimiento"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="observacion"><%= __("Notes")%></label></td>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
 				<td><input id="observacion" type="text" name="observacion"></td>
 			</tr>
 			</table>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
-					<%= lng("Repeat")%> <input id="repeat" type="checkbox" name="repeat">
-					<paper-button id="create_btn" class="btn" on-click="submit_form" raised><%= __("Create")%></paper-button>
-					<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= __("EXIT")%></paper-button>
+					<%= lng('Repeat ')%><input id="repeat" type="checkbox" name="repeat">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised><%= lng('Create')%></paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
 				</div>
 			</div>
 		  </form>
@@ -190,15 +189,15 @@ function lng(word1, word2, word3) {
 				this.$.submit_btn.click()
 		},
 		validate_record: function() {
-			if (this.$.ajax.lastResponse.exist)
-				alert("<%= __("Record already Exist")%>")
+			if (this.$.ajax.lastResponse.exist) 
+				alert("<%= lng('Record already Exist')%>")
 			else
 				this.$.submit_btn.click()
 		},
 		ajax_error: function() {
 			console.log(this.$.ajax.lastError)
-			alert("<%= __("Error Processing Request: ")%>", this.$.ajax.lastError)
-		}
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}  
 	})
 </script>
 </dom-module>
