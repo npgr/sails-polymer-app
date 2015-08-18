@@ -251,14 +251,24 @@ function generate_delete_form(keys, key, title, crud) {
 	var DELETE_FORM_TEMPLATE = fs.readFileSync('./templates/crud5/delete-form.template', 'utf8');
 	var compiled_Delete_Form = _.template(DELETE_FORM_TEMPLATE)
 	
-	var delete_form = compiled_Delete_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
+	var delete_form = compiled_Delete_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata, 'crud': crud})
+	
+	delete_form = delete_form.replace(/>%/g, '<%')
+	delete_form = delete_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (!fs.existsSync('assets/components/'+model+'-delete'))
-		fs.mkdirSync('assets/components/'+model+'-delete')
+	var path = 'assets/components/'+model+'-delete'
+	if (crud == 'crud6')  path = 'views/'+model
+	
+	if (!fs.existsSync(path))	fs.mkdirSync(path)
+	
+	if (crud == 'crud6')
+		path += '/delete.ejs'
+	  else
+		path += '/'+model+'-delete.html'
 			
-	fs.writeFile('assets/components/'+model+'-delete/'+model+'-delete.html', delete_form, function (err) {
+	fs.writeFile(path, delete_form, function (err) {
 		if (err) console.log(err);
-		console.log('Created file assets/components/'+model+'-delete/'+model+'-delete.html')
+		console.log('Created file '+path)
 	})
 }
 
@@ -409,7 +419,7 @@ exports.generate = function(crud) {
 	generate_app_util()
 	generate_new_form(keys, key, title, crud)
 	generate_display_form(keys, key, title, crud)
-	//generate_delete_form(keys, key, title, crud)	
+	generate_delete_form(keys, key, title, crud)	
 	//generate_edit_form(keys, key, title, crud)
 	//generate_list_columns(keys, title, crud)
 	
