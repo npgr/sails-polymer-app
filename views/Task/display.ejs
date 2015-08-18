@@ -1,91 +1,100 @@
-<!-- display-form: version 5.00 -->
+<!-- display-form: version 5.10 -->
+ <% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%>  
+
 <dom-module id="Task-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title">Consultar Activity</h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Activity"))%></h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Id</label></td>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="activity">Activity</label></td>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
 				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="type">Type</label></td>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
 				<td><select id="type" name="type" disabled>
-						<option value="i">incidente</option>
-						<option value="t">tarea</option>
-						<option value="c">cambio</option>
-						<option value="p">proyecto</option>
+						<option value="i"><%= lng('Incident')%></option>
+						<option value="t"><%= lng('Task')%></option>
+						<option value="c"><%= lng('Change')%></option>
+						<option value="p"><%= lng('Project')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="status">Status</label></td>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
 				<td><select id="status" name="status" disabled>
-						<option value="p">Pendiente</option>
-						<option value="e">En curso</option>
-						<option value="s">Stand by</option>
-						<option value="c">Certificacion</option>
-						<option value="x">Cerrado</option>
+						<option value="p"><%= lng('Pending')%></option>
+						<option value="e"><%= lng('Working on')%></option>
+						<option value="s"><%= lng('Stand by')%></option>
+						<option value="c"><%= lng('Certificate')%></option>
+						<option value="x"><%= lng('Close')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="parent">Parent</label></td>
+				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
 				<td><input id="parent" type="text" name="parent" value="{{item.parent_activity}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="prioridad">Prioridad</label></td>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
 				<td><select id="prioridad" name="prioridad" disabled>
-						<option value="b">Baja</option>
-						<option value="m">Media</option>
-						<option value="a">Alta</option>
-						<option value="c">Critica</option>
+						<option value="b"><%= lng('Low')%></option>
+						<option value="m"><%= lng('Medium')%></option>
+						<option value="a"><%= lng('Hight')%></option>
+						<option value="c"><%= lng('Critic')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requester">Solicitante</label></td>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
 				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requestd">Solicitud</label></td>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
 				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="start">Inicio</label></td>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
 				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
 				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="end">Fin</label></td>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
 				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="responsable">Responsable</label></td>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
 				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
 				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
 				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
 				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
 			</tr>
 			</table>
 		  </paper-dialog-scrollable>
 		<div class="buttons">
 			<div class="card_line">
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
 			</div>
 		</div>
 	</paper-dialog>
