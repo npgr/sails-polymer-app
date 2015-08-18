@@ -12,22 +12,37 @@
   "Contains": "Contiene",
   "Find": "Buscar",
   "Columns": "Columnas",
-  "Change": "Cambiar",
+  "Change %s": "Cambiar %s",
   "Exit": "Salir",
   "Repeat": "Repetir",
-  "Task": ""
+  "Record already Exist": "Registro ya Existe",
+  "Error Processing Request: ": "Error Procesando Solicitud: "
   ,"Id": "Id"
   ,"Activity": "Actividad"
   ,"Type": "Tipo"
+  ,"Incident": "Incidente"
+  ,"Task": "Tarea"
+  ,"Change": "Cambio"
+  ,"Project": "Proyecto"
   ,"Status": "Status"
+  ,"Pending": "Pendiente"
+  ,"Working on": "En Curso"
+  ,"Stand by": "Stand By"
+  ,"Certificate": "Certificación"
+  ,"Close": "Cerrado"
   ,"Parent": "Parent"
   ,"Priority": "Prioridad"
-  ,"Requester": "Solicitantante"
+  ,"Low": "Baja"
+  ,"Medium": "Media"
+  ,"Hight": "Alta"
+  ,"Critic": "Critica"
+  ,"Requester": "Solicitante"
   ,"Request": "Solicitud"
   ,"Start": "Inicio"
   ,"Commit": "Compromiso"
   ,"End": "Fin"
   ,"Responsible": "Responsable"
+  ,"Previous": "Previo"
   ,"Last Track": "Ult Seguimiento"
   ,"Next Track": "Prox Seguimiento"
   ,"Notes": "Observación"
