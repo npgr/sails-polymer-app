@@ -50,11 +50,11 @@ function generate_app_util() {
 	else console.log('File assets/components/app-util/app-util.js already exist')
 }
 
-function generate_controller(key) {
+function generate_controller(key, crud) {
 	var CONTROLLER_TEMPLATE = fs.readFileSync('./templates/crud5/controller.template', 'utf8');
 	var compiled_Controller = _.template(CONTROLLER_TEMPLATE)
-	
-	var controller = compiled_Controller({ 'model': model, 'key': key})
+
+	var controller = compiled_Controller({ 'model': model, 'key': key, 'crud': crud})
 				
 	fs.writeFile('templates/crud5/controller.js', controller, function (err) {
 		if (err) console.log(err);
@@ -62,7 +62,26 @@ function generate_controller(key) {
 	})
 }
 
-function set_jsondata_lines(keys) {
+function generate_language(title, keys, jsondata) {
+	var LANGUAGE_TEMPLATE = fs.readFileSync('./templates/crud5/language.template', 'utf8');
+	var compiled_Language = _.template(LANGUAGE_TEMPLATE)
+
+	var language = compiled_Language({ 'title': title, 'keys': keys, 'jsondata': jsondata })
+				
+	fs.writeFile('templates/crud5/language.json', language, function (err) {
+		if (err) console.log(err);
+		console.log('Created file templates/crud5/language.json')
+	})
+}
+
+function srv(crud, word) {
+	if (crud == "crud6")
+		return ">%= lng('" + word + "')%<"
+	 else
+	    return word
+}
+
+function set_jsondata_lines(crud, keys) {
 	var line_c = ''; var line_r = ''; var line_u = ''; var line_d = ''; var type= ''
 	
 	for (i=0; i < keys.length; i++)
@@ -78,11 +97,11 @@ function set_jsondata_lines(keys) {
 			line_d = line_r
 			// <option>
 			for (j=0; j<jsondata[keys[i]].enum.length; j++)
-			{
-				line_c += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+jsondata[keys[i]].enumdes[j]+'</option>\n'
-				line_r += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+jsondata[keys[i]].enumdes[j]+'</option>\n'
-				line_u += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+jsondata[keys[i]].enumdes[j]+'</option>\n'
-				line_d += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+jsondata[keys[i]].enumdes[j]+'</option>\n'
+			{					
+				line_c += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+ srv(crud, jsondata[keys[i]].enumdes[j])+'</option>\n'
+				line_r += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+ srv(crud, jsondata[keys[i]].enumdes[j])+'</option>\n'
+				line_u += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+ srv(crud, jsondata[keys[i]].enumdes[j])+'</option>\n'
+				line_d += '\t\t\t\t\t\t<option value="'+jsondata[keys[i]].enum[j]+'">'+ srv(crud, jsondata[keys[i]].enumdes[j])+'</option>\n'
 			}
 			line_c += '\t\t\t\t\t</select>'
 			line_r += '\t\t\t\t\t</select>'
@@ -178,37 +197,57 @@ function set_jsondata_lines(keys) {
 	}
 }
 
-function generate_new_form(keys, key, title) {
+function generate_new_form(keys, key, title, crud) {
 	var NEW_FORM_TEMPLATE = fs.readFileSync('./templates/crud5/new-form.template', 'utf8');
 	var compiled_New_Form = _.template(NEW_FORM_TEMPLATE)
+	// crud = crud6 : Server Side (views/.ejs)) else client side (assets/components/.html)
+	var new_form = compiled_New_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata, 'crud': crud})
 	
-	var new_form = compiled_New_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
+	new_form = new_form.replace(/>%/g, '<%')
+	new_form = new_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (!fs.existsSync('assets/components/'+model+'-new'))
-		fs.mkdirSync('assets/components/'+model+'-new')
+	var path = 'assets/components/'+model+'-new'
+	if (crud == 'crud6')  path = 'views/'+model
+		
+	if (!fs.existsSync(path))  fs.mkdirSync(path)
 	
-	fs.writeFile('assets/components/'+model+'-new/'+model+'-new.html', new_form, function (err) {
+	if (crud == 'crud6')
+		path += '/new.ejs'
+	  else
+		path += '/'+model+'-new.html'
+	
+	fs.writeFile(path, new_form, function (err) {
 		if (err) console.log(err);
-		console.log('Created file assets/components/'+model+'-new/'+model+'-new.html')
+		console.log('Created file '+path)
 	})
 }
 
-function generate_display_form(keys, key, title){
+function generate_display_form(keys, key, title, crud){
 	var DISPLAY_FORM_TEMPLATE = fs.readFileSync('./templates/crud5/display-form.template', 'utf8');
 	var compiled_Display_Form = _.template(DISPLAY_FORM_TEMPLATE)
 	
-	var display_form = compiled_Display_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
-	// Create Folder if not exist
-	if (!fs.existsSync('assets/components/'+model+'-display'))
-			fs.mkdirSync('assets/components/'+model+'-display')
+	var display_form = compiled_Display_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata, 'crud': crud})
 	
-	fs.writeFile('assets/components/'+model+'-display/'+model+'-display.html', display_form, function (err) {
+	display_form = display_form.replace(/>%/g, '<%')
+	display_form = display_form.replace(/%</g, '%>')
+	// Create Folder if not exist
+	var path = 'assets/components/'+model+'-display'
+	if (crud == 'crud6')  path = 'views/'+model
+	
+	if (!fs.existsSync(path))  fs.mkdirSync(path)
+	
+	if (crud == 'crud6')
+		path += '/display.ejs'
+	  else
+		path += '/'+model+'-display.html'
+	
+	fs.writeFile(path, display_form, function (err) {
 			if (err) console.log(err);
-			console.log('Created file assets/components/'+model+'-display/'+model+'-display.html')
+			console.log('Created file '+path)
 	})
 }
 
-function generate_delete_form(keys, key, title) {
+function generate_delete_form(keys, key, title, crud) {
 	var DELETE_FORM_TEMPLATE = fs.readFileSync('./templates/crud5/delete-form.template', 'utf8');
 	var compiled_Delete_Form = _.template(DELETE_FORM_TEMPLATE)
 	
@@ -223,7 +262,7 @@ function generate_delete_form(keys, key, title) {
 	})
 }
 
-function generate_edit_form(keys, key, title, IMPORT_FORM) {
+function generate_edit_form(keys, key, title, crud) {
 	var EDIT_FORM_TEMPLATE = fs.readFileSync('./templates/crud5/edit-form.template', 'utf8');
 	var compiled_Edit_Form = _.template(EDIT_FORM_TEMPLATE)
 	
@@ -238,7 +277,7 @@ function generate_edit_form(keys, key, title, IMPORT_FORM) {
 	})
 }
 
-function generate_list_columns(keys, title) {
+function generate_list_columns(keys, title, crud) {
 	var LIST_COLUMNS_TEMPLATE = fs.readFileSync('./templates/crud5/list-columns.template', 'utf8');
 	var compiled_List_Columns = _.template(LIST_COLUMNS_TEMPLATE)
 	
@@ -253,7 +292,7 @@ function generate_list_columns(keys, title) {
 	})
 }
 
-function generate_model_select(model, display, key, description) {
+function generate_model_select(model, display, key, description, crud) {
 	if (!fs.existsSync('assets/components/'+model+'-select/'+model+'-select.html'))
 	{
 		var SELECT_MODEL_TEMPLATE = fs.readFileSync('./templates/crud5/select-model.template', 'utf8');
@@ -272,7 +311,7 @@ function generate_model_select(model, display, key, description) {
 	else  console.log('File assets/components/'+model+'-select/'+model+'-select.html already Exist')
 }
 
-function generate_list_page(keys, key, title) {
+function generate_list_page(keys, key, title, crud) {
 	var LIST_TEMPLATE = fs.readFileSync('./templates/crud5/list.template', 'utf8');
 	var compiled_List = _.template(LIST_TEMPLATE)
 	
@@ -316,8 +355,10 @@ function generate_list_page(keys, key, title) {
 	
 	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata})
 	
-	list_template = list_template.replace('>%', '<%')
-	list_template = list_template.replace('%<', '%>')
+	//list_template = list_template.replace('>%', '<%')
+	//list_template = list_template.replace('%<', '%>')
+	list_template = list_template.replace(/>%/g, '<%')
+	list_template = list_template.replace(/%</g, '%>')
 	
 	// Create Folder if not exist
 	if (!fs.existsSync('assets/'+model))
@@ -359,21 +400,22 @@ exports.generate = function(crud) {
 		}
 	}
 	// input field on form
-	set_jsondata_lines(keys)
+	set_jsondata_lines(crud, keys)
 	
 
-	generate_controller(key)
+	generate_controller(key, crud)
+	generate_language(model, keys, jsondata)
 	generate_app_config()
 	generate_app_util()
-	generate_new_form(keys, key, title)
-	generate_display_form(keys, key, title)
-	generate_delete_form(keys, key, title)	
-	generate_edit_form(keys, key, title)
-	generate_list_columns(keys, title)
+	generate_new_form(keys, key, title, crud)
+	generate_display_form(keys, key, title, crud)
+	//generate_delete_form(keys, key, title, crud)	
+	//generate_edit_form(keys, key, title, crud)
+	//generate_list_columns(keys, title, crud)
 	
-	for (i=0; i<relation.length; i++)
-		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description)
+	//for (i=0; i<relation.length; i++)
+	//	generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
 	
-	generate_list_page(keys, key, title)
+	//generate_list_page(keys, key, title, crud)
 }
 
