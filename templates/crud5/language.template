@@ -17,6 +17,7 @@
   "Record already Exist": "Registro ya Existe",
   "Error Processing Request: ": "Error Procesando Solicitud: ",
   "Record Deleted": "Registro Borrado",
+  "Record Updated": "Registro Actualizado",
   "<%= title%>": ""<%
   for (i=0; i < keys.length; i++ ) {
     if (jsondata[keys[i]].description) {%>

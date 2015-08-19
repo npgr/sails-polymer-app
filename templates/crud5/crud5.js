@@ -276,14 +276,24 @@ function generate_edit_form(keys, key, title, crud) {
 	var EDIT_FORM_TEMPLATE = fs.readFileSync('./templates/crud5/edit-form.template', 'utf8');
 	var compiled_Edit_Form = _.template(EDIT_FORM_TEMPLATE)
 	
-	var edit_form = compiled_Edit_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata})
+	var edit_form = compiled_Edit_Form({'title':title,'model':model,'key':key,'keys':keys,'jsondata':jsondata, 'crud': crud})
+	
+	edit_form = edit_form.replace(/>%/g, '<%')
+	edit_form = edit_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (!fs.existsSync('assets/components/'+model+'-edit'))
-		fs.mkdirSync('assets/components/'+model+'-edit')	
+	var path = 'assets/components/'+model+'-edit'
+	if (crud == 'crud6')  path = 'views/'+model
+	
+	if (!fs.existsSync(path))	fs.mkdirSync(path)
 
-	fs.writeFile('assets/components/'+model+'-edit/'+model+'-edit.html', edit_form, function (err) {
+	if (crud == 'crud6')
+		path += '/edit.ejs'
+	  else
+		path += '/'+model+'-edit.html'
+
+	fs.writeFile(path, edit_form, function (err) {
 		if (err) console.log(err);
-		console.log('Created file assets/components/'+model+'-edit/'+model+'-edit.html')
+		console.log('Created file '+path)
 	})
 }
 
@@ -420,12 +430,14 @@ exports.generate = function(crud) {
 	generate_new_form(keys, key, title, crud)
 	generate_display_form(keys, key, title, crud)
 	generate_delete_form(keys, key, title, crud)	
-	//generate_edit_form(keys, key, title, crud)
+	generate_edit_form(keys, key, title, crud)
 	//generate_list_columns(keys, title, crud)
 	
 	//for (i=0; i<relation.length; i++)
 	//	generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
 	
 	//generate_list_page(keys, key, title, crud)
+	
+	// resume-bar ??
 }
 
