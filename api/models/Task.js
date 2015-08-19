@@ -26,13 +26,13 @@ module.exports = {
 		//description: 'Type',
 		type: "string",
 		enum: ["i","t","c","p"]
-		//,enumdes: ["incidente", "tarea", "cambio", "proyecto"]
+		//,enumdes: ["Incident", "Task", "Change", "Project"]
 	},
 	status: {
 		//description: 'Status',
 		type: "string",
 		enum: ["p", "e", "s", "c", "x"]
-		//,enumdes: ["Pendiente", "En curso", "Stand by", "Certificacion", "Cerrado"]
+		//,enumdes: ["Pending", "Working on", "Stand by", "Certificate", "Close"]
 	},
 	parent: {
 		//description: 'Parent',
@@ -46,7 +46,7 @@ module.exports = {
 		//description: 'Priority',
 		type: "string",
 		enum: ["b", "m", "a", "c"]
-		//,enumdes: ["Baja", "Media", "Alta", "Critica"]
+		//,enumdes: ["Low", "Medium", "Hight", "Critic"]
 	},
 	requester: {
 		//description: 'Requester',
