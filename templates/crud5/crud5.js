@@ -393,7 +393,7 @@ function generate_list_page(keys, key, title, crud) {
 	
 	var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
 	
-	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata})
+	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud})
 	
 	//list_template = list_template.replace('>%', '<%')
 	//list_template = list_template.replace('%<', '%>')
@@ -401,12 +401,19 @@ function generate_list_page(keys, key, title, crud) {
 	list_template = list_template.replace(/%</g, '%>')
 	
 	// Create Folder if not exist
-	if (!fs.existsSync('assets/'+model))
-			fs.mkdirSync('assets/'+model)	
+	var path = 'assets/'+model
+	if (crud == 'crud6')  path = 'views/'+model
+		
+	if (!fs.existsSync(path))	fs.mkdirSync(path)
 
-	fs.writeFile('assets/'+model+'/list.html', list_template, function (err) {
-			if (err) console.log(err);
-			console.log('Created file assets/'+model+'/list.html')
+	if (crud == 'crud6')
+		path += '/list.ejs'
+	  else
+		path += '/list.html'
+
+	fs.writeFile(path, list_template, function (err) {
+		if (err) console.log(err);
+		console.log('Created file '+path)
 	})
 }
 
@@ -456,7 +463,7 @@ exports.generate = function(crud) {
 	for (i=0; i<relation.length; i++)
 		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
 	
-	//generate_list_page(keys, key, title, crud)
+	generate_list_page(keys, key, title, crud)
 	
 	// resume-bar ??
 }

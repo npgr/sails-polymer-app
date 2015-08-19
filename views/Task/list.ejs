@@ -1,7 +1,15 @@
-<html>
 <!-- list template: version 5.10 -->
+ <% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%>  
+<html>
 <head>
-	<title><%= __('List %s',__('Activity'))%></title>
+	<title><%= lng("%s %s",lng("List"),lng("Activity"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
@@ -23,8 +31,8 @@
 	<link rel="import" href="/Task/edit">
 	<link rel="import" href="/Task/delete">
 	<link rel="import" href="/Task/columns">
-	<link rel="import" href="/Task/select">
 	<link rel="import" href="/Task/new">
+	<link rel="import" href="/Task/select">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -65,32 +73,31 @@ paper-menu {
 	<Task-display id="Task_display_dialog"></Task-display>
 	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
-	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
-	
-	<div class="card_title"><%= __('List %s',__('Activity'))%></div>
-	<select id="filter" on-change="input_type">
-		<option value="id"><%= __('Id')%></option>
-		<option value="activity"><%= __('Activity')%></option>
-		<option value="type"><%= __('Type')%></option>
-		<option value="status"><%= __('Status')%></option>
-		<option value="parent_activity"><%= __('Parent')%></option>
-		<option value="prioridad"><%= __('Prioridad')%></option>
-		<option value="requester"><%= __('Solicitante')%></option>
-		<option value="requestd"><%= __('Solicitud')%></option>
-		<option value="start"><%= __('Inicio')%></option>
-		<option value="fcompromiso"><%= __('Compromiso')%></option>
-		<option value="end"><%= __('Fin')%></option>
-		<option value="responsable"><%= __('Responsable')%></option>
-		<option value="ultseguimiento"><%= __('Ult Seg')%></option>
-		<option value="proxseguimiento"><%= __('Prox Seg')%></option>
-		<option value="observacion"><%= __('observacion')%></option>
+	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
+	<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>
+	<select id="filter" on-change="input_type">  <%= lng('Id')%>
+		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
+		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Type')%>
+		<option value="type"><%= lng('Type')%></option>  <%= lng('Status')%>
+		<option value="status"><%= lng('Status')%></option>
+		<option value="parent_activity"><%= lng('Parent')%></option>  <%= lng('Priority')%>
+		<option value="prioridad"><%= lng('Priority')%></option>  <%= lng('Requester')%>
+		<option value="requester"><%= lng('Requester')%></option>  <%= lng('Request')%>
+		<option value="requestd"><%= lng('Request')%></option>  <%= lng('Start')%>
+		<option value="start"><%= lng('Start')%></option>  <%= lng('Commit')%>
+		<option value="fcompromiso"><%= lng('Commit')%></option>  <%= lng('End')%>
+		<option value="end"><%= lng('End')%></option>  <%= lng('Responsible')%>
+		<option value="responsable"><%= lng('Responsible')%></option>  <%= lng('Last Track')%>
+		<option value="ultseguimiento"><%= lng('Last Track')%></option>  <%= lng('Next Track')%>
+		<option value="proxseguimiento"><%= lng('Next Track')%></option>  <%= lng('Notes')%>
+		<option value="observacion"><%= lng('Notes')%></option>
 	</select>
 	<select id="op">   
-		<option value="$eq">Igual a</option>
-		<option value="$ne">Diferente a</option>
-		<option value="$contains">Contiene</option>
-		<option value="$gte">Mayor o igual a</option>
-		<option value="$lte">Menor o igual a</option>
+		<option value="$eq"><%= lng('Equal to')%></option>
+		<option value="$ne"><%= lng('Different to')%></option>
+		<option value="$contains"><%= lng('Contains')%></option>
+		<option value="$gte"><%= lng('Greater or Equal to')%></option>
+		<option value="$lte"><%= lng('Less or Equal to')%></option>
 	</select>
 	<input id="filtro" type="{{tipo}}" on-click="select_field">
 	<select id="select" class="hide">
@@ -103,32 +110,32 @@ paper-menu {
 		<option value="$and">And</option>
 		<option value="$or">Or</option>
 	</select>
-	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<paper-button class="btn" on-click="filter" raised><%= lng('Find')%></paper-button>
 	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
-		<option value="id">Id</option>
-		<option value="activity">Activity</option>
-		<option value="type">Type</option>
-		<option value="status">Status</option>
-		<option value="parent_activity">Parent</option>
-		<option value="prioridad">Prioridad</option>
-		<option value="requester">Solicitante</option>
-		<option value="requestd">Solicitud</option>
-		<option value="start">Inicio</option>
-		<option value="fcompromiso">Compromiso</option>
-		<option value="end">Fin</option>
-		<option value="responsable">Responsable</option>
-		<option value="ultseguimiento">Ult Seg</option>
-		<option value="proxseguimiento">Prox Seg</option>
-		<option value="observacion">observacion</option>
+		<option value="id"><%= lng('Id')%></option>
+		<option value="activity"><%= lng('Activity')%></option>
+		<option value="type"><%= lng('Type')%></option>
+		<option value="status"><%= lng('Status')%></option>
+		<option value="parent_activity"><%= lng('Parent')%></option>
+		<option value="prioridad"><%= lng('Priority')%></option>
+		<option value="requester"><%= lng('Requester')%></option>
+		<option value="requestd"><%= lng('Request')%></option>
+		<option value="start"><%= lng('Start')%></option>
+		<option value="fcompromiso"><%= lng('Commit')%></option>
+		<option value="end"><%= lng('End')%></option>
+		<option value="responsable"><%= lng('Responsible')%></option>
+		<option value="ultseguimiento"><%= lng('Last Track')%></option>
+		<option value="proxseguimiento"><%= lng('Next Track')%></option>
+		<option value="observacion"><%= lng('Notes')%></option>
 	</select>
 	<select id="op2" class="hide" >   
-		<option value="$eq">Igual a</option>
-		<option value="$ne">Diferente a</option>
-		<option value="$contains">Contiene</option>
-		<option value="$gte">Mayor o igual a</option>
-		<option value="$lte">Menor o igual a</option>
+		<option value="$eq"><%= lng('Equal to')%></option>
+		<option value="$ne"><%= lng('Different to')%></option>
+		<option value="$contains"><%= lng('Contains')%></option>
+		<option value="$gte"><%= lng('Greater or Equal to')%></option>
+		<option value="$lte"><%= lng('Less or Equal to')%></option>
 	</select>
 	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field">
 	<select id="select2" class="hide">
@@ -139,49 +146,49 @@ paper-menu {
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
-	
+
 	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
-			<paper-item on-click="display" style="min-height:20px;line-height:35px;">Consultar</paper-item>
-			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Editar</paper-item>
-			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>
+			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= lng('Display')%></paper-item>
+			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= lng('Edit')%></paper-item>
+			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= lng('Delete')%></paper-item>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
-		<th class="col_id" on-click="sort_id">Id<div id="id_sort_d" class="hide">
+		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_activity" on-click="sort_activity">Activity<div id="activity_sort_d" class="hide">
+		<th class="col_activity" on-click="sort_activity"><%= lng('Activity')%><div id="activity_sort_d" class="hide">
 			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_type" on-click="sort_type">Type<div id="type_sort_d" class="hide">
+		<th class="col_type" on-click="sort_type"><%= lng('Type')%><div id="type_sort_d" class="hide">
 			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_status" on-click="sort_status">Status<div id="status_sort_d" class="hide">
+		<th class="col_status" on-click="sort_status"><%= lng('Status')%><div id="status_sort_d" class="hide">
 			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_parent_activity" on-click="sort_parent_activity">Parent<div id="parent_activity_sort_d" class="hide">
+		<th class="col_parent_activity" on-click="sort_parent_activity"><%= lng('Parent')%><div id="parent_activity_sort_d" class="hide">
 			<iron-icon id="parent_activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_prioridad" on-click="sort_prioridad">Prioridad<div id="prioridad_sort_d" class="hide">
+		<th class="col_prioridad" on-click="sort_prioridad"><%= lng('Priority')%><div id="prioridad_sort_d" class="hide">
 			<iron-icon id="prioridad_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_requester" on-click="sort_requester">Solicitante<div id="requester_sort_d" class="hide">
+		<th class="col_requester" on-click="sort_requester"><%= lng('Requester')%><div id="requester_sort_d" class="hide">
 			<iron-icon id="requester_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_requestd" on-click="sort_requestd">Solicitud<div id="requestd_sort_d" class="hide">
+		<th class="col_requestd" on-click="sort_requestd"><%= lng('Request')%><div id="requestd_sort_d" class="hide">
 			<iron-icon id="requestd_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_start" on-click="sort_start">Inicio<div id="start_sort_d" class="hide">
+		<th class="col_start" on-click="sort_start"><%= lng('Start')%><div id="start_sort_d" class="hide">
 			<iron-icon id="start_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_fcompromiso" on-click="sort_fcompromiso">Compromiso<div id="fcompromiso_sort_d" class="hide">
+		<th class="col_fcompromiso" on-click="sort_fcompromiso"><%= lng('Commit')%><div id="fcompromiso_sort_d" class="hide">
 			<iron-icon id="fcompromiso_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_end" on-click="sort_end">Fin<div id="end_sort_d" class="hide">
+		<th class="col_end" on-click="sort_end"><%= lng('End')%><div id="end_sort_d" class="hide">
 			<iron-icon id="end_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_responsable" on-click="sort_responsable">Responsable<div id="responsable_sort_d" class="hide">
+		<th class="col_responsable" on-click="sort_responsable"><%= lng('Responsible')%><div id="responsable_sort_d" class="hide">
 			<iron-icon id="responsable_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_ultseguimiento" on-click="sort_ultseguimiento">Ult Seg<div id="ultseguimiento_sort_d" class="hide">
+		<th class="col_ultseguimiento" on-click="sort_ultseguimiento"><%= lng('Last Track')%><div id="ultseguimiento_sort_d" class="hide">
 			<iron-icon id="ultseguimiento_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_proxseguimiento" on-click="sort_proxseguimiento">Prox Seg<div id="proxseguimiento_sort_d" class="hide">
+		<th class="col_proxseguimiento" on-click="sort_proxseguimiento"><%= lng('Next Track')%><div id="proxseguimiento_sort_d" class="hide">
 			<iron-icon id="proxseguimiento_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_observacion" on-click="sort_observacion">observacion<div id="observacion_sort_d" class="hide">
+		<th class="col_observacion" on-click="sort_observacion"><%= lng('Notes')%><div id="observacion_sort_d" class="hide">
 			<iron-icon id="observacion_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
@@ -251,11 +258,11 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
-				{column: "type", enum: ["i","t","c","p"], enumdes: ["incidente","tarea","cambio","proyecto"], display: true},
-				{column: "status", enum: ["p","e","s","c","x"], enumdes: ["Pendiente","En curso","Stand by","Certificacion","Cerrado"], display: true},
+				{column: "type", enum: ["i","t","c","p"], enumdes: ["Incident","Task","Change","Project"], display: true},
+				{column: "status", enum: ["p","e","s","c","x"], enumdes: ["Pending","Working on","Stand by","Certificate","Close"], display: true},
 				{column: "parent_id", type: "integer", model: "Task", display: false},
 				{column: "parent_activity", type: "string", model: "Task", display: true},
-				{column: "prioridad", enum: ["b","m","a","c"], enumdes: ["Baja","Media","Alta","Critica"], display: true},
+				{column: "prioridad", enum: ["b","m","a","c"], enumdes: ["Low","Medium","Hight","Critic"], display: true},
 				{column: "requester", type: "string", display: true},
 				{column: "requestd", type: "date", display: true},
 				{column: "start", type: "date", display: true},
@@ -267,9 +274,9 @@ Polymer({
 				{column: "observacion", type: "string", display: true}
 		]
 		this.enums = {}
-		this.enums.type = {i:"incidente",t:"tarea",c:"cambio",p:"proyecto"}
-		this.enums.status = {p:"Pendiente",e:"En curso",s:"Stand by",c:"Certificacion",x:"Cerrado"}
-		this.enums.prioridad = {b:"Baja",m:"Media",a:"Alta",c:"Critica"}
+		this.enums.type = {i:"Incident",t:"Task",c:"Change",p:"Project"}
+		this.enums.status = {p:"Pending",e:"Working on",s:"Stand by",c:"Certificate",x:"Close"}
+		this.enums.prioridad = {b:"Low",m:"Medium",a:"Hight",c:"Critic"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Task")

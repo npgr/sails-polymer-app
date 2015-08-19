@@ -1,7 +1,26 @@
+<!-- list template: version 5.10 -->
+<% if (crud == "crud6") { 
+%> >% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%<  <% } 
+ function srv(crud, word) {
+	if (crud == "crud6")
+		return ">%= lng('" + word + "')%<"
+	 else
+	    return word
+} %>
 <html>
-<!-- list template: version 5.07 -->
-<head>
-	<title>Listar <%= title%></title>
+<head><%
+  if (crud == "crud6") { %>
+	<title>>%= lng("%s %s",lng("List"),lng("<%= title%>"))%<</title><%
+  } else { %>	
+	<title>List <%= title%></title><% 
+  } %>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js/lokijs/src/lokijs.js"></script>
 	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
@@ -18,16 +37,27 @@
 	<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
-	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html"><%
+  if (crud == "crud6") { %>
+	<link rel="import" href="/<%= model%>/display">
+	<link rel="import" href="/<%= model%>/edit">
+	<link rel="import" href="/<%= model%>/delete">
+	<link rel="import" href="/<%= model%>/columns">
+	<link rel="import" href="/<%= model%>/new"><%
+  } else { %>
 	<link rel="import" href="/components/<%= model%>-list-columns/<%= model%>-list-columns.html">
 	<link rel="import" href="/components/<%= model%>-new/<%= model%>-new.html">
 	<link rel="import" href="/components/<%= model%>-display/<%= model%>-display.html">
 	<link rel="import" href="/components/<%= model%>-edit/<%= model%>-edit.html">
 	<link rel="import" href="/components/<%= model%>-delete/<%= model%>-delete.html"><%
+  }
 	for (i=0; i < keys.length; i++) {
-		if (jsondata[keys[i]].model) {%>
+	  if (jsondata[keys[i]].model) {
+		if (crud == "crud6") {%>
+	<link rel="import" href="/<%= jsondata[keys[i]].model%>/select"><%
+		} else {%>
 	<link rel="import" href="/components/<%= jsondata[keys[i]].model%>-select/<%= jsondata[keys[i]].model%>-select.html"><%
-	} }%>
+	} } }%>
 	<!-- Forms imports -->
 	<%= import_form %>
 </head>
@@ -67,24 +97,27 @@ paper-menu {
 	for (i=0; i < keys.length; i++) {
 		if (jsondata[keys[i]].model) {%>
 	<<%= jsondata[keys[i]].model%>-select id="<%= jsondata[keys[i]].model%>_select_dialog" on-item_selected="set_select_field"></<%= jsondata[keys[i]].model%>-select><%
-	} }%>
-	
-	<div class="card_title">Listar <%= title%></div>
+	} }
+  if (crud == "crud6") {%>	
+	<div class="card_title">>%= lng("%s %s",lng("List"),lng("<%= title%>"))%<</div><%
+  } else {%>
+	<div class="card_title">List <%= title%></div><%
+  } %>
 	<select id="filter" on-change="input_type"><% 
 		for (i=0; i < keys.length; i++) { 
 			if (jsondata[keys[i]].line_r) {
-				if (!jsondata[keys[i]].model) {%>
-		<option value="<%= keys[i]%>"><%= jsondata[keys[i]].description%></option><%
+				if (!jsondata[keys[i]].model) {%>  <%= srv(crud, jsondata[keys[i]].description)%>
+		<option value="<%= keys[i]%>"><%= srv(crud, jsondata[keys[i]].description)%></option><%
 				} else {%>
-		<option value="<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= jsondata[keys[i]].description%></option><%
+		<option value="<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= srv(crud, jsondata[keys[i]].description)%></option><%
 		} } }%>
 	</select>
 	<select id="op">   
-		<option value="$eq">Igual a</option>
-		<option value="$ne">Diferente a</option>
-		<option value="$contains">Contiene</option>
-		<option value="$gte">Mayor o igual a</option>
-		<option value="$lte">Menor o igual a</option>
+		<option value="$eq"><%= srv(crud, "Equal to")%></option>
+		<option value="$ne"><%= srv(crud, "Different to")%></option>
+		<option value="$contains"><%= srv(crud, "Contains")%></option>
+		<option value="$gte"><%= srv(crud, "Greater or Equal to")%></option>
+		<option value="$lte"><%= srv(crud, "Less or Equal to")%></option>
 	</select>
 	<input id="filtro" type="{{tipo}}" on-click="select_field">
 	<select id="select" class="hide">
@@ -97,24 +130,24 @@ paper-menu {
 		<option value="$and">And</option>
 		<option value="$or">Or</option>
 	</select>
-	<paper-button class="btn" on-click="filter" raised>Buscar</paper-button>
+	<paper-button class="btn" on-click="filter" raised><%= srv(crud, "Find")%></paper-button>
 	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2"><% 
 		for (i=0; i < keys.length; i++) { 
 			if (jsondata[keys[i]].line_r) {
 			   if (!jsondata[keys[i]].model) {%>
-		<option value="<%= keys[i]%>"><%= jsondata[keys[i]].description%></option><%
+		<option value="<%= keys[i]%>"><%= srv(crud, jsondata[keys[i]].description)%></option><%
 				} else {%>
-		<option value="<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= jsondata[keys[i]].description%></option><% 
+		<option value="<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= srv(crud, jsondata[keys[i]].description)%></option><% 
 		} } }%>
 	</select>
 	<select id="op2" class="hide" >   
-		<option value="$eq">Igual a</option>
-		<option value="$ne">Diferente a</option>
-		<option value="$contains">Contiene</option>
-		<option value="$gte">Mayor o igual a</option>
-		<option value="$lte">Menor o igual a</option>
+		<option value="$eq"><%= srv(crud, "Equal to")%></option>
+		<option value="$ne"><%= srv(crud, "Different to")%></option>
+		<option value="$contains"><%= srv(crud, "Contains")%></option>
+		<option value="$gte"><%= srv(crud, "Greater or Equal to")%></option>
+		<option value="$lte"><%= srv(crud, "Less or Equal to")%></option>
 	</select>
 	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field">
 	<select id="select2" class="hide">
@@ -125,14 +158,14 @@ paper-menu {
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
-	
+
 	<a href="{{download_data}}" id="link" class="hide" download="<%= title%>.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
-			<paper-item on-click="display" style="min-height:20px;line-height:35px;">Consultar</paper-item>
-			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Editar</paper-item>
-			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Borrar</paper-item>
+			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= srv(crud, "Display")%></paper-item>
+			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= srv(crud, "Edit")%></paper-item>
+			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= srv(crud, "Delete")%></paper-item>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -142,10 +175,10 @@ paper-menu {
 		for (i=0; i < keys.length; i++) { 
 			if (jsondata[keys[i]].line_r) {
 				if (!jsondata[keys[i]].model) {%>
-		<th class="col_<%= keys[i]%>" on-click="sort_<%= keys[i]%>"><%= jsondata[keys[i]].description%><div id="<%= keys[i]%>_sort_d" class="hide">
+		<th class="col_<%= keys[i]%>" on-click="sort_<%= keys[i]%>"><%= srv(crud, jsondata[keys[i]].description)%><div id="<%= keys[i]%>_sort_d" class="hide">
 			<iron-icon id="<%= keys[i]%>_sort" icon="arrow-drop-up"></iron-icon></div></th><%
 				} else {%>
-		<th class="col_<%= keys[i]%>_<%= jsondata[keys[i]].display%>" on-click="sort_<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= jsondata[keys[i]].description%><div id="<%= keys[i]%>_<%= jsondata[keys[i]].display%>_sort_d" class="hide">
+		<th class="col_<%= keys[i]%>_<%= jsondata[keys[i]].display%>" on-click="sort_<%= keys[i]%>_<%= jsondata[keys[i]].display%>"><%= srv(crud, jsondata[keys[i]].description)%><div id="<%= keys[i]%>_<%= jsondata[keys[i]].display%>_sort_d" class="hide">
 			<iron-icon id="<%= keys[i]%>_<%= jsondata[keys[i]].display%>_sort" icon="arrow-drop-up"></iron-icon></div></th><%
 		} } }%>
 	  </tr>
@@ -578,7 +611,7 @@ Polymer({
   },
   ajax_error: function() {
 	console.log(this.$.ajax.lastError)
-	alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+	alert("<%= srv(crud, "Error Processing Request: ")%>", this.$.ajax.lastError)
   }
 });
 </script>
