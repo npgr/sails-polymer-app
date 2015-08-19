@@ -278,7 +278,7 @@ Polymer({
 				{column: "activity", type: "string", display: true},
 				{column: "previous", type: "integer", display: true},
 				{column: "order", type: "integer", display: true},
-				{column: "type", enum: ["i","t","c","p"], enumdes: ["Incident","Task","Change","Project"], display: true},
+				{column: "type", enum: ["i","t","c","p"], enumdes: ["<%= lng("Incident")%>","<%= lng("Task")%>","<%= lng("Change")%>","<%= lng("Project")%>"], display: true},
 				{column: "status", enum: ["p","e","s","c","x"], enumdes: ["Pending","Working on","Stand by","Certificate","Close"], display: true},
 				{column: "parent_id", type: "integer", model: "Task", display: false},
 				{column: "parent_activity", type: "string", model: "Task", display: true},
@@ -295,7 +295,7 @@ Polymer({
 				{column: "observacion", type: "string", display: true}
 		]
 		this.enums = {}
-		this.enums.type = {i:"Incident",t:"Task",c:"Change",p:"Project"}
+		this.enums.type = {i:"<%= lng("Incident")%>",t:"<%= lng("Task")%>",c:"<%= lng("Change")%>",p:"<%= lng("Project")%>"}
 		this.enums.status = {p:"Pending",e:"Working on",s:"Stand by",c:"Certificate",x:"Close"}
 		this.enums.prioridad = {b:"Low",m:"Medium",a:"Hight",c:"Critic"}
 		//var _data = <%- data %>
