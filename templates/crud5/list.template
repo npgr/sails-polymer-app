@@ -240,7 +240,7 @@ Polymer({
 		if (jsondata[keys[i]].enum) {%>
 		this.enums.<%= keys[i]%> = {<%
 	   for (j=0; j< jsondata[keys[i]].enum.length; j++) {
-	     %><%= jsondata[keys[i]].enum[j]%>:"<%= jsondata[keys[i]].enumdes[j]%>"<%
+	     %><%= jsondata[keys[i]].enum[j]%>:"<%= srv(crud, jsondata[keys[i]].enumdes[j])%>"<%
 		   if (j == jsondata[keys[i]].enum.length-1){%>}<%}
 		   if (j < jsondata[keys[i]].enum.length-1) {%>,<%}
 		} } }%>

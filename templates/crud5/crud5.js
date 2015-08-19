@@ -357,6 +357,7 @@ function generate_list_page(keys, key, title, crud) {
 	
 	var first = true
 	var attrs = ''
+	// get_attrs function 
 	for (i=0; i < keys.length; i++)
 	{
 		if (keys[i].substring(0,1) != '_')
@@ -366,7 +367,14 @@ function generate_list_page(keys, key, title, crud) {
 		   else	first = false
 		  if (jsondata[keys[i]].enum)
 		  {
-			attrs += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+', enumdes: '+JSON.stringify(jsondata[keys[i]].enumdes)+', display: '
+			var enumdes = JSON.stringify(jsondata[keys[i]].enumdes)
+			if (crud == 'crud6')
+			{
+				enumdes = enumdes.replace(/","/g, '")%>","<%= lng("')
+				enumdes = enumdes.replace(/\["/g, '["<%= lng("')
+				enumdes = enumdes.replace(/"\]/g, '")%>"]')
+			}
+			attrs += '{column: "'+keys[i]+'", enum: '+JSON.stringify(jsondata[keys[i]].enum)+', enumdes: '+enumdes+', display: '
 			if (!jsondata[keys[i]].hide) attrs += 'true}'
 				else attrs += 'false}'
 		  }
