@@ -26,6 +26,7 @@
 	<link rel="import" href="/components/Task-edit/Task-edit.html">
 	<link rel="import" href="/components/Task-delete/Task-delete.html">
 	<link rel="import" href="/components/Task-select/Task-select.html">
+	<link rel="import" href="/components/Task-select/Task-select.html">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -67,10 +68,13 @@ paper-menu {
 	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
 	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
+	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
 	<div class="card_title">List Activity</div>
 	<select id="filter" on-change="input_type">  Id
 		<option value="id">Id</option>  Activity
-		<option value="activity">Activity</option>  Type
+		<option value="activity">Activity</option>
+		<option value="previous_id">Previous</option>  Order
+		<option value="order">Order</option>  Type
 		<option value="type">Type</option>  Status
 		<option value="status">Status</option>
 		<option value="parent_activity">Parent</option>  Priority
@@ -109,6 +113,8 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id">Id</option>
 		<option value="activity">Activity</option>
+		<option value="previous_id">Previous</option>
+		<option value="order">Order</option>
 		<option value="type">Type</option>
 		<option value="status">Status</option>
 		<option value="parent_activity">Parent</option>
@@ -157,6 +163,10 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_activity">Activity<div id="activity_sort_d" class="hide">
 			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_previous_id" on-click="sort_previous_id">Previous<div id="previous_id_sort_d" class="hide">
+			<iron-icon id="previous_id_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_order" on-click="sort_order">Order<div id="order_sort_d" class="hide">
+			<iron-icon id="order_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_type" on-click="sort_type">Type<div id="type_sort_d" class="hide">
 			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_status" on-click="sort_status">Status<div id="status_sort_d" class="hide">
@@ -190,6 +200,8 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_activity"></td>
+		<td class="col_previous_id"></td>
+		<td class="col_order"></td>
 		<td class="col_type"></td>
 		<td class="col_status"></td>
 		<td class="col_parent_activity"></td>
@@ -213,6 +225,8 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.activity}}"><td>{{item.activity}}</td></template>
+		<template is="dom-if" if="{{column.previous_id}}"><td>{{item.previous_id}}</td></template>
+		<template is="dom-if" if="{{column.order}}"><td>{{item.order}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
 		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
 		<template is="dom-if" if="{{column.parent_activity}}"><td>{{item.parent_activity}}</td></template>
@@ -251,6 +265,9 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
+				{column: "previous_id", type: "integer", model: "Task", display: false},
+				{column: "previous_id", type: "integer", model: "Task", display: true},
+				{column: "order", type: "integer", display: true},
 				{column: "type", enum: ["i","t","c","p"], enumdes: ["Incident","Task","Change","Project"], display: true},
 				{column: "status", enum: ["p","e","s","c","x"], enumdes: ["Pending","Working on","Stand by","Certificate","Close"], display: true},
 				{column: "parent_id", type: "integer", model: "Task", display: false},
@@ -349,6 +366,11 @@ Polymer({
 		}
 		if (filter != "")
 		{
+		  if (this.$[filter].value == "previous_id"){
+			this.$.Task_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.Task_select_dialog.style.left = "-100px"
+			this.$.Task_select_dialog.open_select_dialog()
+		  }
 		  if (this.$[filter].value == "parent_activity"){
 			this.$.Task_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Task_select_dialog.style.left = "-100px"
@@ -455,6 +477,8 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.activity_sort_d.classList.add("hide")
+		this.$.previous_id_sort_d.classList.add("hide")
+		this.$.order_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
 		this.$.status_sort_d.classList.add("hide")
 		this.$.parent_activity_sort_d.classList.add("hide")
@@ -483,6 +507,12 @@ Polymer({
 	},
 	sort_activity: function() {
 		this.sort_by_field("activity")
+	},
+	sort_previous_id: function() {
+		this.sort_by_field("previous_id")
+	},
+	sort_order: function() {
+		this.sort_by_field("order")
 	},
 	sort_type: function() {
 		this.sort_by_field("type")
@@ -667,6 +697,14 @@ Polymer({
 		this.$.ajax.lastResponse[i].ultseguimiento = this.$.ajax.lastResponse[i].ultseguimiento.substring(0,10)
 	  if (this.$.ajax.lastResponse[i].proxseguimiento)
 		this.$.ajax.lastResponse[i].proxseguimiento = this.$.ajax.lastResponse[i].proxseguimiento.substring(0,10)
+		if (this.$.ajax.lastResponse[i].previous){
+			this.$.ajax.lastResponse[i].previous_id = this.$.ajax.lastResponse[i].previous.id
+			this.$.ajax.lastResponse[i].previous_id = this.$.ajax.lastResponse[i].previous.id
+		} else
+		{
+			this.$.ajax.lastResponse[i].previous_id = 0
+			this.$.ajax.lastResponse[i].previous_id = ""
+		}
 		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
 		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]
 		if (this.$.ajax.lastResponse[i].parent){

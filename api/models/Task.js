@@ -22,6 +22,18 @@ module.exports = {
 		type: "string",
 		required: true
 	},
+	previous: {
+		//description: 'Previous',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'id',
+		//type: 'integer',
+		model: 'Task'
+	},
+	order: {
+		//description: 'Order',
+		type: "integer"
+	},
 	type: {
 		//description: 'Type',
 		type: "string",

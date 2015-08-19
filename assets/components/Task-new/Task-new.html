@@ -6,6 +6,7 @@
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
 		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
 		<h2 class="card_title">Create Activity</h2>
 		<paper-dialog-scrollable>
@@ -18,6 +19,14 @@
 			<tr>
 				<td><label class="left_label" for="activity">Activity<strong class="red"> *</strong></label></td>
 				<td><input id="activity" type="text" name="activity" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="previous">Previous</label></td>
+				<td><iron-icon icon="find-in-page" field="previous" on-click="select_field_b"></iron-icon><input id="previous" type="number" name="previous" key=0 on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="order">Order</label></td>
+				<td><input id="order" type="number" name="order"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="type">Type</label></td>
@@ -110,6 +119,9 @@
 		clear: function() {
 			this.$.id.value = ''
 			this.$.activity.value = ''
+			this.$.previous.value = ''
+			this.$.previous.key = 0
+			this.$.order.value = ''
 			this.$.parent.value = ''
 			this.$.parent.key = 0
 			this.$.requester.value = ''
@@ -127,6 +139,8 @@
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
+			if (this.field == "previous")
+				this.$.Task_select_dialog.open_select_dialog()
 			if (this.field == "parent")
 				this.$.Task_select_dialog.open_select_dialog()
 		},
@@ -138,6 +152,8 @@
 			this.$.ajax2.url = config_server() + "Task"
 			var record = {}
 			  record.activity = this.$.activity.value
+			record.previous = Number(this.$.previous.value)
+			record.order = Number(this.$.order.value)
 			  record.type = this.$.type.value
 			  record.status = this.$.status.value
 			record.parent = this.$.parent.key

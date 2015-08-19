@@ -25,6 +25,8 @@
   "Hide": "Oculto"  
   ,"Id": "Id"
   ,"Activity": "Actividad"
+  ,"Order": "Orden"
+  ,"Previous": "Previo"
   ,"Type": "Tipo"
   ,"Incident": "Incidente"
   ,"Task": "Tarea"
