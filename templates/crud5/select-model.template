@@ -1,10 +1,26 @@
-<!-- select-model: version 5.00 -->
+<!-- select-model: version 5.10 -->
+<% if (crud == "crud6") { 
+%> >% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%<  <% } 
+ function srv(crud, word) {
+	if (crud == "crud6")
+		return ">%= lng('" + word + "')%<"
+	 else
+	    return word
+} %>
+
 <dom-module id="<%= model%>-select">
 <template>
 	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" vertical layout>
-		<iron-icon icon="close" on-click="close" mini></iron-icon>
-		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= description%>..."></div>
+		<iron-icon icon="close" on-click="close" mini></iron-icon>  
+		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= srv(crud, description)%>..."></div>
 		<paper-dialog-scrollable>
 		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 			<div id="{{item.id}}" on-click="select">{{item.<%= display%>}}</div>

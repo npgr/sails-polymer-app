@@ -323,22 +323,32 @@ function generate_list_columns(keys, title, crud) {
 }
 
 function generate_model_select(model, display, key, description, crud) {
-	if (!fs.existsSync('assets/components/'+model+'-select/'+model+'-select.html'))
-	{
+	//if (!fs.existsSync('assets/components/'+model+'-select/'+model+'-select.html'))
+	//{
 		var SELECT_MODEL_TEMPLATE = fs.readFileSync('./templates/crud5/select-model.template', 'utf8');
 		var compiled_Select_Model = _.template(SELECT_MODEL_TEMPLATE)
 	
-		var select_model = compiled_Select_Model({'model':model,'display':display,'key':key,'description':description})
+		var select_model = compiled_Select_Model({'model':model,'display':display,'key':key,'description':description, 'crud': crud})
+		
+		select_model = select_model.replace(/>%/g, '<%')
+		select_model = select_model.replace(/%</g, '%>')
 		// Create Folder if not exist
-		if (!fs.existsSync('assets/components/'+model+'-select'))
-			fs.mkdirSync('assets/components/'+model+'-select')	
+		var path = 'assets/components/'+model+'-select'
+		if (crud == 'crud6')  path = 'views/'+model
 	
-		fs.writeFile('assets/components/'+model+'-select/'+model+'-select.html', select_model, function (err) {
+		if (!fs.existsSync(path))	fs.mkdirSync(path)
+
+		if (crud == 'crud6')
+			path += '/select.ejs'
+		  else
+			path += '/'+model+'-select.html'
+	
+		fs.writeFile(path, select_model, function (err) {
 			if (err) console.log(err);
-			console.log('Created file assets/components/'+model+'-select/'+model+'-select.html')
+			console.log('Created file '+path)
 		})
-	}
-	else  console.log('File assets/components/'+model+'-select/'+model+'-select.html already Exist')
+	//}
+	//else  console.log('File '+path+' already Exist')
 }
 
 function generate_list_page(keys, key, title, crud) {
@@ -443,8 +453,8 @@ exports.generate = function(crud) {
 	generate_edit_form(keys, key, title, crud)
 	generate_list_columns(keys, title, crud)
 	
-	//for (i=0; i<relation.length; i++)
-	//	generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
+	for (i=0; i<relation.length; i++)
+		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
 	
 	//generate_list_page(keys, key, title, crud)
 	
