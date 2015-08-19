@@ -33,7 +33,6 @@
 	<link rel="import" href="/Task/columns">
 	<link rel="import" href="/Task/new">
 	<link rel="import" href="/Task/select">
-	<link rel="import" href="/Task/select">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -74,13 +73,12 @@ paper-menu {
 	<Task-display id="Task_display_dialog"></Task-display>
 	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
-	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
 	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
 	<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
-		<option value="activity"><%= lng('Activity')%></option>
-		<option value="previous_id"><%= lng('Previous')%></option>  <%= lng('Order')%>
+		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Previous')%>
+		<option value="previous"><%= lng('Previous')%></option>  <%= lng('Order')%>
 		<option value="order"><%= lng('Order')%></option>  <%= lng('Type')%>
 		<option value="type"><%= lng('Type')%></option>  <%= lng('Status')%>
 		<option value="status"><%= lng('Status')%></option>
@@ -88,7 +86,8 @@ paper-menu {
 		<option value="prioridad"><%= lng('Priority')%></option>  <%= lng('Requester')%>
 		<option value="requester"><%= lng('Requester')%></option>  <%= lng('Request')%>
 		<option value="requestd"><%= lng('Request')%></option>  <%= lng('Start')%>
-		<option value="start"><%= lng('Start')%></option>  <%= lng('Commit')%>
+		<option value="start"><%= lng('Start')%></option>  <%= lng('time')%>
+		<option value="time"><%= lng('time')%></option>  <%= lng('Commit')%>
 		<option value="fcompromiso"><%= lng('Commit')%></option>  <%= lng('End')%>
 		<option value="end"><%= lng('End')%></option>  <%= lng('Responsible')%>
 		<option value="responsable"><%= lng('Responsible')%></option>  <%= lng('Last Track')%>
@@ -120,7 +119,7 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
 		<option value="activity"><%= lng('Activity')%></option>
-		<option value="previous_id"><%= lng('Previous')%></option>
+		<option value="previous"><%= lng('Previous')%></option>
 		<option value="order"><%= lng('Order')%></option>
 		<option value="type"><%= lng('Type')%></option>
 		<option value="status"><%= lng('Status')%></option>
@@ -129,6 +128,7 @@ paper-menu {
 		<option value="requester"><%= lng('Requester')%></option>
 		<option value="requestd"><%= lng('Request')%></option>
 		<option value="start"><%= lng('Start')%></option>
+		<option value="time"><%= lng('time')%></option>
 		<option value="fcompromiso"><%= lng('Commit')%></option>
 		<option value="end"><%= lng('End')%></option>
 		<option value="responsable"><%= lng('Responsible')%></option>
@@ -170,8 +170,8 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_activity"><%= lng('Activity')%><div id="activity_sort_d" class="hide">
 			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_previous_id" on-click="sort_previous_id"><%= lng('Previous')%><div id="previous_id_sort_d" class="hide">
-			<iron-icon id="previous_id_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_previous" on-click="sort_previous"><%= lng('Previous')%><div id="previous_sort_d" class="hide">
+			<iron-icon id="previous_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_order" on-click="sort_order"><%= lng('Order')%><div id="order_sort_d" class="hide">
 			<iron-icon id="order_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_type" on-click="sort_type"><%= lng('Type')%><div id="type_sort_d" class="hide">
@@ -188,6 +188,8 @@ paper-menu {
 			<iron-icon id="requestd_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_start" on-click="sort_start"><%= lng('Start')%><div id="start_sort_d" class="hide">
 			<iron-icon id="start_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_time" on-click="sort_time"><%= lng('time')%><div id="time_sort_d" class="hide">
+			<iron-icon id="time_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_fcompromiso" on-click="sort_fcompromiso"><%= lng('Commit')%><div id="fcompromiso_sort_d" class="hide">
 			<iron-icon id="fcompromiso_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_end" on-click="sort_end"><%= lng('End')%><div id="end_sort_d" class="hide">
@@ -207,7 +209,7 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_activity"></td>
-		<td class="col_previous_id"></td>
+		<td class="col_previous"></td>
 		<td class="col_order"></td>
 		<td class="col_type"></td>
 		<td class="col_status"></td>
@@ -216,6 +218,7 @@ paper-menu {
 		<td class="col_requester"></td>
 		<td class="col_requestd"></td>
 		<td class="col_start"></td>
+		<td class="col_time"></td>
 		<td class="col_fcompromiso"></td>
 		<td class="col_end"></td>
 		<td class="col_responsable"></td>
@@ -232,7 +235,7 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.activity}}"><td>{{item.activity}}</td></template>
-		<template is="dom-if" if="{{column.previous_id}}"><td>{{item.previous_id}}</td></template>
+		<template is="dom-if" if="{{column.previous}}"><td>{{item.previous}}</td></template>
 		<template is="dom-if" if="{{column.order}}"><td>{{item.order}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
 		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
@@ -241,6 +244,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.requester}}"><td>{{item.requester}}</td></template>
 		<template is="dom-if" if="{{column.requestd}}"><td>{{date_dma(item.requestd)}}</td></template>
 		<template is="dom-if" if="{{column.start}}"><td>{{date_dma(item.start)}}</td></template>
+		<template is="dom-if" if="{{column.time}}"><td>{{item.time}}</td></template>
 		<template is="dom-if" if="{{column.fcompromiso}}"><td>{{date_dma(item.fcompromiso)}}</td></template>
 		<template is="dom-if" if="{{column.end}}"><td>{{date_dma(item.end)}}</td></template>
 		<template is="dom-if" if="{{column.responsable}}"><td>{{item.responsable}}</td></template>
@@ -272,8 +276,7 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
-				{column: "previous_id", type: "integer", model: "Task", display: false},
-				{column: "previous_id", type: "integer", model: "Task", display: true},
+				{column: "previous", type: "integer", display: true},
 				{column: "order", type: "integer", display: true},
 				{column: "type", enum: ["i","t","c","p"], enumdes: ["Incident","Task","Change","Project"], display: true},
 				{column: "status", enum: ["p","e","s","c","x"], enumdes: ["Pending","Working on","Stand by","Certificate","Close"], display: true},
@@ -283,6 +286,7 @@ Polymer({
 				{column: "requester", type: "string", display: true},
 				{column: "requestd", type: "date", display: true},
 				{column: "start", type: "date", display: true},
+				{column: "time", type: "string", display: true},
 				{column: "fcompromiso", type: "date", display: true},
 				{column: "end", type: "date", display: false},
 				{column: "responsable", type: "string", display: true},
@@ -373,11 +377,6 @@ Polymer({
 		}
 		if (filter != "")
 		{
-		  if (this.$[filter].value == "previous_id"){
-			this.$.Task_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.Task_select_dialog.style.left = "-100px"
-			this.$.Task_select_dialog.open_select_dialog()
-		  }
 		  if (this.$[filter].value == "parent_activity"){
 			this.$.Task_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Task_select_dialog.style.left = "-100px"
@@ -484,7 +483,7 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.activity_sort_d.classList.add("hide")
-		this.$.previous_id_sort_d.classList.add("hide")
+		this.$.previous_sort_d.classList.add("hide")
 		this.$.order_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
 		this.$.status_sort_d.classList.add("hide")
@@ -493,6 +492,7 @@ Polymer({
 		this.$.requester_sort_d.classList.add("hide")
 		this.$.requestd_sort_d.classList.add("hide")
 		this.$.start_sort_d.classList.add("hide")
+		this.$.time_sort_d.classList.add("hide")
 		this.$.fcompromiso_sort_d.classList.add("hide")
 		this.$.end_sort_d.classList.add("hide")
 		this.$.responsable_sort_d.classList.add("hide")
@@ -515,8 +515,8 @@ Polymer({
 	sort_activity: function() {
 		this.sort_by_field("activity")
 	},
-	sort_previous_id: function() {
-		this.sort_by_field("previous_id")
+	sort_previous: function() {
+		this.sort_by_field("previous")
 	},
 	sort_order: function() {
 		this.sort_by_field("order")
@@ -541,6 +541,9 @@ Polymer({
 	},
 	sort_start: function() {
 		this.sort_by_field("start")
+	},
+	sort_time: function() {
+		this.sort_by_field("time")
 	},
 	sort_fcompromiso: function() {
 		this.sort_by_field("fcompromiso")
@@ -704,14 +707,6 @@ Polymer({
 		this.$.ajax.lastResponse[i].ultseguimiento = this.$.ajax.lastResponse[i].ultseguimiento.substring(0,10)
 	  if (this.$.ajax.lastResponse[i].proxseguimiento)
 		this.$.ajax.lastResponse[i].proxseguimiento = this.$.ajax.lastResponse[i].proxseguimiento.substring(0,10)
-		if (this.$.ajax.lastResponse[i].previous){
-			this.$.ajax.lastResponse[i].previous_id = this.$.ajax.lastResponse[i].previous.id
-			this.$.ajax.lastResponse[i].previous_id = this.$.ajax.lastResponse[i].previous.id
-		} else
-		{
-			this.$.ajax.lastResponse[i].previous_id = 0
-			this.$.ajax.lastResponse[i].previous_id = ""
-		}
 		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
 		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]
 		if (this.$.ajax.lastResponse[i].parent){

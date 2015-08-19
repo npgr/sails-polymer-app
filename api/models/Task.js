@@ -24,11 +24,7 @@ module.exports = {
 	},
 	previous: {
 		//description: 'Previous',
-		//key: id,
-		//key_type: 'integer',
-		//display: 'id',
-		//type: 'integer',
-		model: 'Task'
+		type: 'integer'
 	},
 	order: {
 		//description: 'Order',
@@ -73,6 +69,10 @@ module.exports = {
 	start: {
 		//description: 'Start',
 		type: "date"
+	},
+	time: {
+		//description: 'time',
+		type: "string"
 	},
 	fcompromiso: {
 		//description: 'Commit',
