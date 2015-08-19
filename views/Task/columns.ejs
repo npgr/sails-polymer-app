@@ -1,4 +1,13 @@
-<!-- list-columns: version 5.00 -->
+<!-- list-columns: version 5.10 -->
+ <% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%>  
+
 <dom-module id="Task-list-columns">
 <template>
 <style>
@@ -17,75 +26,75 @@
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Columnas Activity</h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Activity"))%></h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
-				<td><label class="left_label" for="id">Id</label></td>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="activity">Activity</label></td>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
 				<td><div id="activity" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="type">Type</label></td>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
 				<td><div id="type" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="status">Status</label></td>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
 				<td><div id="status" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="parent_activity">Parent</label></td>
+				<td><label class="left_label" for="parent_activity"><%= lng('Parent')%></label></td>
 				<td><div id="parent_activity" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="prioridad">Prioridad</label></td>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
 				<td><div id="prioridad" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requester">Solicitante</label></td>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
 				<td><div id="requester" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requestd">Solicitud</label></td>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
 				<td><div id="requestd" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="start">Inicio</label></td>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
 				<td><div id="start" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
 				<td><div id="fcompromiso" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="end">Fin</label></td>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
 				<td><div id="end" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="responsable">Responsable</label></td>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
 				<td><div id="responsable" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
 				<td><div id="ultseguimiento" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
 				<td><div id="proxseguimiento" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
 				<td><div id="observacion" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
 		<div class="buttons">
 			<div class="card_line">
-				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
 			</div>
 		</div>
 	</paper-dialog>
@@ -124,14 +133,14 @@
 		},
 		show_field: function(field) {
 			if (this.column[field])
-			{
-				this.$[field].innerHTML = "Visible"
+			{  
+				this.$[field].innerHTML = "<%= lng('Show')%>"
 				this.$[field].classList.remove("orange")
 				this.$[field].classList.add("green")
 			}
 			else
 			{
-				this.$[field].innerHTML = "Oculto"
+				this.$[field].innerHTML = "<%= lng('Hide')%>"
 				this.$[field].classList.remove("green")
 				this.$[field].classList.add("orange")
 			}

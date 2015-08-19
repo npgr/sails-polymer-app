@@ -301,14 +301,24 @@ function generate_list_columns(keys, title, crud) {
 	var LIST_COLUMNS_TEMPLATE = fs.readFileSync('./templates/crud5/list-columns.template', 'utf8');
 	var compiled_List_Columns = _.template(LIST_COLUMNS_TEMPLATE)
 	
-	var list_columns = compiled_List_Columns({'title':title,'keys':keys})
+	var list_columns = compiled_List_Columns({'title':title,'keys':keys, 'crud': crud})
+	
+	list_columns = list_columns.replace(/>%/g, '<%')
+	list_columns = list_columns.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (!fs.existsSync('assets/components/'+model+'-list-columns'))
-		fs.mkdirSync('assets/components/'+model+'-list-columns')	
+	var path = 'assets/components/'+model+'-list-columns'
+	if (crud == 'crud6')  path = 'views/'+model
+	
+	if (!fs.existsSync(path))	fs.mkdirSync(path)	
 
-	fs.writeFile('assets/components/'+model+'-list-columns/'+model+'-list-columns.html', list_columns, function (err) {
+	if (crud == 'crud6')
+		path += '/columns.ejs'
+	  else
+		path += '/'+model+'-list-columns.html'
+		
+	fs.writeFile(path, list_columns, function (err) {
 		if (err) console.log(err);
-		console.log('Created file assets/components/'+model+'-list-columns/'+model+'-list-columns.html')
+		console.log('Created file '+path)
 	})
 }
 
@@ -431,7 +441,7 @@ exports.generate = function(crud) {
 	generate_display_form(keys, key, title, crud)
 	generate_delete_form(keys, key, title, crud)	
 	generate_edit_form(keys, key, title, crud)
-	//generate_list_columns(keys, title, crud)
+	generate_list_columns(keys, title, crud)
 	
 	//for (i=0; i<relation.length; i++)
 	//	generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)

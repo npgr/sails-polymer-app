@@ -1,4 +1,6 @@
-<!-- list-columns: version 5.00 -->
+<!-- list-columns: version 5.10 -->
+
+
 <dom-module id="Task-list-columns">
 <template>
 <style>
@@ -16,8 +18,8 @@
 		height: 30px;
 	}
 </style>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title">Columnas Actividad</h2>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">	
+		<h2 class="card_title">Columns Activity</h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -25,11 +27,11 @@
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="activity">Actividad</label></td>
+				<td><label class="left_label" for="activity">Activity</label></td>
 				<td><div id="activity" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="type">Tipo</label></td>
+				<td><label class="left_label" for="type">Type</label></td>
 				<td><div id="type" on-click="change_field"></div></td>
 			</tr>
 			<tr>
@@ -41,51 +43,51 @@
 				<td><div id="parent_activity" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="prioridad">Prioridad</label></td>
+				<td><label class="left_label" for="prioridad">Priority</label></td>
 				<td><div id="prioridad" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requester">Solicitante</label></td>
+				<td><label class="left_label" for="requester">Requester</label></td>
 				<td><div id="requester" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="requestd">Solicitud</label></td>
+				<td><label class="left_label" for="requestd">Request</label></td>
 				<td><div id="requestd" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="start">Inicio</label></td>
+				<td><label class="left_label" for="start">Start</label></td>
 				<td><div id="start" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="fcompromiso">Compromiso</label></td>
+				<td><label class="left_label" for="fcompromiso">Commit</label></td>
 				<td><div id="fcompromiso" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="end">Fin</label></td>
+				<td><label class="left_label" for="end">End</label></td>
 				<td><div id="end" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="responsable">Responsable</label></td>
+				<td><label class="left_label" for="responsable">Responsible</label></td>
 				<td><div id="responsable" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ultseguimiento">Ult Seg</label></td>
+				<td><label class="left_label" for="ultseguimiento">Last Track</label></td>
 				<td><div id="ultseguimiento" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="proxseguimiento">Prox Seg</label></td>
+				<td><label class="left_label" for="proxseguimiento">Next Track</label></td>
 				<td><div id="proxseguimiento" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="observacion">observacion</label></td>
+				<td><label class="left_label" for="observacion">Notes</label></td>
 				<td><div id="observacion" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
 		<div class="buttons">
 			<div class="card_line">
-				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>CAMBIAR</paper-button>
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised>SALIR</paper-button>
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>Change </paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
 			</div>
 		</div>
 	</paper-dialog>
@@ -124,14 +126,14 @@
 		},
 		show_field: function(field) {
 			if (this.column[field])
-			{
-				this.$[field].innerHTML = "Visible"
+			{  
+				this.$[field].innerHTML = "Show"
 				this.$[field].classList.remove("orange")
 				this.$[field].classList.add("green")
 			}
 			else
 			{
-				this.$[field].innerHTML = "Oculto"
+				this.$[field].innerHTML = "Hide"
 				this.$[field].classList.remove("green")
 				this.$[field].classList.add("orange")
 			}

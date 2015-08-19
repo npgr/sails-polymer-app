@@ -11,13 +11,16 @@
   "Contains": "Contiene",
   "Find": "Buscar",
   "Columns": "Columnas",
-  "Change": "Cambiar",
+  "Change ": "Cambiar",
   "Exit": "Salir",
   "Repeat": "Repetir",
   "Record already Exist": "Registro ya Existe",
   "Error Processing Request: ": "Error Procesando Solicitud: ",
   "Record Deleted": "Registro Borrado",
   "Record Updated": "Registro Actualizado",
+  "Columns": "Columnas",
+  "Show": "Visible",
+  "Hide": "Oculto",
   "<%= title%>": ""<%
   for (i=0; i < keys.length; i++ ) {
     if (jsondata[keys[i]].description) {%>
