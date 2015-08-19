@@ -31,8 +31,8 @@
 				<td><div id="activity" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="previous_id">Previous</label></td>
-				<td><div id="previous_id" on-click="change_field"></div></td>
+				<td><label class="left_label" for="previous">Previous</label></td>
+				<td><div id="previous" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="order">Order</label></td>
@@ -65,6 +65,10 @@
 			<tr>
 				<td><label class="left_label" for="start">Start</label></td>
 				<td><div id="start" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="time">time</label></td>
+				<td><div id="time" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="fcompromiso">Commit</label></td>
@@ -112,7 +116,7 @@
 			this.column= column
 			this.show_field("id")
 			this.show_field("activity")
-			this.show_field("previous_id")
+			this.show_field("previous")
 			this.show_field("order")
 			this.show_field("type")
 			this.show_field("status")
@@ -121,6 +125,7 @@
 			this.show_field("requester")
 			this.show_field("requestd")
 			this.show_field("start")
+			this.show_field("time")
 			this.show_field("fcompromiso")
 			this.show_field("end")
 			this.show_field("responsable")
