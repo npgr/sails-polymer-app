@@ -28,7 +28,7 @@
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
-				<td><input id="ticket" type="number" name="ticket"></td>
+				<td><input id="ticket" type="text" name="ticket"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
@@ -165,7 +165,7 @@
 			this.$.ajax2.url = config_server() + "Task"
 			var record = {}
 			  record.activity = this.$.activity.value
-			record.ticket = Number(this.$.ticket.value)
+			  record.ticket = this.$.ticket.value
 			record.previous = Number(this.$.previous.value)
 			record.order = Number(this.$.order.value)
 			  record.type = this.$.type.value
