@@ -1,0 +1,118 @@
+<!-- edit-form: version 5.10 -->
+ <% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%>  
+
+<dom-module id="User-edit">
+<template>
+	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<Profile-select id="Profile_select_dialog" on-item_selected="set_select_field"></Profile-select>
+		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("User"))%></h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="usr"><%= lng('User')%></label></td>
+				<td><input id="usr" type="text" name="usr" value="{{item.usr}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="pwd"><%= lng('Password')%></label></td>
+				<td><input id="pwd" type="text" name="pwd" value="{{item.pwd}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="profile"><%= lng('Profile')%></label></td>
+				<td><iron-icon icon="find-in-page" field="profile" on-click="select_field_b"></iron-icon><input id="profile" type="text" name="profile" key={{item.profile_id}} value="{{item.profile_name}}" on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="email"><%= lng('email')%></label></td>
+				<td><input id="email" type="text" name="email" value="{{item.email}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="photo"><%= lng('Photo')%></label></td>
+				<td><input id="photo" type="text" name="photo" value="{{item.photo}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
+				<td><select id="status" name="status">
+						<option value="A"><%= lng('Active')%></option>
+						<option value="I"><%= lng('Inactive')%></option>
+					</select></td>
+			</tr>
+			</table>
+			<div class="buttons">
+			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			  <div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			  </div>
+			</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "User-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.status.value = item.status
+			},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "profile")
+				this.$.Profile_select_dialog.open_select_dialog()
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.id = Number(this.$.id.value)
+			record.usr = this.$.usr.value
+			record.name = this.$.name.value
+			record.pwd = this.$.pwd.value
+			record.profile = this.$.profile.key
+			record.email = this.$.email.value
+			record.photo = this.$.photo.value
+			record.status = this.$.status.value
+			this.$.ajax.url = config_server() + "User/" +record.id
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("<%= lng('Record Updated')%>")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
