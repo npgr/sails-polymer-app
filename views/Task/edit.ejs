@@ -26,6 +26,10 @@
 				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" required></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><input id="ticket" type="number" name="ticket" value="{{item.ticket}}"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
 				<td><input id="previous" type="number" name="previous" value="{{item.previous}}"></td>
 			</tr>
@@ -149,6 +153,7 @@
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.activity = this.$.activity.value
+			record.ticket = Number(this.$.ticket.value)
 			record.previous = Number(this.$.previous.value)
 			record.order = Number(this.$.order.value)
 			record.type = this.$.type.value

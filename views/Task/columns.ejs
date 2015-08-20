@@ -38,6 +38,10 @@
 				<td><div id="activity" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><div id="ticket" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
 				<td><div id="previous" on-click="change_field"></div></td>
 			</tr>
@@ -123,6 +127,7 @@
 			this.column= column
 			this.show_field("id")
 			this.show_field("activity")
+			this.show_field("ticket")
 			this.show_field("previous")
 			this.show_field("order")
 			this.show_field("type")

@@ -77,7 +77,8 @@ paper-menu {
 	<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
-		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Previous')%>
+		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Ticket')%>
+		<option value="ticket"><%= lng('Ticket')%></option>  <%= lng('Previous')%>
 		<option value="previous"><%= lng('Previous')%></option>  <%= lng('Order')%>
 		<option value="order"><%= lng('Order')%></option>  <%= lng('Type')%>
 		<option value="type"><%= lng('Type')%></option>  <%= lng('Status')%>
@@ -119,6 +120,7 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
 		<option value="activity"><%= lng('Activity')%></option>
+		<option value="ticket"><%= lng('Ticket')%></option>
 		<option value="previous"><%= lng('Previous')%></option>
 		<option value="order"><%= lng('Order')%></option>
 		<option value="type"><%= lng('Type')%></option>
@@ -170,6 +172,8 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_activity"><%= lng('Activity')%><div id="activity_sort_d" class="hide">
 			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_ticket" on-click="sort_ticket"><%= lng('Ticket')%><div id="ticket_sort_d" class="hide">
+			<iron-icon id="ticket_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_previous" on-click="sort_previous"><%= lng('Previous')%><div id="previous_sort_d" class="hide">
 			<iron-icon id="previous_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_order" on-click="sort_order"><%= lng('Order')%><div id="order_sort_d" class="hide">
@@ -209,6 +213,7 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_activity"></td>
+		<td class="col_ticket"></td>
 		<td class="col_previous"></td>
 		<td class="col_order"></td>
 		<td class="col_type"></td>
@@ -235,6 +240,7 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.activity}}"><td>{{item.activity}}</td></template>
+		<template is="dom-if" if="{{column.ticket}}"><td>{{item.ticket}}</td></template>
 		<template is="dom-if" if="{{column.previous}}"><td>{{item.previous}}</td></template>
 		<template is="dom-if" if="{{column.order}}"><td>{{item.order}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
@@ -276,6 +282,7 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
+				{column: "ticket", type: "integer", display: true},
 				{column: "previous", type: "integer", display: true},
 				{column: "order", type: "integer", display: true},
 				{column: "type", enum: ["i","t","c","p"], enumdes: ["<%= lng("Incident")%>","<%= lng("Task")%>","<%= lng("Change")%>","<%= lng("Project")%>"], display: true},
@@ -483,6 +490,7 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.activity_sort_d.classList.add("hide")
+		this.$.ticket_sort_d.classList.add("hide")
 		this.$.previous_sort_d.classList.add("hide")
 		this.$.order_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
@@ -514,6 +522,9 @@ Polymer({
 	},
 	sort_activity: function() {
 		this.sort_by_field("activity")
+	},
+	sort_ticket: function() {
+		this.sort_by_field("ticket")
 	},
 	sort_previous: function() {
 		this.sort_by_field("previous")

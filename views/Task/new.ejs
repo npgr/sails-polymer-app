@@ -27,6 +27,10 @@
 				<td><input id="activity" type="text" name="activity" required></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><input id="ticket" type="number" name="ticket"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
 				<td><input id="previous" type="number" name="previous"></td>
 			</tr>
@@ -129,6 +133,7 @@
 		clear: function() {
 			this.$.id.value = ''
 			this.$.activity.value = ''
+			this.$.ticket.value = ''
 			this.$.previous.value = ''
 			this.$.order.value = ''
 			this.$.parent.value = ''
@@ -160,6 +165,7 @@
 			this.$.ajax2.url = config_server() + "Task"
 			var record = {}
 			  record.activity = this.$.activity.value
+			record.ticket = Number(this.$.ticket.value)
 			record.previous = Number(this.$.previous.value)
 			record.order = Number(this.$.order.value)
 			  record.type = this.$.type.value
