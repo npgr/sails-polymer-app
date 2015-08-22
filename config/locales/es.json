@@ -22,7 +22,9 @@
   "Record Updated": "Registro Actualizado",
   "Columns": "Columnas",
   "Show": "Visible",
-  "Hide": "Oculto"  
+  "Hide": "Oculto",
+  "Username": "Usuario",
+  "Password": "Contraseña"
   ,"Id": "Id"
   ,"Activity": "Actividad"
   ,"Order": "Orden"

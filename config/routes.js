@@ -62,7 +62,10 @@ module.exports.routes = {
   "post /Enumerator/update/:model?": "EnumeratorController.update",*/
   "/Enumerator/exist/:model": "EnumeratorController.exist",
   "/Task/exist/:id": "TaskController.exist",
+  "/Task/list": "TaskController.list",
   "/Category/exist/:id": "CategoryController.exist",
   "/Model/exist/:model": "ModelController.exist",
-  "/Attribute/exist/:model": "AttributeController.exist"
+  "/Attribute/exist/:model": "AttributeController.exist",
+  "/login": "UserController.login",
+  "post /validateLogin": "UserController.validateLogin"
 };

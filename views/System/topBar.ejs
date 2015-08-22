@@ -1,0 +1,67 @@
+<!-- topBar template: version 1.00 -->
+<% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%> 
+
+<dom-module id="top-bar">
+<template>
+<style>
+	.topbar1 {
+		position: fixed;
+		top: 0;
+		margin-top: 0;
+		width: 100%;
+		z-index: 1;
+		//background-color: #039BE5;
+		//background-color: #26A69A;
+		background-color: #0097A7; //cyan 700
+		color: white;
+		height: 40px;
+	}
+	.topBar {
+		display: flex;
+		justify-content: space-between;
+		width: 94%;
+		margin-top: 10px;
+		margin-left:3%;
+		z-index: 1;
+		//background-color: #039BE5; blue
+		//background-color: #26A69A; green
+		background-color: #0097A7; 
+		color: white;
+		height: 25px;
+	}
+	.barTitle {
+		margin-top: -3px;
+		font-size: 20px;
+		font-family: verdana, sans-serif;
+	}
+	.barItem {
+		font-size: 15px;
+		font-family: verdana, sans-serif;
+	}
+</style>
+	<div class="topbar1">
+	  <div class="topBar">
+		<div class="barItem">Menu</div>
+		<div class="barTitle"><content></content></div>
+		<div class="barItem">{{user}}</div>
+	  </div>
+	</div>
+	
+</template>
+<script>
+	Polymer({
+		is: "top-bar",
+		ready: function() {
+			//this.title = 'Titulo'
+			this.user = ' User: <%= user.user%>'// / Name: <%= user.name%>'
+		}
+	})
+</script>
+</dom-module>

@@ -27,6 +27,7 @@
 	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+	<link rel="import" href="/System/topBar">
 	<link rel="import" href="/Task/display">
 	<link rel="import" href="/Task/edit">
 	<link rel="import" href="/Task/delete">
@@ -44,6 +45,7 @@
 <style>
 .card {
 	width: 85em;
+	top: 25px;
 }
 th div {
 	display: inline;
@@ -74,7 +76,7 @@ paper-menu {
 	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
 	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
-	<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>
+	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
 		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Ticket')%>
@@ -282,7 +284,7 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
-				{column: "ticket", type: "integer", display: true},
+				{column: "ticket", type: "string", display: true},
 				{column: "previous", type: "integer", display: true},
 				{column: "order", type: "integer", display: true},
 				{column: "type", enum: ["i","t","c","p"], enumdes: ["<%= lng("Incident")%>","<%= lng("Task")%>","<%= lng("Change")%>","<%= lng("Project")%>"], display: true},
@@ -740,6 +742,7 @@ Polymer({
 });
 </script>
 </dom-module>
+<top-bar><%= lng("%s %s",lng("List"),lng("Activity"))%></top-bar>
 <paper-material class="card" elevation="2">
 	<Task-list></Task-list>
 </paper-material>
