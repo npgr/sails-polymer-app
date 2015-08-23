@@ -24,7 +24,8 @@
   "Show": "Visible",
   "Hide": "Oculto",
   "Username": "Usuario",
-  "Password": "Contraseña"
+  "Password": "Contraseña",
+  "Username or Password incorrect": "Usuario o Contraseña incorrectos"
   ,"Id": "Id"
   ,"Activity": "Actividad"
   ,"Order": "Orden"

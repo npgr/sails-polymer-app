@@ -21,7 +21,8 @@
 		//background-color: #26A69A;
 		background-color: #0097A7; //cyan 700
 		color: white;
-		height: 40px;
+		//height: 40px;
+		font-family: verdana, sans-serif;
 	}
 	.topBar {
 		display: flex;
@@ -34,33 +35,87 @@
 		//background-color: #26A69A; green
 		background-color: #0097A7; 
 		color: white;
-		height: 25px;
+		height: 30px;
 	}
 	.barTitle {
 		margin-top: -3px;
 		font-size: 20px;
-		font-family: verdana, sans-serif;
 	}
 	.barItem {
 		font-size: 15px;
-		font-family: verdana, sans-serif;
+	}
+	.dropdown-content {
+		margin-top: 30px;
+		//margin-left: 0px,
+		display: block;
+		position: relative;
+		background-color: #fff;
+		color: black;
+		box-shadow: 0px 2px 6px #ccc;
+		padding: 10px;
+		border-radius: 3px;
+    }
+	.dropdown-item {
+		padding: 5px;
+	}
+	.dropdown-item:not(:last-of-type) {
+		border-bottom: 1px solid #eee;
+	}
+	.top_border {
+		border-top: 1px solid #eee;
+	}
+	.bar_icon {
+		padding: 0;
+	}
+	.inline {
+		display: inline;
 	}
 </style>
 	<div class="topbar1">
 	  <div class="topBar">
-		<div class="barItem">Menu</div>
+		<div class="barItem" on-click="open_app_menu">
+		  <paper-icon-button class="bar_icon" icon="menu"></paper-icon-button>
+		  <div class="inline dropdown-trigger">Menu</div>
+		  <iron-dropdown id="dropdown_menu"  horizontal-align="right" vertical-align="top">
+			<ul class="dropdown-content" tabindex="0">
+			  <li class="dropdown-item">Tasks</li>
+			  <li class="dropdown-item">Resources</li>
+			  <li class="dropdown-item">Profiles</li>
+			  <li class="dropdown-item">Users</li>
+			  <li class="dropdown-item">Models</li>
+			  <li class="dropdown-item">About</li>
+			</ul>
+		  </iron-dropdown>
+		</div>
 		<div class="barTitle"><content></content></div>
-		<div class="barItem">{{user}}</div>
+		<div class="barItem" on-click="open_user_menu">
+		  <paper-icon-button class="bar_icon" icon="account-circle"></paper-icon-button>
+		  <div class="inline dropdown-trigger"><%= user.user%></div>
+		  <iron-dropdown id="dropdown_user"  horizontal-align="right" vertical-align="top">
+			<ul class="dropdown-content" tabindex="0">
+			  <li class="dropdown-item">Info</li>
+			  <li class="dropdown-item">Change Password</li>
+			  <li class="dropdown-item" on-click="signout">Signout</li>
+			</ul>
+		  </iron-dropdown>
+		</div>
 	  </div>
 	</div>
-	
 </template>
 <script>
 	Polymer({
 		is: "top-bar",
 		ready: function() {
-			//this.title = 'Titulo'
-			this.user = ' User: <%= user.user%>'// / Name: <%= user.name%>'
+			//this.user = <%= user.user%> // Name: <%= user.name%>'
+		},
+		open_user_menu: function() {
+			this.$.dropdown_user.toggle()
+		},
+		open_app_menu: function() {
+			this.$.dropdown_menu.toggle()
+		},
+		signout: function() {
+			window.location.assign(config_server() + "signout")
 		}
 	})
 </script>

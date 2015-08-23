@@ -43,6 +43,10 @@ module.exports = {
 		  else  res.locals.flash = {}
 		res.render("User/login")
 	},
+	signout: function(req, res) {
+		req.session.user = null
+		res.redirect("/login")
+	},
 	validateLogin: function(req, res) {
 		User.findOneByUsr(req.body.username)
 			.exec(function(err, data) {
@@ -56,13 +60,13 @@ module.exports = {
 					}
 					else
 					{
-						req.session.flash = { err: 'username or password incorrect'}
+						req.session.flash = { err: req.__('Username or Password incorrect')}
 						res.redirect('login')
 					}	
 				  }
 					else 
 				  {
-					req.session.flash = { err: 'username or password incorrect'}
+					req.session.flash = { err: req.__('Username or Password incorrect')}
 					res.redirect('login')
 				  }	
 			})

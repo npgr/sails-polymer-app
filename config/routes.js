@@ -67,5 +67,6 @@ module.exports.routes = {
   "/Model/exist/:model": "ModelController.exist",
   "/Attribute/exist/:model": "AttributeController.exist",
   "/login": "UserController.login",
+  "/signout": "UserController.signout",
   "post /validateLogin": "UserController.validateLogin"
 };
