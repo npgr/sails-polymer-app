@@ -1,4 +1,4 @@
-<!-- list template: version 5.10 -->
+<!-- list template: version 6.00 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -32,6 +32,7 @@
 	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
 	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
 	<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -39,6 +40,7 @@
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html"><%
   if (crud == "crud6") { %>
+	<link rel="import" href="/System/topBar">
 	<link rel="import" href="/<%= model%>/display">
 	<link rel="import" href="/<%= model%>/edit">
 	<link rel="import" href="/<%= model%>/delete">
@@ -65,6 +67,9 @@
 <style>
 .card {
 	width: 80em;
+<%if (crud == "crud6") {
+%>	top: 25px;<%
+} %>
 }
 th div {
 	display: inline;
@@ -99,7 +104,7 @@ paper-menu {
 	<<%= jsondata[keys[i]].model%>-select id="<%= jsondata[keys[i]].model%>_select_dialog" on-item_selected="set_select_field"></<%= jsondata[keys[i]].model%>-select><%
 	} }
   if (crud == "crud6") {%>	
-	<div class="card_title">>%= lng("%s %s",lng("List"),lng("<%= title%>"))%<</div><%
+	<!--<div class="card_title">>%= lng("%s %s",lng("List"),lng("<%= title%>"))%<</div>--><%
   } else {%>
 	<div class="card_title">List <%= title%></div><%
   } %>
@@ -615,7 +620,10 @@ Polymer({
   }
 });
 </script>
-</dom-module>
+</dom-module><%
+	if (crud == "crud6") { %>
+<top-bar>>%= lng("%s %s",lng("List"),lng("Activity"))%<</top-bar><%
+	} %>
 <paper-material class="card" elevation="2">
 	<<%= model%>-list></<%= model%>-list>
 </paper-material>

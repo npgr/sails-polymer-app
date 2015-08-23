@@ -7,8 +7,8 @@
 
 module.exports = {
 
-	migrate: "alter",
-	//tableName: 'task2',
+	//migrate: "alter",
+	tableName: 'task2',
 	//adapter: 'postgresql',
   attributes: {
 	//_title: 'Activity',
@@ -26,7 +26,7 @@ module.exports = {
 	},
 	ticket: {
 		//description: 'Ticket',
-		type: "integer"
+		type: "string"
 	},
 	previous: {
 		//description: 'Previous',
@@ -64,13 +64,11 @@ module.exports = {
 	},
 	requester: {
 		//description: 'Requester',
-		type: "string",
-		required: true
+		type: "string"
 	},
 	requestd: {
 		//description: 'Request',
-		type: "date",
-		required: true
+		type: "date"
 	},
 	start: {
 		//description: 'Start',
