@@ -61,12 +61,14 @@ module.exports.routes = {
   /*"post /Enumerator/destroy/:id?": "EnumeratorController.destroy",
   "post /Enumerator/update/:model?": "EnumeratorController.update",*/
   "/Enumerator/exist/:model": "EnumeratorController.exist",
-  "/Task/exist/:id": "TaskController.exist",
-  "/Task/list": "TaskController.list",
   "/Category/exist/:id": "CategoryController.exist",
   "/Model/exist/:model": "ModelController.exist",
   "/Attribute/exist/:model": "AttributeController.exist",
+  "/Task/exist/:id": "TaskController.exist",
+  "/Task/list": "TaskController.list",
+  "/Task/select": "TaskController.select",
   "/login": "UserController.login",
   "/signout": "UserController.signout",
-  "post /validateLogin": "UserController.validateLogin"
+  "post /validateLogin": "UserController.validateLogin",
+  "system/topbar": "SystemController.topBar"
 };

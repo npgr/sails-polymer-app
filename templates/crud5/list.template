@@ -1,4 +1,4 @@
-<!-- list template: version 6.00 -->
+<!-- list template: version 6.01 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -41,11 +41,11 @@
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html"><%
   if (crud == "crud6") { %>
 	<link rel="import" href="/System/topBar">
-	<link rel="import" href="/<%= model%>/display">
+	<!--<link rel="import" href="/<%= model%>/display">
 	<link rel="import" href="/<%= model%>/edit">
 	<link rel="import" href="/<%= model%>/delete">
 	<link rel="import" href="/<%= model%>/columns">
-	<link rel="import" href="/<%= model%>/new"><%
+	<link rel="import" href="/<%= model%>/new">--><%
   } else { %>
 	<link rel="import" href="/components/<%= model%>-list-columns/<%= model%>-list-columns.html">
 	<link rel="import" href="/components/<%= model%>-new/<%= model%>-new.html">
@@ -91,6 +91,17 @@ paper-menu {
 	margin-bottom: 0px;
 }
 </style>
+
+<%= columns_form %>
+
+<%= new_form %>
+
+<%= display_form %>
+
+<%= edit_form %>
+
+<%= delete_form %>
+
 <dom-module id="<%= model%>-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>

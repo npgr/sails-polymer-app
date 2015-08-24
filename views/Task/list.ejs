@@ -1,4 +1,4 @@
-<!-- list template: version 6.00 -->
+<!-- list template: version 6.01 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -29,11 +29,11 @@
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 	<link rel="import" href="/System/topBar">
-	<link rel="import" href="/Task/display">
+	<!--<link rel="import" href="/Task/display">
 	<link rel="import" href="/Task/edit">
 	<link rel="import" href="/Task/delete">
 	<link rel="import" href="/Task/columns">
-	<link rel="import" href="/Task/new">
+	<link rel="import" href="/Task/new">-->
 	<link rel="import" href="/Task/select">
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
@@ -45,7 +45,7 @@
 <body>
 <style>
 .card {
-	width: 86em;
+	width: 80em;
 	top: 25px;
 }
 th div {
@@ -68,6 +68,859 @@ paper-menu {
 	margin-bottom: 0px;
 }
 </style>
+
+<!-- list-columns: version 5.10 -->
+
+<dom-module id="Task-list-columns">
+<template>
+<style>
+	/*#dialog {
+		width: 24em;
+	}*/
+	.green {
+		background-color: green;
+		color: white;
+		height: 30px;
+	}
+	.orange {
+		color: white;
+		background-color: orange;
+		height: 30px;
+	}
+</style>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Activity"))%></h2>
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><div id="id" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
+				<td><div id="activity" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><div id="ticket" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
+				<td><div id="previous" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
+				<td><div id="order" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><div id="type" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
+				<td><div id="status" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="parent_activity"><%= lng('Parent')%></label></td>
+				<td><div id="parent_activity" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
+				<td><div id="prioridad" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
+				<td><div id="requester" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
+				<td><div id="requestd" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
+				<td><div id="start" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="time"><%= lng('time')%></label></td>
+				<td><div id="time" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
+				<td><div id="fcompromiso" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
+				<td><div id="end" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
+				<td><div id="responsable" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
+				<td><div id="ultseguimiento" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
+				<td><div id="proxseguimiento" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
+				<td><div id="observacion" on-click="change_field"></div></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-list-columns",
+		properties: {
+			//updated: false,
+			//column: {}
+		},
+		open_list_columns: function(column) {
+			this.updated= false,
+			this.column= column
+			this.show_field("id")
+			this.show_field("activity")
+			this.show_field("ticket")
+			this.show_field("previous")
+			this.show_field("order")
+			this.show_field("type")
+			this.show_field("status")
+			this.show_field("parent_activity")
+			this.show_field("prioridad")
+			this.show_field("requester")
+			this.show_field("requestd")
+			this.show_field("start")
+			this.show_field("time")
+			this.show_field("fcompromiso")
+			this.show_field("end")
+			this.show_field("responsable")
+			this.show_field("ultseguimiento")
+			this.show_field("proxseguimiento")
+			this.show_field("observacion")
+			this.$.dialog.open()
+		},
+		change_field: function(e) {
+			var field = e.toElement.id
+			this.column[field] = !this.column[field]
+			this.show_field(field)
+		},
+		show_field: function(field) {
+			if (this.column[field])
+			{  
+				this.$[field].innerHTML = "<%= lng('Show')%>"
+				this.$[field].classList.remove("orange")
+				this.$[field].classList.add("green")
+			}
+			else
+			{
+				this.$[field].innerHTML = "<%= lng('Hide')%>"
+				this.$[field].classList.remove("green")
+				this.$[field].classList.add("orange")
+			}
+		},
+		submit_form: function() {
+			this.updated = true
+			this.$.dialog.close()
+			this.fire('close')
+		}
+	})
+</script>
+</dom-module>
+
+<!-- new-form: version 5.10 -->
+
+<dom-module id="Task-new">
+<template>
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
+		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Activity"))%></h2>
+		<paper-dialog-scrollable>
+		  <form id="form" action="javascript:void(0);" on-submit="create">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%><strong class="red"> *</strong></label></td>
+				<td><input id="activity" type="text" name="activity" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><input id="ticket" type="text" name="ticket"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
+				<td><input id="previous" type="number" name="previous"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
+				<td><input id="order" type="number" name="order"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type">
+						<option value="i"><%= lng('Incident')%></option>
+						<option value="t"><%= lng('Task')%></option>
+						<option value="c"><%= lng('Change')%></option>
+						<option value="p"><%= lng('Project')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
+				<td><select id="status" name="status">
+						<option value="p"><%= lng('Pending')%></option>
+						<option value="l"><%= lng('Planning')%></option>
+						<option value="e"><%= lng('Working on')%></option>
+						<option value="s"><%= lng('Stand by')%></option>
+						<option value="c"><%= lng('Certificate')%></option>
+						<option value="x"><%= lng('Close')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
+				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key=0 on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
+				<td><select id="prioridad" name="prioridad">
+						<option value="b"><%= lng('Low')%></option>
+						<option value="m"><%= lng('Medium')%></option>
+						<option value="a"><%= lng('Hight')%></option>
+						<option value="c"><%= lng('Critic')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
+				<td><input id="requester" type="text" name="requester"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
+				<td><input id="requestd" type="date" name="requestd"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
+				<td><input id="start" type="date" name="start"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="time"><%= lng('time')%></label></td>
+				<td><input id="time" type="text" name="time"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
+				<td><input id="end" type="date" name="end"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
+				<td><input id="responsable" type="text" name="responsable"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
+				<td><input id="observacion" type="text" name="observacion"></td>
+			</tr>
+			</table>
+			<div class="buttons">
+				<input id="submit_btn" class="hide" type="submit" value="CREAR">
+				<div class="card_line">
+					<%= lng('Repeat ')%><input id="repeat" type="checkbox" name="repeat">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised><%= lng('Create')%></paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+				</div>
+			</div>
+		  </form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-new",
+		open_dialog: function() {
+			this.clear()
+			this.$.dialog.open()
+		},
+		clear: function() {
+			this.$.id.value = ''
+			this.$.activity.value = ''
+			this.$.ticket.value = ''
+			this.$.previous.value = ''
+			this.$.order.value = ''
+			this.$.parent.value = ''
+			this.$.parent.key = 0
+			this.$.requester.value = ''
+			this.$.requestd.value = ''
+			this.$.start.value = ''
+			this.$.time.value = ''
+			this.$.fcompromiso.value = ''
+			this.$.end.value = ''
+			this.$.responsable.value = ''
+			this.$.ultseguimiento.value = ''
+			this.$.proxseguimiento.value = ''
+			this.$.observacion.value = ''
+		},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "parent")
+				this.$.Task_select_dialog.open_select_dialog()
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		create: function() {
+			this.$.ajax2.url = config_server() + "Task"
+			var record = {}
+			  record.activity = this.$.activity.value
+			  record.ticket = this.$.ticket.value
+			record.previous = Number(this.$.previous.value)
+			record.order = Number(this.$.order.value)
+			  record.type = this.$.type.value
+			  record.status = this.$.status.value
+			record.parent = this.$.parent.key
+			  record.prioridad = this.$.prioridad.value
+			  record.requester = this.$.requester.value
+			if (this.$.requestd.value)
+			  record.requestd = this.$.requestd.value
+			if (this.$.start.value)
+			  record.start = this.$.start.value
+			  record.time = this.$.time.value
+			if (this.$.fcompromiso.value)
+			  record.fcompromiso = this.$.fcompromiso.value
+			if (this.$.end.value)
+			  record.end = this.$.end.value
+			  record.responsable = this.$.responsable.value
+			if (this.$.ultseguimiento.value)
+			  record.ultseguimiento = this.$.ultseguimiento.value
+			if (this.$.proxseguimiento.value)
+			  record.proxseguimiento = this.$.proxseguimiento.value
+			  record.observacion = this.$.observacion.value			
+			this.$.ajax2.params = record
+			this.$.ajax2.generateRequest()
+		},
+		record_created: function() {
+			alert("Created Activity id="+this.$.ajax2.lastResponse.id)
+			// ask for create another one
+			if (!this.$.repeat.checked) {
+				this.$.dialog.close()
+				this.fire('close')
+			} else 
+				this.clear()
+		},
+		submit_form: function() {
+			if (!isNaN(this.$.id.value))
+			{
+				if (this.$.id.value > 0)
+				{
+					this.$.ajax.url = config_server() + "Task/exist/"+this.$.id.value
+					this.$.ajax.generateRequest()
+				}
+				else this.$.submit_btn.click()
+			} else
+				this.$.submit_btn.click()
+		},
+		validate_record: function() {
+			if (this.$.ajax.lastResponse.exist) 
+				alert("<%= lng('Record already Exist')%>")
+			else
+				this.$.submit_btn.click()
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}  
+	})
+</script>
+</dom-module>
+
+<!-- display-form: version 5.10 -->
+
+<dom-module id="Task-display">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Activity"))%></h2>
+		  <paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
+				<td><input id="previous" type="number" name="previous" value="{{item.previous}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
+				<td><input id="order" type="number" name="order" value="{{item.order}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="i"><%= lng('Incident')%></option>
+						<option value="t"><%= lng('Task')%></option>
+						<option value="c"><%= lng('Change')%></option>
+						<option value="p"><%= lng('Project')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
+				<td><select id="status" name="status" disabled>
+						<option value="p"><%= lng('Pending')%></option>
+						<option value="l"><%= lng('Planning')%></option>
+						<option value="e"><%= lng('Working on')%></option>
+						<option value="s"><%= lng('Stand by')%></option>
+						<option value="c"><%= lng('Certificate')%></option>
+						<option value="x"><%= lng('Close')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
+				<td><input id="parent" type="text" name="parent" value="{{item.parent_activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
+				<td><select id="prioridad" name="prioridad" disabled>
+						<option value="b"><%= lng('Low')%></option>
+						<option value="m"><%= lng('Medium')%></option>
+						<option value="a"><%= lng('Hight')%></option>
+						<option value="c"><%= lng('Critic')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="time"><%= lng('time')%></label></td>
+				<td><input id="time" type="text" name="time" value="{{item.time}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-display",
+		open_display_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.status.value = item.status
+			this.$.prioridad.value = item.prioridad
+			}
+	})
+</script>
+</dom-module>
+
+<!-- edit-form: version 5.10 -->
+
+<dom-module id="Task-edit">
+<template>
+	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
+		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Activity"))%></h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%><strong class="red"> *</strong></label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
+				<td><input id="previous" type="number" name="previous" value="{{item.previous}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
+				<td><input id="order" type="number" name="order" value="{{item.order}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type">
+						<option value="i"><%= lng('Incident')%></option>
+						<option value="t"><%= lng('Task')%></option>
+						<option value="c"><%= lng('Change')%></option>
+						<option value="p"><%= lng('Project')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
+				<td><select id="status" name="status">
+						<option value="p"><%= lng('Pending')%></option>
+						<option value="l"><%= lng('Planning')%></option>
+						<option value="e"><%= lng('Working on')%></option>
+						<option value="s"><%= lng('Stand by')%></option>
+						<option value="c"><%= lng('Certificate')%></option>
+						<option value="x"><%= lng('Close')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
+				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key={{item.parent_id}} value="{{item.parent_activity}}" on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
+				<td><select id="prioridad" name="prioridad">
+						<option value="b"><%= lng('Low')%></option>
+						<option value="m"><%= lng('Medium')%></option>
+						<option value="a"><%= lng('Hight')%></option>
+						<option value="c"><%= lng('Critic')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="time"><%= lng('time')%></label></td>
+				<td><input id="time" type="text" name="time" value="{{item.time}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}"></td>
+			</tr>
+			</table>
+			<div class="buttons">
+			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			  <div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			  </div>
+			</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.status.value = item.status
+			this.$.prioridad.value = item.prioridad
+			},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "parent")
+				this.$.Task_select_dialog.open_select_dialog()
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.id = Number(this.$.id.value)
+			record.activity = this.$.activity.value
+			record.ticket = this.$.ticket.value
+			record.previous = Number(this.$.previous.value)
+			record.order = Number(this.$.order.value)
+			record.type = this.$.type.value
+			record.status = this.$.status.value
+			record.parent = this.$.parent.key
+			record.prioridad = this.$.prioridad.value
+			record.requester = this.$.requester.value
+			if (this.$.requestd.value)
+				record.requestd = this.$.requestd.value
+			if (this.$.start.value)
+				record.start = this.$.start.value
+			record.time = this.$.time.value
+			if (this.$.fcompromiso.value)
+				record.fcompromiso = this.$.fcompromiso.value
+			if (this.$.end.value)
+				record.end = this.$.end.value
+			record.responsable = this.$.responsable.value
+			if (this.$.ultseguimiento.value)
+				record.ultseguimiento = this.$.ultseguimiento.value
+			if (this.$.proxseguimiento.value)
+				record.proxseguimiento = this.$.proxseguimiento.value
+			record.observacion = this.$.observacion.value
+			this.$.ajax.url = config_server() + "Task/" +record.id
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("<%= lng('Record Updated')%>")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
+
+<!-- delete-form: version 5.10 -->
+
+<dom-module id="Task-delete">
+<template>
+	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("Activity"))%></h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="delete">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
+				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
+				<td><input id="previous" type="number" name="previous" value="{{item.previous}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
+				<td><input id="order" type="number" name="order" value="{{item.order}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="i"><%= lng('Incident')%></option>
+						<option value="t"><%= lng('Task')%></option>
+						<option value="c"><%= lng('Change')%></option>
+						<option value="p"><%= lng('Project')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
+				<td><select id="status" name="status" disabled>
+						<option value="p"><%= lng('Pending')%></option>
+						<option value="l"><%= lng('Planning')%></option>
+						<option value="e"><%= lng('Working on')%></option>
+						<option value="s"><%= lng('Stand by')%></option>
+						<option value="c"><%= lng('Certificate')%></option>
+						<option value="x"><%= lng('Close')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
+				<td><input id="parent" type="text" name="parent" value="{{item.parent_activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
+				<td><select id="prioridad" name="prioridad" disabled>
+						<option value="b"><%= lng('Low')%></option>
+						<option value="m"><%= lng('Medium')%></option>
+						<option value="a"><%= lng('Hight')%></option>
+						<option value="c"><%= lng('Critic')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="time"><%= lng('time')%></label></td>
+				<td><input id="time" type="text" name="time" value="{{item.time}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+			</tr>
+			</table>
+		<div class="buttons">
+			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
+			<div class="card_line">
+				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised><%= lng('Delete')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			</div>
+		</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-delete",
+		open_delete_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.status.value = item.status
+			this.$.prioridad.value = item.prioridad
+			},
+		form_submit: function() {
+			this.$.submit_delete.click()
+		},
+		delete: function() {
+			this.$.ajax.url = config_server() + "Task/"+this.item.id
+			this.$.ajax.generateRequest()
+		},
+		record_deleted: function() {
+			alert("<%= lng('Record Deleted')%>")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
+
 <dom-module id="Task-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>

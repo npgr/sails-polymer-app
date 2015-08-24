@@ -1,20 +1,10 @@
 <!-- display-form: version 5.10 -->
-<% if (crud == "crud6") { 
-%> >% 
- function lng(word) {
-	return __("word")
- }
- function lng(word1, word2, word3) {
-	return __(word1, word2, word3)
- }
-%<  <% } 
- function srv(crud, word) {
+<% function srv(crud, word) {
 	if (crud == "crud6")
 		return ">%= lng('" + word + "')%<"
 	 else
 	    return word
 } %>
-
 <dom-module id="<%= model%>-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation"><%
