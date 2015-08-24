@@ -8,7 +8,7 @@
 module.exports = {
 
 	//migrate: "alter",
-	tableName: 'task2',
+	//tableName: 'task2',
 	//adapter: 'postgresql',
   attributes: {
 	//_title: 'Activity',
@@ -45,8 +45,8 @@ module.exports = {
 	status: {
 		//description: 'Status',
 		type: "string",
-		enum: ["p", "e", "s", "c", "x"]
-		//,enumdes: ["Pending", "Working on", "Stand by", "Certificate", "Close"]
+		enum: ["p", "l", "e", "s", "c", "x"]
+		//,enumdes: ["Pending", "Planning", "Working on", "Stand by", "Certificate", "Close"]
 	},
 	parent: {
 		//description: 'Parent',

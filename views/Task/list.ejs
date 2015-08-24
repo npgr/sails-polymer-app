@@ -289,7 +289,7 @@ Polymer({
 				{column: "previous", type: "integer", display: true},
 				{column: "order", type: "integer", display: true},
 				{column: "type", enum: ["i","t","c","p"], enumdes: ["<%= lng("Incident")%>","<%= lng("Task")%>","<%= lng("Change")%>","<%= lng("Project")%>"], display: true},
-				{column: "status", enum: ["p","e","s","c","x"], enumdes: ["<%= lng("Pending")%>","<%= lng("Working on")%>","<%= lng("Stand by")%>","<%= lng("Certificate")%>","<%= lng("Close")%>"], display: true},
+				{column: "status", enum: ["p","l","e","s","c","x"], enumdes: ["<%= lng("Pending")%>","<%= lng("Planning")%>","<%= lng("Working on")%>","<%= lng("Stand by")%>","<%= lng("Certificate")%>","<%= lng("Close")%>"], display: true},
 				{column: "parent_id", type: "integer", model: "Task", display: false},
 				{column: "parent_activity", type: "string", model: "Task", display: true},
 				{column: "prioridad", enum: ["b","m","a","c"], enumdes: ["<%= lng("Low")%>","<%= lng("Medium")%>","<%= lng("Hight")%>","<%= lng("Critic")%>"], display: true},
@@ -306,7 +306,7 @@ Polymer({
 		]
 		this.enums = {}
 		this.enums.type = {i:"<%= lng('Incident')%>",t:"<%= lng('Task')%>",c:"<%= lng('Change')%>",p:"<%= lng('Project')%>"}
-		this.enums.status = {p:"<%= lng('Pending')%>",e:"<%= lng('Working on')%>",s:"<%= lng('Stand by')%>",c:"<%= lng('Certificate')%>",x:"<%= lng('Close')%>"}
+		this.enums.status = {p:"<%= lng('Pending')%>",l:"<%= lng('Planning')%>",e:"<%= lng('Working on')%>",s:"<%= lng('Stand by')%>",c:"<%= lng('Certificate')%>",x:"<%= lng('Close')%>"}
 		this.enums.prioridad = {b:"<%= lng('Low')%>",m:"<%= lng('Medium')%>",a:"<%= lng('Hight')%>",c:"<%= lng('Critic')%>"}
 		//var _data = <%- data %>
 		var db = new loki()
