@@ -70,5 +70,5 @@ module.exports.routes = {
   "/login": "UserController.login",
   "/signout": "UserController.signout",
   "post /validateLogin": "UserController.validateLogin",
-  "system/topbar": "SystemController.topBar"
+  "System/topBar": "SystemController.topBar"
 };

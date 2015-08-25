@@ -206,22 +206,20 @@ function generate_new_form(keys, key, title, crud) {
 	new_form = new_form.replace(/>%/g, '<%')
 	new_form = new_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	var path = 'assets/components/'+model+'-new'
-	if (crud == 'crud6')  path = 'templates/crud5'
-		
-	if (!fs.existsSync(path))  fs.mkdirSync(path)
-	
 	if (crud == 'crud6')
-		path += '/new-form.html'
-	  else
+		NEW_FORM = new_form
+	 else {
+		var path = 'assets/components/'+model+'-new'
+	
+		if (!fs.existsSync(path))  fs.mkdirSync(path)
+	
 		path += '/'+model+'-new.html'
 	
-	/*fs.writeFile(path, new_form, function (err) {
-		if (err) console.log(err);
-		console.log('Created file '+path)
-	})*/
-	fs.writeFileSync(path, new_form) 
-	console.log('Created file '+path)
+		fs.writeFile(path, new_form, function (err) {
+			if (err) console.log(err);
+			console.log('Created file '+path)
+		})
+	}
 }
 
 function generate_display_form(keys, key, title, crud){
@@ -259,22 +257,20 @@ function generate_delete_form(keys, key, title, crud) {
 	delete_form = delete_form.replace(/>%/g, '<%')
 	delete_form = delete_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	var path = 'assets/components/'+model+'-delete'
-	if (crud == 'crud6')  path = 'templates/crud5'
-	
-	if (!fs.existsSync(path))	fs.mkdirSync(path)
-	
 	if (crud == 'crud6')
-		path += '/delete-form.html'
-	  else
+		DELETE_FORM = delete_form
+	 else {
+		var path = 'assets/components/'+model+'-delete'
+	
+		if (!fs.existsSync(path))  fs.mkdirSync(path)
+	
 		path += '/'+model+'-delete.html'
-			
-	/*fs.writeFile(path, delete_form, function (err) {
-		if (err) console.log(err);
-		console.log('Created file '+path)
-	})*/
-	fs.writeFileSync(path, delete_form) 
-	console.log('Created file '+path)
+	
+		fs.writeFile(path, display_form, function (err) {
+			if (err) console.log(err);
+			console.log('Created file '+path)
+		})
+	}
 }
 
 function generate_edit_form(keys, key, title, crud) {
@@ -286,26 +282,24 @@ function generate_edit_form(keys, key, title, crud) {
 	edit_form = edit_form.replace(/>%/g, '<%')
 	edit_form = edit_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	var path = 'assets/components/'+model+'-edit'
-	if (crud == 'crud6')  path = 'templates/crud5'
-	
-	if (!fs.existsSync(path))	fs.mkdirSync(path)
-
 	if (crud == 'crud6')
-		path += '/edit-form.html'
-	  else
+		EDIT_FORM = edit_form
+	 else {
+		var path = 'assets/components/'+model+'-edit'
+	
+		if (!fs.existsSync(path))  fs.mkdirSync(path)
+	
 		path += '/'+model+'-edit.html'
-
-	/*fs.writeFile(path, edit_form, function (err) {
-		if (err) console.log(err);
-		console.log('Created file '+path)
-	})*/
-	fs.writeFileSync(path, edit_form) 
-	console.log('Created file '+path)
+	
+		fs.writeFile(path, display_form, function (err) {
+			if (err) console.log(err);
+			console.log('Created file '+path)
+		})
+	}
 }
 
 function generate_list_columns(keys, title, crud) {
-	var LIST_COLUMNS_TEMPLATE = fs.readFileSync('./templates/crud5/list-columns.template', 'utf8');
+	var LIST_COLUMNS_TEMPLATE = fs.readFileSync('./templates/crud5/columns-form.template', 'utf8');
 	var compiled_List_Columns = _.template(LIST_COLUMNS_TEMPLATE)
 	
 	var list_columns = compiled_List_Columns({'title':title,'keys':keys, 'crud': crud})
@@ -313,22 +307,20 @@ function generate_list_columns(keys, title, crud) {
 	list_columns = list_columns.replace(/>%/g, '<%')
 	list_columns = list_columns.replace(/%</g, '%>')
 	// Create Folder if not exist
-	var path = 'assets/components/'+model+'-list-columns'
-	if (crud == 'crud6')  path = 'templates/crud5'
-	
-	if (!fs.existsSync(path))	fs.mkdirSync(path)	
-
 	if (crud == 'crud6')
-		path += '/columns-form.html'
-	  else
+		COLUMNS_FORM = list_columns
+	 else {
+		var path = 'assets/components/'+model+'-list-columns'
+	
+		if (!fs.existsSync(path))  fs.mkdirSync(path)
+	
 		path += '/'+model+'-list-columns.html'
-		
-	/*fs.writeFile(path, list_columns, function (err) {
-		if (err) console.log(err);
-		console.log('Created file '+path)
-	})*/
-	fs.writeFileSync(path, list_columns) 
-	console.log('Created file '+path)
+	
+		fs.writeFile(path, display_form, function (err) {
+			if (err) console.log(err);
+			console.log('Created file '+path)
+		})
+	}
 }
 
 function generate_model_select(model, display, key, description, crud) {
@@ -410,11 +402,11 @@ function generate_list_page(keys, key, title, crud) {
 	
 	var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
 	
-	var COLUMNS_FORM = fs.readFileSync('./templates/crud5/columns-form.html', 'utf8')
-	var NEW_FORM = fs.readFileSync('./templates/crud5/new-form.html', 'utf8')
+	//var COLUMNS_FORM = fs.readFileSync('./templates/crud5/columns-form.html', 'utf8')
+	//var NEW_FORM = fs.readFileSync('./templates/crud5/new-form.html', 'utf8')
 	//var DISPLAY_FORM = fs.readFileSync('./templates/crud5/display-form.html', 'utf8')
-	var EDIT_FORM = fs.readFileSync('./templates/crud5/edit-form.html', 'utf8')
-	var DELETE_FORM = fs.readFileSync('./templates/crud5/delete-form.html', 'utf8')
+	//var EDIT_FORM = fs.readFileSync('./templates/crud5/edit-form.html', 'utf8')
+	//var DELETE_FORM = fs.readFileSync('./templates/crud5/delete-form.html', 'utf8')
 	
 	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud})
 	
