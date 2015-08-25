@@ -1,4 +1,4 @@
-<!-- list template: version 5.10 -->
+<!-- list template: version 6.01 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -21,17 +21,19 @@
 	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
 	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/paper-button/paper-button.html">
 	<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
 	<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-	<link rel="import" href="/Resource/display">
+	<link rel="import" href="/System/topBar">
+	<!--<link rel="import" href="/Resource/display">
 	<link rel="import" href="/Resource/edit">
 	<link rel="import" href="/Resource/delete">
 	<link rel="import" href="/Resource/columns">
-	<link rel="import" href="/Resource/new">
+	<link rel="import" href="/Resource/new">-->
 	<!-- Forms imports -->
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
@@ -42,7 +44,8 @@
 <body>
 <style>
 .card {
-	width: 80em;
+	width: 60em;
+	top: 25px;
 }
 th div {
 	display: inline;
@@ -64,6 +67,442 @@ paper-menu {
 	margin-bottom: 0px;
 }
 </style>
+
+<!-- list-columns: version 5.10 -->
+
+<dom-module id="Resource-list-columns">
+<template>
+<style>
+	/*#dialog {
+		width: 24em;
+	}*/
+	.green {
+		background-color: green;
+		color: white;
+		height: 30px;
+	}
+	.orange {
+		color: white;
+		background-color: orange;
+		height: 30px;
+	}
+</style>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Resource"))%></h2>
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><div id="id" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
+				<td><div id="name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><div id="type" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requireaut"><%= lng('Require Aut')%></label></td>
+				<td><div id="requireaut" on-click="change_field"></div></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Resource-list-columns",
+		properties: {
+			//updated: false,
+			//column: {}
+		},
+		open_list_columns: function(column) {
+			this.updated= false,
+			this.column= column
+			this.show_field("id")
+			this.show_field("name")
+			this.show_field("type")
+			this.show_field("requireaut")
+			this.$.dialog.open()
+		},
+		change_field: function(e) {
+			var field = e.toElement.id
+			this.column[field] = !this.column[field]
+			this.show_field(field)
+		},
+		show_field: function(field) {
+			if (this.column[field])
+			{  
+				this.$[field].innerHTML = "<%= lng('Show')%>"
+				this.$[field].classList.remove("orange")
+				this.$[field].classList.add("green")
+			}
+			else
+			{
+				this.$[field].innerHTML = "<%= lng('Hide')%>"
+				this.$[field].classList.remove("green")
+				this.$[field].classList.add("orange")
+			}
+		},
+		submit_form: function() {
+			this.updated = true
+			this.$.dialog.close()
+			this.fire('close')
+		}
+	})
+</script>
+</dom-module>
+
+<!-- new-form: version 5.10 -->
+
+<dom-module id="Resource-new">
+<template>
+	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Resource"))%></h2>
+		<paper-dialog-scrollable>
+		  <form id="form" action="javascript:void(0);" on-submit="create">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type">
+						<option value="page"><%= lng('Page')%></option>
+						<option value="api"><%= lng('Api')%></option>
+						<option value="option"><%= lng('Option')%></option>
+						<option value="component"><%= lng('component')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requireaut"><%= lng('Require Aut')%></label></td>
+				<td><select id="requireaut" name="requireaut">
+						<option value="Yes"><%= lng('Yes')%></option>
+						<option value="No"><%= lng('No')%></option>
+					</select></td>
+			</tr>
+			</table>
+			<div class="buttons">
+				<input id="submit_btn" class="hide" type="submit" value="CREAR">
+				<div class="card_line">
+					<%= lng('Repeat ')%><input id="repeat" type="checkbox" name="repeat">
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised><%= lng('Create')%></paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+				</div>
+			</div>
+		  </form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Resource-new",
+		open_dialog: function() {
+			this.clear()
+			this.$.dialog.open()
+		},
+		clear: function() {
+			this.$.id.value = ''
+			this.$.name.value = ''
+		},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		create: function() {
+			this.$.ajax2.url = config_server() + "Resource"
+			var record = {}
+			  record.name = this.$.name.value
+			  record.type = this.$.type.value
+			  record.requireaut = this.$.requireaut.value			
+			this.$.ajax2.params = record
+			this.$.ajax2.generateRequest()
+		},
+		record_created: function() {
+			alert("Created Resource id="+this.$.ajax2.lastResponse.id)
+			// ask for create another one
+			if (!this.$.repeat.checked) {
+				this.$.dialog.close()
+				this.fire('close')
+			} else 
+				this.clear()
+		},
+		submit_form: function() {
+			if (!isNaN(this.$.id.value))
+			{
+				if (this.$.id.value > 0)
+				{
+					this.$.ajax.url = config_server() + "Resource/exist/"+this.$.id.value
+					this.$.ajax.generateRequest()
+				}
+				else this.$.submit_btn.click()
+			} else
+				this.$.submit_btn.click()
+		},
+		validate_record: function() {
+			if (this.$.ajax.lastResponse.exist) 
+				alert("<%= lng('Record already Exist')%>")
+			else
+				this.$.submit_btn.click()
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}  
+	})
+</script>
+</dom-module>
+
+<!-- display-form: version 5.10 -->
+
+<dom-module id="Resource-display">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Resource"))%></h2>
+		  <paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="page"><%= lng('Page')%></option>
+						<option value="api"><%= lng('Api')%></option>
+						<option value="option"><%= lng('Option')%></option>
+						<option value="component"><%= lng('component')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requireaut"><%= lng('Require Aut')%></label></td>
+				<td><select id="requireaut" name="requireaut" disabled>
+						<option value="Yes"><%= lng('Yes')%></option>
+						<option value="No"><%= lng('No')%></option>
+					</select></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Resource-display",
+		open_display_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.requireaut.value = item.requireaut
+			}
+	})
+</script>
+</dom-module>
+
+<!-- edit-form: version 5.10 -->
+
+<dom-module id="Resource-edit">
+<template>
+	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Resource"))%></h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type">
+						<option value="page"><%= lng('Page')%></option>
+						<option value="api"><%= lng('Api')%></option>
+						<option value="option"><%= lng('Option')%></option>
+						<option value="component"><%= lng('component')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requireaut"><%= lng('Require Aut')%></label></td>
+				<td><select id="requireaut" name="requireaut">
+						<option value="Yes"><%= lng('Yes')%></option>
+						<option value="No"><%= lng('No')%></option>
+					</select></td>
+			</tr>
+			</table>
+			<div class="buttons">
+			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			  <div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			  </div>
+			</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Resource-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.requireaut.value = item.requireaut
+			},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.id = Number(this.$.id.value)
+			record.name = this.$.name.value
+			record.type = this.$.type.value
+			record.requireaut = this.$.requireaut.value
+			this.$.ajax.url = config_server() + "Resource/" +record.id
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("<%= lng('Record Updated')%>")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
+
+<!-- delete-form: version 5.10 -->
+
+<dom-module id="Resource-delete">
+<template>
+	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("Resource"))%></h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="delete">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="page"><%= lng('Page')%></option>
+						<option value="api"><%= lng('Api')%></option>
+						<option value="option"><%= lng('Option')%></option>
+						<option value="component"><%= lng('component')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requireaut"><%= lng('Require Aut')%></label></td>
+				<td><select id="requireaut" name="requireaut" disabled>
+						<option value="Yes"><%= lng('Yes')%></option>
+						<option value="No"><%= lng('No')%></option>
+					</select></td>
+			</tr>
+			</table>
+		<div class="buttons">
+			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
+			<div class="card_line">
+				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised><%= lng('Delete')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			</div>
+		</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Resource-delete",
+		open_delete_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.type.value = item.type
+			this.$.requireaut.value = item.requireaut
+			},
+		form_submit: function() {
+			this.$.submit_delete.click()
+		},
+		delete: function() {
+			this.$.ajax.url = config_server() + "Resource/"+this.item.id
+			this.$.ajax.generateRequest()
+		},
+		record_deleted: function() {
+			alert("<%= lng('Record Deleted')%>")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
+
 <dom-module id="Resource-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
@@ -72,11 +511,12 @@ paper-menu {
 	<Resource-display id="Resource_display_dialog"></Resource-display>
 	<Resource-edit id="Resource_edit_dialog" on-close="reload"></Resource-edit>
 	<Resource-delete id="Resource_delete_dialog" on-close="reload"></Resource-delete>	
-	<div class="card_title"><%= lng("%s %s",lng("List"),lng("Resource"))%></div>
+	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Resource"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Name')%>
 		<option value="name"><%= lng('Name')%></option>  <%= lng('Type')%>
-		<option value="type"><%= lng('Type')%></option>
+		<option value="type"><%= lng('Type')%></option>  <%= lng('Require Aut')%>
+		<option value="requireaut"><%= lng('Require Aut')%></option>
 	</select>
 	<select id="op">   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -103,6 +543,7 @@ paper-menu {
 		<option value="id"><%= lng('Id')%></option>
 		<option value="name"><%= lng('Name')%></option>
 		<option value="type"><%= lng('Type')%></option>
+		<option value="requireaut"><%= lng('Require Aut')%></option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -140,6 +581,8 @@ paper-menu {
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_type" on-click="sort_type"><%= lng('Type')%><div id="type_sort_d" class="hide">
 			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_requireaut" on-click="sort_requireaut"><%= lng('Require Aut')%><div id="requireaut_sort_d" class="hide">
+			<iron-icon id="requireaut_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
@@ -148,6 +591,7 @@ paper-menu {
 		<td class="col_id"></td>
 		<td class="col_name"></td>
 		<td class="col_type"></td>
+		<td class="col_requireaut"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -159,6 +603,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
+		<template is="dom-if" if="{{column.requireaut}}"><td>{{item.requireaut_des}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -184,10 +629,12 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "name", type: "string", display: true},
-				{column: "type", enum: ["page","api","option"], enumdes: ["<%= lng("Page")%>","<%= lng("Api")%>","<%= lng("Option")%>"], display: true}
+				{column: "type", enum: ["page","api","option","component"], enumdes: ["<%= lng("Page")%>","<%= lng("Api")%>","<%= lng("Option")%>","<%= lng("component")%>"], display: true},
+				{column: "requireaut", enum: ["Yes","No"], enumdes: ["<%= lng("Yes")%>","<%= lng("No")%>"], display: true}
 		]
 		this.enums = {}
-		this.enums.type = {page:"<%= lng('Page')%>",api:"<%= lng('Api')%>",option:"<%= lng('Option')%>"}
+		this.enums.type = {page:"<%= lng('Page')%>",api:"<%= lng('Api')%>",option:"<%= lng('Option')%>",component:"<%= lng('component')%>"}
+		this.enums.requireaut = {Yes:"<%= lng('Yes')%>",No:"<%= lng('No')%>"}
 		//var _data = <%- data %>
 		var db = new loki()
 		this.data = db.addCollection("data_Resource")
@@ -369,6 +816,7 @@ Polymer({
 		this.$.id_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
+		this.$.requireaut_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -387,6 +835,9 @@ Polymer({
 	},
 	sort_type: function() {
 		this.sort_by_field("type")
+	},
+	sort_requireaut: function() {
+		this.sort_by_field("requireaut")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -520,7 +971,8 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
-		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]	
+		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
+		this.$.ajax.lastResponse[i].requireaut_des= this.enums.requireaut[this.$.ajax.lastResponse[i].requireaut]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
@@ -532,6 +984,7 @@ Polymer({
 });
 </script>
 </dom-module>
+<top-bar><%= lng("%s %s",lng("List"),lng("Resource"))%></top-bar>
 <paper-material class="card" elevation="2">
 	<Resource-list></Resource-list>
 </paper-material>
