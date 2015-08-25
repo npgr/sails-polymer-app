@@ -50,8 +50,8 @@
 		},
 		filter: function() {
 			this.filtered_data = []
-			this.cur_filter = { name: { $contains: this.$.filtro.value} }
-			this.result_set = this.data.chain().find(this.cur_filter).simplesort("name", false)
+			this.cur_filter = { activity: { $contains: this.$.filtro.value} }
+			this.result_set = this.data.chain().find(this.cur_filter).simplesort("activity", false)
 			this.filtered_data = this.result_set.data()
 		},
 		select: function(e) {
@@ -64,7 +64,7 @@
 		},
 		ajax_error: function() {
 			console.log(this.$.ajax.lastError)
-			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
 		}
 	})
 </script>
