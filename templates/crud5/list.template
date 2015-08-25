@@ -633,7 +633,7 @@ Polymer({
 </script>
 </dom-module><%
 	if (crud == "crud6") { %>
-<top-bar>>%= lng("%s %s",lng("List"),lng("<%= model%>"))%<</top-bar><%
+<top-bar>>%= lng("%s %s",lng("List"),lng("<%= title%>"))%<</top-bar><%
 	} %>
 <paper-material class="card" elevation="2">
 	<<%= model%>-list></<%= model%>-list>
