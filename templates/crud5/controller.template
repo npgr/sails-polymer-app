@@ -19,19 +19,19 @@
 	}
 	<% if (crud == 'crud6') {
 	%>/*, display: function(req, res) {
-		res.render("<%= model%>/display")
+		res.view("<%= model%>/display")
 	},
 	new: function (req, res) {
-		res.render("<%= model%>/new")
+		res.view("<%= model%>/new")
 	},
 	edit: function (req, res) {
-		res.render("<%= model%>/edit")
+		res.view("<%= model%>/edit")
 	},
 	delete: function (req, res) {
-		res.render("<%= model%>/delete")
+		res.view("<%= model%>/delete")
 	},
 	columns: function (req, res) {
-		res.render("<%= model%>/columns")
+		res.view("<%= model%>/columns")
 	},*/
 	,select: function (req, res) {
 		res.view("<%= model%>/select")

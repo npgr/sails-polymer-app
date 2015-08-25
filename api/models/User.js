@@ -42,15 +42,15 @@ module.exports = {
 	},
 	email: {
 		//description: 'email',
-		type: 'string',
-		email: true
+		type: 'string'
+		//,email: true 
     },
 	photo: {
 		//description: 'Photo',
 		//hide: true,
 		type: 'string',
-		defaultsTo: '',
-		url: true
+		defaultsTo: ''
+		//,url: true 
     },
 	status: {
 		//description: "Status",
@@ -59,9 +59,13 @@ module.exports = {
 		//,enumdes: ["Active","Inactive"]
     }
 //End Attributes
+	,prueba: function() {
+		return this.name
+	}
 	,toJSON: function () {
       var obj = this.toObject();
 
+	  obj.prueba = this.prueba()
       //delete obj.pwd;
 
       return obj;

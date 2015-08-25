@@ -26,6 +26,11 @@
   "Username": "Usuario",
   "Password": "Contraseña",
   "Username or Password incorrect": "Usuario o Contraseña incorrectos"
+  ,"User": "Usuario"
+  ,"Profile": "Perfil"
+  ,"Name": "Nombre"
+  ,"email": "Correo"
+  ,"Photo": "Foto"
   ,"Id": "Id"
   ,"Activity": "Actividad"
   ,"Order": "Orden"
