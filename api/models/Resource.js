@@ -24,8 +24,14 @@ module.exports = {
 	type: {
 		//description: 'Type',
 		type: "string",
-		enum: ["page","api","option"]
-		//,enumdes: ["Page", "Api", "Option"]
+		enum: ["page","api","option","component"]
+		//,enumdes: ["Page", "Api", "Option","component"]
+	},
+	requireaut: {
+		//description: 'Require Aut',
+		type: 'string',
+		enum: ["Yes", "No"]
+		//,enumdes: ["Yes", "No"]
 	}
 //End Attributes
   }
