@@ -58,9 +58,6 @@ module.exports.routes = {
   /*"post /Product/destroy/:id?": "ProductController.destroy",
   "post /Product/update/:?": "ProductController.update",*/
   "/Product/exist/:": "ProductController.exist",
-  /*"post /Enumerator/destroy/:id?": "EnumeratorController.destroy",
-  "post /Enumerator/update/:model?": "EnumeratorController.update",*/
-  "/Enumerator/exist/:model": "EnumeratorController.exist",
   "/Category/exist/:id": "CategoryController.exist",
   "/Model/exist/:model": "ModelController.exist",
   "/Attribute/exist/:model": "AttributeController.exist",
