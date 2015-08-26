@@ -78,10 +78,10 @@
 		  <div class="inline dropdown-trigger">Menu</div>
 		  <iron-dropdown id="dropdown_menu"  horizontal-align="left" vertical-align="top">
 			<ul class="dropdown-content" tabindex="0">
-			  <li class="dropdown-item">Tasks</li>
-			  <li class="dropdown-item">Resources</li>
-			  <li class="dropdown-item">Profiles</li>
-			  <li class="dropdown-item">Users</li>
+			  <li class="dropdown-item" on-click="task"><%= lng("Activity")%></li>
+			  <li class="dropdown-item" on-click="resource"><%= lng("Resource")%></li>
+			  <li class="dropdown-item" on-click="profile"><%= lng("Profile")%></li>
+			  <li class="dropdown-item" on-click="user"><%= lng("User")%></li>
 			  <li class="dropdown-item">Models</li>
 			  <li class="dropdown-item">About</li>
 			</ul>
@@ -116,6 +116,18 @@
 		},
 		signout: function() {
 			window.location.assign(config_server() + "signout")
+		},
+		activity: function() {
+			window.location.assign(config_server() + "task/list")
+		},
+		user: function() {
+			window.location.assign(config_server() + "user/list")
+		},
+		profile: function() {
+			window.location.assign(config_server() + "profile/list")
+		},
+		resource: function() {
+			window.location.assign(config_server() + "resource/list")
 		}
 	})
 </script>
