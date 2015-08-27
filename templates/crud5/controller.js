@@ -1,13 +1,14 @@
 
 /************  Routes:  config/routes.js ************/
 
-"/Task/exist/:id": "TaskController.exist"
+"/Profile/exist/:id": "ProfileController.exist",
+"/Profile/list": "ProfileController.list"
 
 /********** Controller: api/controllers/<<model_name>>Controller.js *******/
 
 	exist: function(req, res, next) {
 		var id = req.param("id")
-		 Task.findOne(id)
+		 Profile.findOne(id)
 			.exec(function(err, data) {
 				if(err) res.json({ "exist": "error"})
 				  else if (!data) res.json({ "exist": false})
@@ -15,33 +16,30 @@
 			})
 	}
 	/*, display: function(req, res) {
-		res.view("Task/display")
+		res.view("Profile/display")
 	},
 	new: function (req, res) {
-		res.view("Task/new")
+		res.view("Profile/new")
 	},
 	edit: function (req, res) {
-		res.view("Task/edit")
+		res.view("Profile/edit")
 	},
 	delete: function (req, res) {
-		res.view("Task/delete")
+		res.view("Profile/delete")
 	},
 	columns: function (req, res) {
-		res.view("Task/columns")
+		res.view("Profile/columns")
 	},*/
-	,select: function (req, res) {
-		res.view("Task/select")
-	},
 	list : function (req, res) {
-		Task.find()
+		Profile.find()
 			.exec(function(err, data){
 				res.locals.user = {user: req.session.user, name: req.session.username}
 				res.locals.data = JSON.stringify(data)
-				res.view("Task/list")
+				res.view("Profile/list")
 			})
 	}
 	/*,byfield: function(req, res) {
-		Task.query('SELECT field, count(*) FROM Task group by field order by count desc', function(err, data) {
+		Profile.query('SELECT field, count(*) FROM Profile group by field order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)

@@ -6,9 +6,6 @@
  */
 
 module.exports = {
-	select: function (req, res) {
-		res.view("Task/select")
-	},
 	list : function (req, res) {
 		Task.find()
 			.exec(function(err, data){

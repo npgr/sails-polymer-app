@@ -1,4 +1,4 @@
-<!-- list template: version 6.02 -->
+<!-- list template: version 6.05 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -22,8 +22,8 @@
 	<title>List <%= title%></title><% 
   } %>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
-	<script src="/js/lokijs/src/lokijs.js"></script>
-	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
+	<script src="/js2/lokijs/src/lokijs.js"></script>
+	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -52,14 +52,7 @@
 	<link rel="import" href="/components/<%= model%>-display/<%= model%>-display.html">
 	<link rel="import" href="/components/<%= model%>-edit/<%= model%>-edit.html">
 	<link rel="import" href="/components/<%= model%>-delete/<%= model%>-delete.html"><%
-  }
-	for (i=0; i < keys.length; i++) {
-	  if (jsondata[keys[i]].model) {
-		if (crud == "crud6") {%>
-	<link rel="import" href="/<%= jsondata[keys[i]].model%>/select"><%
-		} else {%>
-	<link rel="import" href="/components/<%= jsondata[keys[i]].model%>-select/<%= jsondata[keys[i]].model%>-select.html"><%
-	} } }%>
+  }%>
 	<!-- Forms imports -->
 	<%= import_form %>
 </head>
@@ -102,6 +95,8 @@ paper-menu {
 <%= edit_form %>
 
 <%= delete_form %>
+
+<%= select_forms %>
 
 <dom-module id="<%= model%>-list">
 <template>

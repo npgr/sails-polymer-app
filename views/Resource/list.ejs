@@ -1,4 +1,4 @@
-<!-- list template: version 6.02 -->
+<!-- list template: version 6.05 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -11,8 +11,8 @@
 <head>
 	<title><%= lng("%s %s",lng("List"),lng("Resource"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
-	<script src="/js/lokijs/src/lokijs.js"></script>
-	<script src="/js/x2js-v1.1.5/xml2json.min.js"></script>
+	<script src="/js2/lokijs/src/lokijs.js"></script>
+	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
@@ -630,6 +630,8 @@ paper-menu {
 	})
 </script>
 </dom-module>
+
+
 
 <dom-module id="Resource-list">
 <template>

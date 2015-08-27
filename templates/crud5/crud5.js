@@ -334,7 +334,9 @@ function generate_model_select(model, display, key, description, crud) {
 		select_model = select_model.replace(/>%/g, '<%')
 		select_model = select_model.replace(/%</g, '%>')
 		// Create Folder if not exist
-		var path = 'assets/components/'+model+'-select'
+		SELECT_FORMS += '\n'+select_model
+		
+		/*var path = 'assets/components/'+model+'-select'
 		if (crud == 'crud6')  path = 'views/'+model
 	
 		if (!fs.existsSync(path))	fs.mkdirSync(path)
@@ -347,7 +349,7 @@ function generate_model_select(model, display, key, description, crud) {
 		fs.writeFile(path, select_model, function (err) {
 			if (err) console.log(err);
 			console.log('Created file '+path)
-		})
+		})*/
 	//}
 	//else  console.log('File '+path+' already Exist')
 }
@@ -404,7 +406,7 @@ function generate_list_page(keys, key, title, crud) {
 	
 	var TOPBAR = fs.readFileSync('./templates/crud5/topBar.template', 'utf8');
 	
-	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud})
+	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'select_forms': SELECT_FORMS, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud})
 	
 	//list_template = list_template.replace('>%', '<%')
 	//list_template = list_template.replace('%<', '%>')
@@ -473,6 +475,7 @@ exports.generate = function(crud) {
 	generate_edit_form(keys, key, title, crud)
 	generate_list_columns(keys, title, crud)
 	
+	SELECT_FORMS = ''
 	for (i=0; i<relation.length; i++)
 		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
 	
