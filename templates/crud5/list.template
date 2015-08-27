@@ -22,7 +22,7 @@
 	<title>List <%= title%></title><% 
   } %>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
-	<script src="/js2/lokijs/src/lokijs.js"></script>
+	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
@@ -60,7 +60,7 @@
 <style>
 .card {
 	width: 80em;
-	top: 40px;
+	top: 30px;
 	left: 15px;
 }
 th div {
