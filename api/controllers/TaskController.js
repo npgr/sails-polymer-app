@@ -6,31 +6,6 @@
  */
 
 module.exports = {
-	exist: function(req, res, next) {
-		var id = req.param("id")
-		 Task.findOne(id)
-			.exec(function(err, data) {
-				if(err) res.json({ "exist": "error"})
-				  else if (!data) res.json({ "exist": false})
-					else res.json({ "exist": true})
-			})
-	},
-	/*display: function(req, res) {
-		res.render("Task/display")
-		//res.view("Task/display")
-	},
-	new: function (req, res) {
-		res.render("Task/new")
-	},
-	edit: function (req, res) {
-		res.render("Task/edit")
-	},
-	delete: function (req, res) {
-		res.render("Task/delete")
-	},
-	columns: function (req, res) {
-		res.render("Task/columns")
-	},*/
 	select: function (req, res) {
 		res.view("Task/select")
 	},

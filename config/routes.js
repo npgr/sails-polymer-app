@@ -61,7 +61,6 @@ module.exports.routes = {
   "/Category/exist/:id": "CategoryController.exist",
   "/Model/exist/:model": "ModelController.exist",
   "/Attribute/exist/:model": "AttributeController.exist",
-  "/Task/exist/:id": "TaskController.exist",
   "/Task/list": "TaskController.list",
   "/Task/select": "TaskController.select",
   "/login": "UserController.login",

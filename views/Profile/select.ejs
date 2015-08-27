@@ -64,7 +64,7 @@
 		},
 		ajax_error: function() {
 			console.log(this.$.ajax.lastError)
-			alert("Error Procesando Solicitud: ", this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
 		}
 	})
 </script>

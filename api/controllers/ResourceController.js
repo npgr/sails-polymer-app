@@ -6,28 +6,15 @@
  */
 
 module.exports = {
-	display: function(req, res) {
-		res.render("Resource/display")
-	},
-	new: function (req, res) {
-		res.render("Resource/new")
-	},
-	edit: function (req, res) {
-		res.render("Resource/edit")
-	},
-	delete: function (req, res) {
-		res.render("Resource/delete")
-	},
-	columns: function (req, res) {
-		res.render("Resource/columns")
-	},
 	select: function (req, res) {
 		res.render("Resource/select")
 	},
 	list : function (req, res) {
 		Resource.find()
 			.exec(function(err, data){
-				res.render("Resource/list", {data: JSON.stringify(data)})
+				res.locals.user = {user: req.session.user, name: req.session.username}
+				res.locals.data = JSON.stringify(data)
+				res.view("Resource/list")
 			})
 	}
 };
