@@ -37,7 +37,9 @@ module.exports = {
 	list : function (req, res) {
 		Task.find()
 			.exec(function(err, data){
-				res.render("Task/list", {data: JSON.stringify(data)})
+				res.locals.user = {user: req.session.user, name: req.session.username}
+				res.locals.data = JSON.stringify(data)
+				res.view("Task/list")
 			})
 	},
 	bytype: function(req, res) {

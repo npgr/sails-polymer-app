@@ -206,9 +206,9 @@ function generate_new_form(keys, key, title, crud) {
 	new_form = new_form.replace(/>%/g, '<%')
 	new_form = new_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (crud == 'crud6')
+	//if (crud == 'crud6')
 		NEW_FORM = new_form
-	 else {
+	 /*else {
 		var path = 'assets/components/'+model+'-new'
 	
 		if (!fs.existsSync(path))  fs.mkdirSync(path)
@@ -219,7 +219,7 @@ function generate_new_form(keys, key, title, crud) {
 			if (err) console.log(err);
 			console.log('Created file '+path)
 		})
-	}
+	}*/
 }
 
 function generate_display_form(keys, key, title, crud){
@@ -232,9 +232,9 @@ function generate_display_form(keys, key, title, crud){
 	display_form = display_form.replace(/%</g, '%>')
 	// Create Folder if not exist
 	
-	if (crud == 'crud6')
+	//if (crud == 'crud6')
 		DISPLAY_FORM = display_form
-	 else {
+	 /*else {
 		var path = 'assets/components/'+model+'-display'
 	
 		if (!fs.existsSync(path))  fs.mkdirSync(path)
@@ -245,7 +245,7 @@ function generate_display_form(keys, key, title, crud){
 			if (err) console.log(err);
 			console.log('Created file '+path)
 		})
-	}
+	}*/
 }
 
 function generate_delete_form(keys, key, title, crud) {
@@ -257,20 +257,20 @@ function generate_delete_form(keys, key, title, crud) {
 	delete_form = delete_form.replace(/>%/g, '<%')
 	delete_form = delete_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (crud == 'crud6')
+	//if (crud == 'crud6')
 		DELETE_FORM = delete_form
-	 else {
+	 /*else {
 		var path = 'assets/components/'+model+'-delete'
 	
 		if (!fs.existsSync(path))  fs.mkdirSync(path)
 	
 		path += '/'+model+'-delete.html'
 	
-		fs.writeFile(path, display_form, function (err) {
+		fs.writeFile(path, delete_form, function (err) {
 			if (err) console.log(err);
 			console.log('Created file '+path)
 		})
-	}
+	}*/
 }
 
 function generate_edit_form(keys, key, title, crud) {
@@ -282,20 +282,20 @@ function generate_edit_form(keys, key, title, crud) {
 	edit_form = edit_form.replace(/>%/g, '<%')
 	edit_form = edit_form.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (crud == 'crud6')
+	//if (crud == 'crud6')
 		EDIT_FORM = edit_form
-	 else {
+	 /*else {
 		var path = 'assets/components/'+model+'-edit'
 	
 		if (!fs.existsSync(path))  fs.mkdirSync(path)
 	
 		path += '/'+model+'-edit.html'
 	
-		fs.writeFile(path, display_form, function (err) {
+		fs.writeFile(path, edit_form, function (err) {
 			if (err) console.log(err);
 			console.log('Created file '+path)
 		})
-	}
+	}*/
 }
 
 function generate_list_columns(keys, title, crud) {
@@ -307,20 +307,20 @@ function generate_list_columns(keys, title, crud) {
 	list_columns = list_columns.replace(/>%/g, '<%')
 	list_columns = list_columns.replace(/%</g, '%>')
 	// Create Folder if not exist
-	if (crud == 'crud6')
+	//if (crud == 'crud6')
 		COLUMNS_FORM = list_columns
-	 else {
+	 /*else {
 		var path = 'assets/components/'+model+'-list-columns'
 	
 		if (!fs.existsSync(path))  fs.mkdirSync(path)
 	
 		path += '/'+model+'-list-columns.html'
 	
-		fs.writeFile(path, display_form, function (err) {
+		fs.writeFile(path, list_columns, function (err) {
 			if (err) console.log(err);
 			console.log('Created file '+path)
 		})
-	}
+	}*/
 }
 
 function generate_model_select(model, display, key, description, crud) {
@@ -402,13 +402,9 @@ function generate_list_page(keys, key, title, crud) {
 	
 	var IMPORT_FORM = fs.readFileSync('./templates/crud5/import-form.template', 'utf8');
 	
-	//var COLUMNS_FORM = fs.readFileSync('./templates/crud5/columns-form.html', 'utf8')
-	//var NEW_FORM = fs.readFileSync('./templates/crud5/new-form.html', 'utf8')
-	//var DISPLAY_FORM = fs.readFileSync('./templates/crud5/display-form.html', 'utf8')
-	//var EDIT_FORM = fs.readFileSync('./templates/crud5/edit-form.html', 'utf8')
-	//var DELETE_FORM = fs.readFileSync('./templates/crud5/delete-form.html', 'utf8')
+	var TOPBAR = fs.readFileSync('./templates/crud5/topBar.template', 'utf8');
 	
-	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud})
+	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud})
 	
 	//list_template = list_template.replace('>%', '<%')
 	//list_template = list_template.replace('%<', '%>')

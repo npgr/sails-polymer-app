@@ -1,4 +1,4 @@
-<!-- list template: version 6.01 -->
+<!-- list template: version 6.02 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -40,8 +40,8 @@
 	<link rel="import" href="/bower_components/paper-item/paper-item.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html"><%
   if (crud == "crud6") { %>
-	<link rel="import" href="/System/topBar">
-	<!--<link rel="import" href="/<%= model%>/display">
+	<!--<link rel="import" href="/System/topBar">
+	<link rel="import" href="/<%= model%>/display">
 	<link rel="import" href="/<%= model%>/edit">
 	<link rel="import" href="/<%= model%>/delete">
 	<link rel="import" href="/<%= model%>/columns">
@@ -67,9 +67,8 @@
 <style>
 .card {
 	width: 80em;
-<%if (crud == "crud6") {
-%>	top: 25px;<%
-} %>
+	top: 40px;
+	left: 15px;
 }
 th div {
 	display: inline;
@@ -91,6 +90,8 @@ paper-menu {
 	margin-bottom: 0px;
 }
 </style>
+
+<%= topBar %>
 
 <%= columns_form %>
 

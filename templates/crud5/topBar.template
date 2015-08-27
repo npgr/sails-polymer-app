@@ -1,12 +1,4 @@
-<!-- topBar template: version 1.00 -->
-<% 
- function lng(word) {
-	return __("word")
- }
- function lng(word1, word2, word3) {
-	return __(word1, word2, word3)
- }
-%> 
+<!-- topBar template: version 1.10 -->
 
 <dom-module id="top-bar">
 <template>
@@ -78,10 +70,10 @@
 		  <div class="inline dropdown-trigger">Menu</div>
 		  <iron-dropdown id="dropdown_menu"  horizontal-align="left" vertical-align="top">
 			<ul class="dropdown-content" tabindex="0">
-			  <li class="dropdown-item" on-click="task"><%= lng("Activity")%></li>
-			  <li class="dropdown-item" on-click="resource"><%= lng("Resource")%></li>
-			  <li class="dropdown-item" on-click="profile"><%= lng("Profile")%></li>
-			  <li class="dropdown-item" on-click="user"><%= lng("User")%></li>
+			  <li class="dropdown-item" on-click="task">>%= lng("Activity")%<</li>
+			  <li class="dropdown-item" on-click="resource">>%= lng("Resource")%<</li>
+			  <li class="dropdown-item" on-click="profile">>%= lng("Profile")%<</li>
+			  <li class="dropdown-item" on-click="user">>%= lng("User")%<</li>
 			  <li class="dropdown-item">Models</li>
 			  <li class="dropdown-item">About</li>
 			</ul>
@@ -90,7 +82,7 @@
 		<div class="barTitle"><content></content></div>
 		<div class="barItem" on-click="open_user_menu">
 		  <paper-icon-button class="bar_icon" icon="account-circle"></paper-icon-button>
-		  <div class="inline dropdown-trigger"><%= user.user%></div>
+		  <div class="inline dropdown-trigger">>%= user.user%<</div>
 		  <iron-dropdown id="dropdown_user"  horizontal-align="right" vertical-align="top">
 			<ul class="dropdown-content" tabindex="0">
 			  <li class="dropdown-item">Info</li>
@@ -106,7 +98,7 @@
 	Polymer({
 		is: "top-bar",
 		ready: function() {
-			//this.user = <%= user.user%> // Name: <%= user.name%>'
+			//this.user = >%= user.user%< // Name: >%= user.name%<'
 		},
 		open_user_menu: function() {
 			this.$.dropdown_user.toggle()

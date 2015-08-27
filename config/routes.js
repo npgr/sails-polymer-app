@@ -66,6 +66,5 @@ module.exports.routes = {
   "/Task/select": "TaskController.select",
   "/login": "UserController.login",
   "/signout": "UserController.signout",
-  "post /validateLogin": "UserController.validateLogin",
-  "System/topBar": "SystemController.topBar"
+  "post /validateLogin": "UserController.validateLogin"
 };
