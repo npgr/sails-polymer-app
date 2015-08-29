@@ -6,13 +6,28 @@
  */
 
 module.exports = {
-	list : function (req, res) {
-		Task.find()
+	list: function (req, res) {
+		Task.find({user: req.session.userid})
 			.exec(function(err, data){
 				res.locals.user = {user: req.session.user, name: req.session.username}
 				res.locals.data = JSON.stringify(data)
 				res.view("Task/list")
 			})
+	},
+	get: function(req, res) {
+		Task.find({user: req.session.userid})
+			.exec(function(err, data){
+				res.json(data)
+			})
+	},
+	create: function(req, res, next) {
+		var params = req.params.all();
+		params.user = req.session.userid
+		Task.create(params, function(err, data) {
+			if (err) return next(err);
+			return res.json(data)
+			//return next()
+		});
 	},
 	bytype: function(req, res) {
 		Task.query('SELECT type, count(*) FROM task group by type order by count desc', function(err, data) {

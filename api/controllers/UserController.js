@@ -30,6 +30,7 @@ module.exports = {
 				  else if (data) {
 					if (data.pwd== req.body.password)
 					{
+						req.session.userid = data.id
 						req.session.user = req.body.username
 						req.session.username = data.name
 						res.redirect('Task/list');

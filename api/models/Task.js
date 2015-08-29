@@ -8,7 +8,7 @@
 module.exports = {
 
 	//migrate: "alter",
-	//tableName: 'task2',
+	tableName: 'task',
 	//adapter: 'postgresql',
   attributes: {
 	//_title: 'Activity',
@@ -18,6 +18,14 @@ module.exports = {
 		primaryKey: true,
 		autoIncrement: true,
 		unique: true
+	},
+	user: {
+		//description: 'user',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'usr',
+		//type: 'string',
+		model: 'User'
 	},
 	activity: {
 		//description: 'Activity',
