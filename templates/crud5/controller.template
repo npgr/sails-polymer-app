@@ -3,7 +3,8 @@
 }%>
 /************  Routes:  config/routes.js ************/
 
-"/<%= model%>/exist/:<%= key.name%>": "<%= model%>Controller.exist"
+"/<%= model%>/exist/:<%= key.name%>": "<%= model%>Controller.exist",
+"/<%= model%>/list": "<%= model%>Controller.list"
 
 /********** Controller: api/controllers/<<model_name>>Controller.js *******/
 
@@ -33,9 +34,6 @@
 	columns: function (req, res) {
 		res.view("<%= model%>/columns")
 	},*/
-	,select: function (req, res) {
-		res.view("<%= model%>/select")
-	},
 	list : function (req, res) {
 		<%= model%>.find()
 			.exec(function(err, data){
