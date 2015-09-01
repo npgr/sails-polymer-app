@@ -114,6 +114,21 @@ module.exports = {
 		type: "string"
 	}
 //End Attributes
+	,toJSON: function () {
+      var obj = this.toObject();
+
+	  if (obj.parent)
+	  {
+		var parent = {}
+		parent.id = obj.parent.id
+		parent.activity = obj.parent.activity
+	  
+		delete obj.parent
+
+		obj.parent = parent
+	  }
+      return obj;
+    }
   }
 };
 

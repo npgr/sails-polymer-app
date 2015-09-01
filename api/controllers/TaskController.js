@@ -16,6 +16,7 @@ module.exports = {
 	},
 	get: function(req, res) {
 		Task.find({user: req.session.userid})
+			.populate('parent')
 			.exec(function(err, data){
 				res.json(data)
 			})
