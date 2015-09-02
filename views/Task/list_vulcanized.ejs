@@ -1,4 +1,3 @@
-<!-- list template: version 6.10 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -6,16 +5,15 @@
  function lng(word1, word2, word3) {
 	return __(word1, word2, word3)
  }
-%>  
+%> 
 <html><head><meta charset="UTF-8">
 	<title><%= lng("%s %s",lng("List"),lng("Activity"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
-	<script src="/js2/lokijs/build/lokijs.min.js"></script>
+	<script src="/js2/lokijs/src/lokijs.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
-<!-- INICIA -->
 	<script>(function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -15583,7 +15581,6 @@ if (!window.Promise) {
 
 </script>
 </div>
-<!-- FINALIZA -->
 <style>
 .card {
 	width: 86em;
@@ -15611,7 +15608,7 @@ paper-menu {
 }
 </style>
 
-<!-- topBar template: version 1.10 -->
+
 
 <dom-module id="top-bar">
 <template>
@@ -15681,7 +15678,7 @@ paper-menu {
 		<div class="barItem" on-click="open_app_menu">
 		  <paper-icon-button class="bar_icon" icon="menu"></paper-icon-button>
 		  <div class="inline dropdown-trigger">Menu</div>
-		  <iron-dropdown id="dropdown_menu"  horizontal-align="left" vertical-align="top">
+		  <iron-dropdown id="dropdown_menu" horizontal-align="left" vertical-align="top">
 			<ul class="dropdown-content" tabindex="0">
 			  <li class="dropdown-item" on-click="task"><%= lng("Activity")%></li>
 			  <li class="dropdown-item" on-click="resource"><%= lng("Resource")%></li>
@@ -15696,7 +15693,7 @@ paper-menu {
 		<div class="barItem" on-click="open_user_menu">
 		  <paper-icon-button class="bar_icon" icon="account-circle"></paper-icon-button>
 		  <div class="inline dropdown-trigger"><%= user.user%></div>
-		  <iron-dropdown id="dropdown_user"  horizontal-align="right" vertical-align="top">
+		  <iron-dropdown id="dropdown_user" horizontal-align="right" vertical-align="top">
 			<ul class="dropdown-content" tabindex="0">
 			  <li class="dropdown-item">Info</li>
 			  <li class="dropdown-item">Change Password</li>
@@ -15738,7 +15735,7 @@ paper-menu {
 </script>
 </dom-module>
 
-<!-- list-columns: version 5.10 -->
+
 
 <dom-module id="Task-list-columns">
 <template>
@@ -15757,11 +15754,11 @@ paper-menu {
 		height: 30px;
 	}
 </style>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+	<paper-dialog id="dialog" modal="" vertical="" layout="" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Activity"))%></h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tbody><tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
@@ -15837,12 +15834,12 @@ paper-menu {
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
 				<td><div id="observacion" on-click="change_field"></div></td>
 			</tr>
-			</table>
+			</tbody></table>
 			</paper-dialog-scrollable>
 		<div class="buttons">
 			<div class="card_line">
-				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised=""><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm="" raised=""><%= lng('Exit')%></paper-button>
 			</div>
 		</div>
 	</paper-dialog>
@@ -15906,25 +15903,25 @@ paper-menu {
 </script>
 </dom-module>
 
-<!-- new-form: version 5.10 -->
+
 
 <dom-module id="Task-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
+	<paper-dialog id="dialog" modal="" vertical="" layout="" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<task-select id="Task_select_dialog" on-item_selected="set_select_field"></task-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Activity"))%></h2>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tbody><tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
-				<td><input id="id" type="number" name="id" disabled></td>
+				<td><input id="id" type="number" name="id" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="activity"><%= lng('Activity')%><strong class="red"> *</strong></label></td>
-				<td><input id="activity" type="text" name="activity" required></td>
+				<td><input id="activity" type="text" name="activity" required=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
@@ -15960,7 +15957,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
-				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key=0 on-click="select_field" readonly></td>
+				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key="0" on-click="select_field" readonly=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
@@ -16011,13 +16008,13 @@ paper-menu {
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
 				<td><input id="observacion" type="text" name="observacion"></td>
 			</tr>
-			</table>
+			</tbody></table>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
 				<div class="card_line">
 					<%= lng('Repeat ')%><input id="repeat" type="checkbox" name="repeat">
-					<paper-button id="create_btn" class="btn" on-click="submit_form" raised><%= lng('Create')%></paper-button>
-					<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+					<paper-button id="create_btn" class="btn" on-click="submit_form" raised=""><%= lng('Create')%></paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm="" raised=""><%= lng('Exit')%></paper-button>
 				</div>
 			</div>
 		  </form>
@@ -16127,37 +16124,37 @@ paper-menu {
 </script>
 </dom-module>
 
-<!-- display-form: version 5.10 -->
+
 
 <dom-module id="Task-display">
 <template>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+	<paper-dialog id="dialog" modal="" vertical="" layout="" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Activity"))%></h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tbody><tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
-				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
-				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
-				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}" disabled></td>
+				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
-				<td><input id="previous" type="number" name="previous" value="{{item.previous}}" disabled></td>
+				<td><input id="previous" type="number" name="previous" value="{{item.previous}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
-				<td><input id="order" type="number" name="order" value="{{item.order}}" disabled></td>
+				<td><input id="order" type="number" name="order" value="{{item.order}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
-				<td><select id="type" name="type" disabled>
+				<td><select id="type" name="type" disabled="">
 						<option value="i"><%= lng('Incident')%></option>
 						<option value="t"><%= lng('Task')%></option>
 						<option value="c"><%= lng('Change')%></option>
@@ -16166,7 +16163,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
-				<td><select id="status" name="status" disabled>
+				<td><select id="status" name="status" disabled="">
 						<option value="p"><%= lng('Pending')%></option>
 						<option value="l"><%= lng('Planning')%></option>
 						<option value="e"><%= lng('Working on')%></option>
@@ -16177,11 +16174,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
-				<td><input id="parent" type="text" name="parent" value="{{item.parent_activity}}" disabled></td>
+				<td><input id="parent" type="text" name="parent" value="{{item.parent_activity}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
-				<td><select id="prioridad" name="prioridad" disabled>
+				<td><select id="prioridad" name="prioridad" disabled="">
 						<option value="b"><%= lng('Low')%></option>
 						<option value="m"><%= lng('Medium')%></option>
 						<option value="a"><%= lng('Hight')%></option>
@@ -16190,49 +16187,49 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
-				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
-				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
-				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="time"><%= lng('time')%></label></td>
-				<td><input id="time" type="text" name="time" value="{{item.time}}" disabled></td>
+				<td><input id="time" type="text" name="time" value="{{item.time}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
-				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
-				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
-				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
-				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
-				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
-				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled=""></td>
 			</tr>
-			</table>
+			</tbody></table>
 		  </paper-dialog-scrollable>
 		<div class="buttons">
 			<div class="card_line">
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm="" raised=""><%= lng('Exit')%></paper-button>
 			</div>
 		</div>
 	</paper-dialog>
@@ -16254,24 +16251,24 @@ paper-menu {
 </script>
 </dom-module>
 
-<!-- edit-form: version 5.10 -->
+
 
 <dom-module id="Task-edit">
 <template>
-	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>
+	<iron-ajax id="ajax" method="PUT" handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal="" vertical="" layout="" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<task-select id="Task_select_dialog" on-item_selected="set_select_field"></task-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Activity"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tbody><tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
-				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="activity"><%= lng('Activity')%><strong class="red"> *</strong></label></td>
-				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" required></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" required=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
@@ -16307,7 +16304,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
-				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key={{item.parent_id}} value="{{item.parent_activity}}" on-click="select_field" readonly></td>
+				<td><iron-icon icon="find-in-page" field="parent" on-click="select_field_b"></iron-icon><input id="parent" type="text" name="parent" key="{{item.parent_id}}" value="{{item.parent_activity}}" on-click="select_field" readonly=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
@@ -16358,12 +16355,12 @@ paper-menu {
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
 				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}"></td>
 			</tr>
-			</table>
+			</tbody></table>
 			<div class="buttons">
 			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
 			  <div class="card_line">
-				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised=""><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm="" raised=""><%= lng('Exit')%></paper-button>
 			  </div>
 			</div>
 		</form>
@@ -16442,39 +16439,39 @@ paper-menu {
 </script>
 </dom-module>
 
-<!-- delete-form: version 5.10 -->
+
 
 <dom-module id="Task-delete">
 <template>
-	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+	<iron-ajax id="ajax" method="DELETE" handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal="" vertical="" layout="" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("Activity"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tbody><tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
-				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
-				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
-				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}" disabled></td>
+				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="previous"><%= lng('Previous')%></label></td>
-				<td><input id="previous" type="number" name="previous" value="{{item.previous}}" disabled></td>
+				<td><input id="previous" type="number" name="previous" value="{{item.previous}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
-				<td><input id="order" type="number" name="order" value="{{item.order}}" disabled></td>
+				<td><input id="order" type="number" name="order" value="{{item.order}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
-				<td><select id="type" name="type" disabled>
+				<td><select id="type" name="type" disabled="">
 						<option value="i"><%= lng('Incident')%></option>
 						<option value="t"><%= lng('Task')%></option>
 						<option value="c"><%= lng('Change')%></option>
@@ -16483,7 +16480,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
-				<td><select id="status" name="status" disabled>
+				<td><select id="status" name="status" disabled="">
 						<option value="p"><%= lng('Pending')%></option>
 						<option value="l"><%= lng('Planning')%></option>
 						<option value="e"><%= lng('Working on')%></option>
@@ -16494,11 +16491,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="parent"><%= lng('Parent')%></label></td>
-				<td><input id="parent" type="text" name="parent" value="{{item.parent_activity}}" disabled></td>
+				<td><input id="parent" type="text" name="parent" value="{{item.parent_activity}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="prioridad"><%= lng('Priority')%></label></td>
-				<td><select id="prioridad" name="prioridad" disabled>
+				<td><select id="prioridad" name="prioridad" disabled="">
 						<option value="b"><%= lng('Low')%></option>
 						<option value="m"><%= lng('Medium')%></option>
 						<option value="a"><%= lng('Hight')%></option>
@@ -16507,50 +16504,50 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="requester"><%= lng('Requester')%></label></td>
-				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="requestd"><%= lng('Request')%></label></td>
-				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="start"><%= lng('Start')%></label></td>
-				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="time"><%= lng('time')%></label></td>
-				<td><input id="time" type="text" name="time" value="{{item.time}}" disabled></td>
+				<td><input id="time" type="text" name="time" value="{{item.time}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="fcompromiso"><%= lng('Commit')%></label></td>
-				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled></td>
+				<td><input id="fcompromiso" type="date" name="fcompromiso" value="{{item.fcompromiso}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="end"><%= lng('End')%></label></td>
-				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="responsable"><%= lng('Responsible')%></label></td>
-				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled></td>
+				<td><input id="responsable" type="text" name="responsable" value="{{item.responsable}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ultseguimiento"><%= lng('Last Track')%></label></td>
-				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled></td>
+				<td><input id="ultseguimiento" type="date" name="ultseguimiento" value="{{item.ultseguimiento}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="proxseguimiento"><%= lng('Next Track')%></label></td>
-				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled></td>
+				<td><input id="proxseguimiento" type="date" name="proxseguimiento" value="{{item.proxseguimiento}}" disabled=""></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
-				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled=""></td>
 			</tr>
-			</table>
+			</tbody></table>
 		<div class="buttons">
 			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
 			<div class="card_line">
-				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised><%= lng('Delete')%></paper-button>
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised=""><%= lng('Delete')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm="" raised=""><%= lng('Exit')%></paper-button>
 			</div>
 		</div>
 		</form>
@@ -16590,8 +16587,9 @@ paper-menu {
 </script>
 </dom-module>
 
-<!-- select-model: version 5.10 -->
- <% 
+
+
+ &lt;% 
  function lng(word) {
 	return __("word")
  }
@@ -16602,9 +16600,9 @@ paper-menu {
 
 <dom-module id="Task-select">
 <template>
-	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" vertical layout>
-		<iron-icon icon="close" on-click="close" mini></iron-icon>  
+	<iron-ajax id="ajax" method="GET" handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" vertical="" layout="">
+		<iron-icon icon="close" on-click="close" mini=""></iron-icon>  
 		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('Parent')%>..."></div>
 		<paper-dialog-scrollable>
 		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
@@ -16665,16 +16663,15 @@ paper-menu {
 <dom-module id="Task-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<Task-list-columns id="Task_list_columns" on-close="update_columns"></Task-list-columns>
-	<Task-new id="Task_new_dialog" on-close="reload"></Task-new>
-	<Task-display id="Task_display_dialog"></Task-display>
-	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
-	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
-	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
-	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>-->
+	<task-list-columns id="Task_list_columns" on-close="update_columns"></task-list-columns>
+	<task-new id="Task_new_dialog" on-close="reload"></task-new>
+	<task-display id="Task_display_dialog"></task-display>
+	<task-edit id="Task_edit_dialog" on-close="reload"></task-edit>
+	<task-delete id="Task_delete_dialog" on-close="reload"></task-delete>
+	<task-select id="Task_select_dialog" on-item_selected="set_select_field"></task-select>	
+	
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
-		<option value="id"><%= lng('Id')%></option>
-		  <%= lng('Activity')%>
+		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
 		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Ticket')%>
 		<option value="ticket"><%= lng('Ticket')%></option>  <%= lng('Previous')%>
 		<option value="previous"><%= lng('Previous')%></option>  <%= lng('Order')%>
@@ -16712,7 +16709,7 @@ paper-menu {
 		<option value="$and">And</option>
 		<option value="$or">Or</option>
 	</select>
-	<paper-button class="btn" on-click="filter" raised><%= lng('Find')%></paper-button>
+	<paper-button class="btn" on-click="filter" raised=""><%= lng('Find')%></paper-button>
 	<strong id="total">{{regs}}</strong>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
@@ -16736,7 +16733,7 @@ paper-menu {
 		<option value="proxseguimiento"><%= lng('Next Track')%></option>
 		<option value="observacion"><%= lng('Notes')%></option>
 	</select>
-	<select id="op2" class="hide" >   
+	<select id="op2" class="hide">   
 		<option value="$eq"><%= lng('Equal to')%></option>
 		<option value="$ne"><%= lng('Different to')%></option>
 		<option value="$contains"><%= lng('Contains')%></option>
@@ -16749,9 +16746,9 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
-	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
-	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
+	<paper-fab id="btn_add" mini="" on-click="new" icon="add"></paper-fab>
+	<paper-fab id="btn_down" mini="" on-click="download" icon="file-download"></paper-fab>
+	<paper-fab id="btn_menu" mini="" on-click="menu" icon="list"></paper-fab>
 
 	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
 
@@ -16806,30 +16803,7 @@ paper-menu {
 			<iron-icon id="observacion_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
-	<!--<tfoot>
-	<tr>
-		<td class="ops"></td>
-		<td class="col_id"></td>
-		<td class="col_activity"></td>
-		<td class="col_ticket"></td>
-		<td class="col_previous"></td>
-		<td class="col_order"></td>
-		<td class="col_type"></td>
-		<td class="col_status"></td>
-		<td class="col_parent_activity"></td>
-		<td class="col_prioridad"></td>
-		<td class="col_requester"></td>
-		<td class="col_requestd"></td>
-		<td class="col_start"></td>
-		<td class="col_time"></td>
-		<td class="col_fcompromiso"></td>
-		<td class="col_end"></td>
-		<td class="col_responsable"></td>
-		<td class="col_ultseguimiento"></td>
-		<td class="col_proxseguimiento"></td>
-		<td class="col_observacion"></td>
-	</tr>
-	</tfoot>-->
+	
 	<tbody>
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
@@ -17340,7 +17314,8 @@ Polymer({
 </dom-module>
 <top-bar><%= lng("%s %s",lng("List"),lng("Activity"))%></top-bar>
 <paper-material class="card" elevation="2">
-	<Task-list></Task-list>
+	<task-list></task-list>
 </paper-material>
-</body>
-</html>
+
+
+</body></html>
