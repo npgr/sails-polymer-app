@@ -66,5 +66,6 @@ module.exports.routes = {
   "/Task/list": "TaskController.list",
   "/login": "UserController.login",
   "/signout": "UserController.signout",
-  "post /validateLogin": "UserController.validateLogin"
+  "post /validateLogin": "UserController.validateLogin",
+  "/ProfileResource/list": "ProfileResourceController.list"
 };

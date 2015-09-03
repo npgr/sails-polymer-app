@@ -21,6 +21,11 @@ module.exports = {
 		type:'string',
 		required: true
 	},
+	path: {
+		//description: "Path",
+		type:'string',
+		required: true
+	},
 	type: {
 		//description: 'Type',
 		type: "string",

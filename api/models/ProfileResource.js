@@ -31,6 +31,14 @@ module.exports = {
 		//display: 'name',
 		//type: 'string',
 		model: 'Resource'
+	},
+	order: {
+		//description: 'Order',
+		type: 'integer'
+	},
+	Group: {
+		//description: 'Group',
+		type: 'string'
 	}
 //End Attributes
   }
