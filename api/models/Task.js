@@ -8,7 +8,7 @@
 module.exports = {
 
 	//migrate: "alter",
-	tableName: 'task',
+	//tableName: 'task',
 	//adapter: 'postgresql',
   attributes: {
 	//_title: 'Activity',

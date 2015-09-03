@@ -1,4 +1,4 @@
-<!-- list template: version 6.05 -->
+<!-- list template: version 6.06 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -56,7 +56,7 @@
 	<!-- Forms imports -->
 	<%= import_form %>
 </head>
-<body>
+<body unresolved>
 <style>
 .card {
 	width: 80em;

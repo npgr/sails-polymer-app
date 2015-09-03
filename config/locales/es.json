@@ -27,8 +27,11 @@
   "Password": "Contraseña",
   "Username or Password incorrect": "Usuario o Contraseña incorrectos"
   ,"User": "Usuario"
+  ,"Users": "Usuarios"
+  ,"Account": "Cuenta"
   ,"Profile": "Perfil"
   ,"Resource": "Recurso"
+  ,"ProfileResource": "Recurso Perfil"
   ,"Require Aut": "Requiere Aut"
   ,"Name": "Nombre"
   ,"email": "Correo"
