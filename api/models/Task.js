@@ -32,6 +32,12 @@ module.exports = {
 		type: "string",
 		required: true
 	},
+	completed: {
+		//description: 'Completed',
+		type: 'integer',
+		max: 100,
+		min: 0
+	},
 	ticket: {
 		//description: 'Ticket',
 		type: "string"

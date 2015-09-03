@@ -7,7 +7,8 @@
 	return __(word1, word2, word3)
  }
 %>  
-<html><head><meta charset="UTF-8">
+<html>
+<head><meta charset="UTF-8">
 	<title><%= lng("%s %s",lng("List"),lng("Activity"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
@@ -15770,6 +15771,10 @@ paper-menu {
 				<td><div id="activity" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="completed"><%= lng('Completed')%></label></td>
+				<td><div id="completed" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
 				<td><div id="ticket" on-click="change_field"></div></td>
 			</tr>
@@ -15859,6 +15864,7 @@ paper-menu {
 			this.column= column
 			this.show_field("id")
 			this.show_field("activity")
+			this.show_field("completed")
 			this.show_field("ticket")
 			this.show_field("previous")
 			this.show_field("order")
@@ -15925,6 +15931,10 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="activity"><%= lng('Activity')%><strong class="red"> *</strong></label></td>
 				<td><input id="activity" type="text" name="activity" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="completed"><%= lng('Completed')%></label></td>
+				<td><input id="completed" type="number" name="completed" max=100></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
@@ -16034,6 +16044,7 @@ paper-menu {
 		clear: function() {
 			this.$.id.value = ''
 			this.$.activity.value = ''
+			this.$.completed.value = ''
 			this.$.ticket.value = ''
 			this.$.previous.value = ''
 			this.$.order.value = ''
@@ -16066,6 +16077,7 @@ paper-menu {
 			this.$.ajax2.url = config_server() + "Task"
 			var record = {}
 			  record.activity = this.$.activity.value
+			record.completed = Number(this.$.completed.value)
 			  record.ticket = this.$.ticket.value
 			record.previous = Number(this.$.previous.value)
 			record.order = Number(this.$.order.value)
@@ -16142,6 +16154,10 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
 				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="completed"><%= lng('Completed')%></label></td>
+				<td><input id="completed" type="number" name="completed" value="{{item.completed}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
@@ -16274,6 +16290,10 @@ paper-menu {
 				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" required></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="completed"><%= lng('Completed')%></label></td>
+				<td><input id="completed" type="number" name="completed" value="{{item.completed}}" max=100></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
 				<td><input id="ticket" type="text" name="ticket" value="{{item.ticket}}"></td>
 			</tr>
@@ -16402,6 +16422,7 @@ paper-menu {
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.activity = this.$.activity.value
+			record.completed = Number(this.$.completed.value)
 			record.ticket = this.$.ticket.value
 			record.previous = Number(this.$.previous.value)
 			record.order = Number(this.$.order.value)
@@ -16459,6 +16480,10 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="activity"><%= lng('Activity')%></label></td>
 				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="completed"><%= lng('Completed')%></label></td>
+				<td><input id="completed" type="number" name="completed" value="{{item.completed}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ticket"><%= lng('Ticket')%></label></td>
@@ -16590,6 +16615,7 @@ paper-menu {
 </script>
 </dom-module>
 
+
 <!-- select-model: version 5.10 -->
  <% 
  function lng(word) {
@@ -16673,9 +16699,9 @@ paper-menu {
 	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
-		<option value="id"><%= lng('Id')%></option>
-		  <%= lng('Activity')%>
-		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Ticket')%>
+		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
+		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Completed')%>
+		<option value="completed"><%= lng('Completed')%></option>  <%= lng('Ticket')%>
 		<option value="ticket"><%= lng('Ticket')%></option>  <%= lng('Previous')%>
 		<option value="previous"><%= lng('Previous')%></option>  <%= lng('Order')%>
 		<option value="order"><%= lng('Order')%></option>  <%= lng('Type')%>
@@ -16718,6 +16744,7 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
 		<option value="activity"><%= lng('Activity')%></option>
+		<option value="completed"><%= lng('Completed')%></option>
 		<option value="ticket"><%= lng('Ticket')%></option>
 		<option value="previous"><%= lng('Previous')%></option>
 		<option value="order"><%= lng('Order')%></option>
@@ -16770,6 +16797,8 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_activity"><%= lng('Activity')%><div id="activity_sort_d" class="hide">
 			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_completed" on-click="sort_completed"><%= lng('Completed')%><div id="completed_sort_d" class="hide">
+			<iron-icon id="completed_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_ticket" on-click="sort_ticket"><%= lng('Ticket')%><div id="ticket_sort_d" class="hide">
 			<iron-icon id="ticket_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_previous" on-click="sort_previous"><%= lng('Previous')%><div id="previous_sort_d" class="hide">
@@ -16811,6 +16840,7 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_activity"></td>
+		<td class="col_completed"></td>
 		<td class="col_ticket"></td>
 		<td class="col_previous"></td>
 		<td class="col_order"></td>
@@ -16838,6 +16868,7 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.activity}}"><td>{{item.activity}}</td></template>
+		<template is="dom-if" if="{{column.completed}}"><td>{{item.completed}}</td></template>
 		<template is="dom-if" if="{{column.ticket}}"><td>{{item.ticket}}</td></template>
 		<template is="dom-if" if="{{column.previous}}"><td>{{item.previous}}</td></template>
 		<template is="dom-if" if="{{column.order}}"><td>{{item.order}}</td></template>
@@ -16880,6 +16911,7 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "activity", type: "string", display: true},
+				{column: "completed", type: "integer", display: true},
 				{column: "ticket", type: "string", display: true},
 				{column: "previous", type: "integer", display: true},
 				{column: "order", type: "integer", display: true},
@@ -17088,6 +17120,7 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.activity_sort_d.classList.add("hide")
+		this.$.completed_sort_d.classList.add("hide")
 		this.$.ticket_sort_d.classList.add("hide")
 		this.$.previous_sort_d.classList.add("hide")
 		this.$.order_sort_d.classList.add("hide")
@@ -17120,6 +17153,9 @@ Polymer({
 	},
 	sort_activity: function() {
 		this.sort_by_field("activity")
+	},
+	sort_completed: function() {
+		this.sort_by_field("completed")
 	},
 	sort_ticket: function() {
 		this.sort_by_field("ticket")
