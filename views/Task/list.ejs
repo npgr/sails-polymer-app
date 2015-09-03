@@ -15683,9 +15683,9 @@ paper-menu {
 		  <paper-icon-button class="bar_icon" icon="menu"></paper-icon-button>
 		  <div class="inline dropdown-trigger">Menu</div>
 		  <iron-dropdown id="dropdown_menu"  horizontal-align="left" vertical-align="top">
-			<ul class="dropdown-content" tabindex="0"><% 
+			<ul class="dropdown-content" tabindex="0"><%
 		_.forEach(resources, function(n, key) { 
-			if (n.resource.type == "page") {%>
+		  if (n.resource.type == "page") {%>
 			  <li class="dropdown-item" on-click="<%= n.resource.name%>"><%= lng(n.resource.name)%></li><%
 		}})%>
 			  <li class="dropdown-item">Models</li>

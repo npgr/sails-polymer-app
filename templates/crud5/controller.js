@@ -1,14 +1,14 @@
 
 /************  Routes:  config/routes.js ************/
 
-"/Profile/exist/:id": "ProfileController.exist",
-"/Profile/list": "ProfileController.list"
+"/ProfileResource/exist/:id": "ProfileResourceController.exist",
+"/ProfileResource/list": "ProfileResourceController.list"
 
 /********** Controller: api/controllers/<<model_name>>Controller.js *******/
 
 	exist: function(req, res, next) {
 		var id = req.param("id")
-		 Profile.findOne(id)
+		 ProfileResource.findOne(id)
 			.exec(function(err, data) {
 				if(err) res.json({ "exist": "error"})
 				  else if (!data) res.json({ "exist": false})
@@ -16,30 +16,31 @@
 			})
 	}
 	/*, display: function(req, res) {
-		res.view("Profile/display")
+		res.view("ProfileResource/display")
 	},
 	new: function (req, res) {
-		res.view("Profile/new")
+		res.view("ProfileResource/new")
 	},
 	edit: function (req, res) {
-		res.view("Profile/edit")
+		res.view("ProfileResource/edit")
 	},
 	delete: function (req, res) {
-		res.view("Profile/delete")
+		res.view("ProfileResource/delete")
 	},
 	columns: function (req, res) {
-		res.view("Profile/columns")
+		res.view("ProfileResource/columns")
 	},*/
 	list : function (req, res) {
-		Profile.find()
+		ProfileResource.find()
 			.exec(function(err, data){
+				res.locals.resources = req.session.resources
 				res.locals.user = {user: req.session.user, name: req.session.username}
 				res.locals.data = JSON.stringify(data)
-				res.view("Profile/list")
+				res.view("ProfileResource/list")
 			})
 	}
 	/*,byfield: function(req, res) {
-		Profile.query('SELECT field, count(*) FROM Profile group by field order by count desc', function(err, data) {
+		ProfileResource.query('SELECT field, count(*) FROM ProfileResource group by field order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)

@@ -33,7 +33,26 @@ module.exports = {
 						req.session.userid = data.id
 						req.session.user = req.body.username
 						req.session.username = data.name
-						res.redirect('Task/list');
+						req.session.profile = data.profile
+						ProfileResource.find({profile: req.session.profile})
+						 .populate('resource')
+						 .sort('order')
+						 .exec(function(err, data2){
+							/*_.remove(data2, function (e) {
+								return e.resource.type != 'page'
+							})*/
+						  _.forEach(data2, function(n, key) {
+							delete n.profile
+							delete n.id
+							delete n.createdAt
+							delete n.updatedAt
+							delete n.resource.id
+							delete n.resource.createdAt
+							delete n.resource.updatedAt
+						  })
+						  req.session.resources = data2
+						  res.redirect('Task/list');
+						})
 					}
 					else
 					{
@@ -51,6 +70,7 @@ module.exports = {
 	list : function (req, res) {
 		//User.find()
  			//.exec(function(err, data){
+				res.locals.resources = req.session.resources
  				res.locals.user = {user: req.session.user, name: req.session.username}
  				res.locals.data = []
 				res.view("User/list")

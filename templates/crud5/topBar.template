@@ -1,4 +1,4 @@
-<!-- topBar template: version 1.10 -->
+<!-- topBar template: version 1.15 -->
 
 <dom-module id="top-bar">
 <template>
@@ -69,11 +69,11 @@
 		  <paper-icon-button class="bar_icon" icon="menu"></paper-icon-button>
 		  <div class="inline dropdown-trigger">Menu</div>
 		  <iron-dropdown id="dropdown_menu"  horizontal-align="left" vertical-align="top">
-			<ul class="dropdown-content" tabindex="0">
-			  <li class="dropdown-item" on-click="task">>%= lng("Activity")%<</li>
-			  <li class="dropdown-item" on-click="resource">>%= lng("Resource")%<</li>
-			  <li class="dropdown-item" on-click="profile">>%= lng("Profile")%<</li>
-			  <li class="dropdown-item" on-click="user">>%= lng("User")%<</li>
+			<ul class="dropdown-content" tabindex="0"><%
+		_.forEach(resources, function(n, key) { 
+		  if (n.resource.type == "page") {%>
+			  <li class="dropdown-item" on-click="<%= n.resource.name%>"><%= lng(n.resource.name)%></li><%
+		}})%>
 			  <li class="dropdown-item">Models</li>
 			  <li class="dropdown-item">About</li>
 			</ul>
@@ -108,19 +108,13 @@
 		},
 		signout: function() {
 			window.location.assign(config_server() + "signout")
-		},
-		task: function() {
-			window.location.assign(config_server() + "task/list")
-		},
-		user: function() {
-			window.location.assign(config_server() + "user/list")
-		},
-		profile: function() {
-			window.location.assign(config_server() + "profile/list")
-		},
-		resource: function() {
-			window.location.assign(config_server() + "resource/list")
-		}
+		}<%
+	_.forEach(resources, function(n, key) { 
+	  if (n.resource.type == "page") {%>
+		,<%= n.resource.name %>: function() {
+			window.location.assign(config_server() + "<%= n.resource.path %>")
+		}<%
+	}})%>
 	})
 </script>
 </dom-module>
