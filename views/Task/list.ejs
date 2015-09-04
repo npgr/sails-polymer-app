@@ -15726,7 +15726,7 @@ paper-menu {
 	_.forEach(resources, function(n, key) { 
 	  if (n.resource.type == "page") {%>
 		,<%= n.resource.name %>: function() {
-			window.location.assign(config_server() + "<%= n.resource.path %>")
+			window.location.assign(config_server() + "<%= n.resource.path.substring(1) %>")
 		}<%
 	}})%>
 	})
