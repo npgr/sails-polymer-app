@@ -15765,6 +15765,10 @@ paper-menu {
 				<td><div id="name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="method"><%= lng('method')%></label></td>
+				<td><div id="method" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="path"><%= lng('Path')%></label></td>
 				<td><div id="path" on-click="change_field"></div></td>
 			</tr>
@@ -15798,6 +15802,7 @@ paper-menu {
 			this.column= column
 			this.show_field("id")
 			this.show_field("name")
+			this.show_field("method")
 			this.show_field("path")
 			this.show_field("type")
 			this.show_field("requireaut")
@@ -15849,6 +15854,16 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
 				<td><input id="name" type="text" name="name" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="method"><%= lng('method')%></label></td>
+				<td><select id="method" name="method">
+						<option value="get"><%= lng('GET')%></option>
+						<option value="post"><%= lng('POST')%></option>
+						<option value="put"><%= lng('PUT')%></option>
+						<option value="delete"><%= lng('DELETE')%></option>
+						<option value="all"><%= lng('ALL')%></option>
+					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="path"><%= lng('Path')%><strong class="red"> *</strong></label></td>
@@ -15909,6 +15924,7 @@ paper-menu {
 			this.$.ajax2.url = config_server() + "Resource"
 			var record = {}
 			  record.name = this.$.name.value
+			  record.method = this.$.method.value
 			  record.path = this.$.path.value
 			  record.type = this.$.type.value
 			  record.requireaut = this.$.requireaut.value			
@@ -15967,6 +15983,16 @@ paper-menu {
 				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="method"><%= lng('method')%></label></td>
+				<td><select id="method" name="method" disabled>
+						<option value="get"><%= lng('GET')%></option>
+						<option value="post"><%= lng('POST')%></option>
+						<option value="put"><%= lng('PUT')%></option>
+						<option value="delete"><%= lng('DELETE')%></option>
+						<option value="all"><%= lng('ALL')%></option>
+					</select></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="path"><%= lng('Path')%></label></td>
 				<td><input id="path" type="text" name="path" value="{{item.path}}" disabled></td>
 			</tr>
@@ -16004,6 +16030,7 @@ paper-menu {
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
+			this.$.method.value = item.method
 			this.$.type.value = item.type
 			this.$.requireaut.value = item.requireaut
 			}
@@ -16028,6 +16055,16 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="method"><%= lng('method')%></label></td>
+				<td><select id="method" name="method">
+						<option value="get"><%= lng('GET')%></option>
+						<option value="post"><%= lng('POST')%></option>
+						<option value="put"><%= lng('PUT')%></option>
+						<option value="delete"><%= lng('DELETE')%></option>
+						<option value="all"><%= lng('ALL')%></option>
+					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="path"><%= lng('Path')%><strong class="red"> *</strong></label></td>
@@ -16070,6 +16107,7 @@ paper-menu {
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
+			this.$.method.value = item.method
 			this.$.type.value = item.type
 			this.$.requireaut.value = item.requireaut
 			},
@@ -16090,6 +16128,7 @@ paper-menu {
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.name = this.$.name.value
+			record.method = this.$.method.value
 			record.path = this.$.path.value
 			record.type = this.$.type.value
 			record.requireaut = this.$.requireaut.value
@@ -16127,6 +16166,16 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="method"><%= lng('method')%></label></td>
+				<td><select id="method" name="method" disabled>
+						<option value="get"><%= lng('GET')%></option>
+						<option value="post"><%= lng('POST')%></option>
+						<option value="put"><%= lng('PUT')%></option>
+						<option value="delete"><%= lng('DELETE')%></option>
+						<option value="all"><%= lng('ALL')%></option>
+					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="path"><%= lng('Path')%></label></td>
@@ -16169,6 +16218,7 @@ paper-menu {
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
+			this.$.method.value = item.method
 			this.$.type.value = item.type
 			this.$.requireaut.value = item.requireaut
 			},
@@ -16205,7 +16255,8 @@ paper-menu {
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Resource"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Name')%>
-		<option value="name"><%= lng('Name')%></option>  <%= lng('Path')%>
+		<option value="name"><%= lng('Name')%></option>  <%= lng('method')%>
+		<option value="method"><%= lng('method')%></option>  <%= lng('Path')%>
 		<option value="path"><%= lng('Path')%></option>  <%= lng('Type')%>
 		<option value="type"><%= lng('Type')%></option>  <%= lng('Require Aut')%>
 		<option value="requireaut"><%= lng('Require Aut')%></option>
@@ -16234,6 +16285,7 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
 		<option value="name"><%= lng('Name')%></option>
+		<option value="method"><%= lng('method')%></option>
 		<option value="path"><%= lng('Path')%></option>
 		<option value="type"><%= lng('Type')%></option>
 		<option value="requireaut"><%= lng('Require Aut')%></option>
@@ -16272,6 +16324,8 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_name" on-click="sort_name"><%= lng('Name')%><div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_method" on-click="sort_method"><%= lng('method')%><div id="method_sort_d" class="hide">
+			<iron-icon id="method_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_path" on-click="sort_path"><%= lng('Path')%><div id="path_sort_d" class="hide">
 			<iron-icon id="path_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_type" on-click="sort_type"><%= lng('Type')%><div id="type_sort_d" class="hide">
@@ -16285,6 +16339,7 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_name"></td>
+		<td class="col_method"></td>
 		<td class="col_path"></td>
 		<td class="col_type"></td>
 		<td class="col_requireaut"></td>
@@ -16298,6 +16353,7 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
+		<template is="dom-if" if="{{column.method}}"><td>{{item.method_des}}</td></template>
 		<template is="dom-if" if="{{column.path}}"><td>{{item.path}}</td></template>
 		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
 		<template is="dom-if" if="{{column.requireaut}}"><td>{{item.requireaut_des}}</td></template>
@@ -16326,11 +16382,13 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "name", type: "string", display: true},
+				{column: "method", enum: ["get","post","put","delete","all"], enumdes: ["<%= lng("GET")%>","<%= lng("POST")%>","<%= lng("PUT")%>","<%= lng("DELETE")%>","<%= lng("ALL")%>"], display: true},
 				{column: "path", type: "string", display: true},
 				{column: "type", enum: ["page","api","option","component"], enumdes: ["<%= lng("Page")%>","<%= lng("Api")%>","<%= lng("Option")%>","<%= lng("component")%>"], display: true},
 				{column: "requireaut", enum: ["Yes","No"], enumdes: ["<%= lng("Yes")%>","<%= lng("No")%>"], display: true}
 		]
 		this.enums = {}
+		this.enums.method = {get:"<%= lng('GET')%>",post:"<%= lng('POST')%>",put:"<%= lng('PUT')%>",delete:"<%= lng('DELETE')%>",all:"<%= lng('ALL')%>"}
 		this.enums.type = {page:"<%= lng('Page')%>",api:"<%= lng('Api')%>",option:"<%= lng('Option')%>",component:"<%= lng('component')%>"}
 		this.enums.requireaut = {Yes:"<%= lng('Yes')%>",No:"<%= lng('No')%>"}
 		//var _data = <%- data %>
@@ -16513,6 +16571,7 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
+		this.$.method_sort_d.classList.add("hide")
 		this.$.path_sort_d.classList.add("hide")
 		this.$.type_sort_d.classList.add("hide")
 		this.$.requireaut_sort_d.classList.add("hide")
@@ -16531,6 +16590,9 @@ Polymer({
 	},
 	sort_name: function() {
 		this.sort_by_field("name")
+	},
+	sort_method: function() {
+		this.sort_by_field("method")
 	},
 	sort_path: function() {
 		this.sort_by_field("path")
@@ -16673,6 +16735,7 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
+		this.$.ajax.lastResponse[i].method_des= this.enums.method[this.$.ajax.lastResponse[i].method]
 		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
 		this.$.ajax.lastResponse[i].requireaut_des= this.enums.requireaut[this.$.ajax.lastResponse[i].requireaut]	
 		this.data.insert(this.$.ajax.lastResponse[i])

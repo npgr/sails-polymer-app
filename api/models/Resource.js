@@ -21,6 +21,12 @@ module.exports = {
 		type:'string',
 		required: true
 	},
+	method: {
+		//description: 'Method',
+		type: "string",
+		enum: ["get","post","put","delete","all"]
+		//,enumdes: ["GET","POST","PUT","DELETE","ALL"]
+	},
 	path: {
 		//description: "Path",
 		type:'string',

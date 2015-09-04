@@ -23,9 +23,9 @@ module.exports = function(req, res, next) {
 		var resource_name = _.result(_.find(req.session.resources, { 'path': req.route.path }), 'name')
 	
 		if (resource_name)
-			console.log(req.route.path+' Authorized')
+			console.log(req.method+' '+req.route.path+' Authorized')
 		else
-			console.log(req.route.path+' Not Authorized for user '+req.session.user)
+			console.log(req.method+' '+req.route.path+' Not Authorized for user '+req.session.user)
 	}
 	return next()
 

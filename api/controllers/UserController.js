@@ -50,7 +50,7 @@ module.exports = {
 							delete n.resource.createdAt
 							delete n.resource.updatedAt
 							n.path = n.resource.path
-							n.name = n.resource.name
+							n.name = n.resource.name.replace(/ /g, "_");
 							delete n.resource.path
 							delete n.resource.name
 						  })
