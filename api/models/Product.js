@@ -69,6 +69,10 @@ module.exports = {
 		//description: 'Cost',
 		type: 'float'
 	},
+	photo: {
+		//description: 'Photo',
+		type: 'string'
+	},
 	status: {
 		//description: 'Status',
 		type: 'string',

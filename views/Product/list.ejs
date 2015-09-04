@@ -15797,6 +15797,10 @@ paper-menu {
 				<td><div id="cost" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="photo"><%= lng('Photo')%></label></td>
+				<td><div id="photo" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
 				<td><div id="status" on-click="change_field"></div></td>
 			</tr>
@@ -15830,6 +15834,7 @@ paper-menu {
 			this.show_field("stock")
 			this.show_field("price")
 			this.show_field("cost")
+			this.show_field("photo")
 			this.show_field("status")
 			this.$.dialog.open()
 		},
@@ -15916,6 +15921,10 @@ paper-menu {
 				<td><input id="cost" type="float" name="cost"></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="photo"><%= lng('Photo')%></label></td>
+				<td><input id="photo" type="text" name="photo"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
 				<td><select id="status" name="status">
 						<option value="a"><%= lng('Active')%></option>
@@ -15956,6 +15965,7 @@ paper-menu {
 			this.$.stock.value = ''
 			this.$.price.value = ''
 			this.$.cost.value = ''
+			this.$.photo.value = ''
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
@@ -15985,6 +15995,7 @@ paper-menu {
 			record.stock = Number(this.$.stock.value)
 			record.price = Number(this.$.price.value)
 			record.cost = Number(this.$.cost.value)
+			  record.photo = this.$.photo.value
 			  record.status = this.$.status.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
@@ -16073,6 +16084,10 @@ paper-menu {
 				<td><input id="cost" type="float" name="cost" value="{{item.cost}}" disabled></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="photo"><%= lng('Photo')%></label></td>
+				<td><input id="photo" type="text" name="photo" value="{{item.photo}}" disabled></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
 				<td><select id="status" name="status" disabled>
 						<option value="a"><%= lng('Active')%></option>
@@ -16157,6 +16172,10 @@ paper-menu {
 				<td><input id="cost" type="float" name="cost" value="{{item.cost}}"></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="photo"><%= lng('Photo')%></label></td>
+				<td><input id="photo" type="text" name="photo" value="{{item.photo}}"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
 				<td><select id="status" name="status">
 						<option value="a"><%= lng('Active')%></option>
@@ -16217,6 +16236,7 @@ paper-menu {
 			record.stock = Number(this.$.stock.value)
 			record.price = Number(this.$.price.value)
 			record.cost = Number(this.$.cost.value)
+			record.photo = this.$.photo.value
 			record.status = this.$.status.value
 			this.$.ajax.url = config_server() + "Product/" +record.id
 			this.$.ajax.params = record
@@ -16284,6 +16304,10 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="cost"><%= lng('Cost')%></label></td>
 				<td><input id="cost" type="float" name="cost" value="{{item.cost}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="photo"><%= lng('Photo')%></label></td>
+				<td><input id="photo" type="text" name="photo" value="{{item.photo}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
@@ -16572,7 +16596,8 @@ paper-menu {
 		<option value="suppliercode"><%= lng('Supplier Code')%></option>  <%= lng('Stock')%>
 		<option value="stock"><%= lng('Stock')%></option>  <%= lng('Price')%>
 		<option value="price"><%= lng('Price')%></option>  <%= lng('Cost')%>
-		<option value="cost"><%= lng('Cost')%></option>  <%= lng('Status')%>
+		<option value="cost"><%= lng('Cost')%></option>  <%= lng('Photo')%>
+		<option value="photo"><%= lng('Photo')%></option>  <%= lng('Status')%>
 		<option value="status"><%= lng('Status')%></option>
 	</select>
 	<select id="op">   
@@ -16607,6 +16632,7 @@ paper-menu {
 		<option value="stock"><%= lng('Stock')%></option>
 		<option value="price"><%= lng('Price')%></option>
 		<option value="cost"><%= lng('Cost')%></option>
+		<option value="photo"><%= lng('Photo')%></option>
 		<option value="status"><%= lng('Status')%></option>
 	</select>
 	<select id="op2" class="hide" >   
@@ -16659,6 +16685,8 @@ paper-menu {
 			<iron-icon id="price_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_cost" on-click="sort_cost"><%= lng('Cost')%><div id="cost_sort_d" class="hide">
 			<iron-icon id="cost_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_photo" on-click="sort_photo"><%= lng('Photo')%><div id="photo_sort_d" class="hide">
+			<iron-icon id="photo_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_status" on-click="sort_status"><%= lng('Status')%><div id="status_sort_d" class="hide">
 			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
@@ -16676,6 +16704,7 @@ paper-menu {
 		<td class="col_stock"></td>
 		<td class="col_price"></td>
 		<td class="col_cost"></td>
+		<td class="col_photo"></td>
 		<td class="col_status"></td>
 	</tr>
 	</tfoot>-->
@@ -16695,6 +16724,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.stock}}"><td>{{item.stock}}</td></template>
 		<template is="dom-if" if="{{column.price}}"><td>{{item.price}}</td></template>
 		<template is="dom-if" if="{{column.cost}}"><td>{{item.cost}}</td></template>
+		<template is="dom-if" if="{{column.photo}}"><td>{{item.photo}}</td></template>
 		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
 	</tr>
 	</template>
@@ -16732,6 +16762,7 @@ Polymer({
 				{column: "stock", type: "integer", display: true},
 				{column: "price", type: "float", display: true},
 				{column: "cost", type: "float", display: true},
+				{column: "photo", type: "string", display: true},
 				{column: "status", enum: ["a","i"], enumdes: ["<%= lng("Active")%>","<%= lng("Inactive")%>"], display: true}
 		]
 		this.enums = {}
@@ -16939,6 +16970,7 @@ Polymer({
 		this.$.stock_sort_d.classList.add("hide")
 		this.$.price_sort_d.classList.add("hide")
 		this.$.cost_sort_d.classList.add("hide")
+		this.$.photo_sort_d.classList.add("hide")
 		this.$.status_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
@@ -16979,6 +17011,9 @@ Polymer({
 	},
 	sort_cost: function() {
 		this.sort_by_field("cost")
+	},
+	sort_photo: function() {
+		this.sort_by_field("photo")
 	},
 	sort_status: function() {
 		this.sort_by_field("status")
