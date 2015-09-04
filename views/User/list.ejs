@@ -15612,7 +15612,7 @@ paper-menu {
 }
 </style>
 
-<!-- topBar template: version 1.15 -->
+<!-- topBar template: version 1.16 -->
 
 <dom-module id="top-bar">
 <template>
@@ -15686,7 +15686,7 @@ paper-menu {
 			<ul class="dropdown-content" tabindex="0"><%
 		_.forEach(resources, function(n, key) { 
 		  if (n.resource.type == "page") {%>
-			  <li class="dropdown-item" on-click="<%= n.resource.name%>"><%= lng(n.resource.name)%></li><%
+			  <li class="dropdown-item" on-click="<%= n.name%>"><%= lng(n.name)%></li><%
 		}})%>
 			  <li class="dropdown-item">Models</li>
 			  <li class="dropdown-item">About</li>
@@ -15725,8 +15725,8 @@ paper-menu {
 		}<%
 	_.forEach(resources, function(n, key) { 
 	  if (n.resource.type == "page") {%>
-		,<%= n.resource.name %>: function() {
-			window.location.assign(config_server() + "<%= n.resource.path %>")
+		,<%= n.name %>: function() {
+			window.location.assign(config_server() + "<%= n.path.substring(1) %>")
 		}<%
 	}})%>
 	})

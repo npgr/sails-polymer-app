@@ -13,11 +13,20 @@ module.exports = function(req, res, next) {
   // or if this is the last policy, the controller
   
   //log visits
-  console.log('req.route.path: ', req.route.path)
+  //console.log('req.route.path: ', req.route.path)
   
-  if (!req.session.user && req.route.path != '/login' && req.route.path != '/validateLogin')
-	return res.redirect('/login')
+	if (!req.session.user && req.route.path != '/login' && req.route.path != '/validateLogin')
+		return res.redirect('/login')
 	
+	if (req.route.path != '/login' && req.route.path != '/validateLogin' && req.route.path != '/signout')
+	{
+		var resource_name = _.result(_.find(req.session.resources, { 'path': req.route.path }), 'name')
+	
+		if (resource_name)
+			console.log(req.route.path+' Authorized')
+		else
+			console.log(req.route.path+' Not Authorized for user '+req.session.user)
+	}
 	return next()
 
   // User is not allowed

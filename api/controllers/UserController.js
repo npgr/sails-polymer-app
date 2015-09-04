@@ -49,6 +49,10 @@ module.exports = {
 							delete n.resource.id
 							delete n.resource.createdAt
 							delete n.resource.updatedAt
+							n.path = n.resource.path
+							n.name = n.resource.name
+							delete n.resource.path
+							delete n.resource.name
 						  })
 						  req.session.resources = data2
 						  res.redirect('Task/list');

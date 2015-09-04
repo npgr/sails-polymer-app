@@ -67,5 +67,9 @@ module.exports.routes = {
   "/login": "UserController.login",
   "/signout": "UserController.signout",
   "post /validateLogin": "UserController.validateLogin",
+  "/User/list": "UserController.list",
+  "/Account/list": "AccountController.list",
+  "/Profile/list": "ProfileController.list",
+  "/Resource/list": "ResourceController.list",
   "/ProfileResource/list": "ProfileResourceController.list"
 };
