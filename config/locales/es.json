@@ -71,4 +71,18 @@
   ,"Last Track": "Ult Seguimiento"
   ,"Next Track": "Prox Seguimiento"
   ,"Notes": "Observación"
+  
+  ,"Supplier": "Proveedor"
+  ,"Product": "Producto"
+  ,"Code": "Código"
+  ,"Category": "Categoria"
+  ,"Product Category": "Categoria Producto"
+  ,"Product SubCategory": "SubCategoria Producto"
+  ,"SubCategory": "SubCategoria"
+  ,"Supplier Code": "Código Proveedor"
+  ,"Stock": "Existencia"
+  ,"Price": "Precio"
+  ,"Cost": "Costo"
+  ,"Active": "Activo"
+  ,"Inactive": "Inactivo"
 }

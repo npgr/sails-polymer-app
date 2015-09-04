@@ -1,14 +1,16 @@
- /**
-* Category.js
+/**
+* Supplier.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
 module.exports = {
-	//migrate: "alter",
+
+  migrate: "alter",
+  
   attributes: {
-	//_title: 'Categoria',
+	//_title: 'Supplier',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -16,9 +18,11 @@ module.exports = {
 		autoIncrement: true
 	},
 	name: {
-		//description: 'Nombre',
+		//description: 'Name',
 		type: "string",
 		required: true
 	}
+//End Attributes
   }
 };
+

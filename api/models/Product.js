@@ -7,10 +7,10 @@
 
 module.exports = {
 
-	//migrate: 'alter',
+	migrate: 'alter',
 
   attributes: {
-	//_title: 'Producto',
+	//_title: 'Product',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -20,33 +20,62 @@ module.exports = {
 		autoIncrement: true,
 		unique: true
 	},
+	code: {
+		//description: 'Code',
+		type: 'string'
+	},
 	name: {
-		//description: 'Nombre',
+		//description: 'Name',
 		type: 'string',
 		required: true
 	},
-	Categoria: {
-		//description: 'Categoria',
+	category: {
+		//description: 'Category',
 		//key: id,
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
-		model: 'Category'
+		model: 'ProductCategory'
+	},
+	subCategory: {
+		//description: 'SubCategory',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'ProductSubCategory'
+	},
+	supplier: {
+		//description: 'Supplier',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'Supplier'
+	},
+	suppliercode: {
+		//description: 'Supplier Code',
+		type: 'string'
 	},
 	stock: {
-		//description: 'Existencia',
+		//description: 'Stock',
 		type: 'integer'
 	},
 	price: {
-		//description: 'Precio',
+		//description: 'Price',
+		type: 'float'
+	},
+	cost: {
+		//description: 'Cost',
 		type: 'float'
 	},
 	status: {
 		//description: 'Status',
 		type: 'string',
-		enum: ['A', 'B', 'I']
-		//,enumdes: ['Activo', 'Bloqueado', 'Inactivo']
+		enum: ['a', 'i']
+		//,enumdes: ['Active', 'Inactive']
 	}
+//End Attributes
   }
 };
 

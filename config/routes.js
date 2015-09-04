@@ -71,5 +71,9 @@ module.exports.routes = {
   "/Account/list": "AccountController.list",
   "/Profile/list": "ProfileController.list",
   "/Resource/list": "ResourceController.list",
-  "/ProfileResource/list": "ProfileResourceController.list"
+  "/ProfileResource/list": "ProfileResourceController.list",
+  "/Product/list": "ProductController.list",
+  "/ProductCategory/list": "ProductCategoryController.list",
+  "/ProductSubCategory/list": "ProductSubCategoryController.list",
+  "/Supplier/list": "SupplierController.list",
 };
