@@ -6,7 +6,16 @@
  */
 
 module.exports = {
-	exist: function(req, res, next) {
+	list : function (req, res) {
+		Customer.find()
+			.exec(function(err, data){
+				res.locals.resources = req.session.resources
+				res.locals.user = {user: req.session.user, name: req.session.username}
+				res.locals.data = JSON.stringify(data)
+				res.view("Customer/list")
+			})
+	}
+	/*exist: function(req, res, next) {
 		var id = req.param("id")
 		 Customer.findOne(id)
 			.exec(function(err, data) {
@@ -14,7 +23,7 @@ module.exports = {
 				  else if (!data) res.json({ "exist": false})
 					else res.json({ "exist": true})
 			})
-	}/*,
+	},
 	create: function(req, res, next) {
 		var params = req.params.all();
 		Customer.create(params, function(err, data) {

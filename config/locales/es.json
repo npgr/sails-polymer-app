@@ -85,4 +85,17 @@
   ,"Cost": "Costo"
   ,"Active": "Activo"
   ,"Inactive": "Inactivo"
+  
+  ,"Country": "Pais"
+  ,"State": "Estado"
+  ,"City": "Ciudad"
+  ,"Customer": "Cliente"
+  ,"Address": "Dirección"
+  ,"Phone": "Teléfono(s)"
+  ,"Country": "Pais"
+  ,"Email": "Correo"
+  ,"Notes": "Notas"
+  ,"Credit Limit": "Límite de Crédito"
+  ,"Balance": "Saldo"
+  ,"Tax Id": "Id Fiscal"
 }

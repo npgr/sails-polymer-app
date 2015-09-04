@@ -9,7 +9,7 @@
 %>  
 <html>
 <head><meta charset="UTF-8">
-	<title><%= lng("%s %s",lng("List"),lng("Customer"))%></title>
+	<title><%= lng("%s %s",lng("List"),lng("State"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
@@ -15587,7 +15587,7 @@ if (!window.Promise) {
 <!-- FINALIZA -->
 <style>
 .card {
-	width: 80em;
+	width: 60em;
 	top: 30px;
 	left: 15px;
 }
@@ -15735,7 +15735,7 @@ paper-menu {
 
 <!-- list-columns: version 5.10 -->
 
-<dom-module id="Customer-list-columns">
+<dom-module id="State-list-columns">
 <template>
 <style>
 	/*#dialog {
@@ -15753,7 +15753,7 @@ paper-menu {
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Customer"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("State"))%></h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -15765,56 +15765,12 @@ paper-menu {
 				<td><div id="code" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
-				<td><div id="name" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="category_name"><%= lng('Category')%></label></td>
-				<td><div id="category_name" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="taxid"><%= lng('Tax Id')%></label></td>
-				<td><div id="taxid" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><div id="creditlimit" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><div id="balance" on-click="change_field"></div></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="country_name"><%= lng('Country')%></label></td>
 				<td><div id="country_name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="state_name"><%= lng('State')%></label></td>
-				<td><div id="state_name" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="city_name"><%= lng('City')%></label></td>
-				<td><div id="city_name" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><div id="address" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
-				<td><div id="phone" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('Email')%></label></td>
-				<td><div id="email" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><div id="notes" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
-				<td><div id="status" on-click="change_field"></div></td>
+				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
+				<td><div id="name" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -15828,7 +15784,7 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Customer-list-columns",
+		is: "State-list-columns",
 		properties: {
 			//updated: false,
 			//column: {}
@@ -15838,19 +15794,8 @@ paper-menu {
 			this.column= column
 			this.show_field("id")
 			this.show_field("code")
-			this.show_field("name")
-			this.show_field("category_name")
-			this.show_field("taxid")
-			this.show_field("creditlimit")
-			this.show_field("balance")
 			this.show_field("country_name")
-			this.show_field("state_name")
-			this.show_field("city_name")
-			this.show_field("address")
-			this.show_field("phone")
-			this.show_field("email")
-			this.show_field("notes")
-			this.show_field("status")
+			this.show_field("name")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {
@@ -15883,16 +15828,13 @@ paper-menu {
 
 <!-- new-form: version 5.10 -->
 
-<dom-module id="Customer-new">
+<dom-module id="State-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<CustomerCategory-select id="CustomerCategory_select_dialog" on-item_selected="set_select_field"></CustomerCategory-select>
 		<Country-select id="Country_select_dialog" on-item_selected="set_select_field"></Country-select>
-		<State-select id="State_select_dialog" on-item_selected="set_select_field"></State-select>
-		<City-select id="City_select_dialog" on-item_selected="set_select_field"></City-select>
-		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Customer"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("State"))%></h2>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
@@ -15905,59 +15847,12 @@ paper-menu {
 				<td><input id="code" type="text" name="code"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
-				<td><input id="name" type="text" name="name" required></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="category"><%= lng('Category')%></label></td>
-				<td><iron-icon icon="find-in-page" field="category" on-click="select_field_b"></iron-icon><input id="category" type="text" name="category" key=0 on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="taxid"><%= lng('Tax Id')%></label></td>
-				<td><input id="taxid" type="text" name="taxid"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance"></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%><strong class="red"> *</strong></label></td>
 				<td><iron-icon icon="find-in-page" field="country" on-click="select_field_b"></iron-icon><input id="country" type="text" name="country" key=0 required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="state"><%= lng('State')%></label></td>
-				<td><iron-icon icon="find-in-page" field="state" on-click="select_field_b"></iron-icon><input id="state" type="text" name="state" key=0 on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="city"><%= lng('City')%></label></td>
-				<td><iron-icon icon="find-in-page" field="city" on-click="select_field_b"></iron-icon><input id="city" type="text" name="city" key=0 on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
-				<td><input id="phone" type="text" name="phone"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('Email')%></label></td>
-				<td><input id="email" type="text" name="email"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
-				<td><select id="status" name="status">
-						<option value="a"><%= lng('Active')%></option>
-						<option value="i"><%= lng('Inactive')%></option>
-					</select></td>
+				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" required></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -15974,7 +15869,7 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Customer-new",
+		is: "State-new",
 		open_dialog: function() {
 			this.clear()
 			this.$.dialog.open()
@@ -15982,63 +15877,33 @@ paper-menu {
 		clear: function() {
 			this.$.id.value = ''
 			this.$.code.value = ''
-			this.$.name.value = ''
-			this.$.category.value = ''
-			this.$.category.key = 0
-			this.$.taxid.value = ''
-			this.$.creditlimit.value = ''
-			this.$.balance.value = ''
 			this.$.country.value = ''
 			this.$.country.key = 0
-			this.$.state.value = ''
-			this.$.state.key = 0
-			this.$.city.value = ''
-			this.$.city.key = 0
-			this.$.address.value = ''
-			this.$.phone.value = ''
-			this.$.email.value = ''
-			this.$.notes.value = ''
+			this.$.name.value = ''
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "category")
-				this.$.CustomerCategory_select_dialog.open_select_dialog()
 			if (this.field == "country")
 				this.$.Country_select_dialog.open_select_dialog()
-			if (this.field == "state")
-				this.$.State_select_dialog.open_select_dialog()
-			if (this.field == "city")
-				this.$.City_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = config_server() + "Customer"
+			this.$.ajax2.url = config_server() + "State"
 			var record = {}
 			  record.code = this.$.code.value
-			  record.name = this.$.name.value
-			record.category = this.$.category.key
-			  record.taxid = this.$.taxid.value
-			record.creditlimit = Number(this.$.creditlimit.value)
-			record.balance = Number(this.$.balance.value)
 			record.country = this.$.country.key
-			record.state = this.$.state.key
-			record.city = this.$.city.key
-			  record.address = this.$.address.value
-			  record.phone = this.$.phone.value
-			  record.email = this.$.email.value
-			  record.notes = this.$.notes.value
-			  record.status = this.$.status.value			
+			  record.name = this.$.name.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
 		},
 		record_created: function() {
-			alert("Created Customer id="+this.$.ajax2.lastResponse.id)
+			alert("Created State id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
 			if (!this.$.repeat.checked) {
 				this.$.dialog.close()
@@ -16051,7 +15916,7 @@ paper-menu {
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = config_server() + "Customer/exist/"+this.$.id.value
+					this.$.ajax.url = config_server() + "State/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()
@@ -16074,10 +15939,10 @@ paper-menu {
 
 <!-- display-form: version 5.10 -->
 
-<dom-module id="Customer-display">
+<dom-module id="State-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Customer"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("State"))%></h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -16089,59 +15954,12 @@ paper-menu {
 				<td><input id="code" type="text" name="code" value="{{item.code}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="category"><%= lng('Category')%></label></td>
-				<td><input id="category" type="text" name="category" value="{{item.category_name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="taxid"><%= lng('Tax Id')%></label></td>
-				<td><input id="taxid" type="text" name="taxid" value="{{item.taxid}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit" value="{{item.creditlimit}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance" value="{{item.balance}}" disabled></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%></label></td>
 				<td><input id="country" type="text" name="country" value="{{item.country_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="state"><%= lng('State')%></label></td>
-				<td><input id="state" type="text" name="state" value="{{item.state_name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="city"><%= lng('City')%></label></td>
-				<td><input id="city" type="text" name="city" value="{{item.city_name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address" value="{{item.address}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
-				<td><input id="phone" type="text" name="phone" value="{{item.phone}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('Email')%></label></td>
-				<td><input id="email" type="text" name="email" value="{{item.email}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes" value="{{item.notes}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
-				<td><select id="status" name="status" disabled>
-						<option value="a"><%= lng('Active')%></option>
-						<option value="i"><%= lng('Inactive')%></option>
-					</select></td>
+				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
 			</tr>
 			</table>
 		  </paper-dialog-scrollable>
@@ -16154,14 +15972,13 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Customer-display",
+		is: "State-display",
 		open_display_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.status.value = item.status
 			}
 	})
 </script>
@@ -16169,15 +15986,12 @@ paper-menu {
 
 <!-- edit-form: version 5.10 -->
 
-<dom-module id="Customer-edit">
+<dom-module id="State-edit">
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<CustomerCategory-select id="CustomerCategory_select_dialog" on-item_selected="set_select_field"></CustomerCategory-select>
 		<Country-select id="Country_select_dialog" on-item_selected="set_select_field"></Country-select>
-		<State-select id="State_select_dialog" on-item_selected="set_select_field"></State-select>
-		<City-select id="City_select_dialog" on-item_selected="set_select_field"></City-select>
-		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Customer"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("State"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
@@ -16190,59 +16004,12 @@ paper-menu {
 				<td><input id="code" type="text" name="code" value="{{item.code}}"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="category"><%= lng('Category')%></label></td>
-				<td><iron-icon icon="find-in-page" field="category" on-click="select_field_b"></iron-icon><input id="category" type="text" name="category" key={{item.category_id}} value="{{item.category_name}}" on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="taxid"><%= lng('Tax Id')%></label></td>
-				<td><input id="taxid" type="text" name="taxid" value="{{item.taxid}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit" value="{{item.creditlimit}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance" value="{{item.balance}}"></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%><strong class="red"> *</strong></label></td>
 				<td><iron-icon icon="find-in-page" field="country" on-click="select_field_b"></iron-icon><input id="country" type="text" name="country" key={{item.country_id}} value="{{item.country_name}}" required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="state"><%= lng('State')%></label></td>
-				<td><iron-icon icon="find-in-page" field="state" on-click="select_field_b"></iron-icon><input id="state" type="text" name="state" key={{item.state_id}} value="{{item.state_name}}" on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="city"><%= lng('City')%></label></td>
-				<td><iron-icon icon="find-in-page" field="city" on-click="select_field_b"></iron-icon><input id="city" type="text" name="city" key={{item.city_id}} value="{{item.city_name}}" on-click="select_field" readonly></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address" value="{{item.address}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
-				<td><input id="phone" type="text" name="phone" value="{{item.phone}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('Email')%></label></td>
-				<td><input id="email" type="text" name="email" value="{{item.email}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes" value="{{item.notes}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
-				<td><select id="status" name="status">
-						<option value="a"><%= lng('Active')%></option>
-						<option value="i"><%= lng('Inactive')%></option>
-					</select></td>
+				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16258,28 +16025,21 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Customer-edit",
+		is: "State-edit",
 		open_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.status.value = item.status
 			},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "category")
-				this.$.CustomerCategory_select_dialog.open_select_dialog()
 			if (this.field == "country")
 				this.$.Country_select_dialog.open_select_dialog()
-			if (this.field == "state")
-				this.$.State_select_dialog.open_select_dialog()
-			if (this.field == "city")
-				this.$.City_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -16292,20 +16052,9 @@ paper-menu {
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.code = this.$.code.value
-			record.name = this.$.name.value
-			record.category = this.$.category.key
-			record.taxid = this.$.taxid.value
-			record.creditlimit = Number(this.$.creditlimit.value)
-			record.balance = Number(this.$.balance.value)
 			record.country = this.$.country.key
-			record.state = this.$.state.key
-			record.city = this.$.city.key
-			record.address = this.$.address.value
-			record.phone = this.$.phone.value
-			record.email = this.$.email.value
-			record.notes = this.$.notes.value
-			record.status = this.$.status.value
-			this.$.ajax.url = config_server() + "Customer/" +record.id
+			record.name = this.$.name.value
+			this.$.ajax.url = config_server() + "State/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},
@@ -16324,11 +16073,11 @@ paper-menu {
 
 <!-- delete-form: version 5.10 -->
 
-<dom-module id="Customer-delete">
+<dom-module id="State-delete">
 <template>
 	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("Customer"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("State"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
 			<table class="table_dialog" style="width:100%">
@@ -16341,59 +16090,12 @@ paper-menu {
 				<td><input id="code" type="text" name="code" value="{{item.code}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="category"><%= lng('Category')%></label></td>
-				<td><input id="category" type="text" name="category" value="{{item.category_name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="taxid"><%= lng('Tax Id')%></label></td>
-				<td><input id="taxid" type="text" name="taxid" value="{{item.taxid}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit" value="{{item.creditlimit}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance" value="{{item.balance}}" disabled></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%></label></td>
 				<td><input id="country" type="text" name="country" value="{{item.country_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="state"><%= lng('State')%></label></td>
-				<td><input id="state" type="text" name="state" value="{{item.state_name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="city"><%= lng('City')%></label></td>
-				<td><input id="city" type="text" name="city" value="{{item.city_name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address" value="{{item.address}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
-				<td><input id="phone" type="text" name="phone" value="{{item.phone}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('Email')%></label></td>
-				<td><input id="email" type="text" name="email" value="{{item.email}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes" value="{{item.notes}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
-				<td><select id="status" name="status" disabled>
-						<option value="a"><%= lng('Active')%></option>
-						<option value="i"><%= lng('Inactive')%></option>
-					</select></td>
+				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
+				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
 			</tr>
 			</table>
 		<div class="buttons">
@@ -16409,20 +16111,19 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Customer-delete",
+		is: "State-delete",
 		open_delete_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.status.value = item.status
 			},
 		form_submit: function() {
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = config_server() + "Customer/"+this.item.id
+			this.$.ajax.url = config_server() + "State/"+this.item.id
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {
@@ -16439,77 +16140,6 @@ paper-menu {
 </dom-module>
 
 
-<!-- select-model: version 5.10 -->
- <% 
- function lng(word) {
-	return __("word")
- }
- function lng(word1, word2, word3) {
-	return __(word1, word2, word3)
- }
-%>  
-
-<dom-module id="CustomerCategory-select">
-<template>
-	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" vertical layout>
-		<iron-icon icon="close" on-click="close" mini></iron-icon>  
-		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('Category')%>..."></div>
-		<paper-dialog-scrollable>
-		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
-			<div id="{{item.id}}" on-click="select">{{item.name}}</div>
-		</template>
-		</paper-dialog-scrollable>
-	</paper-dialog>
-</template>
-<script>
-	Polymer({
-		is: "CustomerCategory-select",
-		open_select_dialog: function() {
-			this.$.filtro.value = ""
-			this.$.ajax.url= config_server() +"CustomerCategory"
-			var db = new loki()
-			this.data = db.addCollection("data_CustomerCategory")
-			this.filtered_data = []
-			this.load_data()
-			this.tipo="string" //filter type
-			this.$.dialog.open()
-		},
-		close: function() {
-			this.$.dialog.close()
-		},
-		load_data: function() {
-			this.$.ajax.generateRequest()
-		},
-		get_data: function() {
-			while(this.data.data[0]) {
-				this.data.remove(this.data.data[0])
-			}
-			for (i=0; i< this.$.ajax.lastResponse.length; i++)
-				this.data.insert(this.$.ajax.lastResponse[i])
-			this.filter()
-		},
-		filter: function() {
-			this.filtered_data = []
-			this.cur_filter = { name: { $contains: this.$.filtro.value} }
-			this.result_set = this.data.chain().find(this.cur_filter).simplesort("name", false)
-			this.filtered_data = this.result_set.data()
-		},
-		select: function(e) {
-			this.item = {}
-			this.item.key = e.toElement.id
-			this.item.name = e.toElement.innerHTML
-			this.$.dialog.close()
-			//this.close()
-			this.fire('item_selected')
-		},
-		ajax_error: function() {
-			console.log(this.$.ajax.lastError)
-			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
-		}
-	})
-</script>
-</dom-module>
 <!-- select-model: version 5.10 -->
  <% 
  function lng(word) {
@@ -16581,178 +16211,22 @@ paper-menu {
 	})
 </script>
 </dom-module>
-<!-- select-model: version 5.10 -->
- <% 
- function lng(word) {
-	return __("word")
- }
- function lng(word1, word2, word3) {
-	return __(word1, word2, word3)
- }
-%>  
 
-<dom-module id="State-select">
-<template>
-	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" vertical layout>
-		<iron-icon icon="close" on-click="close" mini></iron-icon>  
-		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('State')%>..."></div>
-		<paper-dialog-scrollable>
-		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
-			<div id="{{item.id}}" on-click="select">{{item.name}}</div>
-		</template>
-		</paper-dialog-scrollable>
-	</paper-dialog>
-</template>
-<script>
-	Polymer({
-		is: "State-select",
-		open_select_dialog: function() {
-			this.$.filtro.value = ""
-			this.$.ajax.url= config_server() +"State"
-			var db = new loki()
-			this.data = db.addCollection("data_State")
-			this.filtered_data = []
-			this.load_data()
-			this.tipo="string" //filter type
-			this.$.dialog.open()
-		},
-		close: function() {
-			this.$.dialog.close()
-		},
-		load_data: function() {
-			this.$.ajax.generateRequest()
-		},
-		get_data: function() {
-			while(this.data.data[0]) {
-				this.data.remove(this.data.data[0])
-			}
-			for (i=0; i< this.$.ajax.lastResponse.length; i++)
-				this.data.insert(this.$.ajax.lastResponse[i])
-			this.filter()
-		},
-		filter: function() {
-			this.filtered_data = []
-			this.cur_filter = { name: { $contains: this.$.filtro.value} }
-			this.result_set = this.data.chain().find(this.cur_filter).simplesort("name", false)
-			this.filtered_data = this.result_set.data()
-		},
-		select: function(e) {
-			this.item = {}
-			this.item.key = e.toElement.id
-			this.item.name = e.toElement.innerHTML
-			this.$.dialog.close()
-			//this.close()
-			this.fire('item_selected')
-		},
-		ajax_error: function() {
-			console.log(this.$.ajax.lastError)
-			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
-		}
-	})
-</script>
-</dom-module>
-<!-- select-model: version 5.10 -->
- <% 
- function lng(word) {
-	return __("word")
- }
- function lng(word1, word2, word3) {
-	return __(word1, word2, word3)
- }
-%>  
-
-<dom-module id="City-select">
-<template>
-	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" vertical layout>
-		<iron-icon icon="close" on-click="close" mini></iron-icon>  
-		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('City')%>..."></div>
-		<paper-dialog-scrollable>
-		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
-			<div id="{{item.id}}" on-click="select">{{item.name}}</div>
-		</template>
-		</paper-dialog-scrollable>
-	</paper-dialog>
-</template>
-<script>
-	Polymer({
-		is: "City-select",
-		open_select_dialog: function() {
-			this.$.filtro.value = ""
-			this.$.ajax.url= config_server() +"City"
-			var db = new loki()
-			this.data = db.addCollection("data_City")
-			this.filtered_data = []
-			this.load_data()
-			this.tipo="string" //filter type
-			this.$.dialog.open()
-		},
-		close: function() {
-			this.$.dialog.close()
-		},
-		load_data: function() {
-			this.$.ajax.generateRequest()
-		},
-		get_data: function() {
-			while(this.data.data[0]) {
-				this.data.remove(this.data.data[0])
-			}
-			for (i=0; i< this.$.ajax.lastResponse.length; i++)
-				this.data.insert(this.$.ajax.lastResponse[i])
-			this.filter()
-		},
-		filter: function() {
-			this.filtered_data = []
-			this.cur_filter = { name: { $contains: this.$.filtro.value} }
-			this.result_set = this.data.chain().find(this.cur_filter).simplesort("name", false)
-			this.filtered_data = this.result_set.data()
-		},
-		select: function(e) {
-			this.item = {}
-			this.item.key = e.toElement.id
-			this.item.name = e.toElement.innerHTML
-			this.$.dialog.close()
-			//this.close()
-			this.fire('item_selected')
-		},
-		ajax_error: function() {
-			console.log(this.$.ajax.lastError)
-			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
-		}
-	})
-</script>
-</dom-module>
-
-<dom-module id="Customer-list">
+<dom-module id="State-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<Customer-list-columns id="Customer_list_columns" on-close="update_columns"></Customer-list-columns>
-	<Customer-new id="Customer_new_dialog" on-close="reload"></Customer-new>
-	<Customer-display id="Customer_display_dialog"></Customer-display>
-	<Customer-edit id="Customer_edit_dialog" on-close="reload"></Customer-edit>
-	<Customer-delete id="Customer_delete_dialog" on-close="reload"></Customer-delete>
-	<CustomerCategory-select id="CustomerCategory_select_dialog" on-item_selected="set_select_field"></CustomerCategory-select>
-	<Country-select id="Country_select_dialog" on-item_selected="set_select_field"></Country-select>
-	<State-select id="State_select_dialog" on-item_selected="set_select_field"></State-select>
-	<City-select id="City_select_dialog" on-item_selected="set_select_field"></City-select>	
-	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Customer"))%></div>-->
+	<State-list-columns id="State_list_columns" on-close="update_columns"></State-list-columns>
+	<State-new id="State_new_dialog" on-close="reload"></State-new>
+	<State-display id="State_display_dialog"></State-display>
+	<State-edit id="State_edit_dialog" on-close="reload"></State-edit>
+	<State-delete id="State_delete_dialog" on-close="reload"></State-delete>
+	<Country-select id="Country_select_dialog" on-item_selected="set_select_field"></Country-select>	
+	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("State"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('id')%>
 		<option value="id"><%= lng('id')%></option>  <%= lng('Code')%>
-		<option value="code"><%= lng('Code')%></option>  <%= lng('Name')%>
+		<option value="code"><%= lng('Code')%></option>
+		<option value="country_name"><%= lng('Country')%></option>  <%= lng('Name')%>
 		<option value="name"><%= lng('Name')%></option>
-		<option value="category_name"><%= lng('Category')%></option>  <%= lng('Tax Id')%>
-		<option value="taxid"><%= lng('Tax Id')%></option>  <%= lng('Credit Limit')%>
-		<option value="creditlimit"><%= lng('Credit Limit')%></option>  <%= lng('Balance')%>
-		<option value="balance"><%= lng('Balance')%></option>
-		<option value="country_name"><%= lng('Country')%></option>
-		<option value="state_name"><%= lng('State')%></option>
-		<option value="city_name"><%= lng('City')%></option>  <%= lng('Address')%>
-		<option value="address"><%= lng('Address')%></option>  <%= lng('Phone')%>
-		<option value="phone"><%= lng('Phone')%></option>  <%= lng('Email')%>
-		<option value="email"><%= lng('Email')%></option>  <%= lng('Notes')%>
-		<option value="notes"><%= lng('Notes')%></option>  <%= lng('Status')%>
-		<option value="status"><%= lng('Status')%></option>
 	</select>
 	<select id="op">   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -16778,19 +16252,8 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('id')%></option>
 		<option value="code"><%= lng('Code')%></option>
-		<option value="name"><%= lng('Name')%></option>
-		<option value="category_name"><%= lng('Category')%></option>
-		<option value="taxid"><%= lng('Tax Id')%></option>
-		<option value="creditlimit"><%= lng('Credit Limit')%></option>
-		<option value="balance"><%= lng('Balance')%></option>
 		<option value="country_name"><%= lng('Country')%></option>
-		<option value="state_name"><%= lng('State')%></option>
-		<option value="city_name"><%= lng('City')%></option>
-		<option value="address"><%= lng('Address')%></option>
-		<option value="phone"><%= lng('Phone')%></option>
-		<option value="email"><%= lng('Email')%></option>
-		<option value="notes"><%= lng('Notes')%></option>
-		<option value="status"><%= lng('Status')%></option>
+		<option value="name"><%= lng('Name')%></option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -16809,7 +16272,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 
-	<a href="{{download_data}}" id="link" class="hide" download="Customer.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="State.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -16826,32 +16289,10 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_code" on-click="sort_code"><%= lng('Code')%><div id="code_sort_d" class="hide">
 			<iron-icon id="code_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_name" on-click="sort_name"><%= lng('Name')%><div id="name_sort_d" class="hide">
-			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_category_name" on-click="sort_category_name"><%= lng('Category')%><div id="category_name_sort_d" class="hide">
-			<iron-icon id="category_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_taxid" on-click="sort_taxid"><%= lng('Tax Id')%><div id="taxid_sort_d" class="hide">
-			<iron-icon id="taxid_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_creditlimit" on-click="sort_creditlimit"><%= lng('Credit Limit')%><div id="creditlimit_sort_d" class="hide">
-			<iron-icon id="creditlimit_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_balance" on-click="sort_balance"><%= lng('Balance')%><div id="balance_sort_d" class="hide">
-			<iron-icon id="balance_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_country_name" on-click="sort_country_name"><%= lng('Country')%><div id="country_name_sort_d" class="hide">
 			<iron-icon id="country_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_state_name" on-click="sort_state_name"><%= lng('State')%><div id="state_name_sort_d" class="hide">
-			<iron-icon id="state_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_city_name" on-click="sort_city_name"><%= lng('City')%><div id="city_name_sort_d" class="hide">
-			<iron-icon id="city_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_address" on-click="sort_address"><%= lng('Address')%><div id="address_sort_d" class="hide">
-			<iron-icon id="address_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_phone" on-click="sort_phone"><%= lng('Phone')%><div id="phone_sort_d" class="hide">
-			<iron-icon id="phone_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_email" on-click="sort_email"><%= lng('Email')%><div id="email_sort_d" class="hide">
-			<iron-icon id="email_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_notes" on-click="sort_notes"><%= lng('Notes')%><div id="notes_sort_d" class="hide">
-			<iron-icon id="notes_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_status" on-click="sort_status"><%= lng('Status')%><div id="status_sort_d" class="hide">
-			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_name" on-click="sort_name"><%= lng('Name')%><div id="name_sort_d" class="hide">
+			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
@@ -16859,19 +16300,8 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_code"></td>
-		<td class="col_name"></td>
-		<td class="col_category_name"></td>
-		<td class="col_taxid"></td>
-		<td class="col_creditlimit"></td>
-		<td class="col_balance"></td>
 		<td class="col_country_name"></td>
-		<td class="col_state_name"></td>
-		<td class="col_city_name"></td>
-		<td class="col_address"></td>
-		<td class="col_phone"></td>
-		<td class="col_email"></td>
-		<td class="col_notes"></td>
-		<td class="col_status"></td>
+		<td class="col_name"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -16882,19 +16312,8 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.code}}"><td>{{item.code}}</td></template>
-		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
-		<template is="dom-if" if="{{column.category_name}}"><td>{{item.category_name}}</td></template>
-		<template is="dom-if" if="{{column.taxid}}"><td>{{item.taxid}}</td></template>
-		<template is="dom-if" if="{{column.creditlimit}}"><td>{{item.creditlimit}}</td></template>
-		<template is="dom-if" if="{{column.balance}}"><td>{{item.balance}}</td></template>
 		<template is="dom-if" if="{{column.country_name}}"><td>{{item.country_name}}</td></template>
-		<template is="dom-if" if="{{column.state_name}}"><td>{{item.state_name}}</td></template>
-		<template is="dom-if" if="{{column.city_name}}"><td>{{item.city_name}}</td></template>
-		<template is="dom-if" if="{{column.address}}"><td>{{item.address}}</td></template>
-		<template is="dom-if" if="{{column.phone}}"><td>{{item.phone}}</td></template>
-		<template is="dom-if" if="{{column.email}}"><td>{{item.email}}</td></template>
-		<template is="dom-if" if="{{column.notes}}"><td>{{item.notes}}</td></template>
-		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
+		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -16902,7 +16321,7 @@ paper-menu {
 </template>
 <script>
 Polymer({
-	is: "Customer-list",
+	is: "State-list",
 	properties: {
 		//cur_sort: { field: "id", isdesc: false },
 		//cur_filter: {}
@@ -16915,35 +16334,20 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.$.ajax.url = config_server() + "Customer"
+		this.$.ajax.url = config_server() + "State"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "code", type: "string", display: true},
-				{column: "name", type: "string", display: true},
-				{column: "category_id", type: "integer", model: "CustomerCategory", display: false},
-				{column: "category_name", type: "string", model: "CustomerCategory", display: true},
-				{column: "taxid", type: "string", display: true},
-				{column: "creditlimit", type: "float", display: true},
-				{column: "balance", type: "float", display: true},
 				{column: "country_id", type: "integer", model: "Country", display: false},
 				{column: "country_name", type: "string", model: "Country", display: true},
-				{column: "state_id", type: "integer", model: "State", display: false},
-				{column: "state_name", type: "string", model: "State", display: true},
-				{column: "city_id", type: "integer", model: "City", display: false},
-				{column: "city_name", type: "string", model: "City", display: true},
-				{column: "address", type: "string", display: false},
-				{column: "phone", type: "string", display: true},
-				{column: "email", type: "string", display: true},
-				{column: "notes", type: "string", display: true},
-				{column: "status", enum: ["a","i"], enumdes: ["<%= lng("Active")%>","<%= lng("Inactive")%>"], display: true}
+				{column: "name", type: "string", display: true}
 		]
 		this.enums = {}
-		this.enums.status = {a:"<%= lng('Active')%>",i:"<%= lng('Inactive')%>"}
 		//var _data = <%- data %>
 		var db = new loki()
-		this.data = db.addCollection("data_Customer")
-		this.model = db.addCollection("model_Customer")
+		this.data = db.addCollection("data_State")
+		this.model = db.addCollection("model_State")
 		this.reload()
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
@@ -16952,17 +16356,17 @@ Polymer({
 		this.set_filter() //and columns & sort from localStorage
 	},
 	list_columns: function() {
-		this.$.Customer_list_columns.open_list_columns(this.column)
+		this.$.State_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
 		var columns = {}
-		this.column = this.$.Customer_list_columns.column
+		this.column = this.$.State_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
 		{
 			this.model.data[i].display = this.column[this.model.data[i].column]
 			columns[this.model.data[i].column] = this.column[this.model.data[i].column]
 		}
-		localStorage["Customer-list-columns"] = JSON.stringify(columns)
+		localStorage["State-list-columns"] = JSON.stringify(columns)
 		this.show_columns()
 		// reset filter
 		this.$.filter.value = "id"
@@ -17019,25 +16423,10 @@ Polymer({
 		}
 		if (filter != "")
 		{
-		  if (this.$[filter].value == "category_name"){
-			this.$.CustomerCategory_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.CustomerCategory_select_dialog.style.left = "-100px"
-			this.$.CustomerCategory_select_dialog.open_select_dialog()
-		  }
 		  if (this.$[filter].value == "country_name"){
 			this.$.Country_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Country_select_dialog.style.left = "-100px"
 			this.$.Country_select_dialog.open_select_dialog()
-		  }
-		  if (this.$[filter].value == "state_name"){
-			this.$.State_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.State_select_dialog.style.left = "-100px"
-			this.$.State_select_dialog.open_select_dialog()
-		  }
-		  if (this.$[filter].value == "city_name"){
-			this.$.City_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.City_select_dialog.style.left = "-100px"
-			this.$.City_select_dialog.open_select_dialog()
 		  }
 		}
 	},
@@ -17045,9 +16434,9 @@ Polymer({
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
 	},
 	set_filter: function() {
-		if (localStorage["Customer-list-filter"])
+		if (localStorage["State-list-filter"])
 		{
-			var stored_filter = JSON.parse(localStorage["Customer-list-filter"])
+			var stored_filter = JSON.parse(localStorage["State-list-filter"])
 			this.$.filter.value = stored_filter.filter
 			this.$.op.value = stored_filter.op
 			this.input_type()
@@ -17083,9 +16472,9 @@ Polymer({
 			}
 			this.filter()
 		}
-		if (localStorage["Customer-list-columns"])
+		if (localStorage["State-list-columns"])
 		{
-			var columns = JSON.parse(localStorage["Customer-list-columns"])
+			var columns = JSON.parse(localStorage["State-list-columns"])
 			for (i=0; i < this.model.data.length; i++ )
 			  this.model.data[i].display = columns[this.model.data[i].column]
 		}
@@ -17131,7 +16520,7 @@ Polymer({
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
-		localStorage["Customer-list-filter"] = JSON.stringify(stored_filter)
+		localStorage["State-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
@@ -17140,19 +16529,8 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.code_sort_d.classList.add("hide")
-		this.$.name_sort_d.classList.add("hide")
-		this.$.category_name_sort_d.classList.add("hide")
-		this.$.taxid_sort_d.classList.add("hide")
-		this.$.creditlimit_sort_d.classList.add("hide")
-		this.$.balance_sort_d.classList.add("hide")
 		this.$.country_name_sort_d.classList.add("hide")
-		this.$.state_name_sort_d.classList.add("hide")
-		this.$.city_name_sort_d.classList.add("hide")
-		this.$.address_sort_d.classList.add("hide")
-		this.$.phone_sort_d.classList.add("hide")
-		this.$.email_sort_d.classList.add("hide")
-		this.$.notes_sort_d.classList.add("hide")
-		this.$.status_sort_d.classList.add("hide")
+		this.$.name_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -17169,44 +16547,11 @@ Polymer({
 	sort_code: function() {
 		this.sort_by_field("code")
 	},
-	sort_name: function() {
-		this.sort_by_field("name")
-	},
-	sort_category_name: function() {
-		this.sort_by_field("category_name")
-	},
-	sort_taxid: function() {
-		this.sort_by_field("taxid")
-	},
-	sort_creditlimit: function() {
-		this.sort_by_field("creditlimit")
-	},
-	sort_balance: function() {
-		this.sort_by_field("balance")
-	},
 	sort_country_name: function() {
 		this.sort_by_field("country_name")
 	},
-	sort_state_name: function() {
-		this.sort_by_field("state_name")
-	},
-	sort_city_name: function() {
-		this.sort_by_field("city_name")
-	},
-	sort_address: function() {
-		this.sort_by_field("address")
-	},
-	sort_phone: function() {
-		this.sort_by_field("phone")
-	},
-	sort_email: function() {
-		this.sort_by_field("email")
-	},
-	sort_notes: function() {
-		this.sort_by_field("notes")
-	},
-	sort_status: function() {
-		this.sort_by_field("status")
+	sort_name: function() {
+		this.sort_by_field("name")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -17314,22 +16659,22 @@ Polymer({
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_display_dialog.open_display_dialog(item)
+	this.$.State_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_edit_dialog.open_dialog(item)
+	this.$.State_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Customer_delete_dialog.open_delete_dialog(item)
+	this.$.State_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Customer_new_dialog.open_dialog()
+	this.$.State_new_dialog.open_dialog()
   },
   reload: function() {
 	this.$.ajax.generateRequest()
@@ -17340,14 +16685,6 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
-		if (this.$.ajax.lastResponse[i].category){
-			this.$.ajax.lastResponse[i].category_id = this.$.ajax.lastResponse[i].category.id
-			this.$.ajax.lastResponse[i].category_name = this.$.ajax.lastResponse[i].category.name
-		} else
-		{
-			this.$.ajax.lastResponse[i].category_id = 0
-			this.$.ajax.lastResponse[i].category_name = ""
-		}
 		if (this.$.ajax.lastResponse[i].country){
 			this.$.ajax.lastResponse[i].country_id = this.$.ajax.lastResponse[i].country.id
 			this.$.ajax.lastResponse[i].country_name = this.$.ajax.lastResponse[i].country.name
@@ -17355,24 +16692,7 @@ Polymer({
 		{
 			this.$.ajax.lastResponse[i].country_id = 0
 			this.$.ajax.lastResponse[i].country_name = ""
-		}
-		if (this.$.ajax.lastResponse[i].state){
-			this.$.ajax.lastResponse[i].state_id = this.$.ajax.lastResponse[i].state.id
-			this.$.ajax.lastResponse[i].state_name = this.$.ajax.lastResponse[i].state.name
-		} else
-		{
-			this.$.ajax.lastResponse[i].state_id = 0
-			this.$.ajax.lastResponse[i].state_name = ""
-		}
-		if (this.$.ajax.lastResponse[i].city){
-			this.$.ajax.lastResponse[i].city_id = this.$.ajax.lastResponse[i].city.id
-			this.$.ajax.lastResponse[i].city_name = this.$.ajax.lastResponse[i].city.name
-		} else
-		{
-			this.$.ajax.lastResponse[i].city_id = 0
-			this.$.ajax.lastResponse[i].city_name = ""
-		}
-		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]	
+		}	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
@@ -17384,9 +16704,9 @@ Polymer({
 });
 </script>
 </dom-module>
-<top-bar><%= lng("%s %s",lng("List"),lng("Customer"))%></top-bar>
+<top-bar><%= lng("%s %s",lng("List"),lng("State"))%></top-bar>
 <paper-material class="card" elevation="2">
-	<Customer-list></Customer-list>
+	<State-list></State-list>
 </paper-material>
 </body>
 </html>

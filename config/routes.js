@@ -54,7 +54,7 @@ module.exports.routes = {
   "/Matheads/exist/:matnr": "MatheadsController.exist",
   "post /Customer/destroy/:id?": "CustomerController.destroy",
   "post /Customer/update/:id?": "CustomerController.update",
-  "/Customer/exist/:id": "CustomerController.exist",
+
   /*"post /Product/destroy/:id?": "ProductController.destroy",
   "post /Product/update/:?": "ProductController.update",*/
   "/Product/exist/:": "ProductController.exist",
@@ -76,4 +76,9 @@ module.exports.routes = {
   "/ProductCategory/list": "ProductCategoryController.list",
   "/ProductSubCategory/list": "ProductSubCategoryController.list",
   "/Supplier/list": "SupplierController.list",
+  "/Country/list": "CountryController.list",
+  "/State/list": "StateController.list",
+  "/City/list": "CityController.list",
+  "/Customer/list": "CustomerController.list",
+  "/CustomerCategory/list": "CustomerCategoryController.list",
 };

@@ -7,15 +7,12 @@
 
 module.exports = {
 	
-	//migrate: 'alter',
+	migrate: 'alter',
   attributes: {
-	//_title: 'Cliente',
+	//_title: 'Customer',
 	id: {
-		//columnName: 'matnr',
 		//description: 'id',
 		type: "integer",
-		//no_max: 999999,
-		//no_min: 100,
 		primaryKey: true,
 		unique: true,
 		autoIncrement: true
@@ -25,35 +22,77 @@ module.exports = {
 		type: 'string'
 	},
 	name: {
-		//description: 'Nombre',
+		//description: 'Name',
 		type: 'string',
 		required: true
-		//,no_maxLength: 35
+	},
+	category: {
+		//description: 'Category',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'CustomerCategory'
+	},
+	taxid: {
+		//description: 'Tax Id',
+		type: 'string'
+	},
+	creditlimit: {
+		//description: 'Credit Limit',
+		type: 'float'
 	},
 	balance: {
 		//description: 'Balance',
 		type: 'float'
 	},
-	creditLimit: {
-		//description: 'Credit',
-		type: 'float'
+	country: {
+		//description: 'Country',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'Country',
+		required: true
+	},
+	state: {
+		//description: 'State',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'State'
 	},
 	city: {
-		//description: 'Ciudad',
-		type: 'string',
-		required: true,
-		maxLength: 25
+		//description: 'City',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'City'
 	},
 	address: {
-		//description: 'Dirección',
+		//description: 'Address',
 		//hide: true,
+		type: 'string'
+	},
+	phone: {
+		//description: 'Phone',
+		type: 'string'
+	},
+	email: {
+		//description: 'Email',
+		type: 'string'
+	},
+	notes: {
+		//description: 'Notes',
 		type: 'string'
 	},
 	status: {
 		//description: 'Status',
 		type: 'string',
-		enum: ['A', 'I', 'B']
-		//,enumdes: ['Activo', 'Inactivo', 'Bloqueado']
+		enum: ['a', 'i']
+		//,enumdes: ['Active', 'Inactive']
 	}
 //End Attributes	
   }
