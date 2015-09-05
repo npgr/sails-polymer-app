@@ -7,20 +7,18 @@
 
 module.exports = {
 
-	//migrate: 'alter',
+	migrate: 'alter',
   attributes: {
 	//_title: 'Pedido',
 	id: {
 		//description: 'Pedido',
 		type: "integer",
-		max: 999999,
-		min: 1,
 		primaryKey: true,
 		autoIncrement: true,
 		unique: true
 	},
 	customer: {
-		//description: 'Cliente',
+		//description: 'Customer',
 		//key: id,
 		//key_type: 'integer',
 		//display: 'name',
@@ -28,20 +26,36 @@ module.exports = {
 		model: 'Customer',
 		required: true
 	},
+	Seller: {
+		//description: 'Seller',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'Seller',
+		required: true
+	},
 	date: {
 		//description: 'Fecha',
-		type: 'date',
-		required: true
+		type: 'date'
 	},
 	amount: {
 		//description: 'Amount',
 		type: 'Float'
 	},
+	products: {
+		//description: 'Products',
+		type: 'integer'
+	},
+	units: {
+		//description: 'Units',
+		type: 'integer'
+	},
 	status: {
 		//description: 'Status',
 		type: 'string',
-		enum: ['1','2','3']
-		//,enumdes: ['En Captura', 'En Despacho', 'Despachado']
+		enum: ['1','2','3','4']
+		//,enumdes: ['Capturing', 'Processing', 'Delivering', 'Delivered']
 	}
 //End Attributes
   }

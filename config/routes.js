@@ -81,4 +81,7 @@ module.exports.routes = {
   "/City/list": "CityController.list",
   "/Customer/list": "CustomerController.list",
   "/CustomerCategory/list": "CustomerCategoryController.list",
+  "/Seller/list": "SellerController.list",
+  "/Order/list": "OrderController.list",
+  "/OrderDetail/list": "OrderDetailController.list"
 };

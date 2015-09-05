@@ -7,26 +7,25 @@
 
 module.exports = {
 	
-	//migrate: 'alter',
+	migrate: 'alter',
   attributes: {
-	//_title:'Detalle Pedido',
+	//_title:'Order Detail',
 	//_unique: ['order', 'product'],
 	id: {
 		//description: 'Id',
 		//hide: true,
 		type: "integer",
-		max: 9999999,
-		min: 1,
 		primaryKey: true,
 		autoIncrement: true,
 		unique: true
 	},
 	order: {
-		//description: 'Pedido',
-		type: 'integer'
+		//description: 'Order',
+		type: 'integer',
+		required: true
 	},
 	product: {
-		//description: 'Producto',
+		//description: 'Product',
 		//key: id,
 		//key_type: 'integer',
 		//display: 'name',
@@ -35,10 +34,19 @@ module.exports = {
 		required: true
 	},
 	quantity: {
-		//description: 'Cantidad',
-		type: 'integer'
+		//description: 'Quantity',
+		type: 'integer',
+		required: true
+	},
+	price: {
+		//description: 'Price',
+		type: 'float'
+	},
+	discount: {
+		//description: 'Discount',
+		type: 'float'
 	}
-  }
 //End Attributes
+  }
 };
 
