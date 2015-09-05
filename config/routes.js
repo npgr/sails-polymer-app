@@ -83,5 +83,7 @@ module.exports.routes = {
   "/CustomerCategory/list": "CustomerCategoryController.list",
   "/Seller/list": "SellerController.list",
   "/Order/list": "OrderController.list",
-  "/OrderDetail/list": "OrderDetailController.list"
+  "/OrderDetail/list": "OrderDetailController.list",
+  "/Expense/list": "ExpenseController.list",
+  "/ExpenseCategory/list": "ExpenseCategoryController.list"
 };
