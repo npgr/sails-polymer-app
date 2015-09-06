@@ -16264,21 +16264,21 @@ paper-menu {
 <dom-module id="OrderDetail-list">
 <template>
 <style>
+	.header_fields input {
+		margin-left: 3px;
+		margin-right: 20px;
+	}
 	#customer {
 		width: 200px;
-		margin-right: 20px;
 	}
 	#amount {
 		width: 110px;
-		margin-right: 20px;
 	}
 	#lines {
 		width: 60px;
-		margin-right: 20px;
 	}
 	#units {
 		width: 60px;
-		margin-right: 20px;
 	}
 	#status {
 		width: 120px;
@@ -16301,14 +16301,14 @@ paper-menu {
 	<OrderDetail-delete id="OrderDetail_delete_dialog" on-close="reload"></OrderDetail-delete>
 	<Product-select id="Product_select_dialog" on-item_selected="set_select_field"></Product-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Order Detail"))%></div>-->
-	<div>
-		Customer <input id="customer" value="{{order.customer}}" readonly/> 
-		Amount <input id="amount" value="{{order.amount}}" readonly/> 
-		Lines <input id="lines" value="{{order.lines}}" readonly width="40"/> 
-		Units <input id="units" value="{{order.units}}" width="10" readonly/>
-		Order Status <input id="status" value="{{order.status}}" readonly/>
+	<div class="header_fields">
+		Customer <input id="customer" value="{{order.customer}}" disabled/> 
+		Amount <input id="amount" value="{{order.amount}}" disabled/> 
+		Lines <input id="lines" value="{{order.lines}}" disabled/> 
+		Units <input id="units" value="{{order.units}}" disabled/>
+		Order Status <input id="status" value="{{order.status}}" disabled/>
 	</div>
-	<select id="filter" on-change="input_type">  <%= lng('Id')%>
+	<select id="filter" on-change="input_type" disabled>  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Order')%>
 		<option value="order"><%= lng('Order')%></option>
 		<option value="product_name"><%= lng('Product')%></option>  <%= lng('Quantity')%>
@@ -16316,14 +16316,14 @@ paper-menu {
 		<option value="price"><%= lng('Price')%></option>  <%= lng('Discount')%>
 		<option value="discount"><%= lng('Discount')%></option>
 	</select>
-	<select id="op">   
+	<select id="op" disabled>   
 		<option value="$eq"><%= lng('Equal to')%></option>
 		<option value="$ne"><%= lng('Different to')%></option>
 		<option value="$contains"><%= lng('Contains')%></option>
 		<option value="$gte"><%= lng('Greater or Equal to')%></option>
 		<option value="$lte"><%= lng('Less or Equal to')%></option>
 	</select>
-	<input id="filtro" type="{{tipo}}" on-click="select_field">
+	<input id="filtro" type="{{tipo}}" on-click="select_field" disabled>
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -16332,7 +16332,6 @@ paper-menu {
 	<select id="logic" on-change="logic_operator">
 		<option value="-">---</option>
 		<option value="$and">And</option>
-		<option value="$or">Or</option>
 	</select>
 	<paper-button class="btn" on-click="filter" raised><%= lng('Find')%></paper-button>
 	<strong id="total">{{regs}}</strong>
@@ -16458,11 +16457,8 @@ Polymer({
 		this.input_type()
 		//this.set_filter() //and columns & sort from localStorage
 		this.$.filter.value = "order"
-		this.$.filter.setAttribute("disabled","")
 		this.$.op.value = "$eq"
-		this.$.op.setAttribute("disabled","")
 		this.$.filtro.value = this.order.id
-		this.$.filtro.setAttribute("readonly","")
 		this.filter()
 		this.show_columns()
 	},
