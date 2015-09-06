@@ -16,13 +16,14 @@ module.exports = {
 			})
 	},
 	list : function (req, res) {
-		Product.find()
-			.exec(function(err, data){
+	//	Product.find()
+	//		.exec(function(err, data){
 				res.locals.resources = req.session.resources
 				res.locals.user = {user: req.session.user, name: req.session.username}
-				res.locals.data = JSON.stringify(data)
+	//			res.locals.data = JSON.stringify(data)
+				res.locals.data = []
 				res.view("Product/list")
-			})
+	//		})
 	}/*, 
 	create: function(req, res, next) {
 		var params = req.params.all();
