@@ -15756,7 +15756,7 @@ paper-menu {
 		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Order Detail"))%></h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tr class="hide">
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
@@ -15848,13 +15848,13 @@ paper-menu {
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tr class="hide">
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="order"><%= lng('Order')%><strong class="red"> *</strong></label></td>
-				<td><input id="order" type="number" name="order" required></td>
+				<td><input id="order" type="number" name="order" required disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="product"><%= lng('Product')%><strong class="red"> *</strong></label></td>
@@ -15888,8 +15888,9 @@ paper-menu {
 <script>
 	Polymer({
 		is: "OrderDetail-new",
-		open_dialog: function() {
+		open_dialog: function(order_id) {
 			this.clear()
+			this.$.order.value = order_id
 			this.$.dialog.open()
 		},
 		clear: function() {
@@ -15967,7 +15968,7 @@ paper-menu {
 		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Order Detail"))%></h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tr class="hide">
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
@@ -16025,13 +16026,13 @@ paper-menu {
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tr class="hide">
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="order"><%= lng('Order')%><strong class="red"> *</strong></label></td>
-				<td><input id="order" type="number" name="order" value="{{item.order}}" required></td>
+				<td><input id="order" type="number" name="order" value="{{item.order}}" required disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="product"><%= lng('Product')%><strong class="red"> *</strong></label></td>
@@ -16043,7 +16044,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
-				<td><input id="price" type="float" name="price" value="{{item.price}}"></td>
+				<td><input id="price" type="number" step="0.01" name="price" value="{{item.price}}"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="discount"><%= lng('Discount')%></label></td>
@@ -16121,7 +16122,7 @@ paper-menu {
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tr class="hide">
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
@@ -16262,6 +16263,36 @@ paper-menu {
 
 <dom-module id="OrderDetail-list">
 <template>
+<style>
+	#customer {
+		width: 200px;
+		margin-right: 20px;
+	}
+	#amount {
+		width: 110px;
+		margin-right: 20px;
+	}
+	#lines {
+		width: 60px;
+		margin-right: 20px;
+	}
+	#units {
+		width: 60px;
+		margin-right: 20px;
+	}
+	#status {
+		width: 120px;
+	}
+	.card_buttons {
+		display: inline;
+		position: relative;
+		top: 14px;
+		left: 40px;
+	}
+	.card_buttons paper-fab {
+		margin-left: 7px;
+	}
+</style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<OrderDetail-list-columns id="OrderDetail_list_columns" on-close="update_columns"></OrderDetail-list-columns>
 	<OrderDetail-new id="OrderDetail_new_dialog" on-close="reload"></OrderDetail-new>
@@ -16270,6 +16301,13 @@ paper-menu {
 	<OrderDetail-delete id="OrderDetail_delete_dialog" on-close="reload"></OrderDetail-delete>
 	<Product-select id="Product_select_dialog" on-item_selected="set_select_field"></Product-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Order Detail"))%></div>-->
+	<div>
+		Customer <input id="customer" value="{{order.customer}}" readonly/> 
+		Amount <input id="amount" value="{{order.amount}}" readonly/> 
+		Lines <input id="lines" value="{{order.lines}}" readonly width="40"/> 
+		Units <input id="units" value="{{order.units}}" width="10" readonly/>
+		Order Status <input id="status" value="{{order.status}}" readonly/>
+	</div>
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Order')%>
 		<option value="order"><%= lng('Order')%></option>
@@ -16298,10 +16336,15 @@ paper-menu {
 	</select>
 	<paper-button class="btn" on-click="filter" raised><%= lng('Find')%></paper-button>
 	<strong id="total">{{regs}}</strong>
+	<div class="card_buttons">
+		<paper-fab mini on-click="new" icon="add"></paper-fab>
+		<paper-fab mini on-click="download" icon="file-download"></paper-fab>
+		<paper-fab mini on-click="menu" icon="list"></paper-fab>
+	</div>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
-		<option value="id"><%= lng('Id')%></option>
-		<option value="order"><%= lng('Order')%></option>
+		<!--<option value="id"><%= lng('Id')%></option>
+		<option value="order"><%= lng('Order')%></option>-->
 		<option value="product_name"><%= lng('Product')%></option>
 		<option value="quantity"><%= lng('Quantity')%></option>
 		<option value="price"><%= lng('Price')%></option>
@@ -16320,10 +16363,7 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
-	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
-	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
-
+	
 	<a href="{{download_data}}" id="link" class="hide" download="Order Detail.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
@@ -16345,7 +16385,7 @@ paper-menu {
 			<iron-icon id="product_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_quantity" on-click="sort_quantity"><%= lng('Quantity')%><div id="quantity_sort_d" class="hide">
 			<iron-icon id="quantity_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_price" on-click="sort_price"><%= lng('Price')%><div id="price_sort_d" class="hide">
+		<th class="col_price" on-click="sort_price" type="number"><%= lng('Price')%><div id="price_sort_d" class="hide">
 			<iron-icon id="price_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_discount" on-click="sort_discount"><%= lng('Discount')%><div id="discount_sort_d" class="hide">
 			<iron-icon id="discount_sort" icon="arrow-drop-up"></iron-icon></div></th>
@@ -16394,7 +16434,8 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.$.ajax.url = config_server() + "OrderDetail"
+		this.order = <%- order %>
+		this.$.ajax.url = config_server() + "OrderDetail?order="+this.order.id //change  !!!!!
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: false},
@@ -16415,7 +16456,15 @@ Polymer({
 			this.model.insert(_model[i])
 		_model = {}
 		this.input_type()
-		this.set_filter() //and columns & sort from localStorage
+		//this.set_filter() //and columns & sort from localStorage
+		this.$.filter.value = "order"
+		this.$.filter.setAttribute("disabled","")
+		this.$.op.value = "$eq"
+		this.$.op.setAttribute("disabled","")
+		this.$.filtro.value = this.order.id
+		this.$.filtro.setAttribute("readonly","")
+		this.filter()
+		this.show_columns()
 	},
 	list_columns: function() {
 		this.$.OrderDetail_list_columns.open_list_columns(this.column)
@@ -16744,7 +16793,7 @@ Polymer({
 	this.$.OrderDetail_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.OrderDetail_new_dialog.open_dialog()
+	this.$.OrderDetail_new_dialog.open_dialog(this.order.id)
   },
   reload: function() {
 	this.$.ajax.generateRequest()

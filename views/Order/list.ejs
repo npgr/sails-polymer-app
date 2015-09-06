@@ -16486,6 +16486,7 @@ paper-menu {
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= lng('Display')%></paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= lng('Edit')%></paper-item>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= lng('Delete')%></paper-item>
+			<paper-item on-click="detail" style="min-height:20px;line-height:35px;"><%= lng('Detail')%></paper-item>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -16922,6 +16923,42 @@ Polymer({
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Order_delete_dialog.open_delete_dialog(item)
+  },
+  detail: function(e) {
+	this.$.menu_dialog.close()
+	var rs = this.data.find({id: this.key})[0]
+	var post_data = {id: this.key, customer: rs.customer.name, amount: rs.amount, status: rs.status_des}
+	// Simple URL
+	//window.open(config_server() + "OrderDetail/list/"+this.key, "_self")
+	
+	//var xhr =new XMLHttpRequest();
+	//xhr.open("POST", config_server() + "OrderDetail/list", true);
+	//xhr.setRequestHeader("app-post-data", JSON.stringify(post_data));
+	//xhr.send('prueba exitosa'); // send data
+	
+	this.post(config_server() + "OrderDetail/list", post_data, 'post')
+  },
+  post: function(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+    document.body.appendChild(form);
+    form.submit();
   },
   new: function() {
 	this.$.Order_new_dialog.open_dialog()
