@@ -15663,10 +15663,11 @@ paper-menu {
     }
 	.dropdown-item {
 		padding: 5px;
+		color: rgb(100, 100, 100);
 	}
-	.dropdown-item:not(:last-of-type) {
+	/*.dropdown-item:not(:last-of-type) {
 		border-bottom: 1px solid #eee;
-	}
+	}*/
 	.top_border {
 		border-top: 1px solid #eee;
 	}
@@ -15675,6 +15676,9 @@ paper-menu {
 	}
 	.inline {
 		display: inline;
+	}
+	#dropdown_user iron-icon {
+		margin-right: 5px;
 	}
 </style>
 	<div class="topbar1">
@@ -15697,11 +15701,16 @@ paper-menu {
 		<div class="barItem" on-click="open_user_menu">
 		  <paper-icon-button class="bar_icon" icon="account-circle"></paper-icon-button>
 		  <div class="inline dropdown-trigger"><%= user.user%></div>
+		  <iron-icon icon="arrow-drop-down"></iron-icon>
 		  <iron-dropdown id="dropdown_user"  horizontal-align="right" vertical-align="top">
 			<ul class="dropdown-content" tabindex="0">
-			  <li class="dropdown-item">Info</li>
-			  <li class="dropdown-item">Change Password</li>
-			  <li class="dropdown-item" on-click="signout">Signout</li>
+			  <li class="dropdown-item"><iron-icon icon="assessment"></iron-icon>Dashboard</li>
+			  <hr>
+			  <li class="dropdown-item"><iron-icon icon="perm-identity"></iron-icon>Profile</li>
+			  <li class="dropdown-item"><iron-icon icon="drafts"></iron-icon>Messages</li>
+			  <li class="dropdown-item"><iron-icon icon="settings"></iron-icon>Preferences</li>
+			  <hr>
+			  <li class="dropdown-item" on-click="signout"><iron-icon icon="exit-to-app"></iron-icon>Log Out</li>
 			</ul>
 		  </iron-dropdown>
 		</div>
