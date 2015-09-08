@@ -15643,6 +15643,25 @@ paper-menu {
 		color: white;
 		height: 30px;
 	}
+	.menubar {
+		width: 100%;
+		position: relative;
+		top: 40px;
+		z-index: 1;
+		display: flex;
+		//justify-content: space-between;
+		justify-content: flex-start;
+		background-color: #007080;
+		height: 30px;
+	}
+	.menubar > div {
+		color: white;
+		margin-left: 20px;
+		margin-top: 5px;
+	}
+	.menubar > div:first-of-type {
+		margin-left: 120px;
+	}
 	.barTitle {
 		margin-top: -3px;
 		font-size: 20px;
@@ -15681,6 +15700,36 @@ paper-menu {
 		margin-right: 5px;
 	}
 </style>
+	<div class="menubar">
+		<div on-click="open_task_menu">Actividades
+		<iron-dropdown id="dropdown_task"  horizontal-align="left"  vertical-align="top">
+			<ul class="dropdown-content" tabindex="0">
+			  <li class="dropdown-item"><iron-icon icon="assessment"></iron-icon>Dashboard</li>
+			  <hr>
+			  <li class="dropdown-item"><iron-icon icon="perm-identity"></iron-icon>Profile</li>
+			  <li class="dropdown-item"><iron-icon icon="drafts"></iron-icon>Messages</li>
+			  <li class="dropdown-item"><iron-icon icon="settings"></iron-icon>Preferences</li>
+			  <hr>
+			  <li class="dropdown-item" on-click="signout"><iron-icon icon="exit-to-app"></iron-icon>Log Out</li>
+			</ul>
+		  </iron-dropdown>
+		</div>
+		<div on-click="open_prods_menu">Productos
+		<iron-dropdown id="dropdown_prods"  horizontal-align="left"  vertical-align="top">
+			<ul class="dropdown-content" tabindex="0">
+			  <li class="dropdown-item"><iron-icon icon="assessment"></iron-icon>Dashboard</li>
+			  <hr>
+			  <li class="dropdown-item"><iron-icon icon="perm-identity"></iron-icon>Profile</li>
+			  <li class="dropdown-item"><iron-icon icon="drafts"></iron-icon>Messages</li>
+			  <li class="dropdown-item"><iron-icon icon="settings"></iron-icon>Preferences</li>
+			  <hr>
+			  <li class="dropdown-item" on-click="signout"><iron-icon icon="exit-to-app"></iron-icon>Log Out</li>
+			</ul>
+		  </iron-dropdown>
+		</div>
+		<div>Clientes</div>
+		<div>Seguridad</div>
+	</div>
 	<div class="topbar1">
 	  <div class="topBar">
 		<div class="barItem" on-click="open_app_menu">
@@ -15716,6 +15765,7 @@ paper-menu {
 		</div>
 	  </div>
 	</div>
+
 </template>
 <script>
 	Polymer({
@@ -15728,6 +15778,12 @@ paper-menu {
 		},
 		open_app_menu: function() {
 			this.$.dropdown_menu.toggle()
+		},
+		open_task_menu: function() {
+			this.$.dropdown_task.toggle()
+		},
+		open_prods_menu: function() {
+			this.$.dropdown_prods.toggle()
 		},
 		signout: function() {
 			window.location.assign(config_server() + "signout")
