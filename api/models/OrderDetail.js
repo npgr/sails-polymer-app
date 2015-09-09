@@ -7,7 +7,7 @@
 
 module.exports = {
 	
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
 	//_title:'Order Detail',
 	//_unique: ['order', 'product'],

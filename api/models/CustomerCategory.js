@@ -7,9 +7,9 @@
 
 module.exports = {
 
-  migrate: "alter",
+  //migrate: "alter",
   attributes: {
-	//_title: 'Cusromer Category',
+	//_title: 'Customer Category',
 	id: {
 		//description: 'Id',
 		type: "integer",
