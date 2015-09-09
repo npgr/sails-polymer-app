@@ -15700,51 +15700,27 @@ paper-menu {
 		margin-right: 5px;
 	}
 </style>
-	<div class="menubar">
-		<div on-click="open_task_menu">Actividades
-		<iron-dropdown id="dropdown_task"  horizontal-align="left"  vertical-align="top">
-			<ul class="dropdown-content" tabindex="0">
-			  <li class="dropdown-item"><iron-icon icon="assessment"></iron-icon>Dashboard</li>
-			  <hr>
-			  <li class="dropdown-item"><iron-icon icon="perm-identity"></iron-icon>Profile</li>
-			  <li class="dropdown-item"><iron-icon icon="drafts"></iron-icon>Messages</li>
-			  <li class="dropdown-item"><iron-icon icon="settings"></iron-icon>Preferences</li>
-			  <hr>
-			  <li class="dropdown-item" on-click="signout"><iron-icon icon="exit-to-app"></iron-icon>Log Out</li>
+	<div id="menubar" class="hide"><%
+	  groups = _.map(_.uniq(resources, 'Group'),function(n) { return n.Group })
+	  _.forEach(groups , function(n, key) { 
+		if (n != '') {%>
+		<div on-click="open_<%= n %>_menu"><%= n %>
+		  <iron-dropdown id="dropdown_<%= n %>"  horizontal-align="left"  vertical-align="top">
+			<ul class="dropdown-content" tabindex="0"><%
+			  var arr = _.map(_.filter(resources, {'Group': n}), function(n4) { return n4.name})
+			  _.forEach(arr, function(n2, key2) { %>
+				<li class="dropdown-item" on-click="<%= n2 %>"><iron-icon icon="chevron-right"></iron-icon><%= n2 %></li><%
+			  }) %>
 			</ul>
 		  </iron-dropdown>
-		</div>
-		<div on-click="open_prods_menu">Productos
-		<iron-dropdown id="dropdown_prods"  horizontal-align="left"  vertical-align="top">
-			<ul class="dropdown-content" tabindex="0">
-			  <li class="dropdown-item"><iron-icon icon="assessment"></iron-icon>Dashboard</li>
-			  <hr>
-			  <li class="dropdown-item"><iron-icon icon="perm-identity"></iron-icon>Profile</li>
-			  <li class="dropdown-item"><iron-icon icon="drafts"></iron-icon>Messages</li>
-			  <li class="dropdown-item"><iron-icon icon="settings"></iron-icon>Preferences</li>
-			  <hr>
-			  <li class="dropdown-item" on-click="signout"><iron-icon icon="exit-to-app"></iron-icon>Log Out</li>
-			</ul>
-		  </iron-dropdown>
-		</div>
-		<div>Clientes</div>
-		<div>Seguridad</div>
+		</div><%
+	  } } ) %>
 	</div>
 	<div class="topbar1">
 	  <div class="topBar">
 		<div class="barItem" on-click="open_app_menu">
 		  <paper-icon-button class="bar_icon" icon="menu"></paper-icon-button>
-		  <div class="inline dropdown-trigger">Menu</div>
-		  <iron-dropdown id="dropdown_menu"  horizontal-align="left" vertical-align="top">
-			<ul class="dropdown-content" tabindex="0"><%
-		_.forEach(resources, function(n, key) { 
-		  if (n.resource.type == "page") {%>
-			  <li class="dropdown-item" on-click="<%= n.name%>"><%= lng(n.name)%></li><%
-		}})%>
-			  <li class="dropdown-item">Models</li>
-			  <li class="dropdown-item">About</li>
-			</ul>
-		  </iron-dropdown>
+		  <div class="inline">Menu</div>
 		</div>
 		<div class="barTitle"><content></content></div>
 		<div class="barItem" on-click="open_user_menu">
@@ -15765,29 +15741,26 @@ paper-menu {
 		</div>
 	  </div>
 	</div>
-
 </template>
 <script>
 	Polymer({
 		is: "top-bar",
-		ready: function() {
-			//this.user = <%= user.user%> // Name: <%= user.name%>'
-		},
 		open_user_menu: function() {
 			this.$.dropdown_user.toggle()
 		},
 		open_app_menu: function() {
-			this.$.dropdown_menu.toggle()
-		},
-		open_task_menu: function() {
-			this.$.dropdown_task.toggle()
-		},
-		open_prods_menu: function() {
-			this.$.dropdown_prods.toggle()
+			this.$.menubar.classList.toggle('hide')
+			this.$.menubar.classList.toggle('menubar')
 		},
 		signout: function() {
 			window.location.assign(config_server() + "signout")
 		}<%
+	_.forEach(groups, function(n, key) {
+	  if(n != '') {%>
+		,open_<%= n %>_menu: function() {
+			this.$.dropdown_<%= n%>.toggle()
+		}<%
+	}})
 	_.forEach(resources, function(n, key) { 
 	  if (n.resource.type == "page") {%>
 		,<%= n.name %>: function() {
