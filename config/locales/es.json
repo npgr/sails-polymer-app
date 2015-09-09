@@ -71,12 +71,17 @@
   ,"Last Track": "Ult Seguimiento"
   ,"Next Track": "Prox Seguimiento"
   ,"Notes": "Observación"
-  
+  ,"Security": "Seguridad"
+
+  ,"Tables": "Tablas"
   ,"Supplier": "Proveedor"
+  ,"Sales": "Ventas"
   ,"Product": "Producto"
   ,"Code": "Código"
   ,"Category": "Categoria"
   ,"Product Category": "Categoria Producto"
+  ,"ProductCategory": "Categoria Producto"
+  ,"ProductSubCategory": "SubCategoria Producto"
   ,"Product SubCategory": "SubCategoria Producto"
   ,"SubCategory": "SubCategoria"
   ,"Supplier Code": "Código Proveedor"
@@ -90,6 +95,7 @@
   ,"State": "Estado"
   ,"City": "Ciudad"
   ,"Customer": "Cliente"
+  ,"CustomerCategory": "Categoria Cliente"
   ,"Address": "Dirección"
   ,"Phone": "Teléfono(s)"
   ,"Country": "Pais"
@@ -103,7 +109,7 @@
   ,"Order": "Pedido"
   ,"Amount": "Monto"
   ,"Units": "Unidades"
-  ,"Products": "Products"
+  ,"Products": "Productos"
   ,"Capturing": "En Captura"
   ,"Processing": "En Proceso"
   ,"Delivering": "En Entrega"
@@ -119,5 +125,6 @@
   
   ,"ExpenseCategory": "Categoria de Gasto"
   ,"Expense": "Gasto"
+  ,"Expenses": "Gastos"
   ,"Description": "Descripción"
 }

@@ -15704,12 +15704,12 @@ paper-menu {
 	  groups = _.map(_.uniq(resources, 'Group'),function(n) { return n.Group })
 	  _.forEach(groups , function(n, key) { 
 		if (n != '') {%>
-		<div on-click="open_<%= n %>_menu"><%= n %>
+		<div on-click="open_<%= n %>_menu"><%= lng(n) %>
 		  <iron-dropdown id="dropdown_<%= n %>"  horizontal-align="left"  vertical-align="top">
 			<ul class="dropdown-content" tabindex="0"><%
 			  var arr = _.map(_.filter(resources, {'Group': n}), function(n4) { return n4.name})
 			  _.forEach(arr, function(n2, key2) { %>
-				<li class="dropdown-item" on-click="<%= n2 %>"><iron-icon icon="chevron-right"></iron-icon><%= n2 %></li><%
+				<li class="dropdown-item" on-click="<%= n2 %>"><iron-icon icon="chevron-right"></iron-icon><%= lng(n2) %></li><%
 			  }) %>
 			</ul>
 		  </iron-dropdown>
