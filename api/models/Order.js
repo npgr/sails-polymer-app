@@ -7,7 +7,7 @@
 
 module.exports = {
 
-	//migrate: 'alter',
+	migrate: 'alter',
   attributes: {
 	//_title: 'Pedido',
 	id: {
@@ -26,7 +26,7 @@ module.exports = {
 		model: 'Customer',
 		required: true
 	},
-	Seller: {
+	seller: {
 		//description: 'Seller',
 		//key: id,
 		//key_type: 'integer',
