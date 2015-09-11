@@ -17,6 +17,12 @@ module.exports = {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
 			return res.json(data.rows)
+			
+			//var xml = require('xml');
+
+			//response.set('Content-Type', 'text/xml');
+			//response.send(xml(name_of_restaurants));
+			
 		});
 	},
 	salesbyCustomer: function(req, res) {

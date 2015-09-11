@@ -89,5 +89,6 @@ module.exports.routes = {
   "/TicketCategory/list": "TicketCategoryController.list",
   "/Pacient/list": "PacientController.list",
   "/PacientCard/list": "PacientCardController.list",
-  "/PacientHistory/list": "PacientHistoryController.list"
+  "/PacientHistory/list": "PacientHistoryController.list",
+  "/Order/SalesCube": "OrderController.salesCube"
 };

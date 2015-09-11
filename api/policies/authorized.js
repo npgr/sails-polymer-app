@@ -14,6 +14,10 @@ module.exports = function(req, res, next) {
   
   //log visits
   //console.log('req.route.path: ', req.route.path)
+	console.log("Path: ", req.route.path)
+  
+	if (req.route.path == '/Order/SalesCube') return next()
+	
 	if (!req.session.user && req.route.path != '/login' && req.route.path != '/validateLogin')
 		return res.redirect('/login')
 	
