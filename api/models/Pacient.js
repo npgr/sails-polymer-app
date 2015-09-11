@@ -18,27 +18,47 @@ module.exports = {
 		unique: true
 	},
 	history: {
-		//description: 'No.Historia',
+		//description: 'History.No',
 		type: "string"
 	},
+	personalId: {
+		//description: 'Personal ID',
+		type: "string"	
+	},
 	name: {
-		//description: 'Nombre',
+		//description: 'Name',
 		type: "string",
 		required: true
 	},
 	born: {
-		//description: 'Nacimiento',
+		//description: 'Born',
 		type: "date",
 		required: true
 	},
 	gender: {
-		//description: 'Sexo',
+		//description: 'Gender',
 		type: 'string',
 		enum: ['m', 'f']
 		//,enumdes: ['Male', 'Female']
 	},
 	ocuppation: {
-		//description: 'Profesión',
+		//description: 'Ocupation',
+		type: 'string'
+	},
+	phone: {
+		//description: 'Phone(s)',
+		type: 'string'
+	},
+	email: {
+		//description: 'email',
+		type: 'string'
+	},
+	insurance: {
+		//description: 'Insurance',
+		type: 'string'
+	},
+	Notes: {
+		//description: 'Notes',
 		type: 'string'
 	}
 //End Attributes

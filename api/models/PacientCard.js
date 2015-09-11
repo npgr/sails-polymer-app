@@ -6,7 +6,7 @@
 */
 
 module.exports = {
-
+	migrate: 'alter',
   attributes: {
 	id: {
 		//description: 'Id',
@@ -26,11 +26,11 @@ module.exports = {
 	},
 	question: {
 		//description: 'Question',
-		type: 'string'
+		type: 'string',
 		required: true
 	},
 	answer: {
-		//description: 'Aswer',
+		//description: 'Answer',
 		type: 'string',
 		required: true
 	}

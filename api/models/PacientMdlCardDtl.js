@@ -17,7 +17,7 @@ module.exports = {
 	},
 	question: {
 		//description: 'Question',
-		type: 'string'
+		type: 'string',
 		required: true
 	},
 	answer: {

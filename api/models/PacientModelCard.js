@@ -22,7 +22,7 @@ module.exports = {
 	},
 	predefined: {
 		//description: 'Nombre',
-		type: "string",
+		type: "string"
 	}
   }
 };

@@ -7,6 +7,7 @@
 
 module.exports = {
 
+	migrate: 'alter',
   attributes: {
 	id: {
 		//description: 'Id',
@@ -32,7 +33,7 @@ module.exports = {
 	type: {
 		//description: "Type",
 		type: 'string',
-		enum: ['c', 's'],
+		enum: ['c', 's']
 		//,enumdes: ["Cita","Consulta"]
 	},
 	diagnosis: {

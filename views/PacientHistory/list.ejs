@@ -9,7 +9,7 @@
 %>  
 <html>
 <head><meta charset="UTF-8">
-	<title><%= lng("%s %s",lng("List"),lng("Pacient"))%></title>
+	<title><%= lng("%s %s",lng("List"),lng("PacientHistory"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
@@ -15773,7 +15773,7 @@ paper-menu {
 
 <!-- list-columns: version 5.10 -->
 
-<dom-module id="Pacient-list-columns">
+<dom-module id="PacientHistory-list-columns">
 <template>
 <style>
 	/*#dialog {
@@ -15791,7 +15791,7 @@ paper-menu {
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Pacient"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("PacientHistory"))%></h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -15799,44 +15799,24 @@ paper-menu {
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="history"><%= lng('History.No')%></label></td>
-				<td><div id="history" on-click="change_field"></div></td>
+				<td><label class="left_label" for="pacient_name"><%= lng('Pacient')%></label></td>
+				<td><div id="pacient_name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="personalId"><%= lng('Personal ID')%></label></td>
-				<td><div id="personalId" on-click="change_field"></div></td>
+				<td><label class="left_label" for="date"><%= lng('Date')%></label></td>
+				<td><div id="date" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
-				<td><div id="name" on-click="change_field"></div></td>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><div id="type" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="born"><%= lng('Born')%></label></td>
-				<td><div id="born" on-click="change_field"></div></td>
+				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
+				<td><div id="diagnosis" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="gender"><%= lng('Gender')%></label></td>
-				<td><div id="gender" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="ocuppation"><%= lng('Ocupation')%></label></td>
-				<td><div id="ocuppation" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone(s)')%></label></td>
-				<td><div id="phone" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('email')%></label></td>
-				<td><div id="email" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="insurance"><%= lng('Insurance')%></label></td>
-				<td><div id="insurance" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="Notes"><%= lng('Notes')%></label></td>
-				<td><div id="Notes" on-click="change_field"></div></td>
+				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
+				<td><div id="recipe" on-click="change_field"></div></td>
 			</tr>
 			</table>
 			</paper-dialog-scrollable>
@@ -15850,7 +15830,7 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Pacient-list-columns",
+		is: "PacientHistory-list-columns",
 		properties: {
 			//updated: false,
 			//column: {}
@@ -15859,16 +15839,11 @@ paper-menu {
 			this.updated= false,
 			this.column= column
 			this.show_field("id")
-			this.show_field("history")
-			this.show_field("personalId")
-			this.show_field("name")
-			this.show_field("born")
-			this.show_field("gender")
-			this.show_field("ocuppation")
-			this.show_field("phone")
-			this.show_field("email")
-			this.show_field("insurance")
-			this.show_field("Notes")
+			this.show_field("pacient_name")
+			this.show_field("date")
+			this.show_field("type")
+			this.show_field("diagnosis")
+			this.show_field("recipe")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {
@@ -15901,12 +15876,13 @@ paper-menu {
 
 <!-- new-form: version 5.10 -->
 
-<dom-module id="Pacient-new">
+<dom-module id="PacientHistory-new">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Pacient"))%></h2>
+		<Pacient-select id="Pacient_select_dialog" on-item_selected="set_select_field"></Pacient-select>
+		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("PacientHistory"))%></h2>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
@@ -15915,47 +15891,27 @@ paper-menu {
 				<td><input id="id" type="number" name="id" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="history"><%= lng('History.No')%></label></td>
-				<td><input id="history" type="text" name="history"></td>
+				<td><label class="left_label" for="pacient"><%= lng('Pacient')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="pacient" on-click="select_field_b"></iron-icon><input id="pacient" type="text" name="pacient" key=0 required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="personalId"><%= lng('Personal ID')%></label></td>
-				<td><input id="personalId" type="text" name="personalId"></td>
+				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
+				<td><input id="date" type="date" name="date" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
-				<td><input id="name" type="text" name="name" required></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="born"><%= lng('Born')%><strong class="red"> *</strong></label></td>
-				<td><input id="born" type="date" name="born" required></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="gender"><%= lng('Gender')%></label></td>
-				<td><select id="gender" name="gender">
-						<option value="m"><%= lng('Male')%></option>
-						<option value="f"><%= lng('Female')%></option>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type">
+						<option value="c"><%= lng('Cita')%></option>
+						<option value="s"><%= lng('Consulta')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ocuppation"><%= lng('Ocupation')%></label></td>
-				<td><input id="ocuppation" type="text" name="ocuppation"></td>
+				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
+				<td><input id="diagnosis" type="text" name="diagnosis"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone(s)')%></label></td>
-				<td><input id="phone" type="text" name="phone"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('email')%></label></td>
-				<td><input id="email" type="text" name="email"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="insurance"><%= lng('Insurance')%></label></td>
-				<td><input id="insurance" type="text" name="insurance"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="Notes"><%= lng('Notes')%></label></td>
-				<td><input id="Notes" type="text" name="Notes"></td>
+				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
+				<td><input id="recipe" type="text" name="recipe"></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -15972,52 +15928,45 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Pacient-new",
+		is: "PacientHistory-new",
 		open_dialog: function() {
 			this.clear()
 			this.$.dialog.open()
 		},
 		clear: function() {
 			this.$.id.value = ''
-			this.$.history.value = ''
-			this.$.personalId.value = ''
-			this.$.name.value = ''
-			this.$.born.value = ''
-			this.$.ocuppation.value = ''
-			this.$.phone.value = ''
-			this.$.email.value = ''
-			this.$.insurance.value = ''
-			this.$.Notes.value = ''
+			this.$.pacient.value = ''
+			this.$.pacient.key = 0
+			this.$.date.value = ''
+			this.$.diagnosis.value = ''
+			this.$.recipe.value = ''
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
+			if (this.field == "pacient")
+				this.$.Pacient_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
 			this.$[this.field].key = this.$[e.srcElement.id].item.key
 		},
 		create: function() {
-			this.$.ajax2.url = config_server() + "Pacient"
+			this.$.ajax2.url = config_server() + "PacientHistory"
 			var record = {}
-			  record.history = this.$.history.value
-			  record.personalId = this.$.personalId.value
-			  record.name = this.$.name.value
-			if (this.$.born.value)
-			  record.born = this.$.born.value
-			  record.gender = this.$.gender.value
-			  record.ocuppation = this.$.ocuppation.value
-			  record.phone = this.$.phone.value
-			  record.email = this.$.email.value
-			  record.insurance = this.$.insurance.value
-			  record.Notes = this.$.Notes.value			
+			record.pacient = this.$.pacient.key
+			if (this.$.date.value)
+			  record.date = this.$.date.value
+			  record.type = this.$.type.value
+			  record.diagnosis = this.$.diagnosis.value
+			  record.recipe = this.$.recipe.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
 		},
 		record_created: function() {
-			alert("Created Pacient id="+this.$.ajax2.lastResponse.id)
+			alert("Created PacientHistory id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
 			if (!this.$.repeat.checked) {
 				this.$.dialog.close()
@@ -16030,7 +15979,7 @@ paper-menu {
 			{
 				if (this.$.id.value > 0)
 				{
-					this.$.ajax.url = config_server() + "Pacient/exist/"+this.$.id.value
+					this.$.ajax.url = config_server() + "PacientHistory/exist/"+this.$.id.value
 					this.$.ajax.generateRequest()
 				}
 				else this.$.submit_btn.click()
@@ -16053,10 +16002,10 @@ paper-menu {
 
 <!-- display-form: version 5.10 -->
 
-<dom-module id="Pacient-display">
+<dom-module id="PacientHistory-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Pacient"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("PacientHistory"))%></h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -16064,47 +16013,27 @@ paper-menu {
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="history"><%= lng('History.No')%></label></td>
-				<td><input id="history" type="text" name="history" value="{{item.history}}" disabled></td>
+				<td><label class="left_label" for="pacient"><%= lng('Pacient')%></label></td>
+				<td><input id="pacient" type="text" name="pacient" value="{{item.pacient_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="personalId"><%= lng('Personal ID')%></label></td>
-				<td><input id="personalId" type="text" name="personalId" value="{{item.personalId}}" disabled></td>
+				<td><label class="left_label" for="date"><%= lng('Date')%></label></td>
+				<td><input id="date" type="date" name="date" value="{{item.date}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="born"><%= lng('Born')%></label></td>
-				<td><input id="born" type="date" name="born" value="{{item.born}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="gender"><%= lng('Gender')%></label></td>
-				<td><select id="gender" name="gender" disabled>
-						<option value="m"><%= lng('Male')%></option>
-						<option value="f"><%= lng('Female')%></option>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="c"><%= lng('Cita')%></option>
+						<option value="s"><%= lng('Consulta')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ocuppation"><%= lng('Ocupation')%></label></td>
-				<td><input id="ocuppation" type="text" name="ocuppation" value="{{item.ocuppation}}" disabled></td>
+				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
+				<td><input id="diagnosis" type="text" name="diagnosis" value="{{item.diagnosis}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone(s)')%></label></td>
-				<td><input id="phone" type="text" name="phone" value="{{item.phone}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('email')%></label></td>
-				<td><input id="email" type="text" name="email" value="{{item.email}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="insurance"><%= lng('Insurance')%></label></td>
-				<td><input id="insurance" type="text" name="insurance" value="{{item.insurance}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="Notes"><%= lng('Notes')%></label></td>
-				<td><input id="Notes" type="text" name="Notes" value="{{item.Notes}}" disabled></td>
+				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
+				<td><input id="recipe" type="text" name="recipe" value="{{item.recipe}}" disabled></td>
 			</tr>
 			</table>
 		  </paper-dialog-scrollable>
@@ -16117,14 +16046,14 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Pacient-display",
+		is: "PacientHistory-display",
 		open_display_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.gender.value = item.gender
+			this.$.type.value = item.type
 			}
 	})
 </script>
@@ -16132,11 +16061,12 @@ paper-menu {
 
 <!-- edit-form: version 5.10 -->
 
-<dom-module id="Pacient-edit">
+<dom-module id="PacientHistory-edit">
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Pacient"))%></h2>
+		<Pacient-select id="Pacient_select_dialog" on-item_selected="set_select_field"></Pacient-select>
+		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("PacientHistory"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
@@ -16145,47 +16075,27 @@ paper-menu {
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="history"><%= lng('History.No')%></label></td>
-				<td><input id="history" type="text" name="history" value="{{item.history}}"></td>
+				<td><label class="left_label" for="pacient"><%= lng('Pacient')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="pacient" on-click="select_field_b"></iron-icon><input id="pacient" type="text" name="pacient" key={{item.pacient_id}} value="{{item.pacient_name}}" required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="personalId"><%= lng('Personal ID')%></label></td>
-				<td><input id="personalId" type="text" name="personalId" value="{{item.personalId}}"></td>
+				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
+				<td><input id="date" type="date" name="date" value="{{item.date}}" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%><strong class="red"> *</strong></label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="born"><%= lng('Born')%><strong class="red"> *</strong></label></td>
-				<td><input id="born" type="date" name="born" value="{{item.born}}" required></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="gender"><%= lng('Gender')%></label></td>
-				<td><select id="gender" name="gender">
-						<option value="m"><%= lng('Male')%></option>
-						<option value="f"><%= lng('Female')%></option>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type">
+						<option value="c"><%= lng('Cita')%></option>
+						<option value="s"><%= lng('Consulta')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ocuppation"><%= lng('Ocupation')%></label></td>
-				<td><input id="ocuppation" type="text" name="ocuppation" value="{{item.ocuppation}}"></td>
+				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
+				<td><input id="diagnosis" type="text" name="diagnosis" value="{{item.diagnosis}}"></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone(s)')%></label></td>
-				<td><input id="phone" type="text" name="phone" value="{{item.phone}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('email')%></label></td>
-				<td><input id="email" type="text" name="email" value="{{item.email}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="insurance"><%= lng('Insurance')%></label></td>
-				<td><input id="insurance" type="text" name="insurance" value="{{item.insurance}}"></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="Notes"><%= lng('Notes')%></label></td>
-				<td><input id="Notes" type="text" name="Notes" value="{{item.Notes}}"></td>
+				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
+				<td><input id="recipe" type="text" name="recipe" value="{{item.recipe}}"></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16201,20 +16111,22 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Pacient-edit",
+		is: "PacientHistory-edit",
 		open_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.gender.value = item.gender
+			this.$.type.value = item.type
 			},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
+			if (this.field == "pacient")
+				this.$.Pacient_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -16226,18 +16138,13 @@ paper-menu {
 		update: function() {
 			var record = {}
 			record.id = Number(this.$.id.value)
-			record.history = this.$.history.value
-			record.personalId = this.$.personalId.value
-			record.name = this.$.name.value
-			if (this.$.born.value)
-				record.born = this.$.born.value
-			record.gender = this.$.gender.value
-			record.ocuppation = this.$.ocuppation.value
-			record.phone = this.$.phone.value
-			record.email = this.$.email.value
-			record.insurance = this.$.insurance.value
-			record.Notes = this.$.Notes.value
-			this.$.ajax.url = config_server() + "Pacient/" +record.id
+			record.pacient = this.$.pacient.key
+			if (this.$.date.value)
+				record.date = this.$.date.value
+			record.type = this.$.type.value
+			record.diagnosis = this.$.diagnosis.value
+			record.recipe = this.$.recipe.value
+			this.$.ajax.url = config_server() + "PacientHistory/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
 		},
@@ -16256,11 +16163,11 @@ paper-menu {
 
 <!-- delete-form: version 5.10 -->
 
-<dom-module id="Pacient-delete">
+<dom-module id="PacientHistory-delete">
 <template>
 	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("Pacient"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("PacientHistory"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
 			<table class="table_dialog" style="width:100%">
@@ -16269,47 +16176,27 @@ paper-menu {
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="history"><%= lng('History.No')%></label></td>
-				<td><input id="history" type="text" name="history" value="{{item.history}}" disabled></td>
+				<td><label class="left_label" for="pacient"><%= lng('Pacient')%></label></td>
+				<td><input id="pacient" type="text" name="pacient" value="{{item.pacient_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="personalId"><%= lng('Personal ID')%></label></td>
-				<td><input id="personalId" type="text" name="personalId" value="{{item.personalId}}" disabled></td>
+				<td><label class="left_label" for="date"><%= lng('Date')%></label></td>
+				<td><input id="date" type="date" name="date" value="{{item.date}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
-				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="born"><%= lng('Born')%></label></td>
-				<td><input id="born" type="date" name="born" value="{{item.born}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="gender"><%= lng('Gender')%></label></td>
-				<td><select id="gender" name="gender" disabled>
-						<option value="m"><%= lng('Male')%></option>
-						<option value="f"><%= lng('Female')%></option>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="c"><%= lng('Cita')%></option>
+						<option value="s"><%= lng('Consulta')%></option>
 					</select></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="ocuppation"><%= lng('Ocupation')%></label></td>
-				<td><input id="ocuppation" type="text" name="ocuppation" value="{{item.ocuppation}}" disabled></td>
+				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
+				<td><input id="diagnosis" type="text" name="diagnosis" value="{{item.diagnosis}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="phone"><%= lng('Phone(s)')%></label></td>
-				<td><input id="phone" type="text" name="phone" value="{{item.phone}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="email"><%= lng('email')%></label></td>
-				<td><input id="email" type="text" name="email" value="{{item.email}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="insurance"><%= lng('Insurance')%></label></td>
-				<td><input id="insurance" type="text" name="insurance" value="{{item.insurance}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="Notes"><%= lng('Notes')%></label></td>
-				<td><input id="Notes" type="text" name="Notes" value="{{item.Notes}}" disabled></td>
+				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
+				<td><input id="recipe" type="text" name="recipe" value="{{item.recipe}}" disabled></td>
 			</tr>
 			</table>
 		<div class="buttons">
@@ -16325,20 +16212,20 @@ paper-menu {
 </template>
 <script>
 	Polymer({
-		is: "Pacient-delete",
+		is: "PacientHistory-delete",
 		open_delete_dialog: function(item) {
 			this.item = item
 			this.set_select_fields(item)
 			this.$.dialog.open()
 		},
 		set_select_fields(item) {
-			this.$.gender.value = item.gender
+			this.$.type.value = item.type
 			},
 		form_submit: function() {
 			this.$.submit_delete.click()
 		},
 		delete: function() {
-			this.$.ajax.url = config_server() + "Pacient/"+this.item.id
+			this.$.ajax.url = config_server() + "PacientHistory/"+this.item.id
 			this.$.ajax.generateRequest()
 		},
 		record_deleted: function() {
@@ -16355,28 +16242,95 @@ paper-menu {
 </dom-module>
 
 
+<!-- select-model: version 5.10 -->
+ <% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%>  
 
-<dom-module id="Pacient-list">
+<dom-module id="Pacient-select">
+<template>
+	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" vertical layout>
+		<iron-icon icon="close" on-click="close" mini></iron-icon>  
+		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('Pacient')%>..."></div>
+		<paper-dialog-scrollable>
+		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
+			<div id="{{item.id}}" on-click="select">{{item.name}}</div>
+		</template>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Pacient-select",
+		open_select_dialog: function() {
+			this.$.filtro.value = ""
+			this.$.ajax.url= config_server() +"Pacient"
+			var db = new loki()
+			this.data = db.addCollection("data_Pacient")
+			this.filtered_data = []
+			this.load_data()
+			this.tipo="string" //filter type
+			this.$.dialog.open()
+		},
+		close: function() {
+			this.$.dialog.close()
+		},
+		load_data: function() {
+			this.$.ajax.generateRequest()
+		},
+		get_data: function() {
+			while(this.data.data[0]) {
+				this.data.remove(this.data.data[0])
+			}
+			for (i=0; i< this.$.ajax.lastResponse.length; i++)
+				this.data.insert(this.$.ajax.lastResponse[i])
+			this.filter()
+		},
+		filter: function() {
+			this.filtered_data = []
+			this.cur_filter = { name: { $contains: this.$.filtro.value} }
+			this.result_set = this.data.chain().find(this.cur_filter).simplesort("name", false)
+			this.filtered_data = this.result_set.data()
+		},
+		select: function(e) {
+			this.item = {}
+			this.item.key = e.toElement.id
+			this.item.name = e.toElement.innerHTML
+			this.$.dialog.close()
+			//this.close()
+			this.fire('item_selected')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
+
+<dom-module id="PacientHistory-list">
 <template>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<Pacient-list-columns id="Pacient_list_columns" on-close="update_columns"></Pacient-list-columns>
-	<Pacient-new id="Pacient_new_dialog" on-close="reload"></Pacient-new>
-	<Pacient-display id="Pacient_display_dialog"></Pacient-display>
-	<Pacient-edit id="Pacient_edit_dialog" on-close="reload"></Pacient-edit>
-	<Pacient-delete id="Pacient_delete_dialog" on-close="reload"></Pacient-delete>	
-	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Pacient"))%></div>-->
+	<PacientHistory-list-columns id="PacientHistory_list_columns" on-close="update_columns"></PacientHistory-list-columns>
+	<PacientHistory-new id="PacientHistory_new_dialog" on-close="reload"></PacientHistory-new>
+	<PacientHistory-display id="PacientHistory_display_dialog"></PacientHistory-display>
+	<PacientHistory-edit id="PacientHistory_edit_dialog" on-close="reload"></PacientHistory-edit>
+	<PacientHistory-delete id="PacientHistory_delete_dialog" on-close="reload"></PacientHistory-delete>
+	<Pacient-select id="Pacient_select_dialog" on-item_selected="set_select_field"></Pacient-select>	
+	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("PacientHistory"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
-		<option value="id"><%= lng('Id')%></option>  <%= lng('History.No')%>
-		<option value="history"><%= lng('History.No')%></option>  <%= lng('Personal ID')%>
-		<option value="personalId"><%= lng('Personal ID')%></option>  <%= lng('Name')%>
-		<option value="name"><%= lng('Name')%></option>  <%= lng('Born')%>
-		<option value="born"><%= lng('Born')%></option>  <%= lng('Gender')%>
-		<option value="gender"><%= lng('Gender')%></option>  <%= lng('Ocupation')%>
-		<option value="ocuppation"><%= lng('Ocupation')%></option>  <%= lng('Phone(s)')%>
-		<option value="phone"><%= lng('Phone(s)')%></option>  <%= lng('email')%>
-		<option value="email"><%= lng('email')%></option>  <%= lng('Insurance')%>
-		<option value="insurance"><%= lng('Insurance')%></option>  <%= lng('Notes')%>
-		<option value="Notes"><%= lng('Notes')%></option>
+		<option value="id"><%= lng('Id')%></option>
+		<option value="pacient_name"><%= lng('Pacient')%></option>  <%= lng('Date')%>
+		<option value="date"><%= lng('Date')%></option>  <%= lng('Type')%>
+		<option value="type"><%= lng('Type')%></option>  <%= lng('Diagnosis')%>
+		<option value="diagnosis"><%= lng('Diagnosis')%></option>  <%= lng('Recipe')%>
+		<option value="recipe"><%= lng('Recipe')%></option>
 	</select>
 	<select id="op">   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -16401,16 +16355,11 @@ paper-menu {
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
-		<option value="history"><%= lng('History.No')%></option>
-		<option value="personalId"><%= lng('Personal ID')%></option>
-		<option value="name"><%= lng('Name')%></option>
-		<option value="born"><%= lng('Born')%></option>
-		<option value="gender"><%= lng('Gender')%></option>
-		<option value="ocuppation"><%= lng('Ocupation')%></option>
-		<option value="phone"><%= lng('Phone(s)')%></option>
-		<option value="email"><%= lng('email')%></option>
-		<option value="insurance"><%= lng('Insurance')%></option>
-		<option value="Notes"><%= lng('Notes')%></option>
+		<option value="pacient_name"><%= lng('Pacient')%></option>
+		<option value="date"><%= lng('Date')%></option>
+		<option value="type"><%= lng('Type')%></option>
+		<option value="diagnosis"><%= lng('Diagnosis')%></option>
+		<option value="recipe"><%= lng('Recipe')%></option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -16429,7 +16378,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 
-	<a href="{{download_data}}" id="link" class="hide" download="Pacient.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="PacientHistory.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -16444,42 +16393,27 @@ paper-menu {
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_history" on-click="sort_history"><%= lng('History.No')%><div id="history_sort_d" class="hide">
-			<iron-icon id="history_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_personalId" on-click="sort_personalId"><%= lng('Personal ID')%><div id="personalId_sort_d" class="hide">
-			<iron-icon id="personalId_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_name" on-click="sort_name"><%= lng('Name')%><div id="name_sort_d" class="hide">
-			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_born" on-click="sort_born"><%= lng('Born')%><div id="born_sort_d" class="hide">
-			<iron-icon id="born_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_gender" on-click="sort_gender"><%= lng('Gender')%><div id="gender_sort_d" class="hide">
-			<iron-icon id="gender_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_ocuppation" on-click="sort_ocuppation"><%= lng('Ocupation')%><div id="ocuppation_sort_d" class="hide">
-			<iron-icon id="ocuppation_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_phone" on-click="sort_phone"><%= lng('Phone(s)')%><div id="phone_sort_d" class="hide">
-			<iron-icon id="phone_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_email" on-click="sort_email"><%= lng('email')%><div id="email_sort_d" class="hide">
-			<iron-icon id="email_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_insurance" on-click="sort_insurance"><%= lng('Insurance')%><div id="insurance_sort_d" class="hide">
-			<iron-icon id="insurance_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_Notes" on-click="sort_Notes"><%= lng('Notes')%><div id="Notes_sort_d" class="hide">
-			<iron-icon id="Notes_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_pacient_name" on-click="sort_pacient_name"><%= lng('Pacient')%><div id="pacient_name_sort_d" class="hide">
+			<iron-icon id="pacient_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_date" on-click="sort_date"><%= lng('Date')%><div id="date_sort_d" class="hide">
+			<iron-icon id="date_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_type" on-click="sort_type"><%= lng('Type')%><div id="type_sort_d" class="hide">
+			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_diagnosis" on-click="sort_diagnosis"><%= lng('Diagnosis')%><div id="diagnosis_sort_d" class="hide">
+			<iron-icon id="diagnosis_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_recipe" on-click="sort_recipe"><%= lng('Recipe')%><div id="recipe_sort_d" class="hide">
+			<iron-icon id="recipe_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
-		<td class="col_history"></td>
-		<td class="col_personalId"></td>
-		<td class="col_name"></td>
-		<td class="col_born"></td>
-		<td class="col_gender"></td>
-		<td class="col_ocuppation"></td>
-		<td class="col_phone"></td>
-		<td class="col_email"></td>
-		<td class="col_insurance"></td>
-		<td class="col_Notes"></td>
+		<td class="col_pacient_name"></td>
+		<td class="col_date"></td>
+		<td class="col_type"></td>
+		<td class="col_diagnosis"></td>
+		<td class="col_recipe"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -16489,16 +16423,11 @@ paper-menu {
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
-		<template is="dom-if" if="{{column.history}}"><td>{{item.history}}</td></template>
-		<template is="dom-if" if="{{column.personalId}}"><td>{{item.personalId}}</td></template>
-		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
-		<template is="dom-if" if="{{column.born}}"><td>{{date_dma(item.born)}}</td></template>
-		<template is="dom-if" if="{{column.gender}}"><td>{{item.gender_des}}</td></template>
-		<template is="dom-if" if="{{column.ocuppation}}"><td>{{item.ocuppation}}</td></template>
-		<template is="dom-if" if="{{column.phone}}"><td>{{item.phone}}</td></template>
-		<template is="dom-if" if="{{column.email}}"><td>{{item.email}}</td></template>
-		<template is="dom-if" if="{{column.insurance}}"><td>{{item.insurance}}</td></template>
-		<template is="dom-if" if="{{column.Notes}}"><td>{{item.Notes}}</td></template>
+		<template is="dom-if" if="{{column.pacient_name}}"><td>{{item.pacient_name}}</td></template>
+		<template is="dom-if" if="{{column.date}}"><td>{{date_dma(item.date)}}</td></template>
+		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
+		<template is="dom-if" if="{{column.diagnosis}}"><td>{{item.diagnosis}}</td></template>
+		<template is="dom-if" if="{{column.recipe}}"><td>{{item.recipe}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -16506,7 +16435,7 @@ paper-menu {
 </template>
 <script>
 Polymer({
-	is: "Pacient-list",
+	is: "PacientHistory-list",
 	properties: {
 		//cur_sort: { field: "id", isdesc: false },
 		//cur_filter: {}
@@ -16519,27 +16448,23 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.$.ajax.url = config_server() + "Pacient"
+		this.$.ajax.url = config_server() + "PacientHistory"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
-				{column: "history", type: "string", display: true},
-				{column: "personalId", type: "string", display: true},
-				{column: "name", type: "string", display: true},
-				{column: "born", type: "date", display: true},
-				{column: "gender", enum: ["m","f"], enumdes: ["<%= lng("Male")%>","<%= lng("Female")%>"], display: true},
-				{column: "ocuppation", type: "string", display: true},
-				{column: "phone", type: "string", display: true},
-				{column: "email", type: "string", display: true},
-				{column: "insurance", type: "string", display: true},
-				{column: "Notes", type: "string", display: true}
+				{column: "pacient_id", type: "integer", model: "Pacient", display: false},
+				{column: "pacient_name", type: "string", model: "Pacient", display: true},
+				{column: "date", type: "date", display: true},
+				{column: "type", enum: ["c","s"], enumdes: ["<%= lng("Cita")%>","<%= lng("Consulta")%>"], display: true},
+				{column: "diagnosis", type: "string", display: true},
+				{column: "recipe", type: "string", display: true}
 		]
 		this.enums = {}
-		this.enums.gender = {m:"<%= lng('Male')%>",f:"<%= lng('Female')%>"}
+		this.enums.type = {c:"<%= lng('Cita')%>",s:"<%= lng('Consulta')%>"}
 		//var _data = <%- data %>
 		var db = new loki()
-		this.data = db.addCollection("data_Pacient")
-		this.model = db.addCollection("model_Pacient")
+		this.data = db.addCollection("data_PacientHistory")
+		this.model = db.addCollection("model_PacientHistory")
 		this.reload()
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
@@ -16548,17 +16473,17 @@ Polymer({
 		this.set_filter() //and columns & sort from localStorage
 	},
 	list_columns: function() {
-		this.$.Pacient_list_columns.open_list_columns(this.column)
+		this.$.PacientHistory_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
 		var columns = {}
-		this.column = this.$.Pacient_list_columns.column
+		this.column = this.$.PacientHistory_list_columns.column
 		for (i=0; i < this.model.data.length; i++ )
 		{
 			this.model.data[i].display = this.column[this.model.data[i].column]
 			columns[this.model.data[i].column] = this.column[this.model.data[i].column]
 		}
-		localStorage["Pacient-list-columns"] = JSON.stringify(columns)
+		localStorage["PacientHistory-list-columns"] = JSON.stringify(columns)
 		this.show_columns()
 		// reset filter
 		this.$.filter.value = "id"
@@ -16615,15 +16540,20 @@ Polymer({
 		}
 		if (filter != "")
 		{
+		  if (this.$[filter].value == "pacient_name"){
+			this.$.Pacient_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.Pacient_select_dialog.style.left = "-100px"
+			this.$.Pacient_select_dialog.open_select_dialog()
+		  }
 		}
 	},
 	set_select_field: function(e) {
 		this.$[this.field].value = this.$[e.srcElement.id].item.name
 	},
 	set_filter: function() {
-		if (localStorage["Pacient-list-filter"])
+		if (localStorage["PacientHistory-list-filter"])
 		{
-			var stored_filter = JSON.parse(localStorage["Pacient-list-filter"])
+			var stored_filter = JSON.parse(localStorage["PacientHistory-list-filter"])
 			this.$.filter.value = stored_filter.filter
 			this.$.op.value = stored_filter.op
 			this.input_type()
@@ -16659,9 +16589,9 @@ Polymer({
 			}
 			this.filter()
 		}
-		if (localStorage["Pacient-list-columns"])
+		if (localStorage["PacientHistory-list-columns"])
 		{
-			var columns = JSON.parse(localStorage["Pacient-list-columns"])
+			var columns = JSON.parse(localStorage["PacientHistory-list-columns"])
 			for (i=0; i < this.model.data.length; i++ )
 			  this.model.data[i].display = columns[this.model.data[i].column]
 		}
@@ -16707,7 +16637,7 @@ Polymer({
 			this.cur_filter = {}
 			this.cur_filter[logic_op] = [filtro, filtro2]	
 		}
-		localStorage["Pacient-list-filter"] = JSON.stringify(stored_filter)
+		localStorage["PacientHistory-list-filter"] = JSON.stringify(stored_filter)
 		this.result_set = this.data.chain().find(this.cur_filter).simplesort(this.cur_sort.field, this.cur_sort.isdesc)
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
@@ -16715,16 +16645,11 @@ Polymer({
 	},
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
-		this.$.history_sort_d.classList.add("hide")
-		this.$.personalId_sort_d.classList.add("hide")
-		this.$.name_sort_d.classList.add("hide")
-		this.$.born_sort_d.classList.add("hide")
-		this.$.gender_sort_d.classList.add("hide")
-		this.$.ocuppation_sort_d.classList.add("hide")
-		this.$.phone_sort_d.classList.add("hide")
-		this.$.email_sort_d.classList.add("hide")
-		this.$.insurance_sort_d.classList.add("hide")
-		this.$.Notes_sort_d.classList.add("hide")
+		this.$.pacient_name_sort_d.classList.add("hide")
+		this.$.date_sort_d.classList.add("hide")
+		this.$.type_sort_d.classList.add("hide")
+		this.$.diagnosis_sort_d.classList.add("hide")
+		this.$.recipe_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
 		this.hide_sort_icons()
@@ -16738,35 +16663,20 @@ Polymer({
 	sort_id: function() {
 		this.sort_by_field("id")
 	},
-	sort_history: function() {
-		this.sort_by_field("history")
+	sort_pacient_name: function() {
+		this.sort_by_field("pacient_name")
 	},
-	sort_personalId: function() {
-		this.sort_by_field("personalId")
+	sort_date: function() {
+		this.sort_by_field("date")
 	},
-	sort_name: function() {
-		this.sort_by_field("name")
+	sort_type: function() {
+		this.sort_by_field("type")
 	},
-	sort_born: function() {
-		this.sort_by_field("born")
+	sort_diagnosis: function() {
+		this.sort_by_field("diagnosis")
 	},
-	sort_gender: function() {
-		this.sort_by_field("gender")
-	},
-	sort_ocuppation: function() {
-		this.sort_by_field("ocuppation")
-	},
-	sort_phone: function() {
-		this.sort_by_field("phone")
-	},
-	sort_email: function() {
-		this.sort_by_field("email")
-	},
-	sort_insurance: function() {
-		this.sort_by_field("insurance")
-	},
-	sort_Notes: function() {
-		this.sort_by_field("Notes")
+	sort_recipe: function() {
+		this.sort_by_field("recipe")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -16874,22 +16784,22 @@ Polymer({
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Pacient_display_dialog.open_display_dialog(item)
+	this.$.PacientHistory_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Pacient_edit_dialog.open_dialog(item)
+	this.$.PacientHistory_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.Pacient_delete_dialog.open_delete_dialog(item)
+	this.$.PacientHistory_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.Pacient_new_dialog.open_dialog()
+	this.$.PacientHistory_new_dialog.open_dialog()
   },
   reload: function() {
 	this.$.ajax.generateRequest()
@@ -16900,9 +16810,17 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
-	  if (this.$.ajax.lastResponse[i].born)
-		this.$.ajax.lastResponse[i].born = this.$.ajax.lastResponse[i].born.substring(0,10)
-		this.$.ajax.lastResponse[i].gender_des= this.enums.gender[this.$.ajax.lastResponse[i].gender]	
+	  if (this.$.ajax.lastResponse[i].date)
+		this.$.ajax.lastResponse[i].date = this.$.ajax.lastResponse[i].date.substring(0,10)
+		if (this.$.ajax.lastResponse[i].pacient){
+			this.$.ajax.lastResponse[i].pacient_id = this.$.ajax.lastResponse[i].pacient.id
+			this.$.ajax.lastResponse[i].pacient_name = this.$.ajax.lastResponse[i].pacient.name
+		} else
+		{
+			this.$.ajax.lastResponse[i].pacient_id = 0
+			this.$.ajax.lastResponse[i].pacient_name = ""
+		}
+		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()
@@ -16914,9 +16832,9 @@ Polymer({
 });
 </script>
 </dom-module>
-<top-bar><%= lng("%s %s",lng("List"),lng("Pacient"))%></top-bar>
+<top-bar><%= lng("%s %s",lng("List"),lng("PacientHistory"))%></top-bar>
 <paper-material class="card" elevation="2">
-	<Pacient-list></Pacient-list>
+	<PacientHistory-list></PacientHistory-list>
 </paper-material>
 </body>
 </html>

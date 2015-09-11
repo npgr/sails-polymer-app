@@ -131,4 +131,19 @@
   
   ,"Ticket Category": "Categoria Ticket"
   ,"TicketCategory": "Categoria Ticket"
+  
+  ,"PacientCard": "Ficha Paciente"
+  ,"Pacient": "Paciente"
+  ,"Question": "Pregunta"
+  ,"Answer": "Respuesta"
+  ,"Diagnosis": "Diagnostico"
+  ,"History.No": "Historia"
+  ,"Personal ID": "Cédula"
+  ,"Born": "Nacimiento"
+  ,"Gender": "Sexo"
+  ,"Male": "Masculino"
+  ,"Female": "Femenino"
+  ,"Ocupation": "Ocupación"
+  ,"Phone(s)": "Teléfono(s)"
+  ,"Insurance": "Seguro"
 }
