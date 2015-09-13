@@ -16,13 +16,16 @@ module.exports = {
 		Order.query('select c.name as seller, d.name as customer, e.name as product, b.quantity as units, (b.quantity * b.price) as amount from "order" a, orderdetail b, seller c, customer d, product e where a.id = b.order and a.seller=c.id and a.customer = d.id and b.product=e.id and date >= \'2015-09-01\' and date <= \'2015-09-30\'', function(err, data) {
 			if (err) return res.serverError(err);
 			//return res.ok(results);
-			return res.json(data.rows)
-			
-			//var xml = require('xml');
+			//return res.json(data.rows)
 
-			//response.set('Content-Type', 'text/xml');
-			//response.send(xml(name_of_restaurants));
-			
+			var dato = {items: []}
+			for (i=0; i < data.rows.length; i++)
+				dato.items.push(data.rows[i])
+	
+			var convert = require('data2xml')();
+
+			res.set('Content-Type', 'text/xml');		
+			return res.end(convert('top',dato));
 		});
 	},
 	salesbyCustomer: function(req, res) {
