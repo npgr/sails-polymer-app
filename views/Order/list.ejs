@@ -15612,7 +15612,7 @@ paper-menu {
 }
 </style>
 
-<!-- topBar template: version 1.16 -->
+<!-- topBar template: version 1.20 -->
 
 <dom-module id="top-bar">
 <template>
@@ -15803,8 +15803,8 @@ paper-menu {
 				<td><div id="customer_name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Seller_name"><%= lng('Seller')%></label></td>
-				<td><div id="Seller_name" on-click="change_field"></div></td>
+				<td><label class="left_label" for="seller_name"><%= lng('Seller')%></label></td>
+				<td><div id="seller_name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Fecha')%></label></td>
@@ -15848,7 +15848,7 @@ paper-menu {
 			this.column= column
 			this.show_field("id")
 			this.show_field("customer_name")
-			this.show_field("Seller_name")
+			this.show_field("seller_name")
 			this.show_field("date")
 			this.show_field("amount")
 			this.show_field("products")
@@ -15906,8 +15906,8 @@ paper-menu {
 				<td><iron-icon icon="find-in-page" field="customer" on-click="select_field_b"></iron-icon><input id="customer" type="text" name="customer" key=0 required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Seller"><%= lng('Seller')%><strong class="red"> *</strong></label></td>
-				<td><iron-icon icon="find-in-page" field="Seller" on-click="select_field_b"></iron-icon><input id="Seller" type="text" name="Seller" key=0 required on-click="select_field" readonly></td>
+				<td><label class="left_label" for="seller"><%= lng('Seller')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="seller" on-click="select_field_b"></iron-icon><input id="seller" type="text" name="seller" key=0 required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Fecha')%></label></td>
@@ -15958,8 +15958,8 @@ paper-menu {
 			this.$.id.value = ''
 			this.$.customer.value = ''
 			this.$.customer.key = 0
-			this.$.Seller.value = ''
-			this.$.Seller.key = 0
+			this.$.seller.value = ''
+			this.$.seller.key = 0
 			this.$.date.value = ''
 			this.$.amount.value = ''
 			this.$.products.value = ''
@@ -15972,7 +15972,7 @@ paper-menu {
 			this.field = e.toElement.id
 			if (this.field == "customer")
 				this.$.Customer_select_dialog.open_select_dialog()
-			if (this.field == "Seller")
+			if (this.field == "seller")
 				this.$.Seller_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
@@ -15983,7 +15983,7 @@ paper-menu {
 			this.$.ajax2.url = config_server() + "Order"
 			var record = {}
 			record.customer = this.$.customer.key
-			record.Seller = this.$.Seller.key
+			record.seller = this.$.seller.key
 			if (this.$.date.value)
 			  record.date = this.$.date.value
 			record.amount = Number(this.$.amount.value)
@@ -16045,8 +16045,8 @@ paper-menu {
 				<td><input id="customer" type="text" name="customer" value="{{item.customer_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Seller"><%= lng('Seller')%></label></td>
-				<td><input id="Seller" type="text" name="Seller" value="{{item.Seller_name}}" disabled></td>
+				<td><label class="left_label" for="seller"><%= lng('Seller')%></label></td>
+				<td><input id="seller" type="text" name="seller" value="{{item.seller_name}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Fecha')%></label></td>
@@ -16118,8 +16118,8 @@ paper-menu {
 				<td><iron-icon icon="find-in-page" field="customer" on-click="select_field_b"></iron-icon><input id="customer" type="text" name="customer" key={{item.customer_id}} value="{{item.customer_name}}" required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Seller"><%= lng('Seller')%><strong class="red"> *</strong></label></td>
-				<td><iron-icon icon="find-in-page" field="Seller" on-click="select_field_b"></iron-icon><input id="Seller" type="text" name="Seller" key={{item.Seller_id}} value="{{item.Seller_name}}" required on-click="select_field" readonly></td>
+				<td><label class="left_label" for="seller"><%= lng('Seller')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="seller" on-click="select_field_b"></iron-icon><input id="seller" type="text" name="seller" key={{item.seller_id}} value="{{item.seller_name}}" required on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Fecha')%></label></td>
@@ -16176,7 +16176,7 @@ paper-menu {
 			this.field = e.toElement.id
 			if (this.field == "customer")
 				this.$.Customer_select_dialog.open_select_dialog()
-			if (this.field == "Seller")
+			if (this.field == "seller")
 				this.$.Seller_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
@@ -16190,7 +16190,7 @@ paper-menu {
 			var record = {}
 			record.id = Number(this.$.id.value)
 			record.customer = this.$.customer.key
-			record.Seller = this.$.Seller.key
+			record.seller = this.$.seller.key
 			if (this.$.date.value)
 				record.date = this.$.date.value
 			record.amount = Number(this.$.amount.value)
@@ -16233,8 +16233,8 @@ paper-menu {
 				<td><input id="customer" type="text" name="customer" value="{{item.customer_name}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="Seller"><%= lng('Seller')%></label></td>
-				<td><input id="Seller" type="text" name="Seller" value="{{item.Seller_name}}" disabled></td>
+				<td><label class="left_label" for="seller"><%= lng('Seller')%></label></td>
+				<td><input id="seller" type="text" name="seller" value="{{item.seller_name}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Fecha')%></label></td>
@@ -16462,7 +16462,7 @@ paper-menu {
 	<select id="filter" on-change="input_type">  <%= lng('Pedido')%>
 		<option value="id"><%= lng('Pedido')%></option>
 		<option value="customer_name"><%= lng('Customer')%></option>
-		<option value="Seller_name"><%= lng('Seller')%></option>  <%= lng('Fecha')%>
+		<option value="seller_name"><%= lng('Seller')%></option>  <%= lng('Fecha')%>
 		<option value="date"><%= lng('Fecha')%></option>  <%= lng('Amount')%>
 		<option value="amount"><%= lng('Amount')%></option>  <%= lng('Products')%>
 		<option value="products"><%= lng('Products')%></option>  <%= lng('Units')%>
@@ -16493,7 +16493,7 @@ paper-menu {
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Pedido')%></option>
 		<option value="customer_name"><%= lng('Customer')%></option>
-		<option value="Seller_name"><%= lng('Seller')%></option>
+		<option value="seller_name"><%= lng('Seller')%></option>
 		<option value="date"><%= lng('Fecha')%></option>
 		<option value="amount"><%= lng('Amount')%></option>
 		<option value="products"><%= lng('Products')%></option>
@@ -16535,8 +16535,8 @@ paper-menu {
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_customer_name" on-click="sort_customer_name"><%= lng('Customer')%><div id="customer_name_sort_d" class="hide">
 			<iron-icon id="customer_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_Seller_name" on-click="sort_Seller_name"><%= lng('Seller')%><div id="Seller_name_sort_d" class="hide">
-			<iron-icon id="Seller_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_seller_name" on-click="sort_seller_name"><%= lng('Seller')%><div id="seller_name_sort_d" class="hide">
+			<iron-icon id="seller_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_date" on-click="sort_date"><%= lng('Fecha')%><div id="date_sort_d" class="hide">
 			<iron-icon id="date_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_amount" on-click="sort_amount"><%= lng('Amount')%><div id="amount_sort_d" class="hide">
@@ -16554,7 +16554,7 @@ paper-menu {
 		<td class="ops"></td>
 		<td class="col_id"></td>
 		<td class="col_customer_name"></td>
-		<td class="col_Seller_name"></td>
+		<td class="col_seller_name"></td>
 		<td class="col_date"></td>
 		<td class="col_amount"></td>
 		<td class="col_products"></td>
@@ -16570,7 +16570,7 @@ paper-menu {
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.customer_name}}"><td>{{item.customer_name}}</td></template>
-		<template is="dom-if" if="{{column.Seller_name}}"><td>{{item.Seller_name}}</td></template>
+		<template is="dom-if" if="{{column.seller_name}}"><td>{{item.seller_name}}</td></template>
 		<template is="dom-if" if="{{column.date}}"><td>{{date_dma(item.date)}}</td></template>
 		<template is="dom-if" if="{{column.amount}}"><td>{{item.amount}}</td></template>
 		<template is="dom-if" if="{{column.products}}"><td>{{item.products}}</td></template>
@@ -16602,8 +16602,8 @@ Polymer({
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "customer_id", type: "integer", model: "Customer", display: false},
 				{column: "customer_name", type: "string", model: "Customer", display: true},
-				{column: "Seller_id", type: "integer", model: "Seller", display: false},
-				{column: "Seller_name", type: "string", model: "Seller", display: true},
+				{column: "seller_id", type: "integer", model: "Seller", display: false},
+				{column: "seller_name", type: "string", model: "Seller", display: true},
 				{column: "date", type: "date", display: true},
 				{column: "amount", type: "Float", display: true},
 				{column: "products", type: "integer", display: true},
@@ -16696,7 +16696,7 @@ Polymer({
 			//this.$.Customer_select_dialog.style.left = "-100px"
 			this.$.Customer_select_dialog.open_select_dialog()
 		  }
-		  if (this.$[filter].value == "Seller_name"){
+		  if (this.$[filter].value == "seller_name"){
 			this.$.Seller_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.Seller_select_dialog.style.left = "-100px"
 			this.$.Seller_select_dialog.open_select_dialog()
@@ -16802,7 +16802,7 @@ Polymer({
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
 		this.$.customer_name_sort_d.classList.add("hide")
-		this.$.Seller_name_sort_d.classList.add("hide")
+		this.$.seller_name_sort_d.classList.add("hide")
 		this.$.date_sort_d.classList.add("hide")
 		this.$.amount_sort_d.classList.add("hide")
 		this.$.products_sort_d.classList.add("hide")
@@ -16824,8 +16824,8 @@ Polymer({
 	sort_customer_name: function() {
 		this.sort_by_field("customer_name")
 	},
-	sort_Seller_name: function() {
-		this.sort_by_field("Seller_name")
+	sort_seller_name: function() {
+		this.sort_by_field("seller_name")
 	},
 	sort_date: function() {
 		this.sort_by_field("date")
@@ -16933,6 +16933,7 @@ Polymer({
 			delete datoi[i].updatedAt
 		}
 		var dato = { "data": datoi }
+		console.log("dato: ", dato)
 		var xml_data = x2js.json2xml_str(dato)
 		xml_data = "<x>"+xml_data+"</x>"
 		this.download_data = 'data:application/xml;charset=utf-8,'+xml_data
@@ -17020,13 +17021,13 @@ Polymer({
 			this.$.ajax.lastResponse[i].customer_id = 0
 			this.$.ajax.lastResponse[i].customer_name = ""
 		}
-		if (this.$.ajax.lastResponse[i].Seller){
-			this.$.ajax.lastResponse[i].Seller_id = this.$.ajax.lastResponse[i].Seller.id
-			this.$.ajax.lastResponse[i].Seller_name = this.$.ajax.lastResponse[i].Seller.name
+		if (this.$.ajax.lastResponse[i].seller){
+			this.$.ajax.lastResponse[i].seller_id = this.$.ajax.lastResponse[i].seller.id
+			this.$.ajax.lastResponse[i].seller_name = this.$.ajax.lastResponse[i].seller.name
 		} else
 		{
-			this.$.ajax.lastResponse[i].Seller_id = 0
-			this.$.ajax.lastResponse[i].Seller_name = ""
+			this.$.ajax.lastResponse[i].seller_id = 0
+			this.$.ajax.lastResponse[i].seller_name = ""
 		}
 		this.$.ajax.lastResponse[i].status_des= this.enums.status[this.$.ajax.lastResponse[i].status]	
 		this.data.insert(this.$.ajax.lastResponse[i])
