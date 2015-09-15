@@ -112,7 +112,10 @@ function set_jsondata_lines(crud, keys) {
 		{
 			type = getInputType(jsondata[keys[i]].type)
 			// input field
-			line_c = '<input id="'+keys[i]+'" type="'+ type +'" name="'+keys[i]+'"'
+			if (jsondata[keys[i]].textarea_cols)
+				line_c = '<textarea id="'+keys[i]+'" name="'+keys[i]+'" rows="'+jsondata[keys[i]].textarea_rows+'" cols="'+jsondata[keys[i]].textarea_cols+'"'
+			 else
+				line_c = '<input id="'+keys[i]+'" type="'+ type +'" name="'+keys[i]+'"'
 			line_r = line_c
 			line_u = line_c
 			line_d = line_c
@@ -187,6 +190,13 @@ function set_jsondata_lines(crud, keys) {
 			line_r += '>'
 			line_u += '>'
 			line_d += '>'
+			if (jsondata[keys[i]].textarea_cols)
+			{
+				line_c += '</textarea>'
+				line_r += '</textarea>'
+				line_u += '</textarea>'
+				line_d += '</textarea>'
+			}
 		}
 	  jsondata[keys[i]].line_c = line_c
 	  jsondata[keys[i]].line_r = line_r
@@ -354,7 +364,7 @@ function generate_model_select(model, display, key, description, crud) {
 	//else  console.log('File '+path+' already Exist')
 }
 
-function generate_list_page(keys, key, title, crud) {
+function generate_list_page(keys, key, title, crud, card_width, dialog_width) {
 	var LIST_TEMPLATE = fs.readFileSync('./templates/crud5/list.template', 'utf8');
 	var compiled_List = _.template(LIST_TEMPLATE)
 	
@@ -406,7 +416,7 @@ function generate_list_page(keys, key, title, crud) {
 	
 	var TOPBAR = fs.readFileSync('./templates/crud5/topBar.template', 'utf8');
 	
-	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'select_forms': SELECT_FORMS, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud})
+	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'select_forms': SELECT_FORMS, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud, 'card_width': card_width, 'dialog_width': dialog_width})
 	
 	//list_template = list_template.replace('>%', '<%')
 	//list_template = list_template.replace('%<', '%>')
@@ -434,9 +444,16 @@ exports.generate = function(crud) {
 // ** Crud with Polymer & templates
 	var keys = Object.keys(jsondata)
 	var title = model
-	if (keys.indexOf('_title') >= 0)	{
+	var card_width = '80em'
+	var dialog_width = '30em'
+	
+	if (keys.indexOf('_title') >= 0)  
 		title = jsondata._title
-	}
+	if (keys.indexOf('_card_width') >= 0)
+		card_width = jsondata._card_width
+	if (keys.indexOf('_dialog_width') >= 0)
+		dialog_width = jsondata._dialog_width
+	
 	// Key
 	var key= {}
 	for (k=0; k < keys.length; k++ ) {
@@ -473,13 +490,14 @@ exports.generate = function(crud) {
 	generate_display_form(keys, key, title, crud)
 	generate_delete_form(keys, key, title, crud)	
 	generate_edit_form(keys, key, title, crud)
+	
 	generate_list_columns(keys, title, crud)
 	
 	SELECT_FORMS = ''
 	for (i=0; i<relation.length; i++)
 		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
 	
-	generate_list_page(keys, key, title, crud)
+	generate_list_page(keys, key, title, crud, card_width, dialog_width)
 	
 	// resume-bar ??
 }

@@ -1,4 +1,4 @@
-<!-- list template: version 6.06 -->
+<!-- list template: version 6.15 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -58,8 +58,11 @@
 </head>
 <body unresolved>
 <style>
+#dialog {
+	width: <%= dialog_width%>;
+}
 .card {
-	width: 80em;
+	width: <%= card_width%>;
 	top: 30px;
 	left: 15px;
 }

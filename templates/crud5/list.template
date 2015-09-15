@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.15 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -15604,8 +15604,11 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#dialog {
+	width: <%= dialog_width%>;
+}
 .card {
-	width: 80em;
+	width: <%= card_width%>;
 	top: 30px;
 	left: 15px;
 }
