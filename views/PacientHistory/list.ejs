@@ -15878,6 +15878,11 @@ paper-menu {
 
 <dom-module id="PacientHistory-new">
 <template>
+	<style>
+		#dialog {
+			width: 38em;
+		}
+	</style>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
@@ -15907,11 +15912,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
-				<td><input id="diagnosis" type="text" name="diagnosis"></td>
+				<td><textarea id="diagnosis" name="diagnosis" rows="5" cols="50"></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
-				<td><input id="recipe" type="text" name="recipe"></td>
+				<td><textarea id="recipe" name="recipe" rows="5" cols="50"></textarea></td>
 			</tr>
 			</table>
 			<div class="buttons">
