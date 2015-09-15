@@ -24,6 +24,10 @@ module.exports = {
 		model: 'Pacient',
 		required: true
 	},
+	No: {
+		//description: 'No',
+		type: 'integer'
+	},
 	question: {
 		//description: 'Question',
 		type: 'string',

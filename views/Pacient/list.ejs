@@ -16894,9 +16894,16 @@ Polymer({
   pacientcard: function() {
 	this.$.menu_dialog.close()
 	var rs = this.data.find({id: this.key})[0]
-	var post_data = {id: this.key, customer: rs.customer.name, amount: rs.amount, status: rs.status_des}
+	var post_data = {id: this.key, name: rs.name}
 	
-	this.post(config_server() + "OrderDetail/list", post_data, 'post')
+	this.post(config_server() + "PacientCard/list", post_data, 'post')
+  },
+  pacienthistory: function() {
+	this.$.menu_dialog.close()
+	var rs = this.data.find({id: this.key})[0]
+	var post_data = {id: this.key, name: rs.name}
+	
+	this.post(config_server() + "PacientHistory/list", post_data, 'post')
   },
   post: function(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.

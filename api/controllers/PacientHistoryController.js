@@ -10,6 +10,7 @@ module.exports = {
 		res.locals.resources = req.session.resources
 		res.locals.user = {user: req.session.user, name: req.session.username}
 		res.locals.data = []
+		res.locals.pacient = JSON.stringify(req.body)
 		res.view("PacientHistory/list")
 	}
 };

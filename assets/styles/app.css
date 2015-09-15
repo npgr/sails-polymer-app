@@ -111,4 +111,8 @@ th {
   top: 18px;
   left: 890px;
 }
+.header_fields input {
+	margin-left: 3px;
+	margin-right: 20px;
+}
 

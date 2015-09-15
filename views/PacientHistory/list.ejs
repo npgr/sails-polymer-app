@@ -15892,7 +15892,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="pacient"><%= lng('Pacient')%><strong class="red"> *</strong></label></td>
-				<td><iron-icon icon="find-in-page" field="pacient" on-click="select_field_b"></iron-icon><input id="pacient" type="text" name="pacient" key=0 required on-click="select_field" readonly></td>
+				<td><iron-icon icon="find-in-page" field="pacient"></iron-icon><input id="pacient" type="text" name="pacient" key=0 required on-click="select_field" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
@@ -15929,8 +15929,10 @@ paper-menu {
 <script>
 	Polymer({
 		is: "PacientHistory-new",
-		open_dialog: function() {
+		open_dialog: function(pacient) {
 			this.clear()
+			this.$.pacient.key = pacient.id
+			this.$.pacient.value = pacient.name
 			this.$.dialog.open()
 		},
 		clear: function() {
@@ -16076,7 +16078,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="pacient"><%= lng('Pacient')%><strong class="red"> *</strong></label></td>
-				<td><iron-icon icon="find-in-page" field="pacient" on-click="select_field_b"></iron-icon><input id="pacient" type="text" name="pacient" key={{item.pacient_id}} value="{{item.pacient_name}}" required on-click="select_field" readonly></td>
+				<td><iron-icon icon="find-in-page" field="pacient"></iron-icon><input id="pacient" type="text" name="pacient" key={{item.pacient_id}} value="{{item.pacient_name}}" required disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
@@ -16324,7 +16326,7 @@ paper-menu {
 	<PacientHistory-delete id="PacientHistory_delete_dialog" on-close="reload"></PacientHistory-delete>
 	<Pacient-select id="Pacient_select_dialog" on-item_selected="set_select_field"></Pacient-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("PacientHistory"))%></div>-->
-	<select id="filter" on-change="input_type">  <%= lng('Id')%>
+	<select id="filter" on-change="input_type" disabled>  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>
 		<option value="pacient_name"><%= lng('Pacient')%></option>  <%= lng('Date')%>
 		<option value="date"><%= lng('Date')%></option>  <%= lng('Type')%>
@@ -16332,14 +16334,14 @@ paper-menu {
 		<option value="diagnosis"><%= lng('Diagnosis')%></option>  <%= lng('Recipe')%>
 		<option value="recipe"><%= lng('Recipe')%></option>
 	</select>
-	<select id="op">   
+	<select id="op" disabled>   
 		<option value="$eq"><%= lng('Equal to')%></option>
 		<option value="$ne"><%= lng('Different to')%></option>
 		<option value="$contains"><%= lng('Contains')%></option>
 		<option value="$gte"><%= lng('Greater or Equal to')%></option>
 		<option value="$lte"><%= lng('Less or Equal to')%></option>
 	</select>
-	<input id="filtro" type="{{tipo}}" on-click="select_field">
+	<input id="filtro" type="{{tipo}}" disabled>
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -16390,7 +16392,7 @@ paper-menu {
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th class="ops"><paper-icon-button icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_pacient_name" on-click="sort_pacient_name"><%= lng('Pacient')%><div id="pacient_name_sort_d" class="hide">
@@ -16448,12 +16450,13 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
+		this.pacient = <%- pacient %>
 		this.$.ajax.url = config_server() + "PacientHistory"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
-		var _model = [{column: "id", type: "integer", display: true},
+		var _model = [{column: "id", type: "integer", display: false},
 				{column: "pacient_id", type: "integer", model: "Pacient", display: false},
-				{column: "pacient_name", type: "string", model: "Pacient", display: true},
+				{column: "pacient_name", type: "string", model: "Pacient", display: false},
 				{column: "date", type: "date", display: true},
 				{column: "type", enum: ["c","s"], enumdes: ["<%= lng("Cita")%>","<%= lng("Consulta")%>"], display: true},
 				{column: "diagnosis", type: "string", display: true},
@@ -16470,7 +16473,13 @@ Polymer({
 			this.model.insert(_model[i])
 		_model = {}
 		this.input_type()
-		this.set_filter() //and columns & sort from localStorage
+		//this.set_filter() //and columns & sort from localStorage
+		this.$.filter.value = "pacient_name"
+		this.input_type()
+		this.$.op.value = "$eq"
+		this.$.filtro.value = this.pacient.name
+		this.filter()
+		this.show_columns()
 	},
 	list_columns: function() {
 		this.$.PacientHistory_list_columns.open_list_columns(this.column)
@@ -16799,7 +16808,7 @@ Polymer({
 	this.$.PacientHistory_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
-	this.$.PacientHistory_new_dialog.open_dialog()
+	this.$.PacientHistory_new_dialog.open_dialog(this.pacient)
   },
   reload: function() {
 	this.$.ajax.generateRequest()
