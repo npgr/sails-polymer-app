@@ -9,6 +9,9 @@ module.exports = {
 
 	migrate: 'alter',
   attributes: {
+	//_title: 'Pacient History',
+	//_card_width: '75em',
+	//_dialog_width: '38em',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -38,10 +41,14 @@ module.exports = {
 	},
 	diagnosis: {
 		//description: "Diagnosis",
+		//textarea_cols: 50,
+		//textarea_rows: 4,
 		type: 'string'
 	},
 	recipe: {
 		//description: "Recipe",
+		//textarea_cols: 50,
+		//textarea_rows: 4,
 		type: 'string'
 	}
 //End Attributes
