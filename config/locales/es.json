@@ -108,6 +108,8 @@
   
   ,"Seller": "Vendedor"
   ,"Order": "Pedido"
+  ,"Lines": "Lineas"
+  ,"Order Status": "Status Pedido"
   ,"Amount": "Monto"
   ,"Units": "Unidades"
   ,"Products": "Productos"
@@ -133,6 +135,7 @@
   ,"TicketCategory": "Categoria Ticket"
   
   ,"PacientCard": "Ficha Paciente"
+  ,"PacientHistory": "Historia Paciente"
   ,"Pacient": "Paciente"
   ,"Pacients": "Pacientes"
   ,"Question": "Pregunta"
@@ -147,4 +150,6 @@
   ,"Ocupation": "Ocupación"
   ,"Phone(s)": "Teléfono(s)"
   ,"Insurance": "Seguro"
+  ,"History": "Historia"
+  ,"Card": "Ficha"
 }

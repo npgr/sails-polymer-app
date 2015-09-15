@@ -16302,10 +16302,6 @@ paper-menu {
 <dom-module id="OrderDetail-list">
 <template>
 <style>
-	.header_fields input {
-		margin-left: 3px;
-		margin-right: 20px;
-	}
 	#customer {
 		width: 200px;
 	}
@@ -16340,11 +16336,11 @@ paper-menu {
 	<Product-select id="Product_select_dialog" on-item_selected="set_select_field"></Product-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Order Detail"))%></div>-->
 	<div class="header_fields">
-		Customer <input id="customer" value="{{order.customer}}" disabled/> 
-		Amount <input id="amount" value="{{order.amount}}" disabled/> 
-		Lines <input id="lines" value="{{order.lines}}" disabled/> 
-		Units <input id="units" value="{{order.units}}" disabled/>
-		Order Status <input id="status" value="{{order.status}}" disabled/>
+		<%= lng('Customer')%> <input id="customer" value="{{order.customer}}" disabled/> 
+		<%= lng('Amount')%> <input id="amount" value="{{order.amount}}" disabled/> 
+		<%= lng('Lines')%> <input id="lines" value="{{order.lines}}" disabled/> 
+		<%= lng('Units')%> <input id="units" value="{{order.units}}" disabled/>
+		<%= lng('Order Status')%> <input id="status" value="{{order.status}}" disabled/>
 	</div>
 	<select id="filter" on-change="input_type" disabled>  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Order')%>
@@ -16413,7 +16409,7 @@ paper-menu {
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th class="ops"><paper-icon-button icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_order" on-click="sort_order"><%= lng('Order')%><div id="order_sort_d" class="hide">
@@ -16476,7 +16472,7 @@ Polymer({
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: false},
-				{column: "order", type: "integer", display: true},
+				{column: "order", type: "integer", display: false},
 				{column: "product_id", type: "integer", model: "Product", display: false},
 				{column: "product_name", type: "string", model: "Product", display: true},
 				{column: "quantity", type: "integer", display: true},
