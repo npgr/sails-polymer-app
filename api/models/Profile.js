@@ -7,9 +7,10 @@
 
 module.exports = {
 
-	//migrate: 'alter',
+	migrate: 'alter',
 
   attributes: {
+	//_card_width: '60em',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -21,6 +22,14 @@ module.exports = {
 		//description: "Name",
 		type:'string',
 		required: true
+	},
+	firstpage: {
+		//description: 'First Page',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'Resource'
 	}
 //End Attributes
   }
