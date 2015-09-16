@@ -10,6 +10,7 @@ module.exports = {
 	//migrate: 'alter',
   attributes: {
 	//_title: 'Customer',
+	//_dialog_width: '38em',
 	id: {
 		//description: 'id',
 		type: "integer",
@@ -74,6 +75,8 @@ module.exports = {
 	address: {
 		//description: 'Address',
 		//hide: true,
+		//textarea_cols: 50,
+		//textarea_rows: 4,
 		type: 'string'
 	},
 	phone: {
@@ -86,6 +89,8 @@ module.exports = {
 	},
 	notes: {
 		//description: 'Notes',
+		//textarea_cols: 50,
+		//textarea_rows: 4,
 		type: 'string'
 	},
 	status: {

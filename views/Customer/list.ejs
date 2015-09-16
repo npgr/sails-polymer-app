@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.15 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -15586,6 +15586,9 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#dialog {
+	width: 38em;
+}
 .card {
 	width: 80em;
 	top: 30px;
@@ -15976,7 +15979,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address"></td>
+				<td><textarea id="address" name="address" rows="4" cols="50"></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
@@ -15988,7 +15991,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes"></td>
+				<td><textarea id="notes" name="notes" rows="4" cols="50"></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
@@ -16160,7 +16163,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address" value="{{item.address}}" disabled></td>
+				<td><textarea id="address" name="address" rows="4" cols="50" value="{{item.address}}" disabled></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
@@ -16172,7 +16175,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes" value="{{item.notes}}" disabled></td>
+				<td><textarea id="notes" name="notes" rows="4" cols="50" value="{{item.notes}}" disabled></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
@@ -16261,7 +16264,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address" value="{{item.address}}"></td>
+				<td><textarea id="address" name="address" rows="4" cols="50" value="{{item.address}}"></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
@@ -16273,7 +16276,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes" value="{{item.notes}}"></td>
+				<td><textarea id="notes" name="notes" rows="4" cols="50" value="{{item.notes}}"></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
@@ -16412,7 +16415,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="address"><%= lng('Address')%></label></td>
-				<td><input id="address" type="text" name="address" value="{{item.address}}" disabled></td>
+				<td><textarea id="address" name="address" rows="4" cols="50" value="{{item.address}}" disabled></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="phone"><%= lng('Phone')%></label></td>
@@ -16424,7 +16427,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="notes"><%= lng('Notes')%></label></td>
-				<td><input id="notes" type="text" name="notes" value="{{item.notes}}" disabled></td>
+				<td><textarea id="notes" name="notes" rows="4" cols="50" value="{{item.notes}}" disabled></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="status"><%= lng('Status')%></label></td>
