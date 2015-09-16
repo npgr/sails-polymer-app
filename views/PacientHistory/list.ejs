@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.15 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -9,7 +9,7 @@
 %>  
 <html>
 <head><meta charset="UTF-8">
-	<title><%= lng("%s %s",lng("List"),lng("PacientHistory"))%></title>
+	<title><%= lng("%s %s",lng("List"),lng("Pacient History"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
@@ -15586,8 +15586,11 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#dialog {
+	width: 38em;
+}
 .card {
-	width: 80em;
+	width: 75em;
 	top: 30px;
 	left: 15px;
 }
@@ -15791,7 +15794,7 @@ paper-menu {
 	}
 </style>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("PacientHistory"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Pacient History"))%></h2>
 			<paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -15878,16 +15881,11 @@ paper-menu {
 
 <dom-module id="PacientHistory-new">
 <template>
-	<style>
-		#dialog {
-			width: 38em;
-		}
-	</style>
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<Pacient-select id="Pacient_select_dialog" on-item_selected="set_select_field"></Pacient-select>
-		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("PacientHistory"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Pacient History"))%></h2>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
 			<table class="table_dialog" style="width:100%">
@@ -15897,7 +15895,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="pacient"><%= lng('Pacient')%><strong class="red"> *</strong></label></td>
-				<td><iron-icon icon="find-in-page" field="pacient"></iron-icon><input id="pacient" type="text" name="pacient" key=0 required on-click="select_field" disabled></td>
+				<td><iron-icon icon="find-in-page" field="pacient"></iron-icon><input id="pacient" type="text" name="pacient" key=0 required disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
@@ -15912,11 +15910,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
-				<td><textarea id="diagnosis" name="diagnosis" rows="5" cols="50"></textarea></td>
+				<td><textarea id="diagnosis" name="diagnosis" rows="4" cols="50"></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
-				<td><textarea id="recipe" name="recipe" rows="5" cols="50"></textarea></td>
+				<td><textarea id="recipe" name="recipe" rows="4" cols="50"></textarea></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -15973,7 +15971,7 @@ paper-menu {
 			this.$.ajax2.generateRequest()
 		},
 		record_created: function() {
-			alert("Created PacientHistory id="+this.$.ajax2.lastResponse.id)
+			alert("Created Pacient History id="+this.$.ajax2.lastResponse.id)
 			// ask for create another one
 			if (!this.$.repeat.checked) {
 				this.$.dialog.close()
@@ -16012,7 +16010,7 @@ paper-menu {
 <dom-module id="PacientHistory-display">
 <template>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("PacientHistory"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Display"),lng("Pacient History"))%></h2>
 		  <paper-dialog-scrollable>
 			<table class="table_dialog" style="width:100%">
 			<tr>
@@ -16036,11 +16034,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
-				<td><input id="diagnosis" type="text" name="diagnosis" value="{{item.diagnosis}}" disabled></td>
+				<td><textarea id="diagnosis" name="diagnosis" rows="4" cols="50" value="{{item.diagnosis}}" disabled></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
-				<td><input id="recipe" type="text" name="recipe" value="{{item.recipe}}" disabled></td>
+				<td><textarea id="recipe" name="recipe" rows="4" cols="50" value="{{item.recipe}}" disabled></textarea></td>
 			</tr>
 			</table>
 		  </paper-dialog-scrollable>
@@ -16073,7 +16071,7 @@ paper-menu {
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
 		<Pacient-select id="Pacient_select_dialog" on-item_selected="set_select_field"></Pacient-select>
-		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("PacientHistory"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Pacient History"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
@@ -16083,7 +16081,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="pacient"><%= lng('Pacient')%><strong class="red"> *</strong></label></td>
-				<td><iron-icon icon="find-in-page" field="pacient"></iron-icon><input id="pacient" type="text" name="pacient" key={{item.pacient_id}} value="{{item.pacient_name}}" required disabled></td>
+				<td><iron-icon icon="find-in-page" field="pacient"></iron-icon><input id="pacient" type="text" name="pacient" key={{item.pacient_id}} value="{{item.pacient_name}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
@@ -16098,11 +16096,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
-				<td><input id="diagnosis" type="text" name="diagnosis" value="{{item.diagnosis}}"></td>
+				<td><textarea id="diagnosis" name="diagnosis" rows="4" cols="50" value="{{item.diagnosis}}"></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
-				<td><input id="recipe" type="text" name="recipe" value="{{item.recipe}}"></td>
+				<td><textarea id="recipe" name="recipe" rows="4" cols="50" value="{{item.recipe}}"></textarea></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16174,7 +16172,7 @@ paper-menu {
 <template>
 	<iron-ajax id="ajax" method='DELETE' handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("PacientHistory"))%></h2>
+		<h2 class="card_title"><%= lng("%s %s",lng("Delete"),lng("Pacient History"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="delete">
 			<table class="table_dialog" style="width:100%">
@@ -16199,11 +16197,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="diagnosis"><%= lng('Diagnosis')%></label></td>
-				<td><input id="diagnosis" type="text" name="diagnosis" value="{{item.diagnosis}}" disabled></td>
+				<td><textarea id="diagnosis" name="diagnosis" rows="4" cols="50" value="{{item.diagnosis}}" disabled></textarea></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="recipe"><%= lng('Recipe')%></label></td>
-				<td><input id="recipe" type="text" name="recipe" value="{{item.recipe}}" disabled></td>
+				<td><textarea id="recipe" name="recipe" rows="4" cols="50" value="{{item.recipe}}" disabled></textarea></td>
 			</tr>
 			</table>
 		<div class="buttons">
@@ -16330,7 +16328,7 @@ paper-menu {
 	<PacientHistory-edit id="PacientHistory_edit_dialog" on-close="reload"></PacientHistory-edit>
 	<PacientHistory-delete id="PacientHistory_delete_dialog" on-close="reload"></PacientHistory-delete>
 	<Pacient-select id="Pacient_select_dialog" on-item_selected="set_select_field"></Pacient-select>	
-	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("PacientHistory"))%></div>-->
+	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Pacient History"))%></div>-->
 	<select id="filter" on-change="input_type" disabled>  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>
 		<option value="pacient_name"><%= lng('Pacient')%></option>  <%= lng('Date')%>
@@ -16385,7 +16383,7 @@ paper-menu {
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
 
-	<a href="{{download_data}}" id="link" class="hide" download="PacientHistory.xml">Download Data</a>
+	<a href="{{download_data}}" id="link" class="hide" download="Pacient History.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -16846,7 +16844,7 @@ Polymer({
 });
 </script>
 </dom-module>
-<top-bar><%= lng("%s %s",lng("List"),lng("PacientHistory"))%></top-bar>
+<top-bar><%= lng("%s %s",lng("List"),lng("Pacient History"))%></top-bar>
 <paper-material class="card" elevation="2">
 	<PacientHistory-list></PacientHistory-list>
 </paper-material>
