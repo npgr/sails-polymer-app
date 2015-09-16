@@ -12,6 +12,8 @@ module.exports = {
 	//adapter: 'postgresql',
   attributes: {
 	//_title: 'Activity',
+	//_dialog_width: '36em',
+	//_card_width: '86em',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -117,6 +119,8 @@ module.exports = {
 	},
 	observacion: {
 		//description: 'Notes',
+		//textarea_cols: 40,
+		//textarea_rows: 3,
 		type: "string"
 	}
 //End Attributes

@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.15 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -15586,6 +15586,9 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#dialog {
+	width: 36em;
+}
 .card {
 	width: 86em;
 	top: 30px;
@@ -16051,7 +16054,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
-				<td><input id="observacion" type="text" name="observacion"></td>
+				<td><textarea id="observacion" name="observacion" rows="3" cols="40"></textarea></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16274,7 +16277,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
-				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+				<td><textarea id="observacion" name="observacion" rows="3" cols="40" value="{{item.observacion}}" disabled></textarea></td>
 			</tr>
 			</table>
 		  </paper-dialog-scrollable>
@@ -16408,7 +16411,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
-				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}"></td>
+				<td><textarea id="observacion" name="observacion" rows="3" cols="40" value="{{item.observacion}}"></textarea></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16600,7 +16603,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="observacion"><%= lng('Notes')%></label></td>
-				<td><input id="observacion" type="text" name="observacion" value="{{item.observacion}}" disabled></td>
+				<td><textarea id="observacion" name="observacion" rows="3" cols="40" value="{{item.observacion}}" disabled></textarea></td>
 			</tr>
 			</table>
 		<div class="buttons">
