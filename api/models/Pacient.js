@@ -17,6 +17,14 @@ module.exports = {
 		autoIncrement: true,
 		unique: true
 	},
+	user: {
+		//description: 'user',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'usr',
+		//type: 'string',
+		model: 'User'
+	},
 	history: {
 		//description: 'History.No',
 		type: "string"

@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.15 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -15586,6 +15586,9 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#dialog {
+	width: 30em;
+}
 .card {
 	width: 80em;
 	top: 30px;
@@ -15799,10 +15802,6 @@ paper-menu {
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="user_usr"><%= lng('User')%></label></td>
-				<td><div id="user_usr" on-click="change_field"></div></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%></label></td>
 				<td><div id="date" on-click="change_field"></div></td>
 			</tr>
@@ -15839,7 +15838,6 @@ paper-menu {
 			this.updated= false,
 			this.column= column
 			this.show_field("id")
-			this.show_field("user_usr")
 			this.show_field("date")
 			this.show_field("category_name")
 			this.show_field("description")
@@ -15881,7 +15879,6 @@ paper-menu {
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>
 		<ExpenseCategory-select id="ExpenseCategory_select_dialog" on-item_selected="set_select_field"></ExpenseCategory-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Expense"))%></h2>
 		<paper-dialog-scrollable>
@@ -15890,10 +15887,6 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key=0 on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
@@ -15933,8 +15926,6 @@ paper-menu {
 		},
 		clear: function() {
 			this.$.id.value = ''
-			this.$.user.value = ''
-			this.$.user.key = 0
 			this.$.date.value = ''
 			this.$.category.value = ''
 			this.$.category.key = 0
@@ -15946,8 +15937,6 @@ paper-menu {
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "user")
-				this.$.User_select_dialog.open_select_dialog()
 			if (this.field == "category")
 				this.$.ExpenseCategory_select_dialog.open_select_dialog()
 		},
@@ -15958,7 +15947,6 @@ paper-menu {
 		create: function() {
 			this.$.ajax2.url = config_server() + "Expense"
 			var record = {}
-			record.user = this.$.user.key
 			if (this.$.date.value)
 			  record.date = this.$.date.value
 			record.category = this.$.category.key
@@ -16015,10 +16003,6 @@ paper-menu {
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><input id="user" type="text" name="user" value="{{item.user_usr}}" disabled></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%></label></td>
 				<td><input id="date" type="date" name="date" value="{{item.date}}" disabled></td>
 			</tr>
@@ -16063,7 +16047,6 @@ paper-menu {
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>
 		<ExpenseCategory-select id="ExpenseCategory_select_dialog" on-item_selected="set_select_field"></ExpenseCategory-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Expense"))%></h2>
 		<paper-dialog-scrollable>
@@ -16072,10 +16055,6 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key={{item.user_id}} value="{{item.user_usr}}" on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%><strong class="red"> *</strong></label></td>
@@ -16120,8 +16099,6 @@ paper-menu {
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "user")
-				this.$.User_select_dialog.open_select_dialog()
 			if (this.field == "category")
 				this.$.ExpenseCategory_select_dialog.open_select_dialog()
 		},
@@ -16135,7 +16112,6 @@ paper-menu {
 		update: function() {
 			var record = {}
 			record.id = Number(this.$.id.value)
-			record.user = this.$.user.key
 			if (this.$.date.value)
 				record.date = this.$.date.value
 			record.category = this.$.category.key
@@ -16171,10 +16147,6 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><input id="user" type="text" name="user" value="{{item.user_usr}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="date"><%= lng('Date')%></label></td>
@@ -16235,77 +16207,6 @@ paper-menu {
 </dom-module>
 
 
-<!-- select-model: version 5.10 -->
- <% 
- function lng(word) {
-	return __("word")
- }
- function lng(word1, word2, word3) {
-	return __(word1, word2, word3)
- }
-%>  
-
-<dom-module id="User-select">
-<template>
-	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" vertical layout>
-		<iron-icon icon="close" on-click="close" mini></iron-icon>  
-		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('User')%>..."></div>
-		<paper-dialog-scrollable>
-		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
-			<div id="{{item.id}}" on-click="select">{{item.usr}}</div>
-		</template>
-		</paper-dialog-scrollable>
-	</paper-dialog>
-</template>
-<script>
-	Polymer({
-		is: "User-select",
-		open_select_dialog: function() {
-			this.$.filtro.value = ""
-			this.$.ajax.url= config_server() +"User"
-			var db = new loki()
-			this.data = db.addCollection("data_User")
-			this.filtered_data = []
-			this.load_data()
-			this.tipo="string" //filter type
-			this.$.dialog.open()
-		},
-		close: function() {
-			this.$.dialog.close()
-		},
-		load_data: function() {
-			this.$.ajax.generateRequest()
-		},
-		get_data: function() {
-			while(this.data.data[0]) {
-				this.data.remove(this.data.data[0])
-			}
-			for (i=0; i< this.$.ajax.lastResponse.length; i++)
-				this.data.insert(this.$.ajax.lastResponse[i])
-			this.filter()
-		},
-		filter: function() {
-			this.filtered_data = []
-			this.cur_filter = { usr: { $contains: this.$.filtro.value} }
-			this.result_set = this.data.chain().find(this.cur_filter).simplesort("usr", false)
-			this.filtered_data = this.result_set.data()
-		},
-		select: function(e) {
-			this.item = {}
-			this.item.key = e.toElement.id
-			this.item.name = e.toElement.innerHTML
-			this.$.dialog.close()
-			//this.close()
-			this.fire('item_selected')
-		},
-		ajax_error: function() {
-			console.log(this.$.ajax.lastError)
-			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
-		}
-	})
-</script>
-</dom-module>
 <!-- select-model: version 5.10 -->
  <% 
  function lng(word) {
@@ -16386,12 +16287,10 @@ paper-menu {
 	<Expense-display id="Expense_display_dialog"></Expense-display>
 	<Expense-edit id="Expense_edit_dialog" on-close="reload"></Expense-edit>
 	<Expense-delete id="Expense_delete_dialog" on-close="reload"></Expense-delete>
-	<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>
 	<ExpenseCategory-select id="ExpenseCategory_select_dialog" on-item_selected="set_select_field"></ExpenseCategory-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Expense"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
-		<option value="id"><%= lng('Id')%></option>
-		<option value="user_usr"><%= lng('User')%></option>  <%= lng('Date')%>
+		<option value="id"><%= lng('Id')%></option>  <%= lng('Date')%>
 		<option value="date"><%= lng('Date')%></option>
 		<option value="category_name"><%= lng('Category')%></option>  <%= lng('Description')%>
 		<option value="description"><%= lng('Description')%></option>  <%= lng('Amount')%>
@@ -16420,7 +16319,6 @@ paper-menu {
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
-		<option value="user_usr"><%= lng('User')%></option>
 		<option value="date"><%= lng('Date')%></option>
 		<option value="category_name"><%= lng('Category')%></option>
 		<option value="description"><%= lng('Description')%></option>
@@ -16458,8 +16356,6 @@ paper-menu {
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_user_usr" on-click="sort_user_usr"><%= lng('User')%><div id="user_usr_sort_d" class="hide">
-			<iron-icon id="user_usr_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_date" on-click="sort_date"><%= lng('Date')%><div id="date_sort_d" class="hide">
 			<iron-icon id="date_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_category_name" on-click="sort_category_name"><%= lng('Category')%><div id="category_name_sort_d" class="hide">
@@ -16474,7 +16370,6 @@ paper-menu {
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
-		<td class="col_user_usr"></td>
 		<td class="col_date"></td>
 		<td class="col_category_name"></td>
 		<td class="col_description"></td>
@@ -16488,7 +16383,6 @@ paper-menu {
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
-		<template is="dom-if" if="{{column.user_usr}}"><td>{{item.user_usr}}</td></template>
 		<template is="dom-if" if="{{column.date}}"><td>{{date_dma(item.date)}}</td></template>
 		<template is="dom-if" if="{{column.category_name}}"><td>{{item.category_name}}</td></template>
 		<template is="dom-if" if="{{column.description}}"><td>{{item.description}}</td></template>
@@ -16517,8 +16411,6 @@ Polymer({
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
-				{column: "user_id", type: "integer", model: "User", display: false},
-				{column: "user_usr", type: "string", model: "User", display: true},
 				{column: "date", type: "date", display: true},
 				{column: "category_id", type: "integer", model: "ExpenseCategory", display: false},
 				{column: "category_name", type: "string", model: "ExpenseCategory", display: true},
@@ -16605,11 +16497,6 @@ Polymer({
 		}
 		if (filter != "")
 		{
-		  if (this.$[filter].value == "user_usr"){
-			this.$.User_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.User_select_dialog.style.left = "-100px"
-			this.$.User_select_dialog.open_select_dialog()
-		  }
 		  if (this.$[filter].value == "category_name"){
 			this.$.ExpenseCategory_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.ExpenseCategory_select_dialog.style.left = "-100px"
@@ -16715,7 +16602,6 @@ Polymer({
 	},
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
-		this.$.user_usr_sort_d.classList.add("hide")
 		this.$.date_sort_d.classList.add("hide")
 		this.$.category_name_sort_d.classList.add("hide")
 		this.$.description_sort_d.classList.add("hide")
@@ -16732,9 +16618,6 @@ Polymer({
 	},
 	sort_id: function() {
 		this.sort_by_field("id")
-	},
-	sort_user_usr: function() {
-		this.sort_by_field("user_usr")
 	},
 	sort_date: function() {
 		this.sort_by_field("date")
@@ -16882,14 +16765,6 @@ Polymer({
 	{
 	  if (this.$.ajax.lastResponse[i].date)
 		this.$.ajax.lastResponse[i].date = this.$.ajax.lastResponse[i].date.substring(0,10)
-		if (this.$.ajax.lastResponse[i].user){
-			this.$.ajax.lastResponse[i].user_id = this.$.ajax.lastResponse[i].user.id
-			this.$.ajax.lastResponse[i].user_usr = this.$.ajax.lastResponse[i].user.usr
-		} else
-		{
-			this.$.ajax.lastResponse[i].user_id = 0
-			this.$.ajax.lastResponse[i].user_usr = ""
-		}
 		if (this.$.ajax.lastResponse[i].category){
 			this.$.ajax.lastResponse[i].category_id = this.$.ajax.lastResponse[i].category.id
 			this.$.ajax.lastResponse[i].category_name = this.$.ajax.lastResponse[i].category.name

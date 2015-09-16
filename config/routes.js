@@ -85,9 +85,12 @@ module.exports.routes = {
   "/Order/list": "OrderController.list",
   "post /OrderDetail/list": "OrderDetailController.list",
   "/Expense/list": "ExpenseController.list",
+  "get /Expense": "ExpenseController.get",
   "/ExpenseCategory/list": "ExpenseCategoryController.list",
+  "get /ExpenseCategory": "ExpenseCategoryController.get",
   "/TicketCategory/list": "TicketCategoryController.list",
   "/Pacient/list": "PacientController.list",
+  "get /Pacient": "PacientController.get",
   "post /PacientCard/list": "PacientCardController.list",
   "post /PacientHistory/list": "PacientHistoryController.list",
   "/Order/SalesCube": "OrderController.salesCube"

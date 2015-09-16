@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.15 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -15586,6 +15586,9 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#dialog {
+	width: 30em;
+}
 .card {
 	width: 60em;
 	top: 30px;
@@ -15799,10 +15802,6 @@ paper-menu {
 				<td><div id="id" on-click="change_field"></div></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="user_usr"><%= lng('User')%></label></td>
-				<td><div id="user_usr" on-click="change_field"></div></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="name"><%= lng('Category')%></label></td>
 				<td><div id="name" on-click="change_field"></div></td>
 			</tr>
@@ -15827,7 +15826,6 @@ paper-menu {
 			this.updated= false,
 			this.column= column
 			this.show_field("id")
-			this.show_field("user_usr")
 			this.show_field("name")
 			this.$.dialog.open()
 		},
@@ -15866,7 +15864,6 @@ paper-menu {
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("ExpenseCategory"))%></h2>
 		<paper-dialog-scrollable>
 		  <form id="form" action="javascript:void(0);" on-submit="create">
@@ -15874,10 +15871,6 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key=0 on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name"><%= lng('Category')%><strong class="red"> *</strong></label></td>
@@ -15905,8 +15898,6 @@ paper-menu {
 		},
 		clear: function() {
 			this.$.id.value = ''
-			this.$.user.value = ''
-			this.$.user.key = 0
 			this.$.name.value = ''
 		},
 		select_field_b: function(e) {
@@ -15914,8 +15905,6 @@ paper-menu {
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "user")
-				this.$.User_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -15924,7 +15913,6 @@ paper-menu {
 		create: function() {
 			this.$.ajax2.url = config_server() + "ExpenseCategory"
 			var record = {}
-			record.user = this.$.user.key
 			  record.name = this.$.name.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
@@ -15977,10 +15965,6 @@ paper-menu {
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><input id="user" type="text" name="user" value="{{item.user_usr}}" disabled></td>
-			</tr>
-			<tr>
 				<td><label class="left_label" for="name"><%= lng('Category')%></label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
 			</tr>
@@ -16013,7 +15997,6 @@ paper-menu {
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
-		<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("ExpenseCategory"))%></h2>
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
@@ -16021,10 +16004,6 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key={{item.user_id}} value="{{item.user_usr}}" on-click="select_field" readonly></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name"><%= lng('Category')%><strong class="red"> *</strong></label></td>
@@ -16057,8 +16036,6 @@ paper-menu {
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
-			if (this.field == "user")
-				this.$.User_select_dialog.open_select_dialog()
 		},
 		set_select_field: function(e) {
 			this.$[this.field].value = this.$[e.srcElement.id].item.name
@@ -16070,7 +16047,6 @@ paper-menu {
 		update: function() {
 			var record = {}
 			record.id = Number(this.$.id.value)
-			record.user = this.$.user.key
 			record.name = this.$.name.value
 			this.$.ajax.url = config_server() + "ExpenseCategory/" +record.id
 			this.$.ajax.params = record
@@ -16102,10 +16078,6 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><input id="user" type="text" name="user" value="{{item.user_usr}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="name"><%= lng('Category')%></label></td>
@@ -16154,77 +16126,6 @@ paper-menu {
 </dom-module>
 
 
-<!-- select-model: version 5.10 -->
- <% 
- function lng(word) {
-	return __("word")
- }
- function lng(word1, word2, word3) {
-	return __(word1, word2, word3)
- }
-%>  
-
-<dom-module id="User-select">
-<template>
-	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
-	<paper-dialog id="dialog" vertical layout>
-		<iron-icon icon="close" on-click="close" mini></iron-icon>  
-		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('User')%>..."></div>
-		<paper-dialog-scrollable>
-		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
-			<div id="{{item.id}}" on-click="select">{{item.usr}}</div>
-		</template>
-		</paper-dialog-scrollable>
-	</paper-dialog>
-</template>
-<script>
-	Polymer({
-		is: "User-select",
-		open_select_dialog: function() {
-			this.$.filtro.value = ""
-			this.$.ajax.url= config_server() +"User"
-			var db = new loki()
-			this.data = db.addCollection("data_User")
-			this.filtered_data = []
-			this.load_data()
-			this.tipo="string" //filter type
-			this.$.dialog.open()
-		},
-		close: function() {
-			this.$.dialog.close()
-		},
-		load_data: function() {
-			this.$.ajax.generateRequest()
-		},
-		get_data: function() {
-			while(this.data.data[0]) {
-				this.data.remove(this.data.data[0])
-			}
-			for (i=0; i< this.$.ajax.lastResponse.length; i++)
-				this.data.insert(this.$.ajax.lastResponse[i])
-			this.filter()
-		},
-		filter: function() {
-			this.filtered_data = []
-			this.cur_filter = { usr: { $contains: this.$.filtro.value} }
-			this.result_set = this.data.chain().find(this.cur_filter).simplesort("usr", false)
-			this.filtered_data = this.result_set.data()
-		},
-		select: function(e) {
-			this.item = {}
-			this.item.key = e.toElement.id
-			this.item.name = e.toElement.innerHTML
-			this.$.dialog.close()
-			//this.close()
-			this.fire('item_selected')
-		},
-		ajax_error: function() {
-			console.log(this.$.ajax.lastError)
-			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
-		}
-	})
-</script>
-</dom-module>
 
 <dom-module id="ExpenseCategory-list">
 <template>
@@ -16233,12 +16134,10 @@ paper-menu {
 	<ExpenseCategory-new id="ExpenseCategory_new_dialog" on-close="reload"></ExpenseCategory-new>
 	<ExpenseCategory-display id="ExpenseCategory_display_dialog"></ExpenseCategory-display>
 	<ExpenseCategory-edit id="ExpenseCategory_edit_dialog" on-close="reload"></ExpenseCategory-edit>
-	<ExpenseCategory-delete id="ExpenseCategory_delete_dialog" on-close="reload"></ExpenseCategory-delete>
-	<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>	
+	<ExpenseCategory-delete id="ExpenseCategory_delete_dialog" on-close="reload"></ExpenseCategory-delete>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("ExpenseCategory"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
-		<option value="id"><%= lng('Id')%></option>
-		<option value="user_usr"><%= lng('User')%></option>  <%= lng('Category')%>
+		<option value="id"><%= lng('Id')%></option>  <%= lng('Category')%>
 		<option value="name"><%= lng('Category')%></option>
 	</select>
 	<select id="op">   
@@ -16264,7 +16163,6 @@ paper-menu {
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
-		<option value="user_usr"><%= lng('User')%></option>
 		<option value="name"><%= lng('Category')%></option>
 	</select>
 	<select id="op2" class="hide" >   
@@ -16299,8 +16197,6 @@ paper-menu {
 		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_user_usr" on-click="sort_user_usr"><%= lng('User')%><div id="user_usr_sort_d" class="hide">
-			<iron-icon id="user_usr_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_name" on-click="sort_name"><%= lng('Category')%><div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
@@ -16309,7 +16205,6 @@ paper-menu {
 	<tr>
 		<td class="ops"></td>
 		<td class="col_id"></td>
-		<td class="col_user_usr"></td>
 		<td class="col_name"></td>
 	</tr>
 	</tfoot>-->
@@ -16320,7 +16215,6 @@ paper-menu {
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
-		<template is="dom-if" if="{{column.user_usr}}"><td>{{item.user_usr}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 	</tr>
 	</template>
@@ -16346,8 +16240,6 @@ Polymer({
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
-				{column: "user_id", type: "integer", model: "User", display: false},
-				{column: "user_usr", type: "string", model: "User", display: true},
 				{column: "name", type: "string", display: true}
 		]
 		this.enums = {}
@@ -16430,11 +16322,6 @@ Polymer({
 		}
 		if (filter != "")
 		{
-		  if (this.$[filter].value == "user_usr"){
-			this.$.User_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
-			//this.$.User_select_dialog.style.left = "-100px"
-			this.$.User_select_dialog.open_select_dialog()
-		  }
 		}
 	},
 	set_select_field: function(e) {
@@ -16535,7 +16422,6 @@ Polymer({
 	},
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
-		this.$.user_usr_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
@@ -16549,9 +16435,6 @@ Polymer({
 	},
 	sort_id: function() {
 		this.sort_by_field("id")
-	},
-	sort_user_usr: function() {
-		this.sort_by_field("user_usr")
 	},
 	sort_name: function() {
 		this.sort_by_field("name")
@@ -16687,15 +16570,7 @@ Polymer({
         this.data.remove(this.data.data[0])
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
-	{
-		if (this.$.ajax.lastResponse[i].user){
-			this.$.ajax.lastResponse[i].user_id = this.$.ajax.lastResponse[i].user.id
-			this.$.ajax.lastResponse[i].user_usr = this.$.ajax.lastResponse[i].user.usr
-		} else
-		{
-			this.$.ajax.lastResponse[i].user_id = 0
-			this.$.ajax.lastResponse[i].user_usr = ""
-		}	
+	{	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
 	this.filter()

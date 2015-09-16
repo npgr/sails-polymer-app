@@ -7,14 +7,25 @@
 
 module.exports = {
 	list : function (req, res) {
-	//	ExpenseCategory.find()
-	//		.exec(function(err, data){
-				res.locals.resources = req.session.resources
-				res.locals.user = {user: req.session.user, name: req.session.username}
-	//			res.locals.data = JSON.stringify(data)
-				res.locals.data = []
-				res.view("ExpenseCategory/list")
-	//		})
+		res.locals.resources = req.session.resources
+		res.locals.user = {user: req.session.user, name: req.session.username}
+		res.locals.data = []
+		res.view("ExpenseCategory/list")
+	},
+	get: function(req, res) {
+		ExpenseCategory.find({user: req.session.userid})
+			.exec(function(err, data){
+				res.json(data)
+			})
+	},
+	create: function(req, res, next) {
+		var params = req.params.all();
+		params.user = req.session.userid
+		ExpenseCategory.create(params, function(err, data) {
+			if (err) return next(err);
+			return res.json(data)
+			//return next()
+		});
 	}
 };
 
