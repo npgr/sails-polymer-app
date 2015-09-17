@@ -25,6 +25,7 @@ module.exports = {
 	},
 	validateLogin: function(req, res) {
 		User.findOneByUsr(req.body.username)
+			.populate('profile')
 			.exec(function(err, data) {
 				if(err) res.json({ "error": err})
 				  else if (data) {
@@ -34,14 +35,17 @@ module.exports = {
 						req.session.user = req.body.username
 						req.session.username = data.name
 						req.session.profile = data.profile
-						ProfileResource.find({profile: req.session.profile})
+						ProfileResource.find({profile: req.session.profile.id})
 						 .populate('resource')
 						 .sort('order')
 						 .exec(function(err, data2){
 							/*_.remove(data2, function (e) {
 								return e.resource.type != 'page'
 							})*/
+						  var firstpage = 'Task/list'
 						  _.forEach(data2, function(n, key) {
+							if (n.resource.id == data.profile.firstpage)
+								firstpage = n.resource.path							
 							delete n.profile
 							delete n.id
 							delete n.createdAt
@@ -55,7 +59,8 @@ module.exports = {
 							delete n.resource.name
 						  })
 						  req.session.resources = data2
-						  res.redirect('Task/list');
+						  res.redirect(firstpage);
+						  //res.redirect('Task/list');
 						})
 					}
 					else
