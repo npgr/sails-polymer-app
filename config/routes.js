@@ -93,5 +93,6 @@ module.exports.routes = {
   "get /Pacient": "PacientController.get",
   "post /PacientCard/list": "PacientCardController.list",
   "post /PacientHistory/list": "PacientHistoryController.list",
-  "/Order/SalesCube": "OrderController.salesCube"
+  "/Order/SalesCube": "OrderController.salesCube",
+  "/SalesRegion/list": "SalesRegionController.list"
 };

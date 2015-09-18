@@ -7,7 +7,7 @@
 
 module.exports = {
 	
-	//migrate: 'alter',
+	migrate: 'alter',
   attributes: {
 	//_title: 'Customer',
 	//_dialog_width: '38em',
@@ -34,6 +34,14 @@ module.exports = {
 		//display: 'name',
 		//type: 'string',
 		model: 'CustomerCategory'
+	},
+	salesregion: {
+		//description: 'Region',
+		//key: id,
+		//key_type: 'integer',
+		//display: 'name',
+		//type: 'string',
+		model: 'SalesRegion'
 	},
 	taxid: {
 		//description: 'Tax Id',
