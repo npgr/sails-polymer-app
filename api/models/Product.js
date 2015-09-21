@@ -35,7 +35,8 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
-		model: 'ProductCategory'
+		model: 'ProductCategory',
+		required: true
 	},
 	subCategory: {
 		//description: 'SubCategory',
