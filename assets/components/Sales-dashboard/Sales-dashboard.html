@@ -1,0 +1,136 @@
+<html>
+<head><meta charset="UTF-8">
+
+  <link rel="import" href="../../bower_components/polymer/polymer.html">
+  <script src="../../bower_components/d3/d3.min.js"></script>
+  <script src="/components/app-config/app-config.js"></script>
+  <link rel="import" href="/bower_components/paper-material/paper-material.html">
+  <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+  <link rel="import" href="/System/topBar">
+  <link rel="import" href="/components/app-chart/app-chart-vbar.html">
+  <link rel="import" href="/components/app-chart/app-chart-pie.html">
+  <link rel="stylesheet" href="/styles/app.css">
+
+ </head>
+ <body>
+<dom-module id="Sales-dashboard">
+
+  <template>
+    <style>    
+		
+    </style>
+	<top-bar><%= lng("%s %s",lng("List"),lng("User"))%></top-bar>
+	<paper-material class="card" elevation="2">
+		<h2>Gráfico 1</h2>
+		<br>
+		<app-chart-vbar width=480></app-chart-vbar>
+	</paper-material>
+	<paper-material class="card" elevation="2">
+		<h2>Gráfico 2</h2>
+		<br>
+		<app-chart-pie></app-chart-pie>
+	</paper-material>
+  </template>
+  <script>
+    Polymer({
+		is: "Sales-dashboard",
+		properties: {
+			data: {
+				type: String,
+				value: ""
+			},
+			width: {
+				type: Number,
+				value: 300,
+			}
+		},
+		ready: function() { 
+			this.paint()
+		},
+		paint: function() {
+			/*this.data = [ {data:277, color:"blue", label:"CDA"},
+						  {data:360, color:"red", label:"CDG"}]*/
+			
+			this.data = [{data:20, color:"orange", label:"septiembre"}, 
+						{data:25, color:"blue", label:"octubre"}, 
+						  {data:40, color:"green", label:"novimbre"}, 
+						  {data: 18, color:"red", label: "diciembre"},
+						  {data: 6, color:"purple", label: "agosto"} ]
+			
+			//this.width= 300;
+			this.height= parseInt(this.width) + 25 + (parseInt((this.data.length-1)/2)*30);
+			
+			r = this.width * .45  /*radius of Circle*/ 
+			max=0
+			tot=0
+			color = []
+			for (i=0; i < this.data.length; i++) 
+			{
+				if (this.data[i].data > max) max = this.data[i].data
+				color[i] = this.data[i].color
+				tot += this.data[i].data
+			}
+			porc= []
+			for (i=0; i < this.data.length; i++) 
+			{
+				porc[i] = Math.round(this.data[i].data/tot*100)
+			}
+			
+			svg = d3.select(this.$.my_svg)
+				.append("svg")
+				.attr("width", this.width)
+				.attr("height", this.height)
+
+			group = svg.append("g")
+				.attr("transform", "translate("+this.width*.5+", "+ (r + 10)+")")
+			
+			arc = d3.svg.arc()
+				.innerRadius(r*.45)
+				.outerRadius(r)
+				
+			pie = d3.layout.pie()
+				.value( function(d) {return d.data} )
+				
+			arcs = group.selectAll(".arc")
+				.data(pie(this.data))
+				.enter()
+					.append("g")
+					.attr("class", "arc")
+						
+			arcs.append("path")
+				.attr("d", arc)
+				.attr("fill", function(d, i) { return color[i] })
+				
+			arcs.append("text")
+				.attr("transform", function(d) { return "translate("+ arc.centroid(d) + ")"})
+				.attr("text-anchor", "middle")
+				.attr("fill", "white")
+				.text(function(d, i) { return porc[i]+"%" })
+				
+				
+			svg.selectAll(".legend")
+				.data(this.data)
+				.enter()
+					.append("text")
+					.attr("fill", "#616161")//#424242")
+					.attr("y", function (d, i) { return (parseInt(i/2) * 30)+315} )
+					.attr("x", function (d, i) { return ((i % 2) * 140)+25} )
+					.text(function(d) { return d.label+" ("+d.data+")" })
+					
+			svg.selectAll(".legend1")
+				.data(this.data)
+				.enter()
+					.append("rect")
+					.attr("width", 15 )
+					.attr("height", 15)
+					.attr("fill", function (d, i) { return color[i]} )
+					.attr("y", function (d, i) { return (parseInt(i/2) * 30)+302} )
+					.attr("x", function (d, i) { return ((i % 2) * 140)+7} )
+			//console.log(pie(this.data))
+		}
+	})
+  </script>
+</dom-module>
+
+
+</body>
