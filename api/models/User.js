@@ -10,6 +10,7 @@ module.exports = {
   //migrate: 'alter',
 
   attributes: {
+	//_card_width: '60em',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -28,7 +29,8 @@ module.exports = {
 	usr: {
 		//description: "User",
 		type: 'string',
-		unique: true
+		unique: true,
+		required: true
 	},
 	name: {
 		//description: "Name",
@@ -38,7 +40,8 @@ module.exports = {
 	pwd: {
 		//description: "Password",
 		//hide: true,
-		type: 'string'
+		type: 'string',
+		required: true
 	},
 	profile: {
 		//description: 'Profile',
@@ -46,7 +49,8 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
-		model: 'Profile'
+		model: 'Profile',
+		required: true
 	},
 	email: {
 		//description: 'email',
@@ -83,7 +87,8 @@ module.exports = {
 	// Modelo sails_app2  (/api/services)
     // TODO: replace with new cipher service
     //if (values.password) values.password = CipherService.create('bcrypt', values.password).hashSync();
-    data.pwd = require('bcrypt').hashSync(data.pwd, 10);
+    
+	//***** data.pwd = require('bcrypt').hashSync(data.pwd, 10);
 	next();
   }
   //,beforeUpdate: function (values, next) {
