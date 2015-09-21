@@ -33,7 +33,8 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
-		model: 'CustomerCategory'
+		model: 'CustomerCategory',
+		required: true
 	},
 	salesregion: {
 		//description: 'Region',
@@ -41,7 +42,8 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
-		model: 'SalesRegion'
+		model: 'SalesRegion',
+		required: true
 	},
 	taxid: {
 		//description: 'Tax Id',
