@@ -12,6 +12,7 @@
 
 	<link rel="import" href="/bower_components/polymer/polymer.html">
 	<script src="/bower_components/d3/d3.min.js"></script>
+	<script src="/bower_components/lodash/lodash.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
 	<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
@@ -189,17 +190,33 @@
     <style>    
 		
     </style>
+	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<!--<paper-material class="card2" elevation="2">-->
 		<br><br>
-		<h2>Gráfico 1</h2>
+		<h2>Unidades por Región Ventas</h2>
 		<br>
-		<app-chart-vbar width=480></app-chart-vbar>
+		<app-chart-vbar id="vbar1" width=480></app-chart-vbar>
 	<!--</paper-material>-->
-	<!--<paper-material class="card2" elevation="2">-->
-		<h2>Gráfico 2</h2>
 		<br>
-		<app-chart-pie></app-chart-pie>
-	<!--</paper-material>-->
+		<h2>Unidades por Región Ventas</h2>
+		<br>
+		<app-chart-pie id="pie1"></app-chart-pie>
+		<br>
+		<h2>Monto por Región Ventas</h2>
+		<br>
+		<app-chart-vbar id="vbar2" width=480></app-chart-vbar>
+		<br>
+		<h2>Monto por Región Ventas</h2>
+		<br>
+		<app-chart-pie id="pie2"></app-chart-pie>
+		<br>
+		<!--<h2>Unidades por Categoria Cliente</h2>
+		<br>
+		<app-chart-vbar id="vbar3" width=480></app-chart-vbar>
+		<br>
+		<h2>Unidades por Categoria Cliente</h2>
+		<br>
+		<app-chart-pie id="pie3"></app-chart-pie>-->
   </template>
   <script>
     Polymer({
@@ -215,88 +232,54 @@
 			}
 		},
 		ready: function() { 
-			this.paint()
+			this.$.ajax.url = config_server() + "Sales/byRegionCustCategory"
+			this.$.ajax.generateRequest()
 		},
-		paint: function() {
-			/*this.data = [ {data:277, color:"blue", label:"CDA"},
-						  {data:360, color:"red", label:"CDG"}]*/
-			
-			this.data = [{data:20, color:"orange", label:"septiembre"}, 
-						{data:25, color:"blue", label:"octubre"}, 
-						  {data:40, color:"green", label:"novimbre"}, 
-						  {data: 18, color:"red", label: "diciembre"},
-						  {data: 6, color:"purple", label: "agosto"} ]
-			
-			//this.width= 300;
-			this.height= parseInt(this.width) + 25 + (parseInt((this.data.length-1)/2)*30);
-			
-			r = this.width * .45  /*radius of Circle*/ 
-			max=0
-			tot=0
-			color = []
-			for (i=0; i < this.data.length; i++) 
+		load_data: function() {
+			//while(this.data.data[0]) {
+				//this.data.remove(this.data.data[0])
+			//}
+			var data = []
+			var color = ['orange', 'blue', 'green', 'red', 'purple', 'ligthblue']
+			var dato = {}
+			for (i=0; i< this.$.ajax.lastResponse.length; i++)
 			{
-				if (this.data[i].data > max) max = this.data[i].data
-				color[i] = this.data[i].color
-				tot += this.data[i].data
+				dato = {data: Number(this.$.ajax.lastResponse[i].units),
+						color: color[i],
+						label: this.$.ajax.lastResponse[i].region
+					}
+				data.push(dato)
 			}
-			porc= []
-			for (i=0; i < this.data.length; i++) 
+			this.$.vbar1.data = data
+			this.$.vbar1.paint()
+			this.$.pie1.data = data
+			this.$.pie1.paint()
+			for (i=0; i< this.$.ajax.lastResponse.length; i++)
+				data[i].data = Number(this.$.ajax.lastResponse[i].amount)
+			this.$.vbar2.data = data
+			this.$.vbar2.paint()
+			this.$.pie2.data = data
+			this.$.pie2.paint()
+			
+			var datai = _.sortBy(this.$.ajax.lastResponse, 'category')
+			data = []
+			var category = ''
+			dato = {}
+			for (i=0; i< datai.length; i++)
 			{
-				porc[i] = Math.round(this.data[i].data/tot*100)
+				if (datai[i].category != category && i != 0)
+					data.push(dato)
+				if (datai[i].category != category)
+					dato = {data: Number(this.$.ajax.lastResponse[i].amount),
+							color: color[i],
+							label: this.$.ajax.lastResponse[i].category
+					}
+				 else
+					dato.data += Number(this.$.ajax.lastResponse[i].amount)
+				if (i == (datai.length - 1))
+					data.push(dato)
 			}
-			
-			svg = d3.select(this.$.my_svg)
-				.append("svg")
-				.attr("width", this.width)
-				.attr("height", this.height)
-
-			group = svg.append("g")
-				.attr("transform", "translate("+this.width*.5+", "+ (r + 10)+")")
-			
-			arc = d3.svg.arc()
-				.innerRadius(r*.45)
-				.outerRadius(r)
-				
-			pie = d3.layout.pie()
-				.value( function(d) {return d.data} )
-				
-			arcs = group.selectAll(".arc")
-				.data(pie(this.data))
-				.enter()
-					.append("g")
-					.attr("class", "arc")
-						
-			arcs.append("path")
-				.attr("d", arc)
-				.attr("fill", function(d, i) { return color[i] })
-				
-			arcs.append("text")
-				.attr("transform", function(d) { return "translate("+ arc.centroid(d) + ")"})
-				.attr("text-anchor", "middle")
-				.attr("fill", "white")
-				.text(function(d, i) { return porc[i]+"%" })
-				
-				
-			svg.selectAll(".legend")
-				.data(this.data)
-				.enter()
-					.append("text")
-					.attr("fill", "#616161")//#424242")
-					.attr("y", function (d, i) { return (parseInt(i/2) * 30)+315} )
-					.attr("x", function (d, i) { return ((i % 2) * 140)+25} )
-					.text(function(d) { return d.label+" ("+d.data+")" })
-					
-			svg.selectAll(".legend1")
-				.data(this.data)
-				.enter()
-					.append("rect")
-					.attr("width", 15 )
-					.attr("height", 15)
-					.attr("fill", function (d, i) { return color[i]} )
-					.attr("y", function (d, i) { return (parseInt(i/2) * 30)+302} )
-					.attr("x", function (d, i) { return ((i % 2) * 140)+7} )
-			//console.log(pie(this.data))
+			console.log('data sum: ', data)
 		}
 	})
   </script>

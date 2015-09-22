@@ -41,14 +41,14 @@
 				value: 320
 			}
 		},
-		ready: function() {
-			this.paint()
-		},
+		//ready: function() {
+		//	this.paint()
+		//},
 		paint: function() {
-			this.data = [ {data:91, color:"orange", label:"Regulados"}, 
-						  {data:277, color:"purple", label:"No Regulados"},
-						  {data:180, color:"blue", label:"CDT"},
-						  {data:320, color:"rgb(200, 100, 80)", label:"CCS"} ] 
+			//this.data = [ {data:91, color:"orange", label:"Regulados"}, 
+			//			  {data:277, color:"purple", label:"No Regulados"},
+			//			  {data:180, color:"blue", label:"CDT"},
+			//			  {data:320, color:"rgb(200, 100, 80)", label:"CCS"} ] 
 						  
 			//this.width= 470
 			width = this.width
@@ -58,7 +58,6 @@
 			bottom_chart = this.height - bottom_margin
 			left_margin= 25
 			rigth_margin= 10
-			
 			//this.height= this.data.length*45 + 30//300; //función de la cantidad de datos
 			max=0
 			// Max element on Array
@@ -138,6 +137,7 @@
 				})
 
 			ancho_barra= 75
+
 			this.data.forEach(function(d, i) {
 				// Bar
 				svg.append("rect")
