@@ -32,6 +32,20 @@ module.exports = {
 			//return next()
 		});
 	},
+	dashboard: function(req, res) {
+		res.locals.resources = req.session.resources
+ 		res.locals.user = {user: req.session.user, name: req.session.username}
+ 		res.locals.data = []
+		res.view("Task/Dashboard")
+	},
+	cube: function(req, res) {
+		var sql = 'select type, status, prioridad as priority, responsable, count(*) as n from task  where requestd >= \'2015-08-01\' and requestd <= \'2015-09-30\' group by type, status, prioridad, Responsable' 
+		
+		Task.query(sql, function(err, data) {
+			if (err) return res.serverError(err);
+			return res.json(data.rows)
+		})
+	},
 	bytype: function(req, res) {
 		Task.query('SELECT type, count(*) FROM task group by type order by count desc', function(err, data) {
 			if (err) return res.serverError(err);
