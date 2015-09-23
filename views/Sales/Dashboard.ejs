@@ -23,7 +23,6 @@
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 	<link rel="import" href="/components/app-chart/app-chart-vbar.html">
 	<link rel="import" href="/components/app-chart/app-chart-pie.html">
-	
  </head>
  <body> 
  <!-- topBar template: version 1.20 -->
@@ -193,9 +192,10 @@
 	}
 	.chart_group {
 		display: flex;
+		margin-left: 30px;
 	}
 	app-chart-vbar, app-chart-pie {
-		margin-left: 30px;
+		//margin-left: 30px;
 	}
     </style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
@@ -205,32 +205,32 @@
 	<br><br>
 		<h3 class="title_chart">Unidades por Región Ventas</h3>
 		<div class="chart_group">
-			<app-chart-vbar id="vbar1" width=480></app-chart-vbar>
+			<app-chart-vbar id="vbar1" width=400></app-chart-vbar>
 			<app-chart-pie id="pie1"></app-chart-pie>
 		</div>
 		<h3 class="title_chart">Monto por Región Ventas</h3>
 		<div class="chart_group">
-			<app-chart-vbar id="vbar2" width=480></app-chart-vbar>
+			<app-chart-vbar id="vbar2" width=400></app-chart-vbar>
 			<app-chart-pie id="pie2"></app-chart-pie>
 		</div>
 		<h3 class="title_chart">Unidades por Categoria Cliente</h3>
 		<div class="chart_group">
-			<app-chart-vbar id="vbar3" width=480></app-chart-vbar>
+			<app-chart-vbar id="vbar3" width=400></app-chart-vbar>
 			<app-chart-pie id="pie3"></app-chart-pie>
 		</div>
 		<h3 class="title_chart">Monto por Categoria Cliente</h3>
 		<div class="chart_group">
-			<app-chart-vbar id="vbar4" width=480></app-chart-vbar>
+			<app-chart-vbar id="vbar4" width=400></app-chart-vbar>
 			<app-chart-pie id="pie4"></app-chart-pie>
 		</div>
 		<h3 class="title_chart">Unidades por Categoria Producto</h3>
 		<div class="chart_group">
-			<app-chart-vbar id="vbar5" width=480></app-chart-vbar>
+			<app-chart-vbar id="vbar5" width=400></app-chart-vbar>
 			<app-chart-pie id="pie5"></app-chart-pie>
 		</div>
 		<h3 class="title_chart">Monto por Categoria Producto</h3>
 		<div class="chart_group">
-			<app-chart-vbar id="vbar6" width=480></app-chart-vbar>
+			<app-chart-vbar id="vbar6" width=400></app-chart-vbar>
 			<app-chart-pie id="pie6"></app-chart-pie>
 		</div>
   </template>
