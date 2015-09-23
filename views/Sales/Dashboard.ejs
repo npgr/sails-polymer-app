@@ -199,6 +199,7 @@
 	}
     </style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" handle-as="json" on-response="load_data2" on-error="ajax_error"></iron-ajax>
 	<!--<paper-material class="card2" elevation="2">-->
 	<!--</paper-material>-->
 	<br><br>
@@ -222,6 +223,16 @@
 			<app-chart-vbar id="vbar4" width=480></app-chart-vbar>
 			<app-chart-pie id="pie4"></app-chart-pie>
 		</div>
+		<h3 class="title_chart">Unidades por Categoria Producto</h3>
+		<div class="chart_group">
+			<app-chart-vbar id="vbar5" width=480></app-chart-vbar>
+			<app-chart-pie id="pie5"></app-chart-pie>
+		</div>
+		<h3 class="title_chart">Monto por Categoria Producto</h3>
+		<div class="chart_group">
+			<app-chart-vbar id="vbar6" width=480></app-chart-vbar>
+			<app-chart-pie id="pie6"></app-chart-pie>
+		</div>
   </template>
   <script>
     Polymer({
@@ -239,8 +250,11 @@
 		ready: function() { 
 			this.$.ajax.url = config_server() + "Sales/byRegionCustCategory"
 			this.$.ajax.generateRequest()
+			this.$.ajax2.url = config_server() + "Sales/byProdCategory"
+			this.$.ajax2.generateRequest()
 		},
 		load_data: function() {
+			// Sales by Region & Customer Category
 			//while(this.data.data[0]) {
 				//this.data.remove(this.data.data[0])
 			//}
@@ -268,14 +282,6 @@
 					data.push(dato)
 				region = datai[i].region
 			}
-			/*for (i=0; i< this.$.ajax.lastResponse.length; i++)
-			{
-				dato = {data: Number(this.$.ajax.lastResponse[i].units),
-						color: color[i],
-						label: this.$.ajax.lastResponse[i].region
-					}
-				data.push(dato)
-			}*/
 			this.$.vbar1.data = data
 			this.$.vbar1.paint()
 			this.$.pie1.data = data
@@ -320,6 +326,32 @@
 			this.$.vbar4.paint()
 			this.$.pie4.data = data
 			this.$.pie4.paint()
+		},
+		load_data2: function() {
+			// Sales by Product Category
+			var datai = _.sortBy(this.$.ajax2.lastResponse, 'category')
+			var data = []
+			var color = ['orange', 'blue', 'green', 'red', 'purple', 'ligthblue']
+			var dato = {}
+			for (i=0; i< datai.length; i++)
+			{
+				dato = {data: Number(datai[i].units),
+						data2: Number(datai[i].amount),
+						color: color[i],
+						label: datai[i].category
+					}
+				data.push(dato)
+			}
+			this.$.vbar5.data = data
+			this.$.vbar5.paint()
+			this.$.pie5.data = data
+			this.$.pie5.paint()
+			for (i=0; i< data.length; i++)
+				data[i].data = data[i].data2
+			this.$.vbar6.data = data
+			this.$.vbar6.paint()
+			this.$.pie6.data = data
+			this.$.pie6.paint()
 		}
 	})
   </script>

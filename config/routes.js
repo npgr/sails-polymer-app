@@ -96,6 +96,7 @@ module.exports.routes = {
   "post /PacientHistory/list": "PacientHistoryController.list",
   "/Sales/Cube": "SalesController.Cube",
   "/Sales/byRegionCustCategory": "SalesController.byRegionCustCategory",
+  "/Sales/byProdCategory": "SalesController.byProdCategory",
   "/SalesRegion/list": "SalesRegionController.list",
   "/Sales/Dashboard": "SalesController.Dashboard"
 };
