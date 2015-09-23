@@ -187,36 +187,41 @@
 <dom-module id="Sales-dashboard">
 
   <template>
-    <style>    
-		
+    <style>
+	.title_chart {
+		margin-left: 60px;
+	}
+	.chart_group {
+		display: flex;
+	}
+	app-chart-vbar, app-chart-pie {
+		margin-left: 30px;
+	}
     </style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<!--<paper-material class="card2" elevation="2">-->
-		<br><br>
-		<h2>Unidades por Región Ventas</h2>
-		<br>
-		<app-chart-vbar id="vbar1" width=480></app-chart-vbar>
 	<!--</paper-material>-->
-		<br>
-		<h2>Unidades por Región Ventas</h2>
-		<br>
-		<app-chart-pie id="pie1"></app-chart-pie>
-		<br>
-		<h2>Monto por Región Ventas</h2>
-		<br>
-		<app-chart-vbar id="vbar2" width=480></app-chart-vbar>
-		<br>
-		<h2>Monto por Región Ventas</h2>
-		<br>
-		<app-chart-pie id="pie2"></app-chart-pie>
-		<br>
-		<!--<h2>Unidades por Categoria Cliente</h2>
-		<br>
-		<app-chart-vbar id="vbar3" width=480></app-chart-vbar>
-		<br>
-		<h2>Unidades por Categoria Cliente</h2>
-		<br>
-		<app-chart-pie id="pie3"></app-chart-pie>-->
+	<br><br>
+		<h3 class="title_chart">Unidades por Región Ventas</h3>
+		<div class="chart_group">
+			<app-chart-vbar id="vbar1" width=480></app-chart-vbar>
+			<app-chart-pie id="pie1"></app-chart-pie>
+		</div>
+		<h3 class="title_chart">Monto por Región Ventas</h3>
+		<div class="chart_group">
+			<app-chart-vbar id="vbar2" width=480></app-chart-vbar>
+			<app-chart-pie id="pie2"></app-chart-pie>
+		</div>
+		<h3 class="title_chart">Unidades por Categoria Cliente</h3>
+		<div class="chart_group">
+			<app-chart-vbar id="vbar3" width=480></app-chart-vbar>
+			<app-chart-pie id="pie3"></app-chart-pie>
+		</div>
+		<h3 class="title_chart">Monto por Categoria Cliente</h3>
+		<div class="chart_group">
+			<app-chart-vbar id="vbar4" width=480></app-chart-vbar>
+			<app-chart-pie id="pie4"></app-chart-pie>
+		</div>
   </template>
   <script>
     Polymer({
@@ -239,23 +244,44 @@
 			//while(this.data.data[0]) {
 				//this.data.remove(this.data.data[0])
 			//}
+			var datai = _.sortBy(this.$.ajax.lastResponse, 'region')
 			var data = []
 			var color = ['orange', 'blue', 'green', 'red', 'purple', 'ligthblue']
 			var dato = {}
-			for (i=0; i< this.$.ajax.lastResponse.length; i++)
+			var region = ''
+			for (i=0; i< datai.length; i++)
+			{
+				if (datai[i].region != region && i != 0)
+					data.push(dato)
+				if (datai[i].region != region)
+					dato = {data: Number(datai[i].units),
+							data2: Number(datai[i].amount),
+							color: color[i],
+							label: datai[i].region
+					}
+				 else
+				 {
+					dato.data += Number(datai[i].units)
+					dato.data2 += Number(datai[i].amount)
+				 }
+				if (i == (datai.length - 1))
+					data.push(dato)
+				region = datai[i].region
+			}
+			/*for (i=0; i< this.$.ajax.lastResponse.length; i++)
 			{
 				dato = {data: Number(this.$.ajax.lastResponse[i].units),
 						color: color[i],
 						label: this.$.ajax.lastResponse[i].region
 					}
 				data.push(dato)
-			}
+			}*/
 			this.$.vbar1.data = data
 			this.$.vbar1.paint()
 			this.$.pie1.data = data
 			this.$.pie1.paint()
-			for (i=0; i< this.$.ajax.lastResponse.length; i++)
-				data[i].data = Number(this.$.ajax.lastResponse[i].amount)
+			for (i=0; i< data.length; i++)
+				data[i].data = data[i].data2
 			this.$.vbar2.data = data
 			this.$.vbar2.paint()
 			this.$.pie2.data = data
@@ -270,16 +296,30 @@
 				if (datai[i].category != category && i != 0)
 					data.push(dato)
 				if (datai[i].category != category)
-					dato = {data: Number(this.$.ajax.lastResponse[i].amount),
+					dato = {data: Number(datai[i].units),
+							data2: Number(datai[i].amount),
 							color: color[i],
-							label: this.$.ajax.lastResponse[i].category
+							label: datai[i].category
 					}
 				 else
-					dato.data += Number(this.$.ajax.lastResponse[i].amount)
+				 {
+					dato.data += Number(datai[i].units)
+					dato.data2 += Number(datai[i].amount)
+				 } 
 				if (i == (datai.length - 1))
 					data.push(dato)
+				category = datai[i].category
 			}
-			console.log('data sum: ', data)
+			this.$.vbar3.data = data
+			this.$.vbar3.paint()
+			this.$.pie3.data = data
+			this.$.pie3.paint()
+			for (i=0; i< data.length; i++)
+				data[i].data = data[i].data2
+			this.$.vbar4.data = data
+			this.$.vbar4.paint()
+			this.$.pie4.data = data
+			this.$.pie4.paint()
 		}
 	})
   </script>
