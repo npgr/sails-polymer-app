@@ -89,6 +89,8 @@ module.exports.routes = {
   "get /Expense": "ExpenseController.get",
   "/ExpenseCategory/list": "ExpenseCategoryController.list",
   "get /ExpenseCategory": "ExpenseCategoryController.get",
+  "/ExpenseCategory/total": "ExpenseCategoryController.total",
+  "/Expense/dashboard": "ExpenseController.dashboard",
   "/TicketCategory/list": "TicketCategoryController.list",
   "/Pacient/list": "PacientController.list",
   "get /Pacient": "PacientController.get",

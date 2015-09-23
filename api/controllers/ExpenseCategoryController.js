@@ -26,6 +26,14 @@ module.exports = {
 			return res.json(data)
 			//return next()
 		});
-	}
+	},
+	total: function(req, res) {
+		var sql = 'select b.name as category, sum(a.amount) as amount from expense a, expensecategory b where a.category = b.id and a.date >= \'2015-09-01\' and date <= \'2015-09-30\' group by b.name'
+		
+		ExpenseCategory.query(sql, function(err, data) {
+			if (err) return res.serverError(err);
+			return res.json(data.rows)
+		})
+	},
 };
 

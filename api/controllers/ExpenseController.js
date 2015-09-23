@@ -27,6 +27,12 @@ module.exports = {
 			return res.json(data)
 			//return next()
 		});
+	},
+	dashboard: function(req, res) {
+		res.locals.resources = req.session.resources
+ 		res.locals.user = {user: req.session.user, name: req.session.username}
+ 		res.locals.data = []
+		res.view("Expense/Dashboard")
 	}
 };
 
