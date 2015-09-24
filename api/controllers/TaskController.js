@@ -39,7 +39,7 @@ module.exports = {
 		res.view("Task/Dashboard")
 	},
 	cube: function(req, res) {
-		var sql = 'select type, status, prioridad as priority, responsable, count(*) as n from task  where requestd >= \'2015-08-01\' and requestd <= \'2015-09-30\' group by type, status, prioridad, Responsable' 
+		var sql = 'select type, status, prioridad as priority, responsable, count(*) as n from task a  where requestd >= \'2015-08-01\' and requestd <= \'2015-09-30\' and a.user = '+req.session.userid+' group by type, status, prioridad, Responsable' 
 		
 		Task.query(sql, function(err, data) {
 			if (err) return res.serverError(err);
