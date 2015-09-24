@@ -16,16 +16,18 @@
 	<script src="/components/app-config/app-config.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="import" href="/bower_components/paper-material/paper-material.html">
+	<link rel="import" href="/bower_components/iron-collapse/iron-collapse.html">
 	<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
 	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="/bower_components/iron-icons/editor-icons.html">
 	<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 	<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 	<link rel="import" href="/components/app-chart/app-chart-vbar.html">
 	<link rel="import" href="/components/app-chart/app-chart-pie.html">
  </head>
  <body> 
- <!-- topBar template: version 1.20 -->
+ <!-- topBar template: version 1.20 --> 
 <dom-module id="top-bar">
 <template>
 <style>
@@ -203,36 +205,55 @@
 	<!--<paper-material class="card2" elevation="2">-->
 	<!--</paper-material>-->
 	<br><br>
-		<h3 class="title_chart"><%= lng("Units by Sales Region")%></h3>
-		<div class="chart_group">
+		<h4 class="chart_group">
+			<div on-click="showAll"> <-<%= lng("Show All")%>->..</div><div on-click="hideAll"> <-<%= lng("Hide All")%>-></div>
+		</h4>
+		<h3 class="title_chart" on-click="toggle1">
+			<iron-icon icon="editor:insert-chart"></iron-icon>  <%= lng("Units by Sales Region")%>
+		</h3>
+		<iron-collapse id="chart1" class="chart_group">
 			<app-chart-vbar id="vbar1" width=400></app-chart-vbar>
 			<app-chart-pie id="pie1"></app-chart-pie>
-		</div>
-		<h3 class="title_chart"><%= lng("Amount by Sales Region")%></h3>
-		<div class="chart_group">
+		</iron-collapse>
+		
+		<h3 class="title_chart" on-click="toggle2">
+			<iron-icon icon="editor:insert-chart"></iron-icon>  <%= lng("Amount by Sales Region")%>
+		</h3>
+		<iron-collapse id="chart2" class="chart_group">
 			<app-chart-vbar id="vbar2" width=400></app-chart-vbar>
 			<app-chart-pie id="pie2"></app-chart-pie>
-		</div>
-		<h3 class="title_chart"><%= lng("Units by Customer Category")%></h3>
-		<div class="chart_group">
+		</iron-collapse>
+		
+		<h3 class="title_chart" on-click="toggle3">
+			<iron-icon icon="editor:insert-chart"></iron-icon>  <%= lng("Units by Customer Category")%>
+		</h3>
+		<iron-collapse id="chart3" class="chart_group">
 			<app-chart-vbar id="vbar3" width=400></app-chart-vbar>
 			<app-chart-pie id="pie3"></app-chart-pie>
-		</div>
-		<h3 class="title_chart"><%= lng("Amount by Customer Category")%></h3>
-		<div class="chart_group">
+		</iron-collapse>
+		
+		<h3 class="title_chart" on-click="toggle4">
+			<iron-icon icon="editor:insert-chart"></iron-icon> <%= lng("Amount by Customer Category")%>
+		</h3>
+		<iron-collapse id="chart4" class="chart_group">
 			<app-chart-vbar id="vbar4" width=400></app-chart-vbar>
 			<app-chart-pie id="pie4"></app-chart-pie>
-		</div>
-		<h3 class="title_chart"><%= lng("Units by Product Category")%></h3>
-		<div class="chart_group">
+		</iron-collapse>
+		
+		<h3 class="title_chart" on-click="toggle5">
+			<iron-icon icon="editor:insert-chart"></iron-icon> <%= lng("Units by Product Category")%>
+		</h3>
+		<iron-collapse id="chart5" class="chart_group">
 			<app-chart-vbar id="vbar5" width=400></app-chart-vbar>
 			<app-chart-pie id="pie5"></app-chart-pie>
-		</div>
-		<h3 class="title_chart"><%= lng("Amount by Product Category")%></h3>
-		<div class="chart_group">
+		</iron-collapse>
+		<h3 class="title_chart" on-click="toggle6">
+			<iron-icon icon="editor:insert-chart"></iron-icon> <%= lng("Amount by Product Category")%>
+		</h3>
+		<iron-collapse id="chart6" class="chart_group">
 			<app-chart-vbar id="vbar6" width=400></app-chart-vbar>
 			<app-chart-pie id="pie6"></app-chart-pie>
-		</div>
+		</iron-collapse>
   </template>
   <script>
     Polymer({
@@ -252,7 +273,42 @@
 			this.$.ajax.generateRequest()
 			this.$.ajax2.url = config_server() + "Sales/byProdCategory"
 			this.$.ajax2.generateRequest()
+			this.$.chart1.toggle()
 		},
+		showAll: function() {
+			if (!this.$.chart1.opened)
+				this.$.chart1.toggle()
+			if (!this.$.chart2.opened)
+				this.$.chart2.toggle()
+			if (!this.$.chart3.opened)
+				this.$.chart3.toggle()
+			if (!this.$.chart4.opened)
+				this.$.chart4.toggle()
+			if (!this.$.chart5.opened)
+				this.$.chart5.toggle()
+			if (!this.$.chart6.opened)
+				this.$.chart6.toggle()
+		},
+		hideAll: function() {
+			if (this.$.chart1.opened)
+				this.$.chart1.toggle()
+			if (this.$.chart2.opened)
+				this.$.chart2.toggle()
+			if (this.$.chart3.opened)
+				this.$.chart3.toggle()
+			if (this.$.chart4.opened)
+				this.$.chart4.toggle()
+			if (this.$.chart5.opened)
+				this.$.chart5.toggle()
+			if (this.$.chart6.opened)
+				this.$.chart6.toggle()
+		},
+		toggle1: function() { this.$.chart1.toggle() },
+		toggle2: function() { this.$.chart2.toggle() },
+		toggle3: function() { this.$.chart3.toggle() },
+		toggle4: function() { this.$.chart4.toggle() },
+		toggle5: function() { this.$.chart5.toggle() },
+		toggle6: function() { this.$.chart6.toggle() },
 		load_data: function() {
 			// Sales by Region & Customer Category
 			//while(this.data.data[0]) {
