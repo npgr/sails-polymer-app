@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.15 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -15586,8 +15586,11 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#dialog {
+	width: 30em;
+}
 .card {
-	width: 60em;
+	width: 65em;
 	top: 30px;
 	left: 15px;
 }
@@ -15807,6 +15810,10 @@ paper-menu {
 				<td><div id="name" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="salesregion_name"><%= lng('Region')%></label></td>
+				<td><div id="salesregion_name" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="user_usr"><%= lng('User')%></label></td>
 				<td><div id="user_usr" on-click="change_field"></div></td>
 			</tr>
@@ -15833,6 +15840,7 @@ paper-menu {
 			this.show_field("id")
 			this.show_field("code")
 			this.show_field("name")
+			this.show_field("salesregion_name")
 			this.show_field("user_usr")
 			this.$.dialog.open()
 		},
@@ -15871,6 +15879,7 @@ paper-menu {
 	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
 	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<SalesRegion-select id="SalesRegion_select_dialog" on-item_selected="set_select_field"></SalesRegion-select>
 		<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Create"),lng("Seller"))%></h2>
 		<paper-dialog-scrollable>
@@ -15889,8 +15898,12 @@ paper-menu {
 				<td><input id="name" type="text" name="name" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key=0 on-click="select_field" readonly></td>
+				<td><label class="left_label" for="salesregion"><%= lng('Region')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="salesregion" on-click="select_field_b"></iron-icon><input id="salesregion" type="text" name="salesregion" key=0 required on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="user"><%= lng('User')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key=0 required on-click="select_field" readonly></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -15916,6 +15929,8 @@ paper-menu {
 			this.$.id.value = ''
 			this.$.code.value = ''
 			this.$.name.value = ''
+			this.$.salesregion.value = ''
+			this.$.salesregion.key = 0
 			this.$.user.value = ''
 			this.$.user.key = 0
 		},
@@ -15924,6 +15939,8 @@ paper-menu {
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
+			if (this.field == "salesregion")
+				this.$.SalesRegion_select_dialog.open_select_dialog()
 			if (this.field == "user")
 				this.$.User_select_dialog.open_select_dialog()
 		},
@@ -15936,6 +15953,7 @@ paper-menu {
 			var record = {}
 			  record.code = this.$.code.value
 			  record.name = this.$.name.value
+			record.salesregion = this.$.salesregion.key
 			record.user = this.$.user.key			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
@@ -15996,6 +16014,10 @@ paper-menu {
 				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="salesregion"><%= lng('Region')%></label></td>
+				<td><input id="salesregion" type="text" name="salesregion" value="{{item.salesregion_name}}" disabled></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
 				<td><input id="user" type="text" name="user" value="{{item.user_usr}}" disabled></td>
 			</tr>
@@ -16028,6 +16050,7 @@ paper-menu {
 <template>
 	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<SalesRegion-select id="SalesRegion_select_dialog" on-item_selected="set_select_field"></SalesRegion-select>
 		<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>
 		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("Seller"))%></h2>
 		<paper-dialog-scrollable>
@@ -16046,8 +16069,12 @@ paper-menu {
 				<td><input id="name" type="text" name="name" value="{{item.name}}" required></td>
 			</tr>
 			<tr>
-				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
-				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key={{item.user_id}} value="{{item.user_usr}}" on-click="select_field" readonly></td>
+				<td><label class="left_label" for="salesregion"><%= lng('Region')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="salesregion" on-click="select_field_b"></iron-icon><input id="salesregion" type="text" name="salesregion" key={{item.salesregion_id}} value="{{item.salesregion_name}}" required on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="user"><%= lng('User')%><strong class="red"> *</strong></label></td>
+				<td><iron-icon icon="find-in-page" field="user" on-click="select_field_b"></iron-icon><input id="user" type="text" name="user" key={{item.user_id}} value="{{item.user_usr}}" required on-click="select_field" readonly></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16076,6 +16103,8 @@ paper-menu {
 		},
 		select_field: function(e) {
 			this.field = e.toElement.id
+			if (this.field == "salesregion")
+				this.$.SalesRegion_select_dialog.open_select_dialog()
 			if (this.field == "user")
 				this.$.User_select_dialog.open_select_dialog()
 		},
@@ -16091,6 +16120,7 @@ paper-menu {
 			record.id = Number(this.$.id.value)
 			record.code = this.$.code.value
 			record.name = this.$.name.value
+			record.salesregion = this.$.salesregion.key
 			record.user = this.$.user.key
 			this.$.ajax.url = config_server() + "Seller/" +record.id
 			this.$.ajax.params = record
@@ -16130,6 +16160,10 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="name"><%= lng('Name')%></label></td>
 				<td><input id="name" type="text" name="name" value="{{item.name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="salesregion"><%= lng('Region')%></label></td>
+				<td><input id="salesregion" type="text" name="salesregion" value="{{item.salesregion_name}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="user"><%= lng('User')%></label></td>
@@ -16178,6 +16212,77 @@ paper-menu {
 </dom-module>
 
 
+<!-- select-model: version 5.10 -->
+ <% 
+ function lng(word) {
+	return __("word")
+ }
+ function lng(word1, word2, word3) {
+	return __(word1, word2, word3)
+ }
+%>  
+
+<dom-module id="SalesRegion-select">
+<template>
+	<iron-ajax id="ajax" method='GET' handle-as="json" on-response="get_data" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" vertical layout>
+		<iron-icon icon="close" on-click="close" mini></iron-icon>  
+		<div><input id="filtro" type="{{tipo}}" on-input="filter" placeholder="<%= lng('Region')%>..."></div>
+		<paper-dialog-scrollable>
+		<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
+			<div id="{{item.id}}" on-click="select">{{item.name}}</div>
+		</template>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "SalesRegion-select",
+		open_select_dialog: function() {
+			this.$.filtro.value = ""
+			this.$.ajax.url= config_server() +"SalesRegion"
+			var db = new loki()
+			this.data = db.addCollection("data_SalesRegion")
+			this.filtered_data = []
+			this.load_data()
+			this.tipo="string" //filter type
+			this.$.dialog.open()
+		},
+		close: function() {
+			this.$.dialog.close()
+		},
+		load_data: function() {
+			this.$.ajax.generateRequest()
+		},
+		get_data: function() {
+			while(this.data.data[0]) {
+				this.data.remove(this.data.data[0])
+			}
+			for (i=0; i< this.$.ajax.lastResponse.length; i++)
+				this.data.insert(this.$.ajax.lastResponse[i])
+			this.filter()
+		},
+		filter: function() {
+			this.filtered_data = []
+			this.cur_filter = { name: { $contains: this.$.filtro.value} }
+			this.result_set = this.data.chain().find(this.cur_filter).simplesort("name", false)
+			this.filtered_data = this.result_set.data()
+		},
+		select: function(e) {
+			this.item = {}
+			this.item.key = e.toElement.id
+			this.item.name = e.toElement.innerHTML
+			this.$.dialog.close()
+			//this.close()
+			this.fire('item_selected')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
 <!-- select-model: version 5.10 -->
  <% 
  function lng(word) {
@@ -16258,12 +16363,14 @@ paper-menu {
 	<Seller-display id="Seller_display_dialog"></Seller-display>
 	<Seller-edit id="Seller_edit_dialog" on-close="reload"></Seller-edit>
 	<Seller-delete id="Seller_delete_dialog" on-close="reload"></Seller-delete>
+	<SalesRegion-select id="SalesRegion_select_dialog" on-item_selected="set_select_field"></SalesRegion-select>
 	<User-select id="User_select_dialog" on-item_selected="set_select_field"></User-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Seller"))%></div>-->
 	<select id="filter" on-change="input_type">  <%= lng('id')%>
 		<option value="id"><%= lng('id')%></option>  <%= lng('Code')%>
 		<option value="code"><%= lng('Code')%></option>  <%= lng('Name')%>
 		<option value="name"><%= lng('Name')%></option>
+		<option value="salesregion_name"><%= lng('Region')%></option>
 		<option value="user_usr"><%= lng('User')%></option>
 	</select>
 	<select id="op">   
@@ -16291,6 +16398,7 @@ paper-menu {
 		<option value="id"><%= lng('id')%></option>
 		<option value="code"><%= lng('Code')%></option>
 		<option value="name"><%= lng('Name')%></option>
+		<option value="salesregion_name"><%= lng('Region')%></option>
 		<option value="user_usr"><%= lng('User')%></option>
 	</select>
 	<select id="op2" class="hide" >   
@@ -16329,6 +16437,8 @@ paper-menu {
 			<iron-icon id="code_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_name" on-click="sort_name"><%= lng('Name')%><div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_salesregion_name" on-click="sort_salesregion_name"><%= lng('Region')%><div id="salesregion_name_sort_d" class="hide">
+			<iron-icon id="salesregion_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_user_usr" on-click="sort_user_usr"><%= lng('User')%><div id="user_usr_sort_d" class="hide">
 			<iron-icon id="user_usr_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
@@ -16339,6 +16449,7 @@ paper-menu {
 		<td class="col_id"></td>
 		<td class="col_code"></td>
 		<td class="col_name"></td>
+		<td class="col_salesregion_name"></td>
 		<td class="col_user_usr"></td>
 	</tr>
 	</tfoot>-->
@@ -16351,6 +16462,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.code}}"><td>{{item.code}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
+		<template is="dom-if" if="{{column.salesregion_name}}"><td>{{item.salesregion_name}}</td></template>
 		<template is="dom-if" if="{{column.user_usr}}"><td>{{item.user_usr}}</td></template>
 	</tr>
 	</template>
@@ -16378,6 +16490,8 @@ Polymer({
 		var _model = [{column: "id", type: "integer", display: true},
 				{column: "code", type: "string", display: true},
 				{column: "name", type: "string", display: true},
+				{column: "salesregion_id", type: "integer", model: "SalesRegion", display: false},
+				{column: "salesregion_name", type: "string", model: "SalesRegion", display: true},
 				{column: "user_id", type: "integer", model: "User", display: false},
 				{column: "user_usr", type: "string", model: "User", display: true}
 		]
@@ -16461,6 +16575,11 @@ Polymer({
 		}
 		if (filter != "")
 		{
+		  if (this.$[filter].value == "salesregion_name"){
+			this.$.SalesRegion_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
+			//this.$.SalesRegion_select_dialog.style.left = "-100px"
+			this.$.SalesRegion_select_dialog.open_select_dialog()
+		  }
 		  if (this.$[filter].value == "user_usr"){
 			this.$.User_select_dialog.style.top = e.toElement.offsetParent.offsetTop+"px"
 			//this.$.User_select_dialog.style.left = "-100px"
@@ -16568,6 +16687,7 @@ Polymer({
 		this.$.id_sort_d.classList.add("hide")
 		this.$.code_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
+		this.$.salesregion_name_sort_d.classList.add("hide")
 		this.$.user_usr_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(field) {
@@ -16587,6 +16707,9 @@ Polymer({
 	},
 	sort_name: function() {
 		this.sort_by_field("name")
+	},
+	sort_salesregion_name: function() {
+		this.sort_by_field("salesregion_name")
 	},
 	sort_user_usr: function() {
 		this.sort_by_field("user_usr")
@@ -16723,6 +16846,14 @@ Polymer({
       }
 	for (i=0; i< this.$.ajax.lastResponse.length; i++)
 	{
+		if (this.$.ajax.lastResponse[i].salesregion){
+			this.$.ajax.lastResponse[i].salesregion_id = this.$.ajax.lastResponse[i].salesregion.id
+			this.$.ajax.lastResponse[i].salesregion_name = this.$.ajax.lastResponse[i].salesregion.name
+		} else
+		{
+			this.$.ajax.lastResponse[i].salesregion_id = 0
+			this.$.ajax.lastResponse[i].salesregion_name = ""
+		}
 		if (this.$.ajax.lastResponse[i].user){
 			this.$.ajax.lastResponse[i].user_id = this.$.ajax.lastResponse[i].user.id
 			this.$.ajax.lastResponse[i].user_usr = this.$.ajax.lastResponse[i].user.usr
