@@ -62,6 +62,10 @@ module.exports = {
 		//description: 'Stock',
 		type: 'integer'
 	},
+	upc: {
+		//description: 'UPC',
+		type: 'integer'
+	},
 	price: {
 		//description: 'Price',
 		type: 'float'
