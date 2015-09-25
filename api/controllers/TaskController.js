@@ -86,8 +86,31 @@ module.exports = {
  		res.locals.data = []
 		res.view("Task/Dashboard")
 	},
+	getMes: function(params) {
+		var date = new Date()
+		var mes = date.getMonth() + 1
+		var ano = date.getFullYear();
+		if (params.mes) mes = Number(params.mes)
+		if (params.ano) ano = Number(params.ano)
+		
+		var dia = 31
+		if (mes == 4 || mes == 6 || mes == 9 || mes == 11)  
+			dia = 30
+		if (mes == 2)
+		  if (ano % 4 != 0)
+			dia = 28
+		  else
+			dia = 29
+
+		return {ini: ano+'-'+mes+'-01', fin: ano+'-'+mes+'-'+dia}
+	},
 	cube: function(req, res) {
-		var sql = 'select type, status, prioridad as priority, responsable, count(*) as n from task a  where requestd >= \'2015-08-01\' and requestd <= \'2015-09-30\' and a.user = '+req.session.userid+' group by type, status, prioridad, Responsable' 
+		
+		var mes = sails.controllers.task.getMes(req.params.all())
+		
+		//console.log('Mes: ', mes)
+		
+		var sql = 'select type, status, prioridad as priority, responsable, count(*) as n from task a  where requestd >= \''+mes.ini+'\' and requestd <= \''+mes.fin+'\' and a.user = '+req.session.userid+' group by type, status, prioridad, Responsable' 
 		
 		Task.query(sql, function(err, data) {
 			if (err) return res.serverError(err);
