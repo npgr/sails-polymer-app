@@ -124,7 +124,7 @@ module.exports = {
 		type: "string"
 	}
 //End Attributes
-	,toJSON: function () {
+	/*,toJSON: function () {
       var obj = this.toObject();
 
 	  if (obj.parent)
@@ -138,7 +138,7 @@ module.exports = {
 		obj.parent = parent
 	  }
       return obj;
-    }
+    }*/
   }
 };
 

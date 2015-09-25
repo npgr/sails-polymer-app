@@ -277,52 +277,6 @@
 			this.$.ajax.url = config_server() + "Task/cube"
 			this.$.ajax.generateRequest()
 		},
-		getStatus: function(status) {
-			switch(status) {
-			  case "p":
-					return "<%= lng("Pending")%>"
-			  case "l":
-					return "<%= lng("Planning")%>"
-			  case "e":
-					return "<%= lng("Working on")%>"
-			  case "s":
-					return "<%= lng("Stand by")%>"
-			  case "c":
-					return "<%= lng("Certificate")%>"
-			  case "x":
-					return "<%= lng("Close")%>"
-			  default:
-					return "<%= lng("Other")%>"
-			}
-		},
-		getType: function(type) {
-			switch(type) {
-			  case "i":
-					return "<%= lng("Incident")%>"
-			  case "t":
-					return "<%= lng("Task")%>"
-			  case "c":
-					return "<%= lng("Change")%>"
-			  case "p":
-					return "<%= lng("Project")%>"
-			  default:
-					return "<%= lng("Other")%>"
-			}
-		},
-		getPriority: function(priority) {
-			switch(priority) {
-			  case "b":
-					return "<%= lng("Low")%>"
-			  case "m":
-					return "<%= lng("Medium")%>"
-			  case "a":
-					return "<%= lng("Hight")%>"
-			  case "c":
-					return "<%= lng("Critic")%>"
-			  default:
-					return "<%= lng("Other")%>"
-			}
-		},
 		load_data: function() {
 			var datai = _.sortBy(this.$.ajax.lastResponse, 'status')
 			var data = []
@@ -338,7 +292,7 @@
 				{
 					dato = {data: Number(datai[i].n),
 							color: color[j],
-							label: this.getStatus(datai[i].status)
+							label: datai[i].status
 					}
 					j++
 				}
@@ -366,7 +320,7 @@
 				{
 					dato = {data: Number(datai[i].n),
 							color: color[j],
-							label: this.getType(datai[i].type)
+							label: datai[i].type
 					}
 					j++
 				}
@@ -394,7 +348,7 @@
 				{
 					dato = {data: Number(datai[i].n),
 							color: color[j],
-							label: this.getPriority(datai[i].priority)
+							label: datai[i].priority
 					}
 					j++
 				}

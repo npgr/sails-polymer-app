@@ -16,12 +16,60 @@ module.exports = {
 				res.view("Task/list")
 		//	})
 	},
+	getStatusDes: function(req, status) {
+		switch(status) {
+			case "p": return req.__("Pending") 
+			case "l": return req.__("Planning")
+			case "e": return req.__("Working on")
+			case "s": return req.__("Stand by")
+			case "c": return req.__("Certificate")
+			case "x": return req.__("Close")
+			default: return ''
+		}
+	}, 
+	getPriorityDes: function(req, priority) {
+		switch(priority) {
+			case "b": return req.__("Low") 
+			case "m": return req.__("Medium")
+			case "a": return req.__("Hight")
+			case "c": return req.__("Critic")
+			default: return ''
+		}
+	},
+	getTypeDes: function(req, type) {
+		switch(type) {
+			case "i": return req.__("Incident") 
+			case "t": return req.__("Task")
+			case "p": return req.__("Project")
+			case "c": return req.__("Change")
+			default: return ''
+		}
+	},
 	get: function(req, res) {
 		Task.find({user: req.session.userid})
 			.populate('parent')
 			.exec(function(err, data){
-				res.json(data)
-			})
+				var status_des = ''
+				var parent = {}
+				//console.log('data: ', data)
+				for (i=0; i < data.length; i++) 
+				{
+					if (data[i].parent)
+					{
+						parent = {}
+						parent.id = data[i].parent.id
+						parent.activity = data[i].parent.activity
+	 
+						delete data[i].parent
+
+						data[i].parent = parent
+					}
+				  data[i].status_des = sails.controllers.task.getStatusDes(req, data[i].status)
+				  data[i].prioridad_des = sails.controllers.task.getPriorityDes(req, data[i].prioridad)
+				  data[i].type_des = sails.controllers.task.getTypeDes(req, data[i].type)
+				}
+				return res.json(data)
+			})			
 	},
 	create: function(req, res, next) {
 		var params = req.params.all();
@@ -43,6 +91,12 @@ module.exports = {
 		
 		Task.query(sql, function(err, data) {
 			if (err) return res.serverError(err);
+			for (i=0; i < data.rows.length; i++)
+			{
+				data.rows[i].status = sails.controllers.task.getStatusDes(req, data.rows[i].status)
+				data.rows[i].priority = sails.controllers.task.getPriorityDes(req, data.rows[i].priority)
+				data.rows[i].type = sails.controllers.task.getTypeDes(req, data.rows[i].type)
+			}
 			return res.json(data.rows)
 		})
 	},
