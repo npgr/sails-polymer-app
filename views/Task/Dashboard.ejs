@@ -184,40 +184,81 @@
 </script>
 </dom-module>
  
+<dom-module id="app-card">
+<template>
+	<style>
+		#thecard {
+			display: flex;
+			border-width: 0px 2px 2px 2px;
+			border-style: solid;
+			border-color: lightgray;
+			border-top: 2px solid rgb(230,230,230);
+			//border: 2px solid lightgray;
+		}
+		#thecardtitle {
+			display: flex;
+			//justify-content: center;
+			padding: 5px 0px 2px 10px;
+			border-width: 2px 2px 0px 2px;
+			border-style: solid;
+			border-color: lightgray;
+			//border: 2px solid 
+			background-color: rgb(240,240,240);
+		}
+		#thecardtitle > strong {
+			font-size: 16px;
+		}
+	</style>
+	<div id="thecardtitle"><strong><content select=".card__title"></content></strong></div>
+	<div id="thecard">
+		<content select=":not(.card__title)"></content>
+	</div>
+</template>
+<script>
+	Polymer({ is: "app-card" })
+</script>
+</dom-module>
+ 
 <dom-module id="Task-dashboard">
 
   <template>
     <style>
-	.title_chart {
-		margin-left: 60px;
-	}
+
 	.chart_group {
 		display: flex;
-		margin-left: 30px;
+		margin-left: 10px;
 	}
 	app-chart-vbar, app-chart-pie {
 		//margin-left: 30px;
 	}
     </style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<!--<paper-material class="card2" elevation="2">-->
-	<!--</paper-material>-->
 	<br><br>
-		<h3 class="title_chart"><%= lng("Activities by Status")%></h3>
+		<br>
 		<div class="chart_group">
+		  <app-card>
+			<div class="card__title"><iron-icon icon="arrow-drop-down"></iron-icon><%= lng("Activities by Status")%> <input></input></div>
 			<app-chart-vbar id="vbar1" width=550></app-chart-vbar>
 			<app-chart-pie id="pie1"></app-chart-pie>
+		  </app-card>
 		</div>
-		<h3 class="title_chart"><%= lng("Activities by Type")%></h3>
+		<br>
 		<div class="chart_group">
+		  <app-card>
+		     <div class="card__title"><iron-icon icon="arrow-drop-down"></iron-icon><%= lng("Activities by Type")%></div>
 			<app-chart-vbar id="vbar2" width=400></app-chart-vbar>
 			<app-chart-pie id="pie2"></app-chart-pie>
+		  </app-card>
 		</div>
-		<h3 class="title_chart"><%= lng("Activities by Priority")%></h3>
+		<br>
 		<div class="chart_group">
+		  <app-card>
+			<div class="card__title"><iron-icon icon="arrow-drop-down"></iron-icon><%= lng("Activities by Priority")%></div>
 			<app-chart-vbar id="vbar3" width=400></app-chart-vbar>
 			<app-chart-pie id="pie3"></app-chart-pie>
+		  </app-card>
 		</div>
+		<br>
   </template>
   <script>
     Polymer({
@@ -285,7 +326,7 @@
 		load_data: function() {
 			var datai = _.sortBy(this.$.ajax.lastResponse, 'status')
 			var data = []
-			var color = ['blue', 'green', 'red', 'purple', 'orange', '#607D8B']
+			var color = ['#1E88E5', '#009688', 'orange','#F44336', '#AB47BC', '#795548']
 			var dato = {}
 			var status = ''
 			var j = 0
