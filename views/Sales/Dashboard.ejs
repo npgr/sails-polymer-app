@@ -208,8 +208,23 @@
 		<h4 class="chart_group">
 			<div on-click="showAll"> <-<%= lng("Show All")%>->..</div><div on-click="hideAll"> <-<%= lng("Hide All")%>-></div>
 		</h4>
-		<h3 class="title_chart" on-click="toggle1">
-			<iron-icon icon="editor:insert-chart"></iron-icon>  <%= lng("Units by Sales Region")%>
+		<h3 class="title_chart">
+			<iron-icon icon="editor:insert-chart" on-click="toggle1"></iron-icon>  <%= lng("Units by Sales Region")%>
+			<select id="month">
+				<option value="1"><%= lng('January')%></option>
+				<option value="2"><%= lng('February')%></option>
+				<option value="3"><%= lng('March')%></option>
+				<option value="4"><%= lng('April')%></option>
+				<option value="5"><%= lng('May')%></option>
+				<option value="6"><%= lng('June')%></option>
+				<option value="7"><%= lng('July')%></option>
+				<option value="8"><%= lng('August')%></option>
+				<option value="9"><%= lng('September')%></option>
+				<option value="10"><%= lng('October')%></option>
+				<option value="11"><%= lng('November')%></option>
+				<option value="12"><%= lng('December')%></option>
+			</select>
+			<iron-icon icon="autorenew" on-click="filter"></iron-icon>
 		</h3>
 		<iron-collapse id="chart1" class="chart_group">
 			<app-chart-vbar id="vbar1" width=400></app-chart-vbar>
@@ -269,11 +284,17 @@
 			}
 		},
 		ready: function() { 
-			this.$.ajax.url = config_server() + "Sales/byRegionCustCategory"
-			this.$.ajax.generateRequest()
-			this.$.ajax2.url = config_server() + "Sales/byProdCategory"
-			this.$.ajax2.generateRequest()
+			var date = new Date()
+			this.$.month.value = date.getMonth() + 1
 			this.$.chart1.toggle()
+			this.filter()
+		},
+		filter: function()
+		{
+			this.$.ajax.url = config_server() + "Sales/byRegionCustCategory?mes="+this.$.month.value
+			this.$.ajax.generateRequest()
+			this.$.ajax2.url = config_server() + "Sales/byProdCategory?mes="+this.$.month.value
+			this.$.ajax2.generateRequest()
 		},
 		showAll: function() {
 			if (!this.$.chart1.opened)

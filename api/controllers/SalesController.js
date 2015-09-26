@@ -33,7 +33,9 @@ module.exports = {
 		})
 	},
 	byRegionCustCategory: function(req, res) {
-		var sql = 'select d.name as region, e.name as category, sum(b.quantity) as units, sum(b.quantity * b.price) as amount, avg(b.price) as priceavg from "order" a, orderdetail b, customer c, salesregion d, customercategory e where date >= \'2015-09-01\' and date <= \'2015-09-30\' and a.id = b.order and a.customer = c.id and c.salesregion = d.id and c.category=e.id group by d.name, e.name'
+		var mes = sails.controllers.task.getMes(req.params.all())
+		
+		var sql = 'select d.name as region, e.name as category, sum(b.quantity) as units, sum(b.quantity * b.price) as amount, avg(b.price) as priceavg from "order" a, orderdetail b, customer c, salesregion d, customercategory e where date >= \''+mes.ini+'\' and date <= \''+mes.fin+'\' and a.id = b.order and a.customer = c.id and c.salesregion = d.id and c.category=e.id group by d.name, e.name'
 		
 		Order.query(sql, function(err, data) {
 			if (err) return res.serverError(err);
@@ -41,7 +43,9 @@ module.exports = {
 		})
 	},
 	byProdCategory: function(req, res) {
-		var sql = 'select d.name as category,sum(b.quantity) as units, sum(b.quantity * b.price) as amount,avg(b.price) as priceavg from "order" a, orderdetail b, product c, productcategory d where date >= \'2015-09-01\' and date <= \'2015-09-30\' and a.id = b.order and b.product = c.id and c.category = d.id group by d.name'
+		var mes = sails.controllers.task.getMes(req.params.all())
+		
+		var sql = 'select d.name as category,sum(b.quantity) as units, sum(b.quantity * b.price) as amount,avg(b.price) as priceavg from "order" a, orderdetail b, product c, productcategory d where date >= \''+mes.ini+'\' and date <= \''+mes.fin+'\' and a.id = b.order and b.product = c.id and c.category = d.id group by d.name'
 		
 		Order.query(sql, function(err, data) {
 			if (err) return res.serverError(err);
