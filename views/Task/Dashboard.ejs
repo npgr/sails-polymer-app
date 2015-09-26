@@ -246,13 +246,33 @@
 	  .margin-left-10 {
 		margin-left: 10px;
 	  }
+	  #month {
+		margin-left:50px;
+	  }
     </style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
-	<br><br>
+	<br><br>		
 		<br>
 		<div class="flex margin-left-10">
 		  <app-card>
-			<div class="card__title"><%= lng("Activities by Status")%> <input></input></div>
+			<div class="card__title">
+				<%= lng("Activities by Status")%>
+				<select id="month">
+					<option value="1"><%= lng('January')%></option>
+					<option value="2"><%= lng('February')%></option>
+					<option value="3"><%= lng('March')%></option>
+					<option value="4"><%= lng('April')%></option>
+					<option value="5"><%= lng('May')%></option>
+					<option value="6"><%= lng('June')%></option>
+					<option value="7"><%= lng('July')%></option>
+					<option value="8"><%= lng('August')%></option>
+					<option value="9"><%= lng('September')%></option>
+					<option value="10"><%= lng('October')%></option>
+					<option value="11"><%= lng('November')%></option>
+					<option value="12"><%= lng('December')%></option>
+				</select>
+				<iron-icon icon="autorenew" on-click="filter"></iron-icon>
+			</div>
 			<div class="flex">
 				<app-chart-vbar id="vbar1" width=550></app-chart-vbar>
 				<app-chart-pie id="pie1"></app-chart-pie>
@@ -294,8 +314,15 @@
 				value: 300,
 			}
 		},
-		ready: function() { 
-			this.$.ajax.url = config_server() + "Task/cube"
+		ready: function() 
+		{ 	
+			var date = new Date()
+			this.$.month.value = date.getMonth() + 1
+			this.filter()
+		},
+		filter: function()
+		{
+			this.$.ajax.url = config_server() + "Task/cube?mes="+this.$.month.value
 			this.$.ajax.generateRequest()
 		},
 		load_data: function() {
