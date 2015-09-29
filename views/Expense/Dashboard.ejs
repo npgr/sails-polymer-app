@@ -16,7 +16,8 @@
 	<script src="/bower_components/lodash/lodash.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
-	<link rel="import" href="/bower_components/paper-material/paper-material.html">
+	<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+	<!--<link rel="import" href="/bower_components/paper-material/paper-material.html">-->
 	<link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
 	<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 	<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
@@ -202,6 +203,7 @@
 	}
     </style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<paper-fab id="btn_menu" mini on-click="print" icon="print"></paper-fab>
 	<!--<paper-material class="card2" elevation="2">-->
 	<!--</paper-material>-->
 	<br><br>
@@ -254,6 +256,9 @@
 			//this.$.chart1.toggle()
 			this.filter()
 		},
+		print: function() {
+			window.print()
+		},
 		filter: function()
 		{
 			this.$.ajax.url = config_server() + "ExpenseCategory/total?mes="+this.$.month.value
@@ -285,5 +290,6 @@
 <top-bar><%= lng("Expense Dashboard")%></top-bar>
 
 <Expense-dashboard></Expense-dashboard>
+<A HREF="javascript:window.print()">Click to Print This Page</A>
 </body>
 </html>
