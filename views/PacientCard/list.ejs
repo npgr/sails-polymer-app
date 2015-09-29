@@ -16310,7 +16310,8 @@ paper-menu {
 	</select>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
-	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
+	<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
+	<paper-fab id="btn_menu" mini on-click="print" icon="print"></paper-fab>
 
 	<a href="{{download_data}}" id="link" class="hide" download="PacientCard.xml">Download Data</a>
 
@@ -16679,6 +16680,9 @@ Polymer({
 	},
 	menu: function() {
 		
+	},
+	print: function() {
+		window.print()
 	},
 	download: function() {
 		var x2js = new X2JS();

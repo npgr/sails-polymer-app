@@ -10,6 +10,7 @@ module.exports = {
 	//migrate: "alter",
   attributes: {
 	//_title: 'Product Category',
+	//_card_width: '60em',
 	id: {
 		//description: 'Id',
 		type: "integer",

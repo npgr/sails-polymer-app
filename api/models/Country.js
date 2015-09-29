@@ -9,6 +9,7 @@ module.exports = {
 
 	//migrate: "alter",
   attributes: {
+	//_card_width: '60em',
 	id: {
 		//description: 'id',
 		type: "integer",

@@ -16372,7 +16372,8 @@ paper-menu {
 	<div class="card_buttons">
 		<paper-fab mini on-click="new" icon="add"></paper-fab>
 		<paper-fab mini on-click="download" icon="file-download"></paper-fab>
-		<paper-fab mini on-click="menu" icon="list"></paper-fab>
+		<!--<paper-fab mini on-click="menu" icon="list"></paper-fab>-->
+		<paper-fab mini on-click="print" icon="print"></paper-fab>
 	</div>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
@@ -16781,6 +16782,9 @@ Polymer({
 	},
 	menu: function() {
 		
+	},
+	print: function() {
+		window.print()
 	},
 	download: function() {
 		var x2js = new X2JS();

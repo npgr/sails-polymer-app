@@ -1,4 +1,4 @@
-<!-- list template: version 6.15 -->
+<!-- list template: version 6.16 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -15830,6 +15830,10 @@ paper-menu {
 				<td><div id="stock" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="upc"><%= lng('UPC')%></label></td>
+				<td><div id="upc" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
 				<td><div id="price" on-click="change_field"></div></td>
 			</tr>
@@ -15873,6 +15877,7 @@ paper-menu {
 			this.show_field("supplier_name")
 			this.show_field("suppliercode")
 			this.show_field("stock")
+			this.show_field("upc")
 			this.show_field("price")
 			this.show_field("cost")
 			this.show_field("photo")
@@ -15954,6 +15959,10 @@ paper-menu {
 				<td><input id="stock" type="number" name="stock"></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="upc"><%= lng('UPC')%></label></td>
+				<td><input id="upc" type="number" name="upc"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
 				<td><input id="price" type="float" name="price"></td>
 			</tr>
@@ -16004,6 +16013,7 @@ paper-menu {
 			this.$.supplier.key = 0
 			this.$.suppliercode.value = ''
 			this.$.stock.value = ''
+			this.$.upc.value = ''
 			this.$.price.value = ''
 			this.$.cost.value = ''
 			this.$.photo.value = ''
@@ -16034,6 +16044,7 @@ paper-menu {
 			record.supplier = this.$.supplier.key
 			  record.suppliercode = this.$.suppliercode.value
 			record.stock = Number(this.$.stock.value)
+			record.upc = Number(this.$.upc.value)
 			record.price = Number(this.$.price.value)
 			record.cost = Number(this.$.cost.value)
 			  record.photo = this.$.photo.value
@@ -16115,6 +16126,10 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="stock"><%= lng('Stock')%></label></td>
 				<td><input id="stock" type="number" name="stock" value="{{item.stock}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="upc"><%= lng('UPC')%></label></td>
+				<td><input id="upc" type="number" name="upc" value="{{item.upc}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
@@ -16205,6 +16220,10 @@ paper-menu {
 				<td><input id="stock" type="number" name="stock" value="{{item.stock}}"></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="upc"><%= lng('UPC')%></label></td>
+				<td><input id="upc" type="number" name="upc" value="{{item.upc}}"></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
 				<td><input id="price" type="float" name="price" value="{{item.price}}"></td>
 			</tr>
@@ -16275,6 +16294,7 @@ paper-menu {
 			record.supplier = this.$.supplier.key
 			record.suppliercode = this.$.suppliercode.value
 			record.stock = Number(this.$.stock.value)
+			record.upc = Number(this.$.upc.value)
 			record.price = Number(this.$.price.value)
 			record.cost = Number(this.$.cost.value)
 			record.photo = this.$.photo.value
@@ -16337,6 +16357,10 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="stock"><%= lng('Stock')%></label></td>
 				<td><input id="stock" type="number" name="stock" value="{{item.stock}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="upc"><%= lng('UPC')%></label></td>
+				<td><input id="upc" type="number" name="upc" value="{{item.upc}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
@@ -16635,7 +16659,8 @@ paper-menu {
 		<option value="subCategory_name"><%= lng('SubCategory')%></option>
 		<option value="supplier_name"><%= lng('Supplier')%></option>  <%= lng('Supplier Code')%>
 		<option value="suppliercode"><%= lng('Supplier Code')%></option>  <%= lng('Stock')%>
-		<option value="stock"><%= lng('Stock')%></option>  <%= lng('Price')%>
+		<option value="stock"><%= lng('Stock')%></option>  <%= lng('UPC')%>
+		<option value="upc"><%= lng('UPC')%></option>  <%= lng('Price')%>
 		<option value="price"><%= lng('Price')%></option>  <%= lng('Cost')%>
 		<option value="cost"><%= lng('Cost')%></option>  <%= lng('Photo')%>
 		<option value="photo"><%= lng('Photo')%></option>  <%= lng('Status')%>
@@ -16671,6 +16696,7 @@ paper-menu {
 		<option value="supplier_name"><%= lng('Supplier')%></option>
 		<option value="suppliercode"><%= lng('Supplier Code')%></option>
 		<option value="stock"><%= lng('Stock')%></option>
+		<option value="upc"><%= lng('UPC')%></option>
 		<option value="price"><%= lng('Price')%></option>
 		<option value="cost"><%= lng('Cost')%></option>
 		<option value="photo"><%= lng('Photo')%></option>
@@ -16691,7 +16717,8 @@ paper-menu {
 	</select>
 	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
-	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
+	<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
+	<paper-fab id="btn_menu" mini on-click="print" icon="print"></paper-fab>
 
 	<a href="{{download_data}}" id="link" class="hide" download="Product.xml">Download Data</a>
 
@@ -16722,6 +16749,8 @@ paper-menu {
 			<iron-icon id="suppliercode_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_stock" on-click="sort_stock"><%= lng('Stock')%><div id="stock_sort_d" class="hide">
 			<iron-icon id="stock_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_upc" on-click="sort_upc"><%= lng('UPC')%><div id="upc_sort_d" class="hide">
+			<iron-icon id="upc_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_price" on-click="sort_price"><%= lng('Price')%><div id="price_sort_d" class="hide">
 			<iron-icon id="price_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_cost" on-click="sort_cost"><%= lng('Cost')%><div id="cost_sort_d" class="hide">
@@ -16743,6 +16772,7 @@ paper-menu {
 		<td class="col_supplier_name"></td>
 		<td class="col_suppliercode"></td>
 		<td class="col_stock"></td>
+		<td class="col_upc"></td>
 		<td class="col_price"></td>
 		<td class="col_cost"></td>
 		<td class="col_photo"></td>
@@ -16763,6 +16793,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.supplier_name}}"><td>{{item.supplier_name}}</td></template>
 		<template is="dom-if" if="{{column.suppliercode}}"><td>{{item.suppliercode}}</td></template>
 		<template is="dom-if" if="{{column.stock}}"><td>{{item.stock}}</td></template>
+		<template is="dom-if" if="{{column.upc}}"><td>{{item.upc}}</td></template>
 		<template is="dom-if" if="{{column.price}}"><td>{{item.price}}</td></template>
 		<template is="dom-if" if="{{column.cost}}"><td>{{item.cost}}</td></template>
 		<template is="dom-if" if="{{column.photo}}"><td>{{item.photo}}</td></template>
@@ -16801,6 +16832,7 @@ Polymer({
 				{column: "supplier_name", type: "string", model: "Supplier", display: true},
 				{column: "suppliercode", type: "string", display: true},
 				{column: "stock", type: "integer", display: true},
+				{column: "upc", type: "integer", display: true},
 				{column: "price", type: "float", display: true},
 				{column: "cost", type: "float", display: true},
 				{column: "photo", type: "string", display: true},
@@ -17009,6 +17041,7 @@ Polymer({
 		this.$.supplier_name_sort_d.classList.add("hide")
 		this.$.suppliercode_sort_d.classList.add("hide")
 		this.$.stock_sort_d.classList.add("hide")
+		this.$.upc_sort_d.classList.add("hide")
 		this.$.price_sort_d.classList.add("hide")
 		this.$.cost_sort_d.classList.add("hide")
 		this.$.photo_sort_d.classList.add("hide")
@@ -17046,6 +17079,9 @@ Polymer({
 	},
 	sort_stock: function() {
 		this.sort_by_field("stock")
+	},
+	sort_upc: function() {
+		this.sort_by_field("upc")
 	},
 	sort_price: function() {
 		this.sort_by_field("price")
@@ -17138,6 +17174,9 @@ Polymer({
 	},
 	menu: function() {
 		
+	},
+	print: function() {
+		window.print()
 	},
 	download: function() {
 		var x2js = new X2JS();

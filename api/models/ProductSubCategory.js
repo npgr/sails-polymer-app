@@ -11,6 +11,7 @@ module.exports = {
 	//migrate: "alter",
   attributes: {
 	//_title: 'Product SubCategory',
+	//_card_width: '60em',
 	id: {
 		//description: 'Id',
 		type: "integer",
