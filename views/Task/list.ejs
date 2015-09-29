@@ -11,11 +11,13 @@
 <head><meta charset="UTF-8">
 	<title><%= lng("%s %s",lng("List"),lng("Activity"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script src="/bower_components/intro.js/minified/intro.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
+	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css">
 <!-- INICIA -->
 	<script>(function () {
 function resolve() {
@@ -16733,7 +16735,7 @@ paper-menu {
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
 	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>-->
-	<select id="filter" on-change="input_type">  <%= lng('Id')%>
+	<select id="filter" on-change="input_type" data-step="1" data-intro='Campo a Filtrar Seleccione cualquier campo'>  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
 		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Completed')%>
 		<option value="completed"><%= lng('Completed')%></option>  <%= lng('Ticket')%>
@@ -16755,14 +16757,14 @@ paper-menu {
 		<option value="proxseguimiento"><%= lng('Next Track')%></option>  <%= lng('Notes')%>
 		<option value="observacion"><%= lng('Notes')%></option>
 	</select>
-	<select id="op">   
+	<select id="op" data-step="2" data-intro='Comparador'>   
 		<option value="$eq"><%= lng('Equal to')%></option>
 		<option value="$ne"><%= lng('Different to')%></option>
 		<option value="$contains"><%= lng('Contains')%></option>
 		<option value="$gte"><%= lng('Greater or Equal to')%></option>
 		<option value="$lte"><%= lng('Less or Equal to')%></option>
 	</select>
-	<input id="filtro" type="{{tipo}}" on-click="select_field">
+	<input id="filtro" type="{{tipo}}" on-click="select_field" data-step="4" data-intro='Valor'>
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -16811,10 +16813,11 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+	<paper-fab id="btn_add" mini on-click="new" icon="add" data-step="3" data-intro='Boton Agregar'></paper-fab>
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
 	<paper-fab id="btn_menu" mini on-click="print" icon="print"></paper-fab>
+	<paper-fab id="btn_help" class="btn-help" mini on-click="help" icon="help" data-intro='Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'></paper-fab>
 
 	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
 
@@ -16935,6 +16938,7 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+		
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16981,6 +16985,27 @@ Polymer({
 		_model = {}
 		this.input_type()
 		this.set_filter() //and columns & sort from localStorage
+		//introJs().setOption("nextLabel", "Proximo");
+		/*var intro = introJs('#btn_help')
+		intro.setOptions({ 
+			'skipLabel': '<%= lng('Exit')%>', 
+			'nextLabel': '<%= lng('Next')%>', 
+			//'nextLabel': 'Próximo', 
+			'prevLabel': '<%= lng('Previous')%>',
+			'doneLabel': '<%= lng('Exit')%>'})
+		intro.start()*/
+		//intro('.btn-help').start()
+		var intro = introJs()
+		intro.setOptions({
+			doneLabel: '<%= lng('Exit')%>',
+			steps: [
+				{ element: '#btn_help',
+				intro: 'Use Help Button.'}]
+		})
+		intro.start()
+	},
+	help: function() {
+		introJs().start()
 	},
 	list_columns: function() {
 		this.$.Task_list_columns.open_list_columns(this.column)
