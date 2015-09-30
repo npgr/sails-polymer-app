@@ -16735,7 +16735,7 @@ paper-menu {
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
 	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>-->
-	<select id="filter" on-change="input_type" data-step="1" data-intro='Campo a Filtrar Seleccione cualquier campo'>  <%= lng('Id')%>
+	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
 		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Completed')%>
 		<option value="completed"><%= lng('Completed')%></option>  <%= lng('Ticket')%>
@@ -16757,14 +16757,14 @@ paper-menu {
 		<option value="proxseguimiento"><%= lng('Next Track')%></option>  <%= lng('Notes')%>
 		<option value="observacion"><%= lng('Notes')%></option>
 	</select>
-	<select id="op" data-step="2" data-intro='Comparador'>   
+	<select id="op">   
 		<option value="$eq"><%= lng('Equal to')%></option>
 		<option value="$ne"><%= lng('Different to')%></option>
 		<option value="$contains"><%= lng('Contains')%></option>
 		<option value="$gte"><%= lng('Greater or Equal to')%></option>
 		<option value="$lte"><%= lng('Less or Equal to')%></option>
 	</select>
-	<input id="filtro" type="{{tipo}}" on-click="select_field" data-step="4" data-intro='Valor'>
+	<input id="filtro" type="{{tipo}}" on-click="select_field">
 	<select id="select" class="hide">
 	  <template is="dom-repeat" items="{{opts}}">
 		<option value="{{item.op}}">{{item.des}}</option>
@@ -16813,11 +16813,11 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	<paper-fab id="btn_add" mini on-click="new" icon="add" data-step="3" data-intro='Boton Agregar'></paper-fab>
+	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 	<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
-	<paper-fab id="btn_menu" mini on-click="print" icon="print"></paper-fab>
-	<paper-fab id="btn_help" class="btn-help" mini on-click="help" icon="help" data-intro='Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'></paper-fab>
+	<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
+	<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
 
 	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
 
@@ -16831,7 +16831,7 @@ paper-menu {
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th id='th_ops' class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_activity"><%= lng('Activity')%><div id="activity_sort_d" class="hide">
@@ -16902,7 +16902,7 @@ paper-menu {
 	<tbody>
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
-		<td class="ops">
+		<td id="td_ops" class="ops">
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
@@ -16985,27 +16985,49 @@ Polymer({
 		_model = {}
 		this.input_type()
 		this.set_filter() //and columns & sort from localStorage
-		//introJs().setOption("nextLabel", "Proximo");
-		/*var intro = introJs('#btn_help')
-		intro.setOptions({ 
-			'skipLabel': '<%= lng('Exit')%>', 
-			'nextLabel': '<%= lng('Next')%>', 
-			//'nextLabel': 'Próximo', 
-			'prevLabel': '<%= lng('Previous')%>',
-			'doneLabel': '<%= lng('Exit')%>'})
-		intro.start()*/
-		//intro('.btn-help').start()
 		var intro = introJs()
 		intro.setOptions({
 			doneLabel: '<%= lng('Exit')%>',
 			steps: [
 				{ element: '#btn_help',
-				intro: 'Use Help Button.'}]
+				intro: 'Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'}],
+			showStepNumbers:false
 		})
 		intro.start()
 	},
 	help: function() {
-		introJs().start()
+		var intro = introJs()
+		
+		intro.setOptions({ 
+			skipLabel: '<%= lng('Exit')%>', 
+			nextLabel: '<%= lng('Next')%>', 
+			prevLabel: '<%= lng('Previous')%>',
+			doneLabel: '<%= lng('Exit')%>',
+			showStepNumbers:false,
+			steps: [
+				{ element: '#filter',
+				intro: 'Puede seleccionar cualquier campo como filtro de la lista'},
+				{ element: '#op',
+				intro: 'operación de comparación'},
+				{ element: '#filtro',
+				intro: 'valor de comparación'},
+				{ element: '#logic',
+				intro: 'Se puede agregar un segundo filtro'},
+				{ element: '#btn_add',
+				intro: 'Botón para crear nuevo registro'},
+				{ element: '#btn_down',
+				intro: 'Boton para descargar archivo de datos, el cual puede ser leido en Excel'},
+				{ element: '#btn_print',
+				intro: 'Botón de Impresión, se puede exportar a pdf'},
+				{element: '#data_table',
+				intro: 'Lista de registros filtrados'},
+				{element: '#th_ops',
+				intro: 'Consigurar columnas a mostrar en lista de registros'},
+				{element: '#td_ops',
+				intro: 'Opciones para:<br> - Visualizar Registro<br> - Editar Registro<br> - Borrar Registro'}
+			]
+		})
+		intro.start()
 	},
 	list_columns: function() {
 		this.$.Task_list_columns.open_list_columns(this.column)
