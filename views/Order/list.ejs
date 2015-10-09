@@ -16933,7 +16933,6 @@ Polymer({
 			delete datoi[i].updatedAt
 		}
 		var dato = { "data": datoi }
-		console.log("dato: ", dato)
 		var xml_data = x2js.json2xml_str(dato)
 		xml_data = "<x>"+xml_data+"</x>"
 		this.download_data = 'data:application/xml;charset=utf-8,'+xml_data
