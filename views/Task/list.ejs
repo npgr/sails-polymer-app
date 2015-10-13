@@ -1,4 +1,4 @@
-<!-- list template: version 6.16 -->
+<!-- list template: version 6.20 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -12,15 +12,15 @@
 	<title><%= lng("%s %s",lng("List"),lng("Activity"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/intro.js/minified/intro.min.js"></script>
-	<script src="/js2/lokijs/build/lokijs.min.js" async></script>
-	<script src="/js2/x2js-v1.1.5/xml2json.min.js" async></script>
+	<script src="/js2/lokijs/build/lokijs.min.js"></script>
+	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
-	<script src="/components/app-util/app-util.js" async></script>
-	<link rel="stylesheet" href="/styles/app.css" async>
-	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css" async>
+	<script src="/components/app-util/app-util.js"></script>
+	<link rel="stylesheet" href="/styles/app.css">
+	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css">
 <!-- INICIA -->
 	<script>
-	// Google Analytics
+    // Google Analytics
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -28,7 +28,7 @@
 
   ga('create', Google_Analytics_id(), {'sampleRate': 100});
   ga('send', 'pageview');
-
+	
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -16841,7 +16841,7 @@ paper-menu {
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th id='th_ops' class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th id="th_ops" class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
 		<th class="col_id" on-click="sort_by_field"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_activity" on-click="sort_by_field"><%= lng('Activity')%><div id="activity_sort_d" class="hide">
@@ -16948,7 +16948,6 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
-		
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -17327,7 +17326,7 @@ Polymer({
 		
 	},
 	print: function() {
-		ga('send', 'event', 'Task', 'Tak_print')
+		ga('send', 'event', 'Task', 'Task_print')
 		window.print()
 	},
 	download: function() {
