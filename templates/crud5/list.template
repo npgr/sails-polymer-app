@@ -15837,7 +15837,7 @@ Polymer({
 				intro: 'Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'}],
 			showStepNumbers:false
 		})
-		intro.start()
+		//intro.start()
 	},
 	help: function() {
 		ga('send', 'event', '<%= model%>', '<%= model%>_help')
