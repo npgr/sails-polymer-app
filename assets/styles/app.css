@@ -112,6 +112,16 @@ th {
   top: 18px;
   left: 890px;
 }
+#btn_print {
+  position: absolute;
+  top: 18px;
+  left: 890px;
+}
+#btn_help {
+  position: absolute;
+  top: 18px;
+  left: 950px;
+}
 .header_fields input {
 	margin-left: 3px;
 	margin-right: 20px;
