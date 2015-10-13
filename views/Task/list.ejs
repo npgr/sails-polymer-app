@@ -15598,6 +15598,9 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#btn_area { 
+	margin-left: 40px; 
+}
 #dialog {
 	width: 36em;
 }
@@ -16787,6 +16790,16 @@ paper-menu {
 	</select>
 	<paper-button class="btn" on-click="filter" raised><%= lng('Find')%></paper-button>
 	<strong id="total">{{regs}}</strong>
+		
+	<div id="btn_area">
+		<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+		<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
+		<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
+		<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
+		<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
+	</div>
+
+	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
@@ -16823,13 +16836,6 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
-	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
-	<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
-	<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
-	<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
-
-	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
@@ -17002,7 +17008,11 @@ Polymer({
 				intro: 'Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'}],
 			showStepNumbers:false
 		})
-		intro.start()
+		document.addEventListener('DOMContentLoaded', function() {
+			setTimeout(function(){
+				intro.start()
+			}, 600);	
+		}, false);
 	},
 	help: function() {
 		ga('send', 'event', 'Task', 'Task_help')
