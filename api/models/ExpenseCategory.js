@@ -8,7 +8,9 @@
 module.exports = {
 	//migrate:"alter",
   attributes: {
-	// _card_width: '60em',
+	//_card_width: '60em',
+	//_btn_left: '30px',
+	//_ga: 'enabled',
 	id: {
 		//description: 'Id',
 		type: "integer",

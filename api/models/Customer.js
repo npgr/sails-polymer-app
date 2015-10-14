@@ -11,6 +11,7 @@ module.exports = {
   attributes: {
 	//_title: 'Customer',
 	//_dialog_width: '38em',
+	//_ga: 'enabled',
 	id: {
 		//description: 'id',
 		type: "integer",

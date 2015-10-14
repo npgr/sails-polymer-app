@@ -8,6 +8,7 @@
 module.exports = {
 	//migrate: "alter",
   attributes: {
+	//_ga: 'enabled',
 	id: {
 		//description: 'Id',
 		type: "integer",
