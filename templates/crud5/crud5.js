@@ -364,6 +364,33 @@ function generate_model_select(model, display, key, description, crud) {
 	//else  console.log('File '+path+' already Exist')
 }
 
+function get_user_points()
+{
+	user_point = {
+		'list_detail_menu': '<!--USER POINT - List Detail Menu-->\n'+
+							'<!--END USER POINT - List Detail Menu-->', 
+		'list_functions': '//USER POINT - List Functions\n'+
+						  '//END USER POINT - List Functions'
+	}
+	
+	if (fs.existsSync('./views/'+model+'/list.ejs'))
+	{
+		var list_file = fs.readFileSync('./views/'+model+'/list.ejs', 'utf8');
+		
+		var start = list_file.indexOf("<!--USER POINT - List Detail Menu-->")
+		var end = list_file.indexOf("<!--END USER POINT - List Detail Menu-->")
+				
+		if (end != -1)
+			user_point.list_detail_menu = list_file.substring(start, end+40)
+			
+		start = list_file.indexOf("//USER POINT - List Functions")
+		end = list_file.indexOf("//END USER POINT - List Functions")
+				
+		if (end != -1)
+			user_point.list_functions = list_file.substring(start, end+33)
+	}
+}
+
 function generate_list_page(keys, key, title, crud, card_width, dialog_width, btn_left, columns, download, print, new_reg, edit, delete_reg, display, ga) {
 	var LIST_TEMPLATE = fs.readFileSync('./templates/crud5/list.template', 'utf8');
 	var compiled_List = _.template(LIST_TEMPLATE)
@@ -416,7 +443,7 @@ function generate_list_page(keys, key, title, crud, card_width, dialog_width, bt
 	
 	var TOPBAR = fs.readFileSync('./templates/crud5/topBar.template', 'utf8');
 	
-	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'select_forms': SELECT_FORMS, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud, 'card_width': card_width, 'dialog_width': dialog_width, 'btn_left': btn_left, 'columns': columns, 'download': download, 'print': print, 'new_reg': new_reg, 'edit': edit, 'delete_reg': delete_reg, 'display': display, 'ga': ga})
+	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'select_forms': SELECT_FORMS, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud, 'card_width': card_width, 'dialog_width': dialog_width, 'btn_left': btn_left, 'columns': columns, 'download': download, 'print': print, 'new_reg': new_reg, 'edit': edit, 'delete_reg': delete_reg, 'display': display, 'ga': ga, 'user_point': user_point})
 	
 	//list_template = list_template.replace('>%', '<%')
 	//list_template = list_template.replace('%<', '%>')
@@ -517,6 +544,8 @@ exports.generate = function(crud) {
 	DELETE_FORM = ''
 	EDIT_FORM = ''
 	COLUMNS_FORM = ''
+	
+	get_user_points()
 	if (new_reg) generate_new_form(keys, key, title, crud)
 	if (display) generate_display_form(keys, key, title, crud)
 	if (delete_reg) generate_delete_form(keys, key, title, crud)	

@@ -1,4 +1,4 @@
-<!-- list template: version 6.25 -->
+<!-- list template: version 6.30 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -15758,6 +15758,7 @@ paper-menu {
 		  if (delete_reg) {%>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= srv(crud, "Delete")%></paper-item><%
 		  }%>
+<%= user_point.list_detail_menu %>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -16282,6 +16283,7 @@ Polymer({
 	console.log(this.$.ajax.lastError)
 	alert("<%= srv(crud, "Error Processing Request: ")%>", this.$.ajax.lastError)
   }
+<%= user_point.list_functions %>
 });
 </script>
 </dom-module><%

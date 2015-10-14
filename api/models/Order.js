@@ -10,6 +10,7 @@ module.exports = {
 	migrate: 'alter',
   attributes: {
 	//_title: 'Pedido',
+	//_ga: 'enabled',
 	id: {
 		//description: 'Pedido',
 		type: "integer",

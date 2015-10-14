@@ -1,4 +1,4 @@
-<!-- list template: version 6.25 -->
+<!-- list template: version 6.30 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -16840,6 +16840,8 @@ paper-menu {
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= lng('Display')%></paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= lng('Edit')%></paper-item>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= lng('Delete')%></paper-item>
+<!--USER POINT - List Detail Menu-->
+<!--END USER POINT - List Detail Menu-->
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -17428,6 +17430,8 @@ Polymer({
 	console.log(this.$.ajax.lastError)
 	alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
   }
+//USER POINT - List Functions
+//END USER POINT - List Functions
 });
 </script>
 </dom-module>
