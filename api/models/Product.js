@@ -7,10 +7,11 @@
 
 module.exports = {
 
-	//migrate: 'alter',
+	migrate: 'alter',
 
   attributes: {
 	//_title: 'Product',
+	//_ga: 'enabled',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -56,6 +57,7 @@ module.exports = {
 	},
 	suppliercode: {
 		//description: 'Supplier Code',
+		//hide: true,
 		type: 'string'
 	},
 	stock: {
@@ -64,19 +66,23 @@ module.exports = {
 	},
 	upc: {
 		//description: 'UPC',
+		//hide: true,
 		type: 'integer'
 	},
 	price: {
 		//description: 'Price',
+		//hide: true,
 		type: 'float'
 	},
 	cost: {
 		//description: 'Cost',
+		//hide: true,
 		type: 'float'
 	},
 	photo: {
 		//description: 'Photo',
-		type: 'string'
+		//hide: true,
+		type: 'string',
 	},
 	status: {
 		//description: 'Status',
