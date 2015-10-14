@@ -11,6 +11,8 @@ module.exports = {
   attributes: {
 	//_title: 'Sales Region',
 	//_card_width: '60em',
+	//_btn_left: '30px',
+	//_ga: 'enabled',
 	id: {
 		//description: 'id',
 		type: "integer",

@@ -11,6 +11,8 @@ module.exports = {
   attributes: {
 	//_title: 'Customer Category',
 	//_card_width: '60em',
+	//_btn_left: '30px',
+	//_ga: 'enabled',
 	id: {
 		//description: 'Id',
 		type: "integer",
