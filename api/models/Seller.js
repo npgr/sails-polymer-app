@@ -7,10 +7,12 @@
 
 module.exports = {
 
-  //migrate: 'alter',
+  migrate: 'alter',
   attributes: {
 	//_title: 'Seller',
 	//_card_width: '65em',
+	//_btn_left: '35px',
+	//_ga: 'enabled',
 	id: {
 		//description: 'id',
 		type: "integer",
