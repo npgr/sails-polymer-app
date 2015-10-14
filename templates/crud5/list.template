@@ -1,4 +1,4 @@
-<!-- list template: version 6.20 -->
+<!-- list template: version 6.25 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -37,7 +37,8 @@
 	<link rel="import" href="/components/<%= model%>-delete/<%= model%>-delete.html"><%
   }%>
 <!-- INICIA -->
-	<script>
+	<script><%
+ if (ga) {%>
     // Google Analytics
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -46,7 +47,7 @@
 
   ga('create', Google_Analytics_id(), {'sampleRate': 100});
   ga('send', 'pageview');
-	
+<% } %>	
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -15616,6 +15617,9 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#btn_area { 
+	margin-left: <%= btn_left%>;
+}
 #dialog {
 	width: <%= dialog_width%>;
 }
@@ -15705,6 +15709,20 @@ paper-menu {
 	</select>
 	<paper-button class="btn" on-click="filter" raised><%= srv(crud, "Find")%></paper-button>
 	<strong id="total">{{regs}}</strong>
+	<div id="btn_area"><%
+	  if (new_reg) {%>
+		<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab><%
+	  }
+	  if (download) {%>
+		<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab><%
+	  }
+	  if (print) {%>
+		<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab><% 
+	  } %>
+		<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
+		<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
+	</div>
+	<a href="{{download_data}}" id="link" class="hide" download="<%= title%>.xml">Download Data</a>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2"><% 
 		for (i=0; i < keys.length; i++) { 
@@ -15728,19 +15746,18 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
-	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
-	<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
-	<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
-	<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
-
-	<a href="{{download_data}}" id="link" class="hide" download="<%= title%>.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
-		<paper-menu>
-			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= srv(crud, "Display")%></paper-item>
-			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= srv(crud, "Edit")%></paper-item>
-			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= srv(crud, "Delete")%></paper-item>
+		<paper-menu><%
+		  if (display) { %>
+			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= srv(crud, "Display")%></paper-item><%
+		  }
+		  if (edit) {%>
+			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= srv(crud, "Edit")%></paper-item><%
+		  }
+		  if (delete_reg) {%>
+			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= srv(crud, "Delete")%></paper-item><%
+		  }%>
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -15837,10 +15854,14 @@ Polymer({
 				intro: 'Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'}],
 			showStepNumbers:false
 		})
-		//intro.start()
+		/*document.addEventListener('DOMContentLoaded', function() {
+			setTimeout(function(){
+				intro.start()
+			}, 600);	
+		}, false);*/
 	},
 	help: function() {
-		ga('send', 'event', '<%= model%>', '<%= model%>_help')
+<% if (ga) {%>		ga('send', 'event', '<%= model%>', '<%= model%>_help')<% }%>
 		var intro = introJs()
 		
 		intro.setOptions({ 
@@ -15857,27 +15878,38 @@ Polymer({
 				{ element: '#filtro',
 				intro: 'valor de comparación'},
 				{ element: '#logic',
-				intro: 'Se puede agregar un segundo filtro'},
+				intro: 'Se puede agregar un segundo filtro'},<%
+			if (new_reg) {%>
 				{ element: '#btn_add',
-				intro: 'Botón para crear nuevo registro'},
+				intro: 'Botón para crear nuevo registro'},<%
+			}
+			if (download) {%>
 				{ element: '#btn_down',
-				intro: 'Boton para descargar archivo de datos, el cual puede ser leido en Excel'},
+				intro: 'Boton para descargar archivo de datos, el cual puede ser leido en Excel'},<%
+			}
+			if (print) {%>
 				{ element: '#btn_print',
-				intro: 'Botón de Impresión, se puede exportar a pdf'},
+				intro: 'Botón de Impresión, se puede exportar a pdf'},<%
+			}%>
 				{element: '#data_table',
-				intro: 'Lista de registros filtrados'},
+				intro: 'Lista de registros filtrados',
+				position: 'top'},<%
+			if (columns) {%>
 				{element: '#th_ops',
-				intro: 'Consigurar columnas a mostrar en lista de registros'},
+				intro: 'Consigurar columnas a mostrar en lista de registros'},<%
+			}%>
 				{element: '#td_ops',
 				intro: 'Opciones para:<br> - Visualizar Registro<br> - Editar Registro<br> - Borrar Registro'}
 			]
 		})
 		intro.start()
-	},
+	},<% 
+ if (columns) { %>
 	list_columns: function() {
-		ga('send', 'event', '<%= model%>', '<%= model%>_list_columns')
+<% if (ga) {%>		ga('send', 'event', '<%= model%>', '<%= model%>_list_columns')<% }%>
 		this.$.<%= model%>_list_columns.open_list_columns(this.column)
-	},
+	},<%
+	} %>
 	update_columns: function() {
 		var columns = {}
 		this.column = this.$.<%= model%>_list_columns.column
@@ -16005,7 +16037,7 @@ Polymer({
 	filter: function() {
 		var stored_filter = {}
  		var name = this.$.filter.value
-		ga('send', 'event', '<%= model%>', '<%= model%>_filter_by_'+name)
+<% if (ga) {%>		ga('send', 'event', '<%= model%>', '<%= model%>_filter_by_'+name)<% }%>
 		stored_filter.filter = name
 		var op = this.$.op.value
 		stored_filter.op = op 
@@ -16060,7 +16092,7 @@ Polymer({
 	},
 	sort_by_field: function(e) {
 		var field = e.target.classList[0].replace('col_','')
-		ga('send', 'event', '<%= model%>', '<%= model%>_sort_by_'+field)
+<% if (ga) {%>		ga('send', 'event', '<%= model%>', '<%= model%>_sort_by_'+field)<% }%>
 		this.hide_sort_icons()
 		this.sort(field)
 		if (this.cur_sort.isdesc)
@@ -16148,13 +16180,16 @@ Polymer({
 	},
 	menu: function() {
 		
-	},
+	},<%
+  if (print) { %>
 	print: function() {
-		ga('send', 'event', '<%= model%>', '<%= model%>_print')
+<% if (ga) {%>		ga('send', 'event', '<%= model%>', '<%= model%>_print')<% }%>
 		window.print()
-	},
+	},<% 
+  }
+  if (download) { %>
 	download: function() {
-		ga('send', 'event', '<%= model%>', '<%= model%>_download')
+<% if (ga) {%>		ga('send', 'event', '<%= model%>', '<%= model%>_download')<% }%>
 		var x2js = new X2JS();
 		var datoi = this.data.data
 		for (i=0; i<datoi.length; i++)
@@ -16169,43 +16204,52 @@ Polymer({
 		xml_data = "<x>"+xml_data+"</x>"
 		this.download_data = 'data:application/xml;charset=utf-8,'+xml_data
 		this.$.link.click()		
-	},
+	},<%
+  } %>
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
 		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+20+"px"
 		this.$.menu_dialog.style.left = "30px"
 		this.$.menu_dialog.open()
-	},
+	},<%
+ if (display) {%>
   display: function(e) {
-	ga('send', 'event', '<%= model%>', '<%= model%>_display')
+<% if (ga) {%>	ga('send', 'event', '<%= model%>', '<%= model%>_display')<% }%>
 	this.$.menu_dialog.close()
 	var filtro = {"<%= key.name %>": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_display_dialog.open_display_dialog(item)
-  },
+  },<%
+ }
+ if (edit) {%>
   edit: function(e) {
-	ga('send', 'event', '<%= model%>', '<%= model%>_edit')
+<% if (ga) {%>	ga('send', 'event', '<%= model%>', '<%= model%>_edit')<% }%>
 	this.$.menu_dialog.close()
 	var filtro = {"<%= key.name %>": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_edit_dialog.open_dialog(item)
-  },
+  },<%
+ }
+ if (delete_reg) {%>
   delete: function(e) {
-	ga('send', 'event', '<%= model%>', '<%= model%>_delete')
+<% if (ga) {%>	ga('send', 'event', '<%= model%>', '<%= model%>_delete')<% }%>
 	this.$.menu_dialog.close()
 	var filtro = {"<%= key.name %>": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.<%= model%>_delete_dialog.open_delete_dialog(item)
-  },
+  },<%
+ }
+ if (new_reg) { %>
   new: function() {
-	ga('send', 'event', '<%= model%>', '<%= model%>_new')
+<% if (ga) {%>	ga('send', 'event', '<%= model%>', '<%= model%>_new')<% }%>
 	this.$.<%= model%>_new_dialog.open_dialog()
-  },
+  },<%
+ }%>
   reload: function() {
 	this.$.ajax.generateRequest()
   },
   load_data: function() {
-	ga('send', 'event', '<%= model%>', '<%= model%>_load_data')
+<% if (ga) {%>	ga('send', 'event', '<%= model%>', '<%= model%>_load_data')<% }%>
 	while(this.data.data[0]) {
         this.data.remove(this.data.data[0])
       }
@@ -16234,7 +16278,7 @@ Polymer({
 	this.filter()
   },
   ajax_error: function() {
-	ga('send', 'event', '<%= model%>', '<%= model%>_ajax_error')
+<% if (ga) {%>	ga('send', 'event', '<%= model%>', '<%= model%>_ajax_error')<% }%>
 	console.log(this.$.ajax.lastError)
 	alert("<%= srv(crud, "Error Processing Request: ")%>", this.$.ajax.lastError)
   }

@@ -364,7 +364,7 @@ function generate_model_select(model, display, key, description, crud) {
 	//else  console.log('File '+path+' already Exist')
 }
 
-function generate_list_page(keys, key, title, crud, card_width, dialog_width) {
+function generate_list_page(keys, key, title, crud, card_width, dialog_width, btn_left, columns, download, print, new_reg, edit, delete_reg, display, ga) {
 	var LIST_TEMPLATE = fs.readFileSync('./templates/crud5/list.template', 'utf8');
 	var compiled_List = _.template(LIST_TEMPLATE)
 	
@@ -416,7 +416,7 @@ function generate_list_page(keys, key, title, crud, card_width, dialog_width) {
 	
 	var TOPBAR = fs.readFileSync('./templates/crud5/topBar.template', 'utf8');
 	
-	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'select_forms': SELECT_FORMS, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud, 'card_width': card_width, 'dialog_width': dialog_width})
+	var list_template = compiled_List({ 'title': title , 'attrs': attrs, 'model': model, 'import_form': IMPORT_FORM, 'topBar': TOPBAR, 'columns_form': COLUMNS_FORM, 'new_form': NEW_FORM, 'display_form': DISPLAY_FORM, 'edit_form': EDIT_FORM, 'delete_form': DELETE_FORM, 'select_forms': SELECT_FORMS, 'key': key, 'keys': keys, 'jsondata': jsondata, 'crud': crud, 'card_width': card_width, 'dialog_width': dialog_width, 'btn_left': btn_left, 'columns': columns, 'download': download, 'print': print, 'new_reg': new_reg, 'edit': edit, 'delete_reg': delete_reg, 'display': display, 'ga': ga})
 	
 	//list_template = list_template.replace('>%', '<%')
 	//list_template = list_template.replace('%<', '%>')
@@ -446,6 +446,15 @@ exports.generate = function(crud) {
 	var title = model
 	var card_width = '80em'
 	var dialog_width = '30em'
+	var btn_left = '80px'
+	var columns = true
+	var print = true
+	var download = true
+	var new_reg = true 
+	var edit = true
+	var delete_reg = true
+	var display = true
+	var ga = false  // Google Analytics
 	
 	if (keys.indexOf('_title') >= 0)  
 		title = jsondata._title
@@ -453,7 +462,24 @@ exports.generate = function(crud) {
 		card_width = jsondata._card_width
 	if (keys.indexOf('_dialog_width') >= 0)
 		dialog_width = jsondata._dialog_width
-	
+	if (keys.indexOf('_btn_left') >= 0)
+		btn_left = jsondata._btn_left
+	if (keys.indexOf('_columns') >= 0 & jsondata._columns == 'disabled')
+		columns = false
+	if (keys.indexOf('_print') >= 0 & jsondata._print == 'disabled')
+		print = false
+	if (keys.indexOf('_download') >= 0 & jsondata._download == 'disabled')
+		download = false
+	if (keys.indexOf('_new') >= 0 & jsondata._new == 'disabled')
+		new_reg = false
+	if (keys.indexOf('_edit') >= 0 & jsondata._edit == 'disabled')
+		edit = false
+	if (keys.indexOf('_delete') >= 0 & jsondata._delete == 'disabled')
+		delete_reg = false
+	if (keys.indexOf('_display') >= 0 & jsondata._display == 'disabled')
+		display = false
+	if (keys.indexOf('_ga') >= 0 & jsondata._ga == 'enabled')
+		ga = true
 	// Key
 	var key= {}
 	for (k=0; k < keys.length; k++ ) {
@@ -486,18 +512,23 @@ exports.generate = function(crud) {
 	generate_language(model, keys, jsondata)
 	generate_app_config()
 	generate_app_util()
-	generate_new_form(keys, key, title, crud)
-	generate_display_form(keys, key, title, crud)
-	generate_delete_form(keys, key, title, crud)	
-	generate_edit_form(keys, key, title, crud)
+	NEW_FORM = ''
+	DISPLAY_FORM = ''
+	DELETE_FORM = ''
+	EDIT_FORM = ''
+	COLUMNS_FORM = ''
+	if (new_reg) generate_new_form(keys, key, title, crud)
+	if (display) generate_display_form(keys, key, title, crud)
+	if (delete_reg) generate_delete_form(keys, key, title, crud)	
+	if (edit) generate_edit_form(keys, key, title, crud)
 	
-	generate_list_columns(keys, title, crud)
+	if (columns) generate_list_columns(keys, title, crud)
 	
 	SELECT_FORMS = ''
 	for (i=0; i<relation.length; i++)
 		generate_model_select(relation[i].model, relation[i].display, relation[i].key, relation[i].description, crud)
 	
-	generate_list_page(keys, key, title, crud, card_width, dialog_width)
+	generate_list_page(keys, key, title, crud, card_width, dialog_width, btn_left, columns, download, print, new_reg, edit, delete_reg, display, ga)
 	
 	// resume-bar ??
 }

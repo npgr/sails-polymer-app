@@ -13,7 +13,16 @@ module.exports = {
   attributes: {
 	//_title: 'Activity',
 	//_dialog_width: '36em',
-	//_card_width: '86em',
+	//_card_width: '86em',  
+	//_btn_left: '80px', 		
+	//_columns: 'enabled', 	
+	//_new: 'enabled',
+	//_edit: 'enabled',
+	//_display: 'enabled',
+	//_delete: 'enabled',
+	//_print: 'enabled',
+	//_download: 'enabled',
+	//_ga: 'enabled',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -36,20 +45,24 @@ module.exports = {
 	},
 	completed: {
 		//description: 'Completed',
+		//hide: true,
 		type: 'integer',
 		max: 100,
 		min: 0
 	},
 	ticket: {
 		//description: 'Ticket',
+		//hide: true,
 		type: "string"
 	},
 	previous: {
 		//description: 'Previous',
+		//hide: true,
 		type: 'integer'
 	},
 	order: {
 		//description: 'Order',
+		//hide: true,
 		type: "integer"
 	},
 	type: {
@@ -74,12 +87,14 @@ module.exports = {
 	},
 	prioridad: {
 		//description: 'Priority',
+		//hide: true,
 		type: "string",
 		enum: ["b", "m", "a", "c"]
 		//,enumdes: ["Low", "Medium", "Hight", "Critic"]
 	},
 	requester: {
 		//description: 'Requester',
+		//hide: true,
 		type: "string"
 	},
 	requestd: {
@@ -88,14 +103,17 @@ module.exports = {
 	},
 	start: {
 		//description: 'Start',
+		//hide: true,
 		type: "date"
 	},
 	time: {
 		//description: 'time',
+		//hide: true,
 		type: "string"
 	},
 	fcompromiso: {
 		//description: 'Commit',
+		//hide: true,
 		type: "date"
 	},
 	end: {
@@ -105,6 +123,7 @@ module.exports = {
 	},
 	responsable: {
 		//description: 'Responsible',
+		//hide: true,
 		type: "string"
 	},
 	ultseguimiento: {
