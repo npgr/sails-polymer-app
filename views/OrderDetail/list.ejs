@@ -16301,6 +16301,7 @@ paper-menu {
 
 <dom-module id="OrderDetail-list">
 <template>
+<!--USER POINT - List Style-->
 <style>
 	#customer {
 		width: 200px;
@@ -16327,6 +16328,7 @@ paper-menu {
 		margin-left: 7px;
 	}
 </style>
+<!--END USER POINT - List Style-->
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<OrderDetail-list-columns id="OrderDetail_list_columns" on-close="update_columns"></OrderDetail-list-columns>
 	<OrderDetail-new id="OrderDetail_new_dialog" on-close="reload"></OrderDetail-new>
@@ -16491,11 +16493,13 @@ Polymer({
 		_model = {}
 		this.input_type()
 		//this.set_filter() //and columns & sort from localStorage
+//USER POINT - List End Ready
 		this.$.filter.value = "order"
 		this.$.op.value = "$eq"
 		this.$.filtro.value = this.order.id
 		this.filter()
 		this.show_columns()
+//END USER POINT - List End Ready
 	},
 	list_columns: function() {
 		this.$.OrderDetail_list_columns.open_list_columns(this.column)
