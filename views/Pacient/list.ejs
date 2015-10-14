@@ -16437,9 +16437,10 @@ paper-menu {
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= lng('Display')%></paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= lng('Edit')%></paper-item>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= lng('Delete')%></paper-item>
+<!--USER POINT - List Detail Menu-->
 			<paper-item on-click="pacientcard" style="min-height:20px;line-height:35px;"><%= lng('Card')%></paper-item>
 			<paper-item on-click="pacienthistory" style="min-height:20px;line-height:35px;"><%= lng('History')%></paper-item>
-			
+<!--END USER POINT - List Detail Menu-->			
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
@@ -16895,7 +16896,31 @@ Polymer({
 	var item = this.data.find(filtro)[0]
 	this.$.Pacient_delete_dialog.open_delete_dialog(item)
   },
-  pacientcard: function() {
+  new: function() {
+	this.$.Pacient_new_dialog.open_dialog()
+  },
+  reload: function() {
+	this.$.ajax.generateRequest()
+  },
+  load_data: function() {
+	while(this.data.data[0]) {
+        this.data.remove(this.data.data[0])
+      }
+	for (i=0; i< this.$.ajax.lastResponse.length; i++)
+	{
+	  if (this.$.ajax.lastResponse[i].born)
+		this.$.ajax.lastResponse[i].born = this.$.ajax.lastResponse[i].born.substring(0,10)
+		this.$.ajax.lastResponse[i].gender_des= this.enums.gender[this.$.ajax.lastResponse[i].gender]	
+		this.data.insert(this.$.ajax.lastResponse[i])
+	}
+	this.filter()
+  },
+  ajax_error: function() {
+	console.log(this.$.ajax.lastError)
+	alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+  }
+//USER POINT - List Functions
+  ,pacientcard: function() {
 	this.$.menu_dialog.close()
 	var rs = this.data.find({id: this.key})[0]
 	var post_data = {id: this.key, name: rs.name}
@@ -16930,30 +16955,8 @@ Polymer({
     }
     document.body.appendChild(form);
     form.submit();
-  },
-  new: function() {
-	this.$.Pacient_new_dialog.open_dialog()
-  },
-  reload: function() {
-	this.$.ajax.generateRequest()
-  },
-  load_data: function() {
-	while(this.data.data[0]) {
-        this.data.remove(this.data.data[0])
-      }
-	for (i=0; i< this.$.ajax.lastResponse.length; i++)
-	{
-	  if (this.$.ajax.lastResponse[i].born)
-		this.$.ajax.lastResponse[i].born = this.$.ajax.lastResponse[i].born.substring(0,10)
-		this.$.ajax.lastResponse[i].gender_des= this.enums.gender[this.$.ajax.lastResponse[i].gender]	
-		this.data.insert(this.$.ajax.lastResponse[i])
-	}
-	this.filter()
-  },
-  ajax_error: function() {
-	console.log(this.$.ajax.lastError)
-	alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
   }
+//END USER POINT - List Functions
 });
 </script>
 </dom-module>
