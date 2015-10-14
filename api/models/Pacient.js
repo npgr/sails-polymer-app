@@ -10,6 +10,7 @@ module.exports = {
 	migrate: 'alter',
 
   attributes: {
+	//_ga: 'enabled',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -55,14 +56,17 @@ module.exports = {
 	},
 	phone: {
 		//description: 'Phone(s)',
+		//hide: true,
 		type: 'string'
 	},
 	email: {
 		//description: 'email',
+		//hide: true,
 		type: 'string'
 	},
 	insurance: {
 		//description: 'Insurance',
+		//hide: true,
 		type: 'string'
 	},
 	Notes: {
