@@ -17002,9 +17002,9 @@ Polymer({
   ajax_error: function() {
 	console.log(this.$.ajax.lastError)
 	alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
-  },
+  }
 //USER POINT - List Functions
-  detail: function(e) {
+  ,detail: function(e) {
 	this.$.menu_dialog.close()
 	var rs = this.data.find({id: this.key})[0]
 	var post_data = {id: this.key, customer: rs.customer.name, amount: rs.amount, status: rs.status_des}
