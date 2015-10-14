@@ -16337,6 +16337,7 @@ paper-menu {
 	<OrderDetail-delete id="OrderDetail_delete_dialog" on-close="reload"></OrderDetail-delete>
 	<Product-select id="Product_select_dialog" on-item_selected="set_select_field"></Product-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Order Detail"))%></div>-->
+<!--USER POINT - List Header-->
 	<div class="header_fields">
 		<%= lng('Customer')%> <input id="customer" value="{{order.customer}}" disabled/> 
 		<%= lng('Amount')%> <input id="amount" value="{{order.amount}}" disabled/> 
@@ -16344,6 +16345,7 @@ paper-menu {
 		<%= lng('Units')%> <input id="units" value="{{order.units}}" disabled/>
 		<%= lng('Order Status')%> <input id="status" value="{{order.status}}" disabled/>
 	</div>
+<!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type" disabled>  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Order')%>
 		<option value="order"><%= lng('Order')%></option>
