@@ -16382,6 +16382,10 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+		this.order = <%- order %>
+		this.$.ajax.url = config_server() + "OrderDetail?order="+this.order.id //change  !!!!!
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16389,8 +16393,6 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.order = <%- order %>
-		this.$.ajax.url = config_server() + "OrderDetail?order="+this.order.id //change  !!!!!
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: false},
