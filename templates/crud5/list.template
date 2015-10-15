@@ -1,4 +1,4 @@
-<!-- list template: version 6.32 -->
+<!-- list template: version 6.33 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -15819,6 +15819,7 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+<%= user_point.list_start_ready %>
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!

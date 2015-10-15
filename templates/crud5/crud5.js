@@ -375,6 +375,8 @@ function get_user_points()
 					  '<!--END USER POINT - List Header-->',
 		'list_detail_menu': '<!--USER POINT - List Detail Menu-->\n'+
 							'<!--END USER POINT - List Detail Menu-->',
+		'list_start_ready': '//USER POINT - List Start Ready\n'+
+						  '//END USER POINT - List Start Ready',
 		'list_end_ready': '//USER POINT - List End Ready\n'+
 						  '//END USER POINT - List End Ready',
 		'list_functions': '//USER POINT - List Functions\n'+
@@ -400,6 +402,11 @@ function get_user_points()
 		if (end != -1)
 			user_point.list_detail_menu = list_file.substring(start, end+40)
 
+		start = list_file.indexOf("//USER POINT - List Start Ready")
+		end = list_file.indexOf("//END USER POINT - List Start Ready")
+		if (end != -1)
+			user_point.list_start_ready = list_file.substring(start, end+35)
+			
 		start = list_file.indexOf("//USER POINT - List End Ready")
 		end = list_file.indexOf("//END USER POINT - List End Ready")
 		if (end != -1)
