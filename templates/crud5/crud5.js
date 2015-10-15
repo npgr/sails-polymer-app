@@ -116,6 +116,8 @@ function set_jsondata_lines(crud, keys) {
 				line_c = '<textarea id="'+keys[i]+'" name="'+keys[i]+'" rows="'+jsondata[keys[i]].textarea_rows+'" cols="'+jsondata[keys[i]].textarea_cols+'"'
 			 else
 				line_c = '<input id="'+keys[i]+'" type="'+ type +'" name="'+keys[i]+'"'
+			if (jsondata[keys[i]].type == "float")
+				line_c = '<input id="'+keys[i]+'" type="number" step="0.01" name="'+keys[i]+'"'
 			line_r = line_c
 			line_u = line_c
 			line_d = line_c
@@ -367,8 +369,14 @@ function generate_model_select(model, display, key, description, crud) {
 function get_user_points()
 {
 	user_point = {
+		'list_style': '<!--USER POINT - List Style-->\n'+
+					  '<!--END USER POINT - List Style-->',
+		'list_header': '<!--USER POINT - List Header-->\n'+
+					  '<!--END USER POINT - List Header-->',
 		'list_detail_menu': '<!--USER POINT - List Detail Menu-->\n'+
-							'<!--END USER POINT - List Detail Menu-->', 
+							'<!--END USER POINT - List Detail Menu-->',
+		'list_end_ready': '//USER POINT - List End Ready\n'+
+						  '//END USER POINT - List End Ready',
 		'list_functions': '//USER POINT - List Functions\n'+
 						  '//END USER POINT - List Functions'
 	}
@@ -377,15 +385,28 @@ function get_user_points()
 	{
 		var list_file = fs.readFileSync('./views/'+model+'/list.ejs', 'utf8');
 		
+		var start = list_file.indexOf("<!--USER POINT - List Style-->")
+		var end = list_file.indexOf("<!--END USER POINT - List Style-->")		
+		if (end != -1)
+			user_point.list_style = list_file.substring(start, end+34)
+			
+		var start = list_file.indexOf("<!--USER POINT - List Header-->")
+		var end = list_file.indexOf("<!--END USER POINT - List Header-->")		
+		if (end != -1)
+			user_point.list_header = list_file.substring(start, end+35)
+		
 		var start = list_file.indexOf("<!--USER POINT - List Detail Menu-->")
-		var end = list_file.indexOf("<!--END USER POINT - List Detail Menu-->")
-				
+		var end = list_file.indexOf("<!--END USER POINT - List Detail Menu-->")		
 		if (end != -1)
 			user_point.list_detail_menu = list_file.substring(start, end+40)
+
+		start = list_file.indexOf("//USER POINT - List End Ready")
+		end = list_file.indexOf("//END USER POINT - List End Ready")
+		if (end != -1)
+			user_point.list_end_ready = list_file.substring(start, end+33)
 			
 		start = list_file.indexOf("//USER POINT - List Functions")
 		end = list_file.indexOf("//END USER POINT - List Functions")
-				
 		if (end != -1)
 			user_point.list_functions = list_file.substring(start, end+33)
 	}

@@ -1,4 +1,4 @@
-<!-- list template: version 6.30 -->
+<!-- list template: version 6.32 -->
 <% if (crud == "crud6") { 
 %> >% 
  function lng(word) {
@@ -15665,6 +15665,7 @@ paper-menu {
 
 <dom-module id="<%= model%>-list">
 <template>
+<%= user_point.list_style %>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<<%= model%>-list-columns id="<%= model%>_list_columns" on-close="update_columns"></<%= model%>-list-columns>
 	<<%= model%>-new id="<%= model%>_new_dialog" on-close="reload"></<%= model%>-new>
@@ -15680,6 +15681,7 @@ paper-menu {
   } else {%>
 	<div class="card_title">List <%= title%></div><%
   } %>
+<%= user_point.list_header %>
 	<select id="filter" on-change="input_type"><% 
 		for (i=0; i < keys.length; i++) { 
 			if (jsondata[keys[i]].line_r) {
@@ -15860,6 +15862,7 @@ Polymer({
 				intro.start()
 			}, 600);	
 		}, false);*/
+<%= user_point.list_end_ready %>
 	},
 	help: function() {
 <% if (ga) {%>		ga('send', 'event', '<%= model%>', '<%= model%>_help')<% }%>
