@@ -1,4 +1,4 @@
-<!-- list template: version 6.30 -->
+<!-- list template: version 6.32 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -16740,6 +16740,8 @@ paper-menu {
 
 <dom-module id="Task-list">
 <template>
+<!--USER POINT - List Style-->
+<!--END USER POINT - List Style-->
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<Task-list-columns id="Task_list_columns" on-close="update_columns"></Task-list-columns>
 	<Task-new id="Task_new_dialog" on-close="reload"></Task-new>
@@ -16748,6 +16750,8 @@ paper-menu {
 	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
 	<Task-select id="Task_select_dialog" on-item_selected="set_select_field"></Task-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Activity"))%></div>-->
+<!--USER POINT - List Header-->
+<!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
 		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Completed')%>
@@ -17013,6 +17017,8 @@ Polymer({
 				intro.start()
 			}, 600);	
 		}, false);*/
+//USER POINT - List End Ready
+//END USER POINT - List End Ready
 	},
 	help: function() {
 		ga('send', 'event', 'Task', 'Task_help')
