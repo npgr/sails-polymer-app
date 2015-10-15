@@ -11,6 +11,9 @@ module.exports = {
 
   attributes: {
 	//_title: 'Model',
+	//_card_width: '60em',
+	//_btn_left: '30px',
+	//_display: 'disabled',
 	id: {
 		//description: 'Id',
 		//hide: true,
@@ -29,30 +32,6 @@ module.exports = {
 		//description: 'Title',
 		type: 'string',
 		required: true
-	},
-	primaryKey: {
-		//description: 'Primary Key',
-		//key: id,
-		//key_type: 'integer',
-		//display: 'attribute',
-		//type: 'string',
-		model: 'Attribute'
-	},
-	autoIncrement: {
-		//description: 'AutoIncrement',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
-	},
-	unique: {
-		//description: 'Unique',
-		type: 'string'
-	},
-	menu: {
-		//description: 'Menu',
-		type: 'boolean',
-		enum: [true, false]
-		//,enumdes: ['Yes', 'No']
 	}
 //End Attributes
   }
@@ -64,19 +43,23 @@ module.exports = {
 		}
 		//res.redirect("<%= model%>/list")
 	}
-	var functionx = {model: values.id, name:'list',type:'list', enable:true, width:300, width_unit:'px'}
+	var functionx = {model: values.id, name:'list',type:'list', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
-	functionx = {model: values.id, name: values.name+'-new',type:'new', enable:true, width:300, width_unit:'px'}
+	functionx = {model: values.id, name: values.name+'-new',type:'new', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
-	functionx = {model: values.id, name: values.name+'-display',type:'display', enable:true, width:300, width_unit:'px'}
+	functionx = {model: values.id, name: values.name+'-display',type:'display', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
-	functionx = {model: values.id, name: values.name+'-edit',type:'edit', enable:true, width:300, width_unit:'px'}
+	functionx = {model: values.id, name: values.name+'-edit',type:'edit', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
-	functionx = {model: values.id, name: values.name+'-delete',type:'delete', enable:true, width:300, width_unit:'px'}
+	functionx = {model: values.id, name: values.name+'-delete',type:'delete', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
-	functionx = {model: values.id, name: values.name+'-columns',type:'columns', enable:true, width:300, width_unit:'px'}
+	functionx = {model: values.id, name: values.name+'-columns',type:'columns', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
-	functionx = {model: values.id, name: values.name+'-download',type:'download', enable:true, width:300, width_unit:'px'}
+	functionx = {model: values.id, name: values.name+'-download',type:'download', enable:true, width:'300px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-print',type:'print', enable:true, width:'300px'}
+	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, name: values.name+'-Google_Analytics',type:'ga', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
 	next()
   }

@@ -30,6 +30,7 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
+		//hide: true,
 		model: 'Model'
 	},
 	attribute: {
@@ -90,11 +91,13 @@ module.exports = {
 	top_label: {
 		//description: 'Top Label',
 		//hide: true,
+		//hide: true,
 		type: 'string',
 		required: true
 	},
 	left_label: {
 		//description: 'Left Label',
+		//hide: true,
 		//hide: true,
 		type: 'string',
 		required: true
@@ -108,30 +111,35 @@ module.exports = {
 	},
 	list: {
 		//description: 'List',
+		//hide: true,
 		type: 'boolean',
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
 	},
 	display: {
 		//description: 'Display',
+		//hide: true,
 		type: 'string',
 		enum: ['s', 'h']
 		//,enumdes: ['Show', 'Hide']
 	},
 	create: {
 		//description: 'Create',
+		//hide: true,
 		type: 'string',
 		enum: ['c', 'r', 'h']
 		//,enumdes: ['Create', 'Readonly', 'Hide']
 	},
 	update: {
 		//description: 'Update',
+		//hide: true,
 		type: 'string',
 		enum: ['u', 'r', 'h']
 		//,enumdes: ['Update', 'Readonly', 'Hide']
 	},
 	delete: {
 		//description: 'Delete',
+		//hide: true,
 		type: 'string',
 		enum: ['s', 'h']
 		//,enumdes: ['Show', 'Hide']

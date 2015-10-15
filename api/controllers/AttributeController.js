@@ -15,6 +15,17 @@ module.exports = {
 					else res.json({ "exist": true})
 			})*/
 		res.json({ "exist": false})
+	},
+	list : function (req, res) {
+		//Attribute.find()
+		//	.exec(function(err, data){
+				res.locals.resources = req.session.resources
+				res.locals.user = {user: req.session.user, name: req.session.username}
+		//		res.locals.data = JSON.stringify(data)
+				res.locals.data = []
+				res.locals.model = JSON.stringify(req.body)
+				res.view("Attribute/list")
+		//	})
 	}
 	
 };

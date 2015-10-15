@@ -7,8 +7,12 @@
 
 module.exports = {
 	//migrate: 'alter',
+	
   attributes: {
 	//_title: 'Funcion',
+	//_delete: 'disabled',
+	//_new: 'disabled',
+	//_display: 'disabled',
 	id: {
 		//description: 'Id',
 		//hide: true,
@@ -34,8 +38,8 @@ module.exports = {
 		//description: 'Type',
 		type: 'string',
 		required: true,
-		enum: ['list','display','edit','new','delete','columns','select','download']
-		//,enumdes: ['List','Display','Edit','New','Delete','Columns','Select','Download']
+		enum: ['list','display','edit','new','delete','columns','select','download','print','ga']
+		//,enumdes: ['List','Display','Edit','New','Delete','Columns','Select','Download','Print','Analytics']
 	},
 	enable: {
 		//description: 'Enable',
@@ -51,15 +55,8 @@ module.exports = {
 	},
 	width: {
 		//description: 'Width',
-		type: 'integer',
-		required: true
-	},
-	width_unit: {
-		//description: 'Unit',
 		type: 'string',
-		required: true,
-		enum: ['px', 'porc', 'em']
-		//,enumdes: ['px','porc','em']
+		required: true
 	}
 //End Attributes
 	,toJSON: function () {
