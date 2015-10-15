@@ -9,7 +9,9 @@ module.exports = {
 	
 	//migrate: 'alter',
   attributes: {
-	//_title:'Order Detail',
+	//_title: 'Order Detail',
+	//_columns: 'disabled',
+	//_ga: 'enabled',
 	//_unique: ['order', 'product'],
 	id: {
 		//description: 'Id',
@@ -21,6 +23,7 @@ module.exports = {
 	},
 	order: {
 		//description: 'Order',
+		//hide: true,
 		type: 'integer',
 		required: true
 	},

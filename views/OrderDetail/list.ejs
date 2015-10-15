@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.32 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -11,13 +11,25 @@
 <head><meta charset="UTF-8">
 	<title><%= lng("%s %s",lng("List"),lng("Order Detail"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script src="/bower_components/intro.js/minified/intro.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
+	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css">
 <!-- INICIA -->
-	<script>(function () {
+	<script>
+    // Google Analytics
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', Google_Analytics_id(), {'sampleRate': 100});
+  ga('send', 'pageview');
+	
+(function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
 }
@@ -12776,7 +12788,7 @@ if (!window.Promise) {
 
 </script>
 </head>
-<body unresolved><div hidden="" by-vulcanize=""><dom-module id="paper-material" assetpath="bower_components/paper-material/">
+<body><div hidden="" by-vulcanize=""><dom-module id="paper-material" assetpath="bower_components/paper-material/">
   <style>
     :host {
       display: block;
@@ -15586,6 +15598,12 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#btn_area { 
+	margin-left: 80px;
+}
+#dialog {
+	width: 30em;
+}
 .card {
 	width: 80em;
 	top: 30px;
@@ -15771,108 +15789,7 @@ paper-menu {
 </script>
 </dom-module>
 
-<!-- list-columns: version 5.10 -->
 
-<dom-module id="OrderDetail-list-columns">
-<template>
-<style>
-	/*#dialog {
-		width: 24em;
-	}*/
-	.green {
-		background-color: green;
-		color: white;
-		height: 30px;
-	}
-	.orange {
-		color: white;
-		background-color: orange;
-		height: 30px;
-	}
-</style>
-	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-		<h2 class="card_title"><%= lng("%s %s",lng("Columns"),lng("Order Detail"))%></h2>
-			<paper-dialog-scrollable>
-			<table class="table_dialog" style="width:100%">
-			<tr class="hide">
-				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
-				<td><div id="id" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="order"><%= lng('Order')%></label></td>
-				<td><div id="order" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="product_name"><%= lng('Product')%></label></td>
-				<td><div id="product_name" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="quantity"><%= lng('Quantity')%></label></td>
-				<td><div id="quantity" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
-				<td><div id="price" on-click="change_field"></div></td>
-			</tr>
-			<tr>
-				<td><label class="left_label" for="discount"><%= lng('Discount')%></label></td>
-				<td><div id="discount" on-click="change_field"></div></td>
-			</tr>
-			</table>
-			</paper-dialog-scrollable>
-		<div class="buttons">
-			<div class="card_line">
-				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
-				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
-			</div>
-		</div>
-	</paper-dialog>
-</template>
-<script>
-	Polymer({
-		is: "OrderDetail-list-columns",
-		properties: {
-			//updated: false,
-			//column: {}
-		},
-		open_list_columns: function(column) {
-			this.updated= false,
-			this.column= column
-			this.show_field("id")
-			this.show_field("order")
-			this.show_field("product_name")
-			this.show_field("quantity")
-			this.show_field("price")
-			this.show_field("discount")
-			this.$.dialog.open()
-		},
-		change_field: function(e) {
-			var field = e.toElement.id
-			this.column[field] = !this.column[field]
-			this.show_field(field)
-		},
-		show_field: function(field) {
-			if (this.column[field])
-			{  
-				this.$[field].innerHTML = "<%= lng('Show')%>"
-				this.$[field].classList.remove("orange")
-				this.$[field].classList.add("green")
-			}
-			else
-			{
-				this.$[field].innerHTML = "<%= lng('Hide')%>"
-				this.$[field].classList.remove("green")
-				this.$[field].classList.add("orange")
-			}
-		},
-		submit_form: function() {
-			this.updated = true
-			this.$.dialog.close()
-			this.fire('close')
-		}
-	})
-</script>
-</dom-module>
 
 <!-- new-form: version 5.10 -->
 
@@ -15904,11 +15821,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
-				<td><input id="price" type="float" name="price"></td>
+				<td><input id="price" type="number" step="0.01" name="price"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="discount"><%= lng('Discount')%></label></td>
-				<td><input id="discount" type="float" name="discount"></td>
+				<td><input id="discount" type="number" step="0.01" name="discount"></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16024,11 +15941,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
-				<td><input id="price" type="float" name="price" value="{{item.price}}" disabled></td>
+				<td><input id="price" type="number" step="0.01" name="price" value="{{item.price}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="discount"><%= lng('Discount')%></label></td>
-				<td><input id="discount" type="float" name="discount" value="{{item.discount}}" disabled></td>
+				<td><input id="discount" type="number" step="0.01" name="discount" value="{{item.discount}}" disabled></td>
 			</tr>
 			</table>
 		  </paper-dialog-scrollable>
@@ -16086,7 +16003,7 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="discount"><%= lng('Discount')%></label></td>
-				<td><input id="discount" type="float" name="discount" value="{{item.discount}}"></td>
+				<td><input id="discount" type="number" step="0.01" name="discount" value="{{item.discount}}"></td>
 			</tr>
 			</table>
 			<div class="buttons">
@@ -16178,11 +16095,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="price"><%= lng('Price')%></label></td>
-				<td><input id="price" type="float" name="price" value="{{item.price}}" disabled></td>
+				<td><input id="price" type="number" step="0.01" name="price" value="{{item.price}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="discount"><%= lng('Discount')%></label></td>
-				<td><input id="discount" type="float" name="discount" value="{{item.discount}}" disabled></td>
+				<td><input id="discount" type="number" step="0.01" name="discount" value="{{item.discount}}" disabled></td>
 			</tr>
 			</table>
 		<div class="buttons">
@@ -16373,16 +16290,16 @@ paper-menu {
 	</select>
 	<paper-button class="btn" on-click="filter" raised><%= lng('Find')%></paper-button>
 	<strong id="total">{{regs}}</strong>
-	<div class="card_buttons">
-		<paper-fab mini on-click="new" icon="add"></paper-fab>
-		<paper-fab mini on-click="download" icon="file-download"></paper-fab>
-		<!--<paper-fab mini on-click="menu" icon="list"></paper-fab>-->
-		<paper-fab mini on-click="print" icon="print"></paper-fab>
+	<div id="btn_area">
+		<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+		<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
+		<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
+		<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
+		<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
 	</div>
+	<a href="{{download_data}}" id="link" class="hide" download="Order Detail.xml">Download Data</a>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
-		<!--<option value="id"><%= lng('Id')%></option>
-		<option value="order"><%= lng('Order')%></option>-->
 		<option value="product_name"><%= lng('Product')%></option>
 		<option value="quantity"><%= lng('Quantity')%></option>
 		<option value="price"><%= lng('Price')%></option>
@@ -16401,31 +16318,31 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	
-	<a href="{{download_data}}" id="link" class="hide" download="Order Detail.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= lng('Display')%></paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= lng('Edit')%></paper-item>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= lng('Delete')%></paper-item>
+<!--USER POINT - List Detail Menu-->
+<!--END USER POINT - List Detail Menu-->
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button icon="settings"></paper-icon-button></th>
-		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
+		<th id="th_ops" class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th class="col_id" on-click="sort_by_field"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_order" on-click="sort_order"><%= lng('Order')%><div id="order_sort_d" class="hide">
+		<th class="col_order" on-click="sort_by_field"><%= lng('Order')%><div id="order_sort_d" class="hide">
 			<iron-icon id="order_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_product_name" on-click="sort_product_name"><%= lng('Product')%><div id="product_name_sort_d" class="hide">
+		<th class="col_product_name" on-click="sort_by_field"><%= lng('Product')%><div id="product_name_sort_d" class="hide">
 			<iron-icon id="product_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_quantity" on-click="sort_quantity"><%= lng('Quantity')%><div id="quantity_sort_d" class="hide">
+		<th class="col_quantity" on-click="sort_by_field"><%= lng('Quantity')%><div id="quantity_sort_d" class="hide">
 			<iron-icon id="quantity_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_price" on-click="sort_price" type="number"><%= lng('Price')%><div id="price_sort_d" class="hide">
+		<th class="col_price" on-click="sort_by_field"><%= lng('Price')%><div id="price_sort_d" class="hide">
 			<iron-icon id="price_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_discount" on-click="sort_discount"><%= lng('Discount')%><div id="discount_sort_d" class="hide">
+		<th class="col_discount" on-click="sort_by_field"><%= lng('Discount')%><div id="discount_sort_d" class="hide">
 			<iron-icon id="discount_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
@@ -16443,7 +16360,7 @@ paper-menu {
 	<tbody>
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
-		<td class="ops">
+		<td id="td_ops" class="ops">
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
@@ -16495,6 +16412,19 @@ Polymer({
 		_model = {}
 		this.input_type()
 		//this.set_filter() //and columns & sort from localStorage
+		var intro = introJs()
+		intro.setOptions({
+			doneLabel: '<%= lng('Exit')%>',
+			steps: [
+				{ element: '#btn_help',
+				intro: 'Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'}],
+			showStepNumbers:false
+		})
+		/*document.addEventListener('DOMContentLoaded', function() {
+			setTimeout(function(){
+				intro.start()
+			}, 600);	
+		}, false);*/
 //USER POINT - List End Ready
 		this.$.filter.value = "order"
 		this.$.op.value = "$eq"
@@ -16503,8 +16433,39 @@ Polymer({
 		this.show_columns()
 //END USER POINT - List End Ready
 	},
-	list_columns: function() {
-		this.$.OrderDetail_list_columns.open_list_columns(this.column)
+	help: function() {
+		ga('send', 'event', 'OrderDetail', 'OrderDetail_help')
+		var intro = introJs()
+		
+		intro.setOptions({ 
+			skipLabel: '<%= lng('Exit')%>', 
+			nextLabel: '<%= lng('Next')%>', 
+			prevLabel: '<%= lng('Previous')%>',
+			doneLabel: '<%= lng('Exit')%>',
+			showStepNumbers:false,
+			steps: [
+				{ element: '#filter',
+				intro: 'Puede seleccionar cualquier campo como filtro de la lista'},
+				{ element: '#op',
+				intro: 'operación de comparación'},
+				{ element: '#filtro',
+				intro: 'valor de comparación'},
+				{ element: '#logic',
+				intro: 'Se puede agregar un segundo filtro'},
+				{ element: '#btn_add',
+				intro: 'Botón para crear nuevo registro'},
+				{ element: '#btn_down',
+				intro: 'Boton para descargar archivo de datos, el cual puede ser leido en Excel'},
+				{ element: '#btn_print',
+				intro: 'Botón de Impresión, se puede exportar a pdf'},
+				{element: '#data_table',
+				intro: 'Lista de registros filtrados',
+				position: 'top'},
+				{element: '#td_ops',
+				intro: 'Opciones para:<br> - Visualizar Registro<br> - Editar Registro<br> - Borrar Registro'}
+			]
+		})
+		intro.start()
 	},
 	update_columns: function() {
 		var columns = {}
@@ -16631,6 +16592,7 @@ Polymer({
 	filter: function() {
 		var stored_filter = {}
  		var name = this.$.filter.value
+		ga('send', 'event', 'OrderDetail', 'OrderDetail_filter_by_'+name)
 		stored_filter.filter = name
 		var op = this.$.op.value
 		stored_filter.op = op 
@@ -16682,7 +16644,9 @@ Polymer({
 		this.$.price_sort_d.classList.add("hide")
 		this.$.discount_sort_d.classList.add("hide")
 	},
-	sort_by_field: function(field) {
+	sort_by_field: function(e) {
+		var field = e.target.classList[0].replace('col_','')
+		ga('send', 'event', 'OrderDetail', 'OrderDetail_sort_by_'+field)
 		this.hide_sort_icons()
 		this.sort(field)
 		if (this.cur_sort.isdesc)
@@ -16690,24 +16654,6 @@ Polymer({
 		  else
 			this.$[field+"_sort"].setAttribute("icon", "arrow-drop-up")
 		this.$[field+"_sort_d"].classList.remove("hide")	
-	},
-	sort_id: function() {
-		this.sort_by_field("id")
-	},
-	sort_order: function() {
-		this.sort_by_field("order")
-	},
-	sort_product_name: function() {
-		this.sort_by_field("product_name")
-	},
-	sort_quantity: function() {
-		this.sort_by_field("quantity")
-	},
-	sort_price: function() {
-		this.sort_by_field("price")
-	},
-	sort_discount: function() {
-		this.sort_by_field("discount")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -16790,9 +16736,11 @@ Polymer({
 		
 	},
 	print: function() {
+		ga('send', 'event', 'OrderDetail', 'OrderDetail_print')
 		window.print()
 	},
 	download: function() {
+		ga('send', 'event', 'OrderDetail', 'OrderDetail_download')
 		var x2js = new X2JS();
 		var datoi = this.data.data
 		for (i=0; i<datoi.length; i++)
@@ -16815,30 +16763,35 @@ Polymer({
 		this.$.menu_dialog.open()
 	},
   display: function(e) {
+	ga('send', 'event', 'OrderDetail', 'OrderDetail_display')
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.OrderDetail_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
+	ga('send', 'event', 'OrderDetail', 'OrderDetail_edit')
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.OrderDetail_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
+	ga('send', 'event', 'OrderDetail', 'OrderDetail_delete')
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.OrderDetail_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
+	ga('send', 'event', 'OrderDetail', 'OrderDetail_new')
 	this.$.OrderDetail_new_dialog.open_dialog(this.order.id)
   },
   reload: function() {
 	this.$.ajax.generateRequest()
   },
   load_data: function() {
+	ga('send', 'event', 'OrderDetail', 'OrderDetail_load_data')
 	while(this.data.data[0]) {
         this.data.remove(this.data.data[0])
       }
@@ -16857,9 +16810,12 @@ Polymer({
 	this.filter()
   },
   ajax_error: function() {
+	ga('send', 'event', 'OrderDetail', 'OrderDetail_ajax_error')
 	console.log(this.$.ajax.lastError)
 	alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
   }
+//USER POINT - List Functions
+//END USER POINT - List Functions
 });
 </script>
 </dom-module>
