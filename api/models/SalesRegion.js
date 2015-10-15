@@ -7,7 +7,7 @@
 
 module.exports = {
 
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
 	//_title: 'Sales Region',
 	//_card_width: '60em',

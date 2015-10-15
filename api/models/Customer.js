@@ -7,7 +7,7 @@
 
 module.exports = {
 	
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
 	//_title: 'Customer',
 	//_dialog_width: '38em',
