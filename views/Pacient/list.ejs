@@ -16973,36 +16973,14 @@ Polymer({
 	var rs = this.data.find({id: this.key})[0]
 	var post_data = {id: this.key, name: rs.name}
 	
-	this.post(config_server() + "PacientCard/list", post_data, 'post')
+	post(config_server() + "PacientCard/list", post_data, 'post')
   },
   pacienthistory: function() {
 	this.$.menu_dialog.close()
 	var rs = this.data.find({id: this.key})[0]
 	var post_data = {id: this.key, name: rs.name}
 	
-	this.post(config_server() + "PacientHistory/list", post_data, 'post')
-  },
-  post: function(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-         }
-    }
-    document.body.appendChild(form);
-    form.submit();
+	post(config_server() + "PacientHistory/list", post_data, 'post')
   }
 //END USER POINT - List Functions
 });
