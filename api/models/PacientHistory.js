@@ -7,11 +7,13 @@
 
 module.exports = {
 
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
 	//_title: 'Pacient History',
 	//_card_width: '75em',
 	//_dialog_width: '38em',
+	//_ga: 'enabled',
+	//_columns: 'disabled',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -25,6 +27,7 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
+		//hide: true,
 		model: 'Pacient',
 		required: true
 	},
