@@ -6,8 +6,12 @@
 */
 
 module.exports = {
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
+	//_card_width: '60em',
+	//_btn_left: '30px',
+	//_ga: 'enabled',
+	//_columns: 'disabled',
 	id: {
 		//description: 'Id',
 		type: "integer",
@@ -21,6 +25,7 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'name',
 		//type: 'string',
+		//hide: true,
 		model: 'Pacient',
 		required: true
 	},
