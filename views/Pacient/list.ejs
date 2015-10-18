@@ -1,4 +1,4 @@
-<!-- list template: version 6.30 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -29,6 +29,9 @@
   ga('create', Google_Analytics_id(), {'sampleRate': 100});
   ga('send', 'pageview');
 	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -16376,6 +16379,8 @@ paper-menu {
 
 <dom-module id="Pacient-list">
 <template>
+<!--USER POINT - List Style-->
+<!--END USER POINT - List Style-->
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<Pacient-list-columns id="Pacient_list_columns" on-close="update_columns"></Pacient-list-columns>
 	<Pacient-new id="Pacient_new_dialog" on-close="reload"></Pacient-new>
@@ -16383,6 +16388,8 @@ paper-menu {
 	<Pacient-edit id="Pacient_edit_dialog" on-close="reload"></Pacient-edit>
 	<Pacient-delete id="Pacient_delete_dialog" on-close="reload"></Pacient-delete>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Pacient"))%></div>-->
+<!--USER POINT - List Header-->
+<!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('History.No')%>
 		<option value="history"><%= lng('History.No')%></option>  <%= lng('Personal ID')%>
@@ -16537,6 +16544,8 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16584,6 +16593,8 @@ Polymer({
 				intro.start()
 			}, 600);	
 		}, false);*/
+//USER POINT - List End Ready
+//END USER POINT - List End Ready
 	},
 	help: function() {
 		ga('send', 'event', 'Pacient', 'Pacient_help')

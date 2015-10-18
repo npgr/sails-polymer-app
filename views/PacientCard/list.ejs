@@ -1,4 +1,4 @@
-<!-- list template: version 6.32 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -29,6 +29,9 @@
   ga('create', Google_Analytics_id(), {'sampleRate': 100});
   ga('send', 'pageview');
 	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -16327,6 +16330,9 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+		this.pacient = <%- pacient %>
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16334,7 +16340,6 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.pacient = <%- pacient %>
 		this.$.ajax.url = config_server() + "PacientCard"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
@@ -16354,6 +16359,7 @@ Polymer({
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
+		//this.input_type()
 		//this.set_filter() //and columns & sort from localStorage
 		var intro = introJs()
 		intro.setOptions({
