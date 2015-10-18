@@ -1,4 +1,4 @@
-<!-- list template: version 6.30 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -29,6 +29,9 @@
   ga('create', Google_Analytics_id(), {'sampleRate': 100});
   ga('send', 'pageview');
 	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -16144,6 +16147,8 @@ paper-menu {
 
 <dom-module id="ProductCategory-list">
 <template>
+<!--USER POINT - List Style-->
+<!--END USER POINT - List Style-->
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<ProductCategory-list-columns id="ProductCategory_list_columns" on-close="update_columns"></ProductCategory-list-columns>
 	<ProductCategory-new id="ProductCategory_new_dialog" on-close="reload"></ProductCategory-new>
@@ -16151,6 +16156,8 @@ paper-menu {
 	<ProductCategory-edit id="ProductCategory_edit_dialog" on-close="reload"></ProductCategory-edit>
 	<ProductCategory-delete id="ProductCategory_delete_dialog" on-close="reload"></ProductCategory-delete>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Product Category"))%></div>-->
+<!--USER POINT - List Header-->
+<!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Category')%>
 		<option value="name"><%= lng('Category')%></option>
@@ -16249,6 +16256,8 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16286,6 +16295,8 @@ Polymer({
 				intro.start()
 			}, 600);	
 		}, false);*/
+//USER POINT - List End Ready
+//END USER POINT - List End Ready
 	},
 	help: function() {
 		ga('send', 'event', 'ProductCategory', 'ProductCategory_help')
