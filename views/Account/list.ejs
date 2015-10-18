@@ -1,4 +1,4 @@
-<!-- list template: version 6.11 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -11,13 +11,28 @@
 <head><meta charset="UTF-8">
 	<title><%= lng("%s %s",lng("List"),lng("Account"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script src="/bower_components/intro.js/minified/intro.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
 	<link rel="stylesheet" href="/styles/app.css">
+	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css">
 <!-- INICIA -->
-	<script>(function () {
+	<script>
+    // Google Analytics
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', Google_Analytics_id(), {'sampleRate': 100});
+  ga('send', 'pageview');
+	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+(function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
 }
@@ -12776,7 +12791,7 @@ if (!window.Promise) {
 
 </script>
 </head>
-<body unresolved><div hidden="" by-vulcanize=""><dom-module id="paper-material" assetpath="bower_components/paper-material/">
+<body><div hidden="" by-vulcanize=""><dom-module id="paper-material" assetpath="bower_components/paper-material/">
   <style>
     :host {
       display: block;
@@ -15586,6 +15601,12 @@ if (!window.Promise) {
 </div>
 <!-- FINALIZA -->
 <style>
+#btn_area { 
+	margin-left: 30px;
+}
+#dialog {
+	width: 30em;
+}
 .card {
 	width: 60em;
 	top: 30px;
@@ -16150,6 +16171,8 @@ paper-menu {
 
 <dom-module id="Account-list">
 <template>
+<!--USER POINT - List Style-->
+<!--END USER POINT - List Style-->
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<Account-list-columns id="Account_list_columns" on-close="update_columns"></Account-list-columns>
 	<Account-new id="Account_new_dialog" on-close="reload"></Account-new>
@@ -16157,6 +16180,8 @@ paper-menu {
 	<Account-edit id="Account_edit_dialog" on-close="reload"></Account-edit>
 	<Account-delete id="Account_delete_dialog" on-close="reload"></Account-delete>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Account"))%></div>-->
+<!--USER POINT - List Header-->
+<!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Name')%>
 		<option value="name"><%= lng('Name')%></option>  <%= lng('Users')%>
@@ -16182,6 +16207,14 @@ paper-menu {
 	</select>
 	<paper-button class="btn" on-click="filter" raised><%= lng('Find')%></paper-button>
 	<strong id="total">{{regs}}</strong>
+	<div id="btn_area">
+		<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+		<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
+		<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
+		<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
+		<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
+	</div>
+	<a href="{{download_data}}" id="link" class="hide" download="Account.xml">Download Data</a>
 	<br>
 	<select id="filter2" class="hide" on-change="input_type2">
 		<option value="id"><%= lng('Id')%></option>
@@ -16201,28 +16234,25 @@ paper-menu {
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
 	</select>
-	<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
-	<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
-	<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>
-
-	<a href="{{download_data}}" id="link" class="hide" download="Account.xml">Download Data</a>
 
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= lng('Display')%></paper-item>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= lng('Edit')%></paper-item>
 			<paper-item on-click="delete" style="min-height:20px;line-height:35px;"><%= lng('Delete')%></paper-item>
+<!--USER POINT - List Detail Menu-->
+<!--END USER POINT - List Detail Menu-->
 		</paper-menu>
 	</paper-dialog>
 	<table id="data_table" class="table_list" style="width:100%">
 	<thead>
 	  <tr>
-		<th class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
-		<th class="col_id" on-click="sort_id"><%= lng('Id')%><div id="id_sort_d" class="hide">
+		<th id="th_ops" class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th class="col_id" on-click="sort_by_field"><%= lng('Id')%><div id="id_sort_d" class="hide">
 			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_name" on-click="sort_name"><%= lng('Name')%><div id="name_sort_d" class="hide">
+		<th class="col_name" on-click="sort_by_field"><%= lng('Name')%><div id="name_sort_d" class="hide">
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
-		<th class="col_users" on-click="sort_users"><%= lng('Users')%><div id="users_sort_d" class="hide">
+		<th class="col_users" on-click="sort_by_field"><%= lng('Users')%><div id="users_sort_d" class="hide">
 			<iron-icon id="users_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
@@ -16237,7 +16267,7 @@ paper-menu {
 	<tbody>
 	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
 	<tr>
-		<td class="ops">
+		<td id="td_ops" class="ops">
 			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
 		</td>
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
@@ -16256,6 +16286,8 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16281,8 +16313,60 @@ Polymer({
 		_model = {}
 		this.input_type()
 		this.set_filter() //and columns & sort from localStorage
+		var intro = introJs()
+		intro.setOptions({
+			doneLabel: '<%= lng('Exit')%>',
+			steps: [
+				{ element: '#btn_help',
+				intro: 'Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'}],
+			showStepNumbers:false
+		})
+		/*document.addEventListener('DOMContentLoaded', function() {
+			setTimeout(function(){
+				intro.start()
+			}, 600);	
+		}, false);*/
+//USER POINT - List End Ready
+//END USER POINT - List End Ready
+	},
+	help: function() {
+		ga('send', 'event', 'Account', 'Account_help')
+		var intro = introJs()
+		
+		intro.setOptions({ 
+			skipLabel: '<%= lng('Exit')%>', 
+			nextLabel: '<%= lng('Next')%>', 
+			prevLabel: '<%= lng('Previous')%>',
+			doneLabel: '<%= lng('Exit')%>',
+			showStepNumbers:false,
+			steps: [
+				{ element: '#filter',
+				intro: 'Puede seleccionar cualquier campo como filtro de la lista'},
+				{ element: '#op',
+				intro: 'operación de comparación'},
+				{ element: '#filtro',
+				intro: 'valor de comparación'},
+				{ element: '#logic',
+				intro: 'Se puede agregar un segundo filtro'},
+				{ element: '#btn_add',
+				intro: 'Botón para crear nuevo registro'},
+				{ element: '#btn_down',
+				intro: 'Boton para descargar archivo de datos, el cual puede ser leido en Excel'},
+				{ element: '#btn_print',
+				intro: 'Botón de Impresión, se puede exportar a pdf'},
+				{element: '#data_table',
+				intro: 'Lista de registros filtrados',
+				position: 'top'},
+				{element: '#th_ops',
+				intro: 'Consigurar columnas a mostrar en lista de registros'},
+				{element: '#td_ops',
+				intro: 'Opciones para:<br> - Visualizar Registro<br> - Editar Registro<br> - Borrar Registro'}
+			]
+		})
+		intro.start()
 	},
 	list_columns: function() {
+		ga('send', 'event', 'Account', 'Account_list_columns')
 		this.$.Account_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
@@ -16405,6 +16489,7 @@ Polymer({
 	filter: function() {
 		var stored_filter = {}
  		var name = this.$.filter.value
+		ga('send', 'event', 'Account', 'Account_filter_by_'+name)
 		stored_filter.filter = name
 		var op = this.$.op.value
 		stored_filter.op = op 
@@ -16453,7 +16538,9 @@ Polymer({
 		this.$.name_sort_d.classList.add("hide")
 		this.$.users_sort_d.classList.add("hide")
 	},
-	sort_by_field: function(field) {
+	sort_by_field: function(e) {
+		var field = e.target.classList[0].replace('col_','')
+		ga('send', 'event', 'Account', 'Account_sort_by_'+field)
 		this.hide_sort_icons()
 		this.sort(field)
 		if (this.cur_sort.isdesc)
@@ -16461,15 +16548,6 @@ Polymer({
 		  else
 			this.$[field+"_sort"].setAttribute("icon", "arrow-drop-up")
 		this.$[field+"_sort_d"].classList.remove("hide")	
-	},
-	sort_id: function() {
-		this.sort_by_field("id")
-	},
-	sort_name: function() {
-		this.sort_by_field("name")
-	},
-	sort_users: function() {
-		this.sort_by_field("users")
 	},
 	sort: function(field) {
 		if (this.cur_sort.field == field)
@@ -16551,7 +16629,12 @@ Polymer({
 	menu: function() {
 		
 	},
+	print: function() {
+		ga('send', 'event', 'Account', 'Account_print')
+		window.print()
+	},
 	download: function() {
+		ga('send', 'event', 'Account', 'Account_download')
 		var x2js = new X2JS();
 		var datoi = this.data.data
 		for (i=0; i<datoi.length; i++)
@@ -16574,30 +16657,35 @@ Polymer({
 		this.$.menu_dialog.open()
 	},
   display: function(e) {
+	ga('send', 'event', 'Account', 'Account_display')
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Account_display_dialog.open_display_dialog(item)
   },
   edit: function(e) {
+	ga('send', 'event', 'Account', 'Account_edit')
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Account_edit_dialog.open_dialog(item)
   },
   delete: function(e) {
+	ga('send', 'event', 'Account', 'Account_delete')
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
 	this.$.Account_delete_dialog.open_delete_dialog(item)
   },
   new: function() {
+	ga('send', 'event', 'Account', 'Account_new')
 	this.$.Account_new_dialog.open_dialog()
   },
   reload: function() {
 	this.$.ajax.generateRequest()
   },
   load_data: function() {
+	ga('send', 'event', 'Account', 'Account_load_data')
 	while(this.data.data[0]) {
         this.data.remove(this.data.data[0])
       }
@@ -16608,9 +16696,12 @@ Polymer({
 	this.filter()
   },
   ajax_error: function() {
+	ga('send', 'event', 'Account', 'Account_ajax_error')
 	console.log(this.$.ajax.lastError)
 	alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
   }
+//USER POINT - List Functions
+//END USER POINT - List Functions
 });
 </script>
 </dom-module>
