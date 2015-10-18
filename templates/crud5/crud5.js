@@ -366,8 +366,7 @@ function generate_model_select(model, display, key, description, crud) {
 	//else  console.log('File '+path+' already Exist')
 }
 
-function get_user_points()
-{
+function get_user_points(){
 	user_point = {
 		'list_style': '<!--USER POINT - List Style-->\n'+
 					  '<!--END USER POINT - List Style-->',
@@ -542,6 +541,13 @@ exports.generate = function(crud) {
 			key = jsondata[keys[k]]
 			key.name = keys[k]
 			break
+		}
+	}
+	// Omit Fields
+	for (k=0; k < keys.length; k++ ) {
+		if (jsondata[keys[k]].omit) {
+			delete jsondata[keys[k]]
+			keys.splice(k, 1)
 		}
 	}
 	// Relations
