@@ -22,6 +22,7 @@ module.exports = {
 		//key_type: 'integer',
 		//display: 'usr',
 		//type: 'string',
+		//omit: true,
 		model: 'User'
 	},
 	date: {

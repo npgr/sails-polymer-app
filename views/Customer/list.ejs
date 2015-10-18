@@ -1,4 +1,4 @@
-<!-- list template: version 6.30 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -29,6 +29,9 @@
   ga('create', Google_Analytics_id(), {'sampleRate': 100});
   ga('send', 'pageview');
 	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -15984,11 +15987,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit"></td>
+				<td><input id="creditlimit" type="number" step="0.01" name="creditlimit"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance"></td>
+				<td><input id="balance" type="number" step="0.01" name="balance"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%><strong class="red"> *</strong></label></td>
@@ -16177,11 +16180,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit" value="{{item.creditlimit}}" disabled></td>
+				<td><input id="creditlimit" type="number" step="0.01" name="creditlimit" value="{{item.creditlimit}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance" value="{{item.balance}}" disabled></td>
+				<td><input id="balance" type="number" step="0.01" name="balance" value="{{item.balance}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%></label></td>
@@ -16283,11 +16286,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit" value="{{item.creditlimit}}"></td>
+				<td><input id="creditlimit" type="number" step="0.01" name="creditlimit" value="{{item.creditlimit}}"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance" value="{{item.balance}}"></td>
+				<td><input id="balance" type="number" step="0.01" name="balance" value="{{item.balance}}"></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%><strong class="red"> *</strong></label></td>
@@ -16441,11 +16444,11 @@ paper-menu {
 			</tr>
 			<tr>
 				<td><label class="left_label" for="creditlimit"><%= lng('Credit Limit')%></label></td>
-				<td><input id="creditlimit" type="float" name="creditlimit" value="{{item.creditlimit}}" disabled></td>
+				<td><input id="creditlimit" type="number" step="0.01" name="creditlimit" value="{{item.creditlimit}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="balance"><%= lng('Balance')%></label></td>
-				<td><input id="balance" type="float" name="balance" value="{{item.balance}}" disabled></td>
+				<td><input id="balance" type="number" step="0.01" name="balance" value="{{item.balance}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="country"><%= lng('Country')%></label></td>
@@ -16884,6 +16887,8 @@ paper-menu {
 
 <dom-module id="Customer-list">
 <template>
+<!--USER POINT - List Style-->
+<!--END USER POINT - List Style-->
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<Customer-list-columns id="Customer_list_columns" on-close="update_columns"></Customer-list-columns>
 	<Customer-new id="Customer_new_dialog" on-close="reload"></Customer-new>
@@ -16896,6 +16901,8 @@ paper-menu {
 	<State-select id="State_select_dialog" on-item_selected="set_select_field"></State-select>
 	<City-select id="City_select_dialog" on-item_selected="set_select_field"></City-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Customer"))%></div>-->
+<!--USER POINT - List Header-->
+<!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('id')%>
 		<option value="id"><%= lng('id')%></option>  <%= lng('Code')%>
 		<option value="code"><%= lng('Code')%></option>  <%= lng('Name')%>
@@ -17078,6 +17085,8 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -17135,6 +17144,8 @@ Polymer({
 				intro.start()
 			}, 600);	
 		}, false);*/
+//USER POINT - List End Ready
+//END USER POINT - List End Ready
 	},
 	help: function() {
 		ga('send', 'event', 'Customer', 'Customer_help')
