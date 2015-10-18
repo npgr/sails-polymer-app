@@ -1,4 +1,4 @@
-<!-- list template: version 6.30 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -29,6 +29,9 @@
   ga('create', Google_Analytics_id(), {'sampleRate': 100});
   ga('send', 'pageview');
 	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -16468,6 +16471,8 @@ paper-menu {
 
 <dom-module id="Order-list">
 <template>
+<!--USER POINT - List Style-->
+<!--END USER POINT - List Style-->
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<Order-list-columns id="Order_list_columns" on-close="update_columns"></Order-list-columns>
 	<Order-new id="Order_new_dialog" on-close="reload"></Order-new>
@@ -16477,6 +16482,8 @@ paper-menu {
 	<Customer-select id="Customer_select_dialog" on-item_selected="set_select_field"></Customer-select>
 	<Seller-select id="Seller_select_dialog" on-item_selected="set_select_field"></Seller-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Pedido"))%></div>-->
+<!--USER POINT - List Header-->
+<!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('Pedido')%>
 		<option value="id"><%= lng('Pedido')%></option>
 		<option value="customer_name"><%= lng('Customer')%></option>
@@ -16612,6 +16619,8 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16658,6 +16667,8 @@ Polymer({
 				intro.start()
 			}, 600);	
 		}, false);*/
+//USER POINT - List End Ready
+//END USER POINT - List End Ready
 	},
 	help: function() {
 		ga('send', 'event', 'Order', 'Order_help')
