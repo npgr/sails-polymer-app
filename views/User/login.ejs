@@ -9,6 +9,7 @@
 %> 
 <html>
 <head>
+ <!--<link rel="prerender" href="/styles/app.css"  as="stylesheet" probability="1.0"/>-->
 <style>
 	html {
 		//background-color: rgb(240, 215, 240);
@@ -53,6 +54,10 @@
 <title>Login</title>
 </head>
 <body>
+	<script>
+	  if (window.location.protocol != "https:")
+		window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+	</script>
 	 <div id="loginCard">
 	  <form action="/validateLogin" method="post">
 		<%= lng('prueba') %>
