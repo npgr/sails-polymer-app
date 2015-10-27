@@ -1,0 +1,309 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="app-cotizar">
+<template>
+<style>
+	td {
+		margin-left: 40px;
+		//padding: 15px;
+	}
+	#age {
+		width: 4em;
+	}
+	.name {
+		width: 20em;
+	}
+	.alnright { 
+		text-align: right; 
+	}
+	paper-fab {
+		display: inline-block;
+		margin-left: 50px;
+	}
+	[disabled] {
+		background: #eaeaea;
+	}
+	html {
+		background-color: honeyDew;
+	}
+	.print-area {
+		display: none;
+	}
+	.table_list {
+		margin: 20px;
+	}
+	@media print
+	{    
+	  html, body 
+	  {
+		background-color: white;
+	  }
+	  .no-print, .no-print *
+	  {
+        display: none;
+	  }
+	  .print-area
+	  {
+		display: block;
+	  }
+	  .table_list {
+		margin: 20px 0;
+	  }
+	}
+	[inline] {
+		display: inline;
+	}
+</style>
+	<section class="no-print">
+		<br><br>
+		<label class="left_label" for="region" style="margin:0 7px 0 20px;">Región</label>
+		<select id="region" on-change="change_region">
+			<option value=0>Andina</option>
+			<option value=1>Brasil</option>
+			<option value=1>Argentina</option>
+		</select>
+		<label class="left_label" for="plan" style="margin:0 7px 0 20px;">Plan</label>
+		<select id="plan" on-change="change_plan">
+			<option value=0>Plan Global Pass Choice#1</option>
+			<option value=1>Plan Global Pass Choice#2</option>
+		</select>
+		<label class="left_label" for="amount" style="margin:0 7px 0 20px;">Suma Asegurada</label>
+		<input id="amount" class="alnright" type="string" value="{{selected_plan.amount}}" style="width:100px;" disabled></input>
+		
+		<paper-fab id="btn_print" mini on-tap="print" icon="print" style="top:15px;"></paper-fab>
+	</section>
+	<section class="print-area">
+		<h2>Allianz</h2>
+		<div>Allianz World Wide Care</div>
+		<div inline>www.allianzworldwidecare.com</div>
+		  <span style="margin-left: 250px;">Estimado(a): </span>
+		  <span style="margin-left:10px;"><strong>{{titular}}</strong></span>
+		<br>
+		<div>miércoles, 21 de Octubre de 2015</div>
+		<br>
+		<div inline>Ref: Propuesta de </div><span>{{selected_plan.name}}</span>
+			<span style="margin-left: 200px;">Suma Asegurada: </span>
+			<span><strong>{{selected_plan.amount}}</strong></span>
+		</div>
+		<br>
+		<br>
+		<p style="width: 90%;">
+		Por medio de la presente tenemos el agrado de cotizarle un Global Pass, que es un Plan de Gastos Médicos
+Internacionales de nuestra representada, la compañía Allianz Worldwide Care, el cual fue diseñado para proteger el
+futuro de su familia. Su plan, aparte de tener cobertura Worldwide, goza de beneficios extraordinarios y renovación
+garantizada por la vida de la póliza bajo los mismos términos iníc iales siempre y cuando dicho plan se mantenga vigente y
+al día.</p>
+	<p style="width: 90%;">
+	Adjunto encontrará un archivo en Adobe (PDF) con el folleto que describe las condiciones y términos de este plan para su
+información, estudio y análisis. De acuerdo a las edades que nos indicó, el costo de su plan de gasto méd ico internacional
+Global Pass se desglosa de la siguiente forma : 
+	</p>
+	<br>
+	</section>
+	<table class="table_list">
+		<thead>
+		  <tr>
+			<th>#</th>
+			<th>Asegurado</th>
+			<th>Parentesco</th>
+			<th>Edad</th>
+			<th>{{selected_plan.deducible1}}</th>
+			<th>{{selected_plan.deducible2}}</th>
+			<th>{{selected_plan.deducible3}}</th>
+			<th>{{selected_plan.deducible4}}</th>
+			<th>{{selected_plan.deducible5}}</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td>1</td>
+			<td><input id="name" class="name" type="string" value="{{titular::input}}"/></td>
+			<td>Titular</td>
+			<td><input id="age" type="number"/></td>
+			<td class="alnright">{{selected_plan.titular.prima1}}</td>
+			<td class="alnright">{{selected_plan.titular.prima2}}</td>
+			<td class="alnright">{{selected_plan.titular.prima3}}</td>
+			<td class="alnright">{{selected_plan.titular.prima4}}</td>
+			<td class="alnright">{{selected_plan.titular.prima5}}</td>
+		  </tr>
+		  <tr>
+			<td>2</td>
+			<td><input id="name_2" class="name" type="string"/></td>
+			<td><select id="parentesco" on-change="change_parentesco">
+				<option value='c'>Conyuge</option>
+				<option value='h'>Hijo</option>
+				<option value='p'>Padre</option>
+			</select></td>
+			<td><input id="age" type="number"/></td>
+			<td class="alnright">1.470,00</td>
+			<td class="alnright">1.272,00</td>
+			<td class="alnright">1.141,00</td>
+			<td class="alnright">1.402,00</td>
+			<td class="alnright">1.034,00</td>
+		  </tr>
+		  <tr>
+			<td>3</td>
+			<td><input id="name_2" class="name" type="string"/></td>
+			<td><select id="parentesco" on-change="change_parentesco">
+				<option value='h'>Hijo</option>
+				<option value='p'>Padre</option>
+			</select></td>
+			<td><input id="age" type="number"/></td>
+			<td class="alnright">1.470,00</td>
+			<td class="alnright">1.272,00</td>
+			<td class="alnright">1.141,00</td>
+			<td class="alnright">1.402,00</td>
+			<td class="alnright">1.034,00</td>
+		  </tr>
+		  <tr>
+			<td>4</td>
+			<td><input id="name_2" class="name" type="string"/></td>
+			<td><select id="parentesco" on-change="change_parentesco">
+				<option value='h'>Hijo</option>
+				<option value='p'>Padre</option>
+			</select></td>
+			<td><input id="age" type="number"/></td>
+			<td class="alnright">1.470,00</td>
+			<td class="alnright">1.272,00</td>
+			<td class="alnright">1.141,00</td>
+			<td class="alnright">1.402,00</td>
+			<td class="alnright">1.034,00</td>
+		  </tr>
+		  <tr>
+			<td>5</td>
+			<td><input id="name_2" class="name" type="string"/></td>
+			<td><select id="parentesco" on-change="change_parentesco">
+				<option value='h'>Hijo</option>
+				<option value='p'>Padre</option>
+			</select></td>
+			<td><input id="age" type="number"/></td>
+			<td class="alnright">1.470,00</td>
+			<td class="alnright">1.272,00</td>
+			<td class="alnright">1.141,00</td>
+			<td class="alnright">1.402,00</td>
+			<td class="alnright">1.034,00</td>
+		  </tr>
+		  <tr>
+			<td>6</td>
+			<td><input id="name_2" class="name" type="string"/></td>
+			<td><select id="parentesco" on-change="change_parentesco">
+				<option value='h'>Hijo</option>
+				<option value='p'>Padre</option>
+			</select></td>
+			<td><input id="age" type="number"/></td>
+			<td class="alnright">1.470,00</td>
+			<td class="alnright">1.272,00</td>
+			<td class="alnright">1.141,00</td>
+			<td class="alnright">1.402,00</td>
+			<td class="alnright">1.034,00</td>
+		  </tr>
+		</tbody>
+		<tfoot>
+		  <tr>
+			<td></td>
+			<td class="alnright"><strong>Primas Anuales Totales</strong></td>
+			<td></td>
+			<td></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+		  </tr>
+		  <tr>
+			<td></td>
+			<td class="alnright"><strong>Semestral (Recargo de 4%)</strong></td>
+			<td></td>
+			<td></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+		  </tr>
+		  <tr>
+			<td></td>
+			<td class="alnright"><strong>Trimestral (Recargo de 6%)</strong></td>
+			<td></td>
+			<td></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+			<td class="alnright"><strong>99.999,99</strong></td>
+		  </tr>
+		</tfoot>
+		</table>
+	<section class="print-area">
+	<br>
+	<p style="width: 85%;">
+	Esperamos que esta oferta se ajuste a vuestro presupuesto . Si tuviese alguna pregunta sobre su plan de gasto médico, le pedimos contactar al
+suscrito, quien gustosamente le brindará el servicio y asesoramiento que Usted se merece . 
+al día.
+	</p>
+	<br>
+	<div>Cordialmente,</div>
+	<br>
+<div>Depto. de Ventas</div>
+<div>Allianz Worldwide Care</div>
+<div>Dublin, Ireland</div> 
+	</section>
+</template>
+<script>
+Polymer({
+		is: "app-cotizar",
+		ready: function() {
+			this.amount = 12000
+			this.plans = [
+				{
+					name: 'Plan Global Pass Choice#1',
+					amount: '$7.000.000',
+					deducible1: '$500,00',
+					deducible2: '$2.000,00',
+					deducible3: '$5.000,00',
+					deducible4: '$10.000,00',
+					deducible5: '$20.000,00',
+					titular: {
+						prima1: this.numberWithCommas(4470.3),
+						prima2: this.numberWithCommas(4272),
+						prima3: 3141,
+						prima4: 2402,
+						prima5: 2034,
+					}
+				},
+				{
+					name: 'Plan Global Pass Choice#2',
+					amount: '$12.000.000',
+					deducible1: '$700,00',
+					deducible2: '$2.200,00',
+					deducible3: '$5.300,00',
+					deducible4: '$11.500,00',
+					deducible5: '$22.000,00',
+					titular: {
+						prima1: 5470,
+						prima2: 5272,
+						prima3: 5141,
+						prima4: 5402,
+						prima5: 5034,
+					}
+				}
+			]
+			this.selected_plan = this.plans[0]
+			//this.$.plan.value = this.selected_plan.id
+		},
+		change_plan: function() {
+			console.log('plan changed')
+			this.selected_plan = this.plans[this.$.plan.value]
+		},
+		numberWithCommas: function(n) {
+			return n.toFixed(2).toString().replace(/\./g,",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+		},
+		print: function() {
+			window.print()
+			//open window
+		}
+	})
+</script>
+</dom-module>
