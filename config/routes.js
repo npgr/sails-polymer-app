@@ -66,6 +66,7 @@ module.exports.routes = {
   "get /Task": "TaskController.get",
   "post /Task": "TaskController.create",
   "/Task/list": "TaskController.list",
+  "/Task/list2": "TaskController.list2", // For PageSpeed Analysis
   "/Task/dashboard": "TaskController.dashboard",
   "/Task/cube": "TaskController.cube",
   "/": "UserController.login",

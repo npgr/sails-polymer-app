@@ -17,7 +17,7 @@ module.exports = function(req, res, next) {
   
 	if (req.route.path == '/Order/SalesCube') return next()
 	
-	if (!req.session.user && req.route.path != '/login' && req.route.path != '/validateLogin')
+	if (!req.session.user && req.route.path != '/login' && req.route.path != '/validateLogin' && req.route.path != '/Task/list2')
 		return res.redirect('/login')
 	
 	if (req.route.path != '/login' && req.route.path != '/validateLogin' && req.route.path != '/signout')

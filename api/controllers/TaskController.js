@@ -6,6 +6,13 @@
  */
 
 module.exports = {
+	list2: function(req, res) {
+		// For PageSpeed Analysis
+		res.locals.resources = []
+		res.locals.user = {user: 'Nuno', name: 'Nuno'}
+		res.locals.data = []
+		res.view("Task/list")
+	},
 	list: function (req, res) {
 		//Task.find({user: req.session.userid})
 		//	.exec(function(err, data){
