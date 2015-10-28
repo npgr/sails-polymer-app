@@ -13,6 +13,7 @@
 		<link rel="shortcut icon" type="image/ico" href="img/favicon.ico">
 		<!--<link rel="icon" type="image/png" href="img/sale-26.png" />-->
 		<link rel="stylesheet" href="/styles/app.css">
+		<script src= "/bower_components/lodash/lodash.min.js"></script>
 		<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 		<script src="/components/app-config/app-config.js"></script>
 		<script>(function () {
@@ -12296,17 +12297,19 @@ Custom property | Description | Default
 		<br><br>
 		<label class="left_label" for="region" style="margin:0 7px 0 20px;">Región</label>
 		<select id="region" on-change="change_region">
-			<option value="0">Andina</option>
-			<option value="1">Brasil</option>
-			<option value="1">Argentina</option>
+			<option value="L">Latinoamérica</option>
+			<option value="W">Worldwide</option>
 		</select>
-		<label class="left_label" for="plan" style="margin:0 7px 0 20px;">Plan</label>
-		<select id="plan" on-change="change_plan">
-			<option value="0">Plan Global Pass Choice#1</option>
-			<option value="1">Plan Global Pass Choice#2</option>
+		<label class="left_label" for="coverage" style="margin:0 7px 0 20px;">Cobertura</label>
+		<select id="coverage" on-change="change_coverage">
+			<option value="1">$ 9.000.000</option>
+			<option value="2">$ 7.000.000</option>
 		</select>
-		<label class="left_label" for="amount" style="margin:0 7px 0 20px;">Suma Asegurada</label>
-		<input id="amount" class="alnright" type="string" value="{{selected_plan.amount}}" style="width:100px;" disabled="">
+		<label class="left_label" for="type" style="margin:0 7px 0 20px;">Tipo</label>
+		<select id="type" on-change="change_type">
+			<option value="I">Individual (hasta 2 asegurados)</option>
+			<option value="F">Familiar (3 o más asegurados)</option>
+		</select>
 		
 		<paper-fab id="btn_print" mini="" on-tap="print" icon="print" style="top:15px;"></paper-fab>
 	</section>
@@ -12496,43 +12499,8 @@ al día.
 Polymer({
 		is: "app-cotizar",
 		ready: function() {
-			this.amount = 12000
-			this.plans = [
-				{
-					name: 'Plan Global Pass Choice#1',
-					amount: '$7.000.000',
-					deducible1: '$500,00',
-					deducible2: '$2.000,00',
-					deducible3: '$5.000,00',
-					deducible4: '$10.000,00',
-					deducible5: '$20.000,00',
-					titular: {
-						prima1: this.numberWithCommas(4470.3),
-						prima2: this.numberWithCommas(4272),
-						prima3: 3141,
-						prima4: 2402,
-						prima5: 2034,
-					}
-				},
-				{
-					name: 'Plan Global Pass Choice#2',
-					amount: '$12.000.000',
-					deducible1: '$700,00',
-					deducible2: '$2.200,00',
-					deducible3: '$5.300,00',
-					deducible4: '$11.500,00',
-					deducible5: '$22.000,00',
-					titular: {
-						prima1: 5470,
-						prima2: 5272,
-						prima3: 5141,
-						prima4: 5402,
-						prima5: 5034,
-					}
-				}
-			]
-			this.selected_plan = this.plans[0]
-			
+			this.primas = <%- data %>
+				
 			this.cotizacion = {
 				1: { 	
 					asegurado: '',
@@ -12628,36 +12596,102 @@ Polymer({
 					5: 0
 				}
 			}
-			var item = 'cotizacion.'+1+'.prima.'+4
-			this.set(item, 2222)
 			//this.set('cotizacion.1.prima.4', 1250);
 			//console.log('cotizacion', this.cotizacion['1'])
 		},
-		change_plan: function() {
-			console.log('plan changed')
-			this.selected_plan = this.plans[this.$.plan.value]
-			//Recalcular todas las primas
-			// if (edad y nombre) calcular_prima1()
+		calculate_primas: function(n) {
+			var prima = {}
+			
+			if (this.$.age1.value != null && (n == null || n == 1))
+			{
+				prima = _.find(this.primas, {region: this.$.region.value, coverage: this.$.coverage.value, type: this.$.type.value, age: parseInt(this.cotizacion['1'].edad)})
+				
+				this.set('cotizacion.1.prima.1', prima.p1)
+				this.set('cotizacion.1.prima.2', prima.p2)
+				this.set('cotizacion.1.prima.3', prima.p3)
+				this.set('cotizacion.1.prima.4', prima.p4)
+				this.set('cotizacion.1.prima.5', prima.p5)
+				this.set('cotizacion.1.prima.6', prima.p6)
+			}
+			if (this.$.age2.value != null && (n == null || n == 2))
+			{
+				prima = _.find(this.primas, {region: this.$.region.value, coverage: this.$.coverage.value, type: this.$.type.value, age: parseInt(this.cotizacion['2'].edad)})
+				
+				this.set('cotizacion.2.prima.1', prima.p1)
+				this.set('cotizacion.2.prima.2', prima.p2)
+				this.set('cotizacion.2.prima.3', prima.p3)
+				this.set('cotizacion.2.prima.4', prima.p4)
+				this.set('cotizacion.2.prima.5', prima.p5)
+				this.set('cotizacion.2.prima.6', prima.p6)
+			}
+			if (this.$.age3.value != null && (n == null || n == 3))
+			{
+				prima = _.find(this.primas, {region: this.$.region.value, coverage: this.$.coverage.value, type: this.$.type.value, age: parseInt(this.cotizacion['3'].edad)})
+				
+				this.set('cotizacion.3.prima.1', prima.p1)
+				this.set('cotizacion.3.prima.2', prima.p2)
+				this.set('cotizacion.3.prima.3', prima.p3)
+				this.set('cotizacion.3.prima.4', prima.p4)
+				this.set('cotizacion.3.prima.5', prima.p5)
+				this.set('cotizacion.3.prima.6', prima.p6)
+			}
+			if (this.$.age4.value != null && (n == null || n == 4))
+			{
+				prima = _.find(this.primas, {region: this.$.region.value, coverage: this.$.coverage.value, type: this.$.type.value, age: parseInt(this.cotizacion['4'].edad)})
+				
+				this.set('cotizacion.4.prima.1', prima.p1)
+				this.set('cotizacion.4.prima.2', prima.p2)
+				this.set('cotizacion.4.prima.3', prima.p3)
+				this.set('cotizacion.4.prima.4', prima.p4)
+				this.set('cotizacion.4.prima.5', prima.p5)
+				this.set('cotizacion.4.prima.6', prima.p6)
+			}
+			if (this.$.age5.value != null && (n == null || n == 5))
+			{
+				prima = _.find(this.primas, {region: this.$.region.value, coverage: this.$.coverage.value, type: this.$.type.value, age: parseInt(this.cotizacion['5'].edad)})
+				
+				this.set('cotizacion.5.prima.1', prima.p1)
+				this.set('cotizacion.5.prima.2', prima.p2)
+				this.set('cotizacion.5.prima.3', prima.p3)
+				this.set('cotizacion.5.prima.4', prima.p4)
+				this.set('cotizacion.5.prima.5', prima.p5)
+				this.set('cotizacion.5.prima.6', prima.p6)
+			}
+			if (this.$.age6.value != null && (n == null || n == 6)) 
+			{
+				prima = _.find(this.primas, {region: this.$.region.value, coverage: this.$.coverage.value, type: this.$.type.value, age: parseInt(this.cotizacion['6'].edad)})
+				
+				this.set('cotizacion.6.prima.1', prima.p1)
+				this.set('cotizacion.6.prima.2', prima.p2)
+				this.set('cotizacion.6.prima.3', prima.p3)
+				this.set('cotizacion.6.prima.4', prima.p4)
+				this.set('cotizacion.6.prima.5', prima.p5)
+				this.set('cotizacion.6.prima.6', prima.p6)
+			}
+		},
+		change_region: function() 
+		{
+			this.calculate_primas()
+		},
+		change_coverage: function() 
+		{
+			this.calculate_primas()
+		},
+		change_type: function() 
+		{
+			this.calculate_primas()
 		},
 		numberWithCommas: function(n) {
 			if (n != null)
 				return n.toFixed(2).toString().replace(/\./g,",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 			 else return null
 		},
-		calcular_prima1: function() { this.calcular_prima(1) },
-		calcular_prima2: function() { this.calcular_prima(2) },
-		calcular_prima3: function() { this.calcular_prima(3) },
-		calcular_prima4: function() { this.calcular_prima(4) },
-		calcular_prima5: function() { this.calcular_prima(5) },
-		calcular_prima6: function() { this.calcular_prima(6) 
-		},
-		calcular_prima: function(n) {
-			this.set('cotizacion.'+n+'.prima.1', this.$['age'+n].value * 100)
-			this.set('cotizacion.'+n+'.prima.2', this.$['age'+n].value * 95)
-			this.set('cotizacion.'+n+'.prima.3', this.$['age'+n].value * 90)
-			this.set('cotizacion.'+n+'.prima.4', this.$['age'+n].value * 85)
-			this.set('cotizacion.'+n+'.prima.5', this.$['age'+n].value * 80)
-			this.totales()
+		calcular_prima1: function() { this.calculate_primas(1) },
+		calcular_prima2: function() { this.calculate_primas(2) },
+		calcular_prima3: function() { this.calculate_primas(3) },
+		calcular_prima4: function() { this.calculate_primas(4) },
+		calcular_prima5: function() { this.calculate_primas(5) },
+		calcular_prima6: function() { this.calculate_primas(6) 
 		},
 		totales: function() {
 			var total1 = {'1':0, '2':0, '3':0, '4':0, '5':0}
