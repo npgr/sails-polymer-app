@@ -1,4 +1,4 @@
-<!-- list template: version 6.32 -->
+<!-- list template: version 6.33 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -16167,6 +16167,7 @@ paper-menu {
 		<paper-menu>
 			<paper-item on-click="edit" style="min-height:20px;line-height:35px;"><%= lng('Edit')%></paper-item>
 <!--USER POINT - List Detail Menu-->
+			<paper-item id="generate_opc"  on-click="generate" style="min-height:20px;line-height:35px;"><%= lng('Generate')%></paper-item>
 <!--END USER POINT - List Detail Menu-->
 		</paper-menu>
 	</paper-dialog>
@@ -16228,6 +16229,10 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+		this.model_par = <%- model %>
+		var _data = <%- data %>
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16235,7 +16240,7 @@ Polymer({
 				return this.indexOf(str) === 0;
 			}
 		}
-		this.$.ajax.url = config_server() + "ModelFunction"
+		//this.$.ajax.url = config_server() + "ModelFunction"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: false},
@@ -16255,10 +16260,13 @@ Polymer({
 		var db = new loki()
 		this.data = db.addCollection("data_ModelFunction")
 		this.model = db.addCollection("model_ModelFunction")
-		this.reload()
+		this.load_data2(_data)
 		for (i=0; i< _model.length ; i++)
 			this.model.insert(_model[i])
 		_model = {}
+		/*for (i=0; i< _data.length ; i++)
+			this.data.insert(_data[i])
+		_data = {}*/
 		this.input_type()
 		this.set_filter() //and columns & sort from localStorage
 		var intro = introJs()
@@ -16312,7 +16320,6 @@ Polymer({
 		intro.start()
 	},
 	list_columns: function() {
-
 		this.$.ModelFunction_list_columns.open_list_columns(this.column)
 	},
 	update_columns: function() {
@@ -16607,12 +16614,16 @@ Polymer({
 	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
+		var reg = this.data.find({'id': this.key})
+		if (reg[0].type == 'list') 
+			this.$.generate_opc.style.display = 'block'
+		 else 
+			this.$.generate_opc.style.display = 'none'
 		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+20+"px"
 		this.$.menu_dialog.style.left = "30px"
 		this.$.menu_dialog.open()
 	},
   edit: function(e) {
-
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
@@ -16643,6 +16654,30 @@ Polymer({
 	}
 	this.filter()
   },
+  load_data2: function(data) {
+
+	while(this.data.data[0]) {
+        this.data.remove(this.data.data[0])
+      }
+	if (!data) data = this.$.ajax.lastResponse
+	
+	for (i=0; i< data.length; i++)
+	{
+		if (data[i].model){
+			data[i].model_id = data[i].model.id
+			data[i].model_name = data[i].model.name
+		} else
+		{
+			data[i].model_id = 0
+			data[i].model_name = ""
+		}
+		data[i].type_des= this.enums.type[data[i].type]
+		data[i].enable_des= this.enums.enable[data[i].enable]
+		data[i].save_filter_des= this.enums.save_filter[data[i].save_filter]	
+		this.data.insert(data[i])
+	}
+	this.filter()
+  },
   ajax_error: function() {
 
 	console.log(this.$.ajax.lastError)
@@ -16650,7 +16685,10 @@ Polymer({
   }
 //USER POINT - List Functions
 	,generate: function() {
-		
+		this.$.menu_dialog.close()
+		var filtro = {"id": this.key}
+		var post_data = this.data.find(filtro)[0]
+		post(config_server() + "ModelFunction/generate", post_data, 'post')
 	}
 //END USER POINT - List Functions
 });

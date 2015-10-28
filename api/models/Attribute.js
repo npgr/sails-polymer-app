@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  //migrate: 'alter',
+  migrate: 'alter',
 
   attributes: {
 	//_title: 'Atributo',
@@ -55,9 +55,33 @@ module.exports = {
 		enum: [true, false]
 		//,enumdes: ['Yes', 'No']
 	},
+	hide: {
+		//description: 'Hide',
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
+	},
+	textarea_cols:{
+		//description: 'textarea_cols',
+		//hide: true,
+		type: 'integer'
+	},
+	textarea_rows:{
+		//description: 'textarea_rows',
+		//hide: true,
+		type: 'integer'
+	},
 	enum: {
 		//description: 'Enum',
 		type: 'string'
+	},
+	enumdes: {
+		//description: 'EnumDes',
+		type: 'string'
+	},
+	omit: {
+		//description: 'Omit',
+		type: 'boolean'
 	},
 	ref_model: {
 		//description: 'Reference Model',
