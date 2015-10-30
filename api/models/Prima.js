@@ -7,7 +7,7 @@
 
 module.exports = {
 
-	migrate: 'alter',
+	//migrate: 'alter',
   attributes: {
 	id: {
 		//description: 'Id',
