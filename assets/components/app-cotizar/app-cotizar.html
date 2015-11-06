@@ -88,7 +88,13 @@ Global Pass se desglosa de la siguiente forma :
 	</p>
 	</section>
 	<br><br>
-	<label class="left_label" for="region" style="margin:0 7px 0 20px;">Región</label>
+	<label class="left_label" for="residence" style="margin:0 7px 0 20px;">Residencia</label>
+	<select id="residence" on-change="change_residence">
+		<option value="B">Brasil</option>
+		<option value="M">Mexico</option>
+		<option value="L">Resto Latinoamérica</option>
+	</select>
+	<label class="left_label" for="region" style="margin:0 7px 0 20px;">Cobertura</label>
 	<select id="region" on-change="change_region">
 		<option value="L">Latinoamérica</option>
 		<option value="W">Worldwide</option>
@@ -282,7 +288,9 @@ Global Pass se desglosa de la siguiente forma :
 			<td class="alnright"><strong>[[numberWithCommas(cotizacion.total3.6)]]</strong></td>
 		  </tr>
 		</tfoot>
-		</table>
+	</table>
+	
+	
 	<section class="print-area">
 	<br>
 	<p style="width: 95%; text-align: justify;">
@@ -306,18 +314,42 @@ Polymer({
 			this.selected_plan = {
 				coverage: '',
 				deducible1: '$500,00',
-				deducible2: '$2.000,00',
-				deducible3: '$5.000,00',
-				deducible4: '$10.000,00',
-				deducible5: '$20.000,00',
-				deducible6: '$30.000,00'
+				deducible2: '$1.000,00',
+				deducible3: '$2.000,00',
+				deducible4: '$5.000,00',
+				deducible5: '$10.000,00',
+				deducible6: '$20.000,00'
 			}
+			var plans = {
+				1: {
+					name: 'Choice #1',
+					coverage: '$9.000.000',
+					deducible1: '$500',
+					deducible2: '$1.000',
+					deducible3: '$2.000',
+					deducible4: '$5.000',
+					deducible5: '$10.000',
+					deducible6: '$20.000'
+				},
+				2: {
+					name: 'Choice #2',
+					coverage: '$7.000.000',
+					deducible1: '$750',
+					deducible2: '$1.000',
+					deducible3: '$2.000',
+					deducible4: '$5.000',
+					deducible5: '$10.000',
+					deducible6: '$20.000'
+				}
+			}
+			
 			if (this.$.coverage.value == "1")
 				this.set('selected_plan.coverage', '$ 9.000.000')
 			  else	
 				this.set('selected_plan.coverage', '$ 7.000.000')
 			 	 
 			this.cotizacion = {
+				plan: plans['1'],
 				1: { 	
 					asegurado: '', parentesco: 'Titular', edad: null,
 					prima: {1: null, 2: null, 3: null, 4: null, 5: null, 6: null}
@@ -351,6 +383,10 @@ Polymer({
 				total3: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0},
 				total4: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}
 			}
+			
+			this.cotizacion2 = this.cotizacion
+			this.cotizacion2.plan = plans['2']
+			
 			//this.set('cotizacion.1.prima.4', 1250);
 			//console.log('cotizacion', this.cotizacion['1'])
 		},
