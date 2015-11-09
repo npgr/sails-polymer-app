@@ -12,10 +12,12 @@
 	<title><%= lng("%s %s",lng("List"),lng("Activity"))%></title>
 	<script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="/bower_components/intro.js/minified/intro.min.js"></script>
+	<script src= "/bower_components/lodash/lodash.min.js"></script>
 	<script src="/js2/lokijs/build/lokijs.min.js"></script>
 	<script src="/js2/x2js-v1.1.5/xml2json.min.js"></script>
 	<script src="/components/app-config/app-config.js"></script>
 	<script src="/components/app-util/app-util.js"></script>
+	<!--<link rel="import" href="/bower_components/iron-icons/editor-icons.html">-->
 	<link rel="stylesheet" href="/styles/app.css">
 	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css">
 <!-- INICIA -->
@@ -16741,10 +16743,126 @@ paper-menu {
 </script>
 </dom-module>
 
+<dom-module id="Task-graph">
+<template>
+	<br>
+	<select id="filter" on-change="input_type">  <%= lng('Id')%>
+		<option value="id"><%= lng('Id')%></option>  <%= lng('Activity')%>
+		<option value="activity"><%= lng('Activity')%></option>  <%= lng('Completed')%>
+		<option value="completed"><%= lng('Completed')%></option>  <%= lng('Ticket')%>
+		<option value="ticket"><%= lng('Ticket')%></option>  <%= lng('Previous')%>
+		<option value="previous"><%= lng('Previous')%></option>  <%= lng('Order')%>
+		<option value="order"><%= lng('Order')%></option>  <%= lng('Type')%>
+		<option value="type"><%= lng('Type')%></option>  <%= lng('Status')%>
+		<option value="status"><%= lng('Status')%></option>
+		<option value="parent_activity"><%= lng('Parent')%></option>  <%= lng('Priority')%>
+		<option value="prioridad"><%= lng('Priority')%></option>  <%= lng('Requester')%>
+		<option value="requester"><%= lng('Requester')%></option>  <%= lng('Request')%>
+		<option value="requestd"><%= lng('Request')%></option>  <%= lng('Start')%>
+		<option value="start"><%= lng('Start')%></option>  <%= lng('time')%>
+		<option value="time"><%= lng('time')%></option>  <%= lng('Commit')%>
+		<option value="fcompromiso"><%= lng('Commit')%></option>  <%= lng('End')%>
+		<option value="end"><%= lng('End')%></option>  <%= lng('Responsible')%>
+		<option value="responsable"><%= lng('Responsible')%></option>  <%= lng('Last Track')%>
+		<option value="ultseguimiento"><%= lng('Last Track')%></option>  <%= lng('Next Track')%>
+		<option value="proxseguimiento"><%= lng('Next Track')%></option>  <%= lng('Notes')%>
+		<option value="observacion"><%= lng('Notes')%></option>
+	</select>
+	<select id="op">   
+		<option value="$eq"><%= lng('Equal to')%></option>
+		<option value="$ne"><%= lng('Different to')%></option>
+		<option value="$contains"><%= lng('Contains')%></option>
+		<option value="$gte"><%= lng('Greater or Equal to')%></option>
+		<option value="$lte"><%= lng('Less or Equal to')%></option>
+	</select>
+	<input id="filtro" type="{{tipo}}" on-click="select_field">
+	<select id="select" class="hide">
+	  <template is="dom-repeat" items="{{opts}}">
+		<option value="{{item.op}}">{{item.des}}</option>
+	  </template>
+	</select>
+	<select id="logic" on-change="logic_operator">
+		<option value="-">---</option>
+		<option value="$and">And</option>
+		<option value="$or">Or</option>
+	</select>
+	<strong id="total">{{regs}}</strong>
+	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
+	<br>
+	<select id="filter2" class="hide" on-change="input_type2">
+		<option value="id"><%= lng('Id')%></option>
+		<option value="activity"><%= lng('Activity')%></option>
+		<option value="completed"><%= lng('Completed')%></option>
+		<option value="ticket"><%= lng('Ticket')%></option>
+		<option value="previous"><%= lng('Previous')%></option>
+		<option value="order"><%= lng('Order')%></option>
+		<option value="type"><%= lng('Type')%></option>
+		<option value="status"><%= lng('Status')%></option>
+		<option value="parent_activity"><%= lng('Parent')%></option>
+		<option value="prioridad"><%= lng('Priority')%></option>
+		<option value="requester"><%= lng('Requester')%></option>
+		<option value="requestd"><%= lng('Request')%></option>
+		<option value="start"><%= lng('Start')%></option>
+		<option value="time"><%= lng('time')%></option>
+		<option value="fcompromiso"><%= lng('Commit')%></option>
+		<option value="end"><%= lng('End')%></option>
+		<option value="responsable"><%= lng('Responsible')%></option>
+		<option value="ultseguimiento"><%= lng('Last Track')%></option>
+		<option value="proxseguimiento"><%= lng('Next Track')%></option>
+		<option value="observacion"><%= lng('Notes')%></option>
+	</select>
+	<select id="op2" class="hide" >   
+		<option value="$eq"><%= lng('Equal to')%></option>
+		<option value="$ne"><%= lng('Different to')%></option>
+		<option value="$contains"><%= lng('Contains')%></option>
+		<option value="$gte"><%= lng('Greater or Equal to')%></option>
+		<option value="$lte"><%= lng('Less or Equal to')%></option>
+	</select>
+	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field">
+	<select id="select2" class="hide">
+	  <template is="dom-repeat" items="{{opts2}}">
+		<option value="{{item.op}}">{{item.des}}</option>
+	  </template>
+	</select>
+	<br>
+	<label class="left_label" for="group_by"><%= lng('Group by')%></label>
+	<select id="group_by">
+		<option value="completed"><%= lng('Completed')%></option>
+		<option value="type"><%= lng('Type')%></option>
+		<option value="status"><%= lng('Status')%></option>
+		<option value="parent_activity"><%= lng('Parent')%></option>
+		<option value="prioridad"><%= lng('Priority')%></option>
+		<option value="requester"><%= lng('Requester')%></option>
+		<option value="requestd"><%= lng('Request')%></option>
+		<option value="start"><%= lng('Start')%></option>
+		<option value="time"><%= lng('time')%></option>
+		<option value="fcompromiso"><%= lng('Commit')%></option>
+		<option value="end"><%= lng('End')%></option>
+		<option value="responsable"><%= lng('Responsible')%></option>
+	</select>
+	<paper-button class="btn" on-click="graph" raised><%= lng('Graph')%></paper-button>
+	
+</template>
+<script>
+  Polymer({
+	is: "Task-graph",
+	ready: function() {
+		this.$.filter.value = this.filter
+	}
+  })
+</script>
+</dom-module>
+
 <dom-module id="Task-list">
 <template>
+  <style>
+	#graph_dialog {
+		width: 800px;
+		height: 450px;
+	}
 <!--USER POINT - List Style-->
 <!--END USER POINT - List Style-->
+  </style>
 	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
 	<Task-list-columns id="Task_list_columns" on-close="update_columns"></Task-list-columns>
 	<Task-new id="Task_new_dialog" on-close="reload"></Task-new>
@@ -16801,6 +16919,7 @@ paper-menu {
 		<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
 		<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 		<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
+		<paper-fab id="btn_graph" mini on-click="graph" icon="trending-up"></paper-fab>
 		<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
 		<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
 	</div>
@@ -16840,8 +16959,12 @@ paper-menu {
 	  <template is="dom-repeat" items="{{opts2}}">
 		<option value="{{item.op}}">{{item.des}}</option>
 	  </template>
-	</select>
+	</select> 
 
+	<paper-dialog id="graph_dialog">
+		<task-graph></task-graph>
+	</paper-dialog>
+	
 	<paper-dialog id="menu_dialog"> 
 		<paper-menu>
 			<paper-item on-click="display" style="min-height:20px;line-height:35px;"><%= lng('Display')%></paper-item>
@@ -17233,6 +17356,12 @@ Polymer({
 		this.filtered_data = []
 		this.filtered_data = this.result_set.data()
 		this.regs = this.filtered_data.length + " reg"
+		
+		var group_field = 'type_des'
+		var countData = _.countBy(this.filtered_data, function(obj){
+			return obj[group_field].replace(" ", "_");
+		}); 
+		console.log(countData)
 	},
 	hide_sort_icons: function() {
 		this.$.id_sort_d.classList.add("hide")
@@ -17367,6 +17496,10 @@ Polymer({
 		xml_data = "<x>"+xml_data+"</x>"
 		this.download_data = 'data:application/xml;charset=utf-8,'+xml_data
 		this.$.link.click()		
+	},
+	graph: function() {
+		this.$.graph_dialog.filter = this.$.filter.value
+		this.$.graph_dialog.open()
 	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
