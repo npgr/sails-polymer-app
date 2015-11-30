@@ -56,13 +56,13 @@ module.exports = {
 			if (funcs[i].type != 'list')
 			{
 				if (funcs[i].enable) 
-					model_file['___'+funcs[i].type]= 'enabled'
+					model_file['__'+funcs[i].type]= 'enabled'
 				  else
-					model_file['___'+funcs[i].type]= 'disabled'
+					model_file['__'+funcs[i].type]= 'disabled'
 			}
 		}
 		model_file['id'] = {
-			'__description': 'Id',
+			'_description': 'Id',
 			'type': "integer",
 			'primaryKey': true,
 			'autoIncrement': true,
@@ -74,21 +74,20 @@ module.exports = {
 			atr = atrs[i].attribute
 			if (atr!='id')
 			{
-				atr = '$'+atr+'$'
 				model_file[atr] = {}
-				model_file[atr].$__description$ = atrs[i].description
+				model_file[atr]._description = atrs[i].description
 				if (atrs[i].textarea_cols > 0) 
 				{
-					model_file[atr].$__textarea_cols$ = atrs[i].textarea_cols
-					model_file[atr].$__textarea_rows$ = atrs[i].textarea_rows
+					model_file[atr]._textarea_cols = atrs[i].textarea_cols
+					model_file[atr]._textarea_rows = atrs[i].textarea_rows
 				}
-				if (atrs[i].hide) model_file[atr].$__hide$ = true
-				model_file[atr].$type$ = atrs[i].type
-				if (atrs[i].required) model_file[atr].$required$ = true
+				if (atrs[i].hide) model_file[atr]._hide = true
+				model_file[atr].type = atrs[i].type
+				if (atrs[i].required) model_file[atr].required = true
 				if (atrs[i].enum != '') 
 				{
-					model_file[atr].$enum$ = atrs[i].enum.split(',')
-					model_file[atr].$__enumdes$ = atrs[i].enumdes.split(',')
+					model_file[atr].enum = atrs[i].enum.split(',')
+					model_file[atr]._enumdes = atrs[i].enumdes.split(',')
 				}
 			}
 		}
@@ -97,10 +96,10 @@ module.exports = {
 		file = file.substring(0, file.length-6)
 		file += '//End Attributes\n\t}\n}'
 		
-		file = file.replace(/"$__/g, '//')
-		file = file.replace(/"$___/g, '//_')
-		file = file.replace(/\"$/g, "")
-		file = file.replace(/\$"/g, "")
+		file = file.replace(/"__/g, '//"_')
+		file = file.replace(/"_/g, '//"')
+		//file = file.replace(/\"$/g, "")
+		//file = file.replace(/\$"/g, "")*/
 		
 		fs = require('fs')
 		fs.writeFile('./prueba.txt', file, function (err) {
