@@ -100,6 +100,16 @@ module.exports = {
 		file = file.replace(/uuu_/g, '//') // Add comments //
 		file = file.replace(/\"attributes\"/, 'attributes')
 		
+		var start = file.indexOf('[')
+		var end = file.indexOf(']')
+		while (start > 0)
+		{
+			file = file.substring(0, start-1) + file.substring(start, end).replace(/\n|\t| /g,'') + file.substring(end, file.length)
+			console.log('end: ', end)
+			start = file.indexOf('[', start+1)
+			end = file.indexOf(']', end + 1)
+			console.log ('start: ', start)
+		}
 		fs = require('fs')
 		fs.writeFile('./prueba.txt', file, function (err) {
 			if (err) console.log(err);
