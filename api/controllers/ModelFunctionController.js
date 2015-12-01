@@ -56,57 +56,56 @@ module.exports = {
 			if (funcs[i].type != 'list')
 			{
 				if (funcs[i].enable) 
-					model_file['__'+funcs[i].type]= 'enabled'
+					model_file['iiiuuu__'+funcs[i].type+'iii']= 'enabled'
 				  else
-					model_file['__'+funcs[i].type]= 'disabled'
+					model_file['iiiuuu__'+funcs[i].type+'iii']= 'disabled'
 			}
 		}
-		model_file['id'] = {
-			'_description': 'Id',
-			'type': "integer",
-			'primaryKey': true,
-			'autoIncrement': true,
-			'unique': true
+		model_file['iiiidiii'] = {
+			'iiiuuu_descriptioniii': 'Id',
+			'iiitypeiii': "integer",
+			'iiiprimaryKeyiii': true,
+			'iiiautoIncrementiii': true,
+			'iiiuniqueiii': true
 		}
 		var atr = ''
 		for (i=0; i< atrs.length; i++)
 		{
-			atr = atrs[i].attribute
+			atr = 'iii' + atrs[i].attribute + 'iii'
 			if (atr!='id')
 			{
 				model_file[atr] = {}
-				model_file[atr]._description = atrs[i].description
+				model_file[atr].iiiuuu_descriptioniii = atrs[i].description
 				if (atrs[i].textarea_cols > 0) 
 				{
-					model_file[atr]._textarea_cols = atrs[i].textarea_cols
-					model_file[atr]._textarea_rows = atrs[i].textarea_rows
+					model_file[atr].iiiuuu_textarea_colsiii = atrs[i].textarea_cols
+					model_file[atr].iiiuuu_textarea_rowsiii = atrs[i].textarea_rows
 				}
-				if (atrs[i].hide) model_file[atr]._hide = true
-				model_file[atr].type = atrs[i].type
-				if (atrs[i].required) model_file[atr].required = true
+				if (atrs[i].hide) model_file[atr].iiiuuu_hideiii = true
+				model_file[atr].iiitypeiii = atrs[i].type
+				if (atrs[i].required) model_file[atr].iiirequirediii = true
 				if (atrs[i].enum != '') 
 				{
-					model_file[atr].enum = atrs[i].enum.split(',')
-					model_file[atr]._enumdes = atrs[i].enumdes.split(',')
+					model_file[atr].iiienumiii = atrs[i].enum.split(',')
+					model_file[atr].iiiuuu_enumdesiii = atrs[i].enumdes.split(',')
 				}
 			}
 		}
-		console.log('model_file: ', model_file)
 		var file = JSON.stringify({attributes: model_file}, null, 3)
 		file = file.substring(0, file.length-6)
 		file += '//End Attributes\n\t}\n}'
 		
-		file = file.replace(/"__/g, '//"_')
-		file = file.replace(/"_/g, '//"')
-		//file = file.replace(/\"$/g, "")
-		//file = file.replace(/\$"/g, "")*/
+		file = file.replace(/\"iii/g, '')  //Remove starting " on attribute name
+		file = file.replace(/iii\"/g, '')  //Remove ending " on attribute name
+		file = file.replace(/uuu_/g, '//') // Add comments //
+		file = file.replace(/\"attributes\"/, 'attributes')
 		
 		fs = require('fs')
 		fs.writeFile('./prueba.txt', file, function (err) {
 			if (err) console.log(err);
 			console.log('Created file pueba.txt')
 		})
-		res.end(file)
+		res.end('Generado archivo prueba.txt')
 	}
 };
 
