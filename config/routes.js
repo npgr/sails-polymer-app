@@ -107,5 +107,7 @@ module.exports.routes = {
   "/Sales/byProdCategory": "SalesController.byProdCategory",
   "/SalesRegion/list": "SalesRegionController.list",
   "/Sales/Dashboard": "SalesController.Dashboard",
-  "/Cotizacion": "CotizacionController.cotizar"
+  "/Cotizacion": "CotizacionController.cotizar",
+  
+  "/Prueba3/list": "Prueba3Controller.list"
 };

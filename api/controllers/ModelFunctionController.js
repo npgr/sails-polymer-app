@@ -29,14 +29,16 @@ module.exports = {
 				Attribute.find({'model': req.body.model_id})
 					.exec(function(err2, atrs) {
 					  var fs = require('fs')
-					  if (!fs.existsSync('./api/model/'+req.body.model_name+'.js'))
+					  var fileName = './api/model/'+req.body.model_name+'.js'
+					  console.log('File Name: '+ fileName)
+					  if (!fs.existsSync(fileName))
 					  {
 						var exec = require('child_process').exec
 						
-						run = exec('sails generate model '+req.body.model_name,
+						run = exec('sails generate api '+req.body.model_name,
 							function(error, stdout, stderr) {
-								console.log('stdout: ' + stdout);
-								console.log('stderr: ' + stderr);
+								//console.log('stdout: ' + stdout);
+								//console.log('stderr: ' + stderr);
 								if (error !== null) {
 									console.log('exec error: ' + error);
 								}
@@ -47,7 +49,6 @@ module.exports = {
 						sails.controllers.modelfunction.model(res, req.body.model_name, atrs, funcs)
 					})
 			})
-		
 	},
 	model: function(res, model, atrs, funcs) {
 		var model_file = {}
@@ -88,6 +89,11 @@ module.exports = {
 				{
 					model_file[atr].iiienumiii = atrs[i].enum.split(',')
 					model_file[atr].iiiuuu_enumdesiii = atrs[i].enumdes.split(',')
+					
+					for (j=0; j < model_file[atr].iiienumiii.length; j++)
+						model_file[atr].iiienumiii[j].trimLeft().trimRight()
+					for (j=0; j < model_file[atr].iiiuuu_enumdesiii.length; j++)
+						model_file[atr].iiiuuu_enumdesiii[j].trimLeft().trimRight()
 				}
 			}
 		}
@@ -105,17 +111,27 @@ module.exports = {
 		while (start > 0)
 		{
 			file = file.substring(0, start-1) + file.substring(start, end).replace(/\n|\t| /g,'') + file.substring(end, file.length)
-			console.log('end: ', end)
 			start = file.indexOf('[', start+1)
 			end = file.indexOf(']', end + 1)
-			console.log ('start: ', start)
 		}
+		file = 'module.exports = {\n\t//migrate: "alter",' + file.substring(1, file.length) + ';'
 		fs = require('fs')
-		fs.writeFile('./prueba.txt', file, function (err) {
+		fs.writeFile('./api/models/'+model+'.js', file, function (err) {
 			if (err) console.log(err);
 			console.log('Created file pueba.txt')
 		})
 		res.end('Generado archivo prueba.txt')
+		
+		var exec = require('child_process').exec
+
+		run = exec('node generate crud6 '+model,
+			function(error, stdout, stderr) {
+				//console.log('stdout: ' + stdout);
+				//console.log('stderr: ' + stderr);
+				if (error !== null) {
+						console.log('exec error: ' + error);
+				}
+		})
 	}
 };
 
