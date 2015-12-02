@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  //migrate: 'alter',
+  migrate: 'alter',
 
   attributes: {
 	//_title: 'Model',
@@ -32,6 +32,18 @@ module.exports = {
 		//description: 'Title',
 		type: 'string',
 		required: true
+	},
+	dialog_width: {
+		//description: "Dialog Width",
+		type: 'string'
+	},
+	card_width: {
+		//description: "Card Width",
+		type: 'string'
+	},
+	btn_left: {
+		//description: "Button Left",
+		type: 'string'
 	}
 //End Attributes
   }

@@ -1,4 +1,4 @@
-<!-- list template: version 6.32 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -20,6 +20,9 @@
 	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css">
 <!-- INICIA -->
 	<script>	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -15815,6 +15818,18 @@ paper-menu {
 				<td><label class="left_label" for="title"><%= lng('Title')%></label></td>
 				<td><div id="title" on-click="change_field"></div></td>
 			</tr>
+			<tr>
+				<td><label class="left_label" for="dialog_width"><%= lng('Dialog Width')%></label></td>
+				<td><div id="dialog_width" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="card_width"><%= lng('Card Width')%></label></td>
+				<td><div id="card_width" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="btn_left"><%= lng('Button Left')%></label></td>
+				<td><div id="btn_left" on-click="change_field"></div></td>
+			</tr>
 			</table>
 			</paper-dialog-scrollable>
 		<div class="buttons">
@@ -15838,6 +15853,9 @@ paper-menu {
 			this.show_field("id")
 			this.show_field("name")
 			this.show_field("title")
+			this.show_field("dialog_width")
+			this.show_field("card_width")
+			this.show_field("btn_left")
 			this.$.dialog.open()
 		},
 		change_field: function(e) {
@@ -15891,6 +15909,18 @@ paper-menu {
 				<td><label class="left_label" for="title"><%= lng('Title')%><strong class="red"> *</strong></label></td>
 				<td><input id="title" type="text" name="title" required></td>
 			</tr>
+			<tr>
+				<td><label class="left_label" for="dialog_width"><%= lng('Dialog Width')%></label></td>
+				<td><input id="dialog_width" type="text" name="dialog_width"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="card_width"><%= lng('Card Width')%></label></td>
+				<td><input id="card_width" type="text" name="card_width"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="btn_left"><%= lng('Button Left')%></label></td>
+				<td><input id="btn_left" type="text" name="btn_left"></td>
+			</tr>
 			</table>
 			<div class="buttons">
 				<input id="submit_btn" class="hide" type="submit" value="CREAR">
@@ -15915,6 +15945,9 @@ paper-menu {
 			this.$.id.value = ''
 			this.$.name.value = ''
 			this.$.title.value = ''
+			this.$.dialog_width.value = ''
+			this.$.card_width.value = ''
+			this.$.btn_left.value = ''
 		},
 		select_field_b: function(e) {
 			this.$[e.toElement.getAttribute("field")].click()
@@ -15930,7 +15963,10 @@ paper-menu {
 			this.$.ajax2.url = config_server() + "Model"
 			var record = {}
 			  record.name = this.$.name.value
-			  record.title = this.$.title.value			
+			  record.title = this.$.title.value
+			  record.dialog_width = this.$.dialog_width.value
+			  record.card_width = this.$.card_width.value
+			  record.btn_left = this.$.btn_left.value			
 			this.$.ajax2.params = record
 			this.$.ajax2.generateRequest()
 		},
@@ -15993,6 +16029,18 @@ paper-menu {
 				<td><label class="left_label" for="title"><%= lng('Title')%><strong class="red"> *</strong></label></td>
 				<td><input id="title" type="text" name="title" value="{{item.title}}" required></td>
 			</tr>
+			<tr>
+				<td><label class="left_label" for="dialog_width"><%= lng('Dialog Width')%></label></td>
+				<td><input id="dialog_width" type="text" name="dialog_width" value="{{item.dialog_width}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="card_width"><%= lng('Card Width')%></label></td>
+				<td><input id="card_width" type="text" name="card_width" value="{{item.card_width}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="btn_left"><%= lng('Button Left')%></label></td>
+				<td><input id="btn_left" type="text" name="btn_left" value="{{item.btn_left}}"></td>
+			</tr>
 			</table>
 			<div class="buttons">
 			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
@@ -16033,6 +16081,9 @@ paper-menu {
 			record.id = Number(this.$.id.value)
 			record.name = this.$.name.value
 			record.title = this.$.title.value
+			record.dialog_width = this.$.dialog_width.value
+			record.card_width = this.$.card_width.value
+			record.btn_left = this.$.btn_left.value
 			this.$.ajax.url = config_server() + "Model/" +record.id
 			this.$.ajax.params = record
 			this.$.ajax.generateRequest()
@@ -16071,6 +16122,18 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="title"><%= lng('Title')%></label></td>
 				<td><input id="title" type="text" name="title" value="{{item.title}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="dialog_width"><%= lng('Dialog Width')%></label></td>
+				<td><input id="dialog_width" type="text" name="dialog_width" value="{{item.dialog_width}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="card_width"><%= lng('Card Width')%></label></td>
+				<td><input id="card_width" type="text" name="card_width" value="{{item.card_width}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="btn_left"><%= lng('Button Left')%></label></td>
+				<td><input id="btn_left" type="text" name="btn_left" value="{{item.btn_left}}" disabled></td>
 			</tr>
 			</table>
 		<div class="buttons">
@@ -16132,7 +16195,10 @@ paper-menu {
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>  <%= lng('Name')%>
 		<option value="name"><%= lng('Name')%></option>  <%= lng('Title')%>
-		<option value="title"><%= lng('Title')%></option>
+		<option value="title"><%= lng('Title')%></option>  <%= lng('Dialog Width')%>
+		<option value="dialog_width"><%= lng('Dialog Width')%></option>  <%= lng('Card Width')%>
+		<option value="card_width"><%= lng('Card Width')%></option>  <%= lng('Button Left')%>
+		<option value="btn_left"><%= lng('Button Left')%></option>
 	</select>
 	<select id="op">   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -16167,6 +16233,9 @@ paper-menu {
 		<option value="id"><%= lng('Id')%></option>
 		<option value="name"><%= lng('Name')%></option>
 		<option value="title"><%= lng('Title')%></option>
+		<option value="dialog_width"><%= lng('Dialog Width')%></option>
+		<option value="card_width"><%= lng('Card Width')%></option>
+		<option value="btn_left"><%= lng('Button Left')%></option>
 	</select>
 	<select id="op2" class="hide" >   
 		<option value="$eq"><%= lng('Equal to')%></option>
@@ -16202,6 +16271,12 @@ paper-menu {
 			<iron-icon id="name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_title" on-click="sort_by_field"><%= lng('Title')%><div id="title_sort_d" class="hide">
 			<iron-icon id="title_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_dialog_width" on-click="sort_by_field"><%= lng('Dialog Width')%><div id="dialog_width_sort_d" class="hide">
+			<iron-icon id="dialog_width_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_card_width" on-click="sort_by_field"><%= lng('Card Width')%><div id="card_width_sort_d" class="hide">
+			<iron-icon id="card_width_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_btn_left" on-click="sort_by_field"><%= lng('Button Left')%><div id="btn_left_sort_d" class="hide">
+			<iron-icon id="btn_left_sort" icon="arrow-drop-up"></iron-icon></div></th>
 	  </tr>
 	</thead>
 	<!--<tfoot>
@@ -16210,6 +16285,9 @@ paper-menu {
 		<td class="col_id"></td>
 		<td class="col_name"></td>
 		<td class="col_title"></td>
+		<td class="col_dialog_width"></td>
+		<td class="col_card_width"></td>
+		<td class="col_btn_left"></td>
 	</tr>
 	</tfoot>-->
 	<tbody>
@@ -16221,6 +16299,9 @@ paper-menu {
 		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
 		<template is="dom-if" if="{{column.name}}"><td>{{item.name}}</td></template>
 		<template is="dom-if" if="{{column.title}}"><td>{{item.title}}</td></template>
+		<template is="dom-if" if="{{column.dialog_width}}"><td>{{item.dialog_width}}</td></template>
+		<template is="dom-if" if="{{column.card_width}}"><td>{{item.card_width}}</td></template>
+		<template is="dom-if" if="{{column.btn_left}}"><td>{{item.btn_left}}</td></template>
 	</tr>
 	</template>
 	</tbody>
@@ -16234,6 +16315,8 @@ Polymer({
 		//cur_filter: {}
 	},
 	ready: function() {
+//USER POINT - List Start Ready
+//END USER POINT - List Start Ready
 		// For Sharepoint
 		if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
@@ -16246,7 +16329,10 @@ Polymer({
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: false},
 				{column: "name", type: "string", display: true},
-				{column: "title", type: "string", display: true}
+				{column: "title", type: "string", display: true},
+				{column: "dialog_width", type: "string", display: true},
+				{column: "card_width", type: "string", display: true},
+				{column: "btn_left", type: "string", display: true}
 		]
 		this.enums = {}
 		//var _data = <%- data %>
@@ -16483,6 +16569,9 @@ Polymer({
 		this.$.id_sort_d.classList.add("hide")
 		this.$.name_sort_d.classList.add("hide")
 		this.$.title_sort_d.classList.add("hide")
+		this.$.dialog_width_sort_d.classList.add("hide")
+		this.$.card_width_sort_d.classList.add("hide")
+		this.$.btn_left_sort_d.classList.add("hide")
 	},
 	sort_by_field: function(e) {
 		var field = e.target.classList[0].replace('col_','')
