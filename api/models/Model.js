@@ -55,9 +55,9 @@ module.exports = {
 		}
 		//res.redirect("<%= model%>/list")
 	}
-	var functionx = {model: values.id, name:'list',type:'list', enable:true, width:'300px'}
+	var functionx = {model: values.id, type:'list'}
 	ModelFunction.create(functionx, errorx)
-	functionx = {model: values.id, name: values.name+'-new',type:'new', enable:true, width:'300px'}
+	/*functionx = {model: values.id, name: values.name+'-new',type:'new', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
 	functionx = {model: values.id, name: values.name+'-display',type:'display', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
@@ -72,7 +72,7 @@ module.exports = {
 	functionx = {model: values.id, name: values.name+'-print',type:'print', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
 	functionx = {model: values.id, name: values.name+'-Google_Analytics',type:'ga', enable:true, width:'300px'}
-	ModelFunction.create(functionx, errorx)
+	ModelFunction.create(functionx, errorx)*/
 	next()
   }
 };

@@ -6,7 +6,7 @@
 */
 
 module.exports = {
-	//migrate: 'alter',
+	migrate: 'alter',
 	
   attributes: {
 	//_title: 'Funcion',
@@ -29,11 +29,6 @@ module.exports = {
 		//type: 'string',
 		model: 'Model'
 	},
-	name: {
-		//description: 'Name',
-		type: 'string',
-		required: true
-	},
 	type: {
 		//description: 'Type',
 		type: 'string',
@@ -46,17 +41,6 @@ module.exports = {
 		type: 'boolean',
 		enum: [true,false]
 		//,enumdes: ["Yes","No"]
-	},
-	save_filter: {
-		//description: 'Save Filter',
-		type: 'boolean',
-		enum: [true,false]
-		//,enumdes: ["Yes","No"]
-	},
-	width: {
-		//description: 'Width',
-		type: 'string',
-		required: true
 	}
 //End Attributes
 	,toJSON: function () {

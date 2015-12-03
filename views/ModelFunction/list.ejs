@@ -16614,11 +16614,11 @@ Polymer({
 	},
 	item_menu_toggle: function(e){
 		this.key = Number(e.toElement.offsetParent.key)
-		var reg = this.data.find({'id': this.key})
+		/*var reg = this.data.find({'id': this.key})
 		if (reg[0].type == 'list') 
 			this.$.generate_opc.style.display = 'block'
 		 else 
-			this.$.generate_opc.style.display = 'none'
+			this.$.generate_opc.style.display = 'none'*/
 		this.$.menu_dialog.style.top = e.toElement.offsetParent.offsetTop+20+"px"
 		this.$.menu_dialog.style.left = "30px"
 		this.$.menu_dialog.open()
@@ -16688,7 +16688,14 @@ Polymer({
 		this.$.menu_dialog.close()
 		var filtro = {"id": this.key}
 		var post_data = this.data.find(filtro)[0]
-		post(config_server() + "ModelFunction/generate", post_data, 'post')
+		switch(post_data.type) {
+			case 'list':
+				//post(config_server() + "ModelFunction/generate", post_data, 'post')
+				post(config_server() + "FunctionList/generate", post_data, 'post')
+				break;
+			default:
+				alert('Function Type Does not recognized')
+		}
 	}
 //END USER POINT - List Functions
 });
