@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  migrate: 'alter',
+  //migrate: 'alter',
 
   attributes: {
 	//_title: 'Model',
@@ -32,18 +32,6 @@ module.exports = {
 		//description: 'Title',
 		type: 'string',
 		required: true
-	},
-	dialog_width: {
-		//description: "Dialog Width",
-		type: 'string'
-	},
-	card_width: {
-		//description: "Card Width",
-		type: 'string'
-	},
-	btn_left: {
-		//description: "Button Left",
-		type: 'string'
 	}
 //End Attributes
   }
@@ -57,6 +45,8 @@ module.exports = {
 	}
 	var functionx = {model: values.id, type:'list'}
 	ModelFunction.create(functionx, errorx)
+	functionx = {model: values.id, new: 'e', display: 'e', edit: 'e', delete: 'e', columns: 'e', print: 'e', download: 'e', ga: 'e', dialog_width: '30em', card_width: '86em', btn_left: '80px'}
+	FunctionList.create(functionx, errorx)
 	/*functionx = {model: values.id, name: values.name+'-new',type:'new', enable:true, width:'300px'}
 	ModelFunction.create(functionx, errorx)
 	functionx = {model: values.id, name: values.name+'-display',type:'display', enable:true, width:'300px'}

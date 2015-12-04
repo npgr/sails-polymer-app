@@ -6,7 +6,9 @@
 */
 
 module.exports = {
-
+	
+	//migrate: 'alter',
+	
   attributes: {
 	
 	id: {
@@ -85,6 +87,7 @@ module.exports = {
 		//description: 'Button Left',
 		type: 'string',
 	}
+//End Attributes
   }
 };
 

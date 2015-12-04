@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+
 	list : function (req, res) {
 		var model = req.body.id
 		ModelFunction.find({'model': model})
@@ -42,15 +43,15 @@ module.exports = {
 								if (error !== null) {
 									console.log('exec error: ' + error);
 								}
-							sails.controllers.modelfunction.model(res, req.body.model_name, atrs, funcs)
+							sails.controllers.modelfunction.generate_model(res, req.body.model_name, atrs, funcs)
 						})
 					  }
 					  else 
-						sails.controllers.modelfunction.model(res, req.body.model_name, atrs, funcs)
+						sails.controllers.modelfunction.generate_model(res, req.body.model_name, atrs, funcs)
 					})
 			})
 	},
-	model: function(res, model, atrs, funcs) {
+	generate_model: function(res, model, atrs, funcs) {
 		var model_file = {}
 		for (i=0; i< funcs.length; i++)
 		{

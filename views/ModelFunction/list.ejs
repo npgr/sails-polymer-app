@@ -16089,6 +16089,170 @@ paper-menu {
 </script>
 </dom-module>
 
+<!-- edit-form: version 5.10 -->
+
+<dom-module id="FunctionList-edit">
+<template>
+	<iron-ajax id="ajax" method='PUT' handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>
+		<h2 class="card_title"><%= lng("%s %s",lng("Edit"),lng("FunctionList"))%></h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="model"><%= lng('Model')%></label></td>
+				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key={{item.model_id}} value="{{item.model_name}}" on-click="select_field" readonly></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="new"><%= lng('New')%></label></td>
+				<td><select id="new" name="new">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="display"><%= lng('Display')%></label></td>
+				<td><select id="display" name="display">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="edit"><%= lng('Edit')%></label></td>
+				<td><select id="edit" name="edit">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="delete"><%= lng('Delete')%></label></td>
+				<td><select id="delete" name="delete">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="columns"><%= lng('Columns')%></label></td>
+				<td><select id="columns" name="columns">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="download"><%= lng('Download')%></label></td>
+				<td><select id="download" name="download">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="print"><%= lng('Print')%></label></td>
+				<td><select id="print" name="print">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="ga"><%= lng('Google Analytics')%></label></td>
+				<td><select id="ga" name="ga">
+						<option value="e"><%= lng('Enabled')%></option>
+						<option value="d"><%= lng('Disabled')%></option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="dialog_width"><%= lng('Dialog Width')%></label></td>
+				<td><input id="dialog_width" type="text" name="dialog_width" value="{{item.dialog_width}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="card_width"><%= lng('Card Width')%></label></td>
+				<td><input id="card_width" type="text" name="card_width" value="{{item.card_width}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="btn_left"><%= lng('Button Left')%></label></td>
+				<td><input id="btn_left" type="text" name="btn_left" value="{{item.btn_left}}"></td>
+			</tr>
+			</table>
+			<div class="buttons">
+			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			  <div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised><%= lng('Change ')%></paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised><%= lng('Exit')%></paper-button>
+			  </div>
+			</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "FunctionList-edit",
+		open_dialog: function(item) {
+			this.item = item
+			this.set_select_fields(item)
+			this.$.dialog.open()
+		},
+		set_select_fields(item) {
+			this.$.new.value = item.new
+			this.$.display.value = item.display
+			this.$.edit.value = item.edit
+			this.$.delete.value = item.delete
+			this.$.columns.value = item.columns
+			this.$.download.value = item.download
+			this.$.print.value = item.print
+			this.$.ga.value = item.ga
+			},
+		select_field_b: function(e) {
+			this.$[e.toElement.getAttribute("field")].click()
+		},
+		select_field: function(e) {
+			this.field = e.toElement.id
+			if (this.field == "model")
+				this.$.Model_select_dialog.open_select_dialog()
+		},
+		set_select_field: function(e) {
+			this.$[this.field].value = this.$[e.srcElement.id].item.name
+			this.$[this.field].key = this.$[e.srcElement.id].item.key
+		},
+		submit_form: function() {
+			this.$.submit_update.click()
+		},
+		update: function() {
+			var record = {}
+			record.id = Number(this.$.id.value)
+			record.model = this.$.model.key
+			record.new = this.$.new.value
+			record.display = this.$.display.value
+			record.edit = this.$.edit.value
+			record.delete = this.$.delete.value
+			record.columns = this.$.columns.value
+			record.download = this.$.download.value
+			record.print = this.$.print.value
+			record.ga = this.$.ga.value
+			record.dialog_width = this.$.dialog_width.value
+			record.card_width = this.$.card_width.value
+			record.btn_left = this.$.btn_left.value
+			this.$.ajax.url = config_server() + "FunctionList/" +record.id
+			this.$.ajax.params = record
+			this.$.ajax.generateRequest()
+		},
+		record_updated: function() {
+			alert("<%= lng('Record Updated')%>")
+			this.$.dialog.close()
+			this.fire('close')
+		},
+		ajax_error: function() {
+			console.log(this.$.ajax.lastError)
+			alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
+		}
+	})
+</script>
+</dom-module>
+
 <dom-module id="ModelFunction-list">
 <template>
 <!--USER POINT - List Style-->
@@ -16097,11 +16261,13 @@ paper-menu {
 	<ModelFunction-list-columns id="ModelFunction_list_columns" on-close="update_columns"></ModelFunction-list-columns>
 	<ModelFunction-new id="ModelFunction_new_dialog" on-close="reload"></ModelFunction-new>
 	<ModelFunction-display id="ModelFunction_display_dialog"></ModelFunction-display>
-	<ModelFunction-edit id="ModelFunction_edit_dialog" on-close="reload"></ModelFunction-edit>
+	<FunctionList-edit id="FunctionList_edit_dialog"></FunctionList-edit>
+	<!--<ModelFunction-edit id="ModelFunction_edit_dialog" on-close="reload"></ModelFunction-edit>-->
 	<ModelFunction-delete id="ModelFunction_delete_dialog" on-close="reload"></ModelFunction-delete>
 	<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Funcion"))%></div>-->
 <!--USER POINT - List Header-->
+	<iron-ajax id="ajax_list" handle-as="json" method='post' handleAs="json" on-response="load_list_data" on-error="ajax_error"></iron-ajax>
 <!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>
@@ -16283,6 +16449,7 @@ Polymer({
 			}, 600);	
 		}, false);*/
 //USER POINT - List End Ready
+		this.load_funcs_data()
 //END USER POINT - List End Ready
 	},
 	help: function() {
@@ -16627,7 +16794,14 @@ Polymer({
 	this.$.menu_dialog.close()
 	var filtro = {"id": this.key}
 	var item = this.data.find(filtro)[0]
-	this.$.ModelFunction_edit_dialog.open_dialog(item)
+	//this.$.ModelFunction_edit_dialog.open_dialog(item)
+	switch(item.type) {
+		case 'list':
+			this.$.FunctionList_edit_dialog.open_dialog(item)
+			break;
+		default:
+			alert('Function Type Does not recognized')
+	} 
   },
   reload: function() {
 	this.$.ajax.generateRequest()
@@ -16684,7 +16858,30 @@ Polymer({
 	alert("<%= lng('Error Processing Request: ')%>", this.$.ajax.lastError)
   }
 //USER POINT - List Functions
-	,generate: function() {
+	,load_funcs_data: function() {
+		for (i=0; i < this.data.data.length; i++)
+		{
+			//console.log(this.data.data.type)
+			switch(this.data.data[i].type) {
+			  case 'list':
+				this.$.ajax_list.url = config_server() + "FunctionList/get"
+				this.$.ajax_list.method = 'POST'
+				this.$.ajax_list.contentType="application/x-www-form-urlencoded"
+				this.$.ajax_list.body = 'id='+this.data.data[i].model.id
+				//this.$.ajax_list.body = JSON.stringify(this.data.data[i].model)
+				//this.$.ajax_list.body = this.data.data[i].model
+				
+				this.$.ajax_list.generateRequest()
+				break;
+			  default:
+				//alert('Function Type Does not recognized')
+			}
+		}
+	},
+	load_list_data: function() {
+		console.log('data recibida', this.$.ajax_list.lastResponse)
+	},
+	generate: function() {
 		this.$.menu_dialog.close()
 		var filtro = {"id": this.key}
 		var post_data = this.data.find(filtro)[0]

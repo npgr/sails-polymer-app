@@ -35,24 +35,13 @@ module.exports = {
 		required: true,
 		enum: ['list','display','edit','new','delete','columns','download','print','ga','https','relic','pingdom']
 		//,enumdes: ['List','Display','Edit','New','Delete','Columns', 'Download','Print','Analytics','Https','NewRelic','pingdom']
-	},
-	enable: {
-		//description: 'Enable',
-		type: 'boolean',
-		enum: [true,false]
-		//,enumdes: ["Yes","No"]
 	}
 //End Attributes
 	,toJSON: function () {
       var obj = this.toObject();
-	  
 	  delete obj.model.createdAt;
 	  delete obj.model.updatedAt;
 	  delete obj.model.title;
-	  delete obj.model.primaryKey;
-	  delete obj.model.autoIncrement;
-	  delete obj.model.unique;
-	  delete obj.model.menu;
 	  delete obj.createdAt;
 	  delete obj.updatedAt;
 

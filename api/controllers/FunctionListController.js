@@ -6,6 +6,12 @@
  */
 
 module.exports = {
-	
+	get : function (req, res) {
+		var model = req.body.id
+		FunctionList.findOne({'model': model})
+			.exec(function(err, data){
+				res.json(data)
+			})
+	},
 };
 
