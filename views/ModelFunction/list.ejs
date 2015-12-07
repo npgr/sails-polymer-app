@@ -16267,7 +16267,12 @@ paper-menu {
 	<Model-select id="Model_select_dialog" on-item_selected="set_select_field"></Model-select>	
 	<!--<div class="card_title"><%= lng("%s %s",lng("List"),lng("Funcion"))%></div>-->
 <!--USER POINT - List Header-->
+	<!-- Get Functionlist attributes -->
 	<iron-ajax id="ajax_list" handle-as="json" method='post' handleAs="json" on-response="load_list_data" on-error="ajax_error"></iron-ajax>
+	<!-- Generate Model -->
+	<iron-ajax id="ajax_gen_model" handle-as="json" method='post' handleAs="json" on-response="generate_list" on-error="ajax_error"></iron-ajax>
+	<!-- Generate List -->
+	<iron-ajax id="ajax_gen_list" handle-as="json" method='post' handleAs="json" on-response="generated_list" on-error="ajax_error"></iron-ajax>
 <!--END USER POINT - List Header-->
 	<select id="filter" on-change="input_type">  <%= lng('Id')%>
 		<option value="id"><%= lng('Id')%></option>
@@ -16887,12 +16892,32 @@ Polymer({
 		var post_data = this.data.find(filtro)[0]
 		switch(post_data.type) {
 			case 'list':
-				//post(config_server() + "ModelFunction/generate", post_data, 'post')
-				post(config_server() + "Model/generate", post_data, 'post')
+				this.$.ajax_gen_model.url = config_server() + "Model/generate"
+				this.$.ajax_gen_model.method = 'POST'
+				this.$.ajax_gen_model.contentType="application/x-www-form-urlencoded"
+				this.$.ajax_gen_model.body = 'model_id='+post_data.model_id+'&model_name='+post_data.model_name
+				
+				this.$.ajax_gen_model.generateRequest()
+				//post(config_server() + "Model/generate", post_data, 'post')
 				break;
 			default:
 				alert('Function Type Does not recognized')
 		}
+	},
+	generate_list: function() {	
+		console.log('Response from generate model: ', this.$.ajax_gen_model.lastResponse)
+		var filtro = {"id": this.key}
+		var post_data = this.data.find(filtro)[0]
+		
+		this.$.ajax_gen_list.url = config_server() + "FunctionList/generate"
+		this.$.ajax_gen_list.method = 'POST'
+		this.$.ajax_gen_list.contentType="application/x-www-form-urlencoded"
+		this.$.ajax_gen_list.body = 'model_id='+post_data.model_id+'&model_name='+post_data.model_name
+				
+		this.$.ajax_gen_list.generateRequest()
+	},
+	generated_list: function() {
+		console.log('Response from generate list: ', this.$.ajax_gen_list.lastResponse)	
 	}
 //END USER POINT - List Functions
 });

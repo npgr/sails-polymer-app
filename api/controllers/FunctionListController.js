@@ -13,5 +13,10 @@ module.exports = {
 				res.json(data)
 			})
 	},
+	generate: function(req, res) {
+		func = req.body
+		console.log('Generate Function list: ', func)
+		res.json({'function List': func})
+	}
 };
 

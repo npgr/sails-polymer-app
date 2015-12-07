@@ -108,7 +108,7 @@ module.exports = {
 			if (err) console.log(err);
 			console.log('Generated Model '+model)
 		})
-		res.end('Generated Model '+model)
+		res.json({'response': model})
 	}
 };
 
