@@ -9,6 +9,7 @@ module.exports = {
 	get : function (req, res) {
 		var model = req.body.id
 		FunctionList.findOne({'model': model})
+			.populate('model')
 			.exec(function(err, data){
 				res.json(data)
 			})
