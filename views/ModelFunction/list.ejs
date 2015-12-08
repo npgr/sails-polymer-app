@@ -16100,13 +16100,19 @@ paper-menu {
 		<paper-dialog-scrollable>
 		<form id="form" action="javascript:void(0);" on-submit="update">
 			<table class="table_dialog" style="width:100%">
-			<tr>
+			<tr hide>
 				<td><label class="left_label" for="id"><%= lng('Id')%></label></td>
 				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="model"><%= lng('Model')%></label></td>
-				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key={{item.model_id}} value="{{item.model_name}}" on-click="select_field" readonly></td>
+				<td><iron-icon icon="find-in-page" field="model" on-click="select_field_b"></iron-icon><input id="model" type="text" name="model" key={{item.model_id}} value="{{item.model_name}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type"><%= lng('Type')%></label></td>
+				<td><select id="type" disabled>
+					<option value="l" selected><%= lng('List')%></option>
+				</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="new"><%= lng('New')%></label></td>
@@ -16797,7 +16803,7 @@ Polymer({
 	//this.$.ModelFunction_edit_dialog.open_dialog(item)
 	switch(item.type) {
 		case 'list':
-			this.$.FunctionList_edit_dialog.open_dialog(item)
+			this.$.FunctionList_edit_dialog.open_dialog(item.list)
 			break;
 		default:
 			alert('Function Type Does not recognized')
@@ -16879,7 +16885,17 @@ Polymer({
 		}
 	},
 	load_list_data: function() {
-		console.log('data recibida', this.$.ajax_list.lastResponse)
+		for (i=0; i<this.data.data.length; i++) 
+		{
+			if (this.data.data[i].type == 'list')
+			{
+				this.data.data[i].list = this.$.ajax_list.lastResponse
+				this.data.data[i].list.model_id = this.data.data[i].list.model.id 
+				this.data.data[i].list.model_name = this.data.data[i].list.model.name 
+				console.log('data: ', this.data.data[i])
+				break
+			}
+		}
 	},
 	generate: function() {
 		this.$.menu_dialog.close()
