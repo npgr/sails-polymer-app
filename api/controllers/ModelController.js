@@ -48,7 +48,7 @@ module.exports = {
 					sails.controllers.model.generate_model(res, req.body.model_name, atrs)
 			})
 	},
-	generate_model: function(res, model, atrs) {
+	generate_model: function(res, modelx, atrs) {
 		var model_file = {}
 		model_file['iiiidiii'] = {
 			'iiiuuu_descriptioniii': 'Id',
@@ -57,31 +57,51 @@ module.exports = {
 			'iiiautoIncrementiii': true,
 			'iiiuniqueiii': true
 		}
+		jsondata = {}
+		jsondata.id = {
+			_description: 'Id',
+			type: "integer",
+			primaryKey: true,
+			autoIncrement: true,
+			unique: true
+		}
 		var atr = ''
 		for (i=0; i< atrs.length; i++)
 		{
-			atr = 'iii' + atrs[i].attribute + 'iii'
+			atr = atrs[i].attribute
 			if (atr!='id')
 			{
-				model_file[atr] = {}
-				model_file[atr].iiiuuu_descriptioniii = atrs[i].description
+				model_file['iii'+atr+'iii'] = {}; jsondata[atr] = {}
+				model_file['iii'+atr+'iii'].iiiuuu_descriptioniii = atrs[i].description
+				jsondata[atr]._description = atrs[i].description
 				if (atrs[i].textarea_cols > 0) 
 				{
-					model_file[atr].iiiuuu_textarea_colsiii = atrs[i].textarea_cols
-					model_file[atr].iiiuuu_textarea_rowsiii = atrs[i].textarea_rows
+					model_file['iii'+atr+'iii'].iiiuuu_textarea_colsiii = atrs[i].textarea_cols
+					model_file['iii'+atr+'iii'].iiiuuu_textarea_rowsiii = atrs[i].textarea_rows
+					jsondata[atr]._textarea_cols = atrs[i].textarea_cols
+					jsondata[atr]._textarea_rows = atrs[i].textarea_rows
 				}
-				if (atrs[i].hide) model_file[atr].iiiuuu_hideiii = true
-				model_file[atr].iiitypeiii = atrs[i].type
-				if (atrs[i].required) model_file[atr].iiirequirediii = true
+				if (atrs[i].hide) {
+					model_file['iii'+atr+'iii'].iiiuuu_hideiii = true
+					jsondata[atr]._hide = true
+				} 
+				model_file['iii'+atr+'iii'].iiitypeiii = atrs[i].type
+				jsondata[atr].type = atrs[i].type
+				if (atrs[i].required) {
+					model_file['iii'+atr+'iii'].iiirequirediii = true
+					jsondata[atr].required = true
+				}
 				if (atrs[i].enum != '') 
 				{
-					model_file[atr].iiienumiii = atrs[i].enum.split(',')
-					model_file[atr].iiiuuu_enumdesiii = atrs[i].enumdes.split(',')
+					model_file['iii'+atr+'iii'].iiienumiii = atrs[i].enum.split(',')
+					model_file['iii'+atr+'iii'].iiiuuu_enumdesiii = atrs[i].enumdes.split(',')
+					jsondata[atr].enum = atrs[i].enum.split(',')
+					jsondata[atr]._enumdes = atrs[i].enumdes.split(',')
 					
-					for (j=0; j < model_file[atr].iiienumiii.length; j++)
-						model_file[atr].iiienumiii[j].trimLeft().trimRight()
-					for (j=0; j < model_file[atr].iiiuuu_enumdesiii.length; j++)
-						model_file[atr].iiiuuu_enumdesiii[j].trimLeft().trimRight()
+					for (j=0; j < model_file['iii'+atr+'iii'].iiienumiii.length; j++)
+						model_file['iii'+atr+'iii'].iiienumiii[j].trimLeft().trimRight()
+					for (j=0; j < model_file['iii'+atr+'iii'].iiiuuu_enumdesiii.length; j++)
+						model_file['iii'+atr+'iii'].iiiuuu_enumdesiii[j].trimLeft().trimRight()
 				}
 			}
 		}
@@ -102,13 +122,20 @@ module.exports = {
 			start = file.indexOf('[', start+1)
 			end = file.indexOf(']', end + 1)
 		}
+		// Generar crud
+			// Global variables 
+			console.log('jsondata: ', jsondata)
+			model = modelx
+			//require('/templates/crud5/crud5').generate('crud6')
+			require('crud5').generate('crud6')
+		//
 		file = 'module.exports = {\n\t//migrate: "alter",' + file.substring(1, file.length) + ';'
 		fs = require('fs')
-		fs.writeFile('./api/models/'+model+'.js', file, function (err) {
+		fs.writeFile('./api/models/'+modelx+'.js', file, function (err) {
 			if (err) console.log(err);
-			console.log('Generated Model '+model)
+			console.log('Generated Model '+modelx)
 		})
-		res.json({'response': model})
+		res.json({'response': modelx})
 	}
 };
 

@@ -6,7 +6,8 @@ var crud1 = require('./templates/crud1')
 var crud2 = require('./templates/crud2')
 var crud3 = require('./templates/crud3')
 var crud4 = require('./templates/crud4')
-var crud5 = require('./templates/crud5/crud5')
+//var crud5 = require('./templates/crud5/crud5')
+var crud5 = require('crud5')
 
 option = process.argv[2]
 
@@ -51,7 +52,7 @@ function get_model(cb)
 	//model: global variable
 	model = get_model_par()
 	if (model) {
-		console.log('creating a create page for model '+ model)
+		//console.log('creating a create page for model '+ model)
 		fs.readFile('api/models/'+model+'.js', 'utf-8', function (err, data) {
 			if (err) {
 				console.log(err)
@@ -82,6 +83,7 @@ function crud(n)
 	get_model(function(jsondat) { 
 		// global variable jsondata
 		jsondata = jsondat
+		//console.log('jsondata: ', jsondata)
 		if (jsondata) 
 		  switch(n) {
 			case 1:
