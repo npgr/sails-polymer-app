@@ -1,4 +1,4 @@
-<!-- list template: version 6.33 -->
+<!-- list template: version 6.34 -->
  <% 
  function lng(word) {
 	return __("word")
@@ -20,6 +20,9 @@
 	<link rel="stylesheet" href="/bower_components/intro.js/minified/introjs.min.css">
 <!-- INICIA -->
 	<script>	
+// Redirect to https
+  if (window.location.protocol != "https:" && window.location.href.indexOf('localhost') == -1)
+	window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -15852,6 +15855,10 @@ paper-menu {
 				<td><div id="enumdes" on-click="change_field"></div></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="omit"><%= lng('Omit')%></label></td>
+				<td><div id="omit" on-click="change_field"></div></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="ref_model_name"><%= lng('Reference Model')%></label></td>
 				<td><div id="ref_model_name" on-click="change_field"></div></td>
 			</tr>
@@ -15935,6 +15942,7 @@ paper-menu {
 			this.show_field("textarea_rows")
 			this.show_field("enum")
 			this.show_field("enumdes")
+			this.show_field("omit")
 			this.show_field("ref_model_name")
 			this.show_field("model_key")
 			this.show_field("key_type")
@@ -16051,6 +16059,13 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="enumdes"><%= lng('EnumDes')%></label></td>
 				<td><input id="enumdes" type="text" name="enumdes"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="omit"><%= lng('Omit')%></label></td>
+				<td><select id="omit" name="omit">
+						<option value="true"><%= lng('Yes')%></option>
+						<option value="false"><%= lng('No')%></option>
+					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ref_model"><%= lng('Reference Model')%></label></td>
@@ -16200,6 +16215,7 @@ paper-menu {
 			record.textarea_rows = Number(this.$.textarea_rows.value)
 			  record.enum = this.$.enum.value
 			  record.enumdes = this.$.enumdes.value
+			  record.omit = this.$.omit.value
 			record.ref_model = this.$.ref_model.key
 			  record.model_key = this.$.model_key.value
 			  record.key_type = this.$.key_type.value
@@ -16320,6 +16336,13 @@ paper-menu {
 				<td><input id="enumdes" type="text" name="enumdes" value="{{item.enumdes}}" disabled></td>
 			</tr>
 			<tr>
+				<td><label class="left_label" for="omit"><%= lng('Omit')%></label></td>
+				<td><select id="omit" name="omit" disabled>
+						<option value="true"><%= lng('Yes')%></option>
+						<option value="false"><%= lng('No')%></option>
+					</select></td>
+			</tr>
+			<tr>
 				<td><label class="left_label" for="ref_model"><%= lng('Reference Model')%></label></td>
 				<td><input id="ref_model" type="text" name="ref_model" value="{{item.ref_model_name}}" disabled></td>
 			</tr>
@@ -16418,6 +16441,7 @@ paper-menu {
 			this.$.type.value = item.type
 			this.$.required.value = item.required
 			this.$.hide.value = item.hide
+			this.$.omit.value = item.omit
 			this.$.key_type.value = item.key_type
 			this.$.filter.value = item.filter
 			this.$.list.value = item.list
@@ -16502,6 +16526,13 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="enumdes"><%= lng('EnumDes')%></label></td>
 				<td><input id="enumdes" type="text" name="enumdes" value="{{item.enumdes}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="omit"><%= lng('Omit')%></label></td>
+				<td><select id="omit" name="omit">
+						<option value="true"><%= lng('Yes')%></option>
+						<option value="false"><%= lng('No')%></option>
+					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ref_model"><%= lng('Reference Model')%></label></td>
@@ -16605,6 +16636,7 @@ paper-menu {
 			this.$.type.value = item.type
 			this.$.required.value = item.required
 			this.$.hide.value = item.hide
+			this.$.omit.value = item.omit
 			this.$.key_type.value = item.key_type
 			this.$.filter.value = item.filter
 			this.$.list.value = item.list
@@ -16646,6 +16678,7 @@ paper-menu {
 			record.textarea_rows = Number(this.$.textarea_rows.value)
 			record.enum = this.$.enum.value
 			record.enumdes = this.$.enumdes.value
+			record.omit = this.$.omit.value
 			record.ref_model = this.$.ref_model.key
 			record.model_key = this.$.model_key.value
 			record.key_type = this.$.key_type.value
@@ -16745,6 +16778,13 @@ paper-menu {
 			<tr>
 				<td><label class="left_label" for="enumdes"><%= lng('EnumDes')%></label></td>
 				<td><input id="enumdes" type="text" name="enumdes" value="{{item.enumdes}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="omit"><%= lng('Omit')%></label></td>
+				<td><select id="omit" name="omit" disabled>
+						<option value="true"><%= lng('Yes')%></option>
+						<option value="false"><%= lng('No')%></option>
+					</select></td>
 			</tr>
 			<tr>
 				<td><label class="left_label" for="ref_model"><%= lng('Reference Model')%></label></td>
@@ -16848,6 +16888,7 @@ paper-menu {
 			this.$.type.value = item.type
 			this.$.required.value = item.required
 			this.$.hide.value = item.hide
+			this.$.omit.value = item.omit
 			this.$.key_type.value = item.key_type
 			this.$.filter.value = item.filter
 			this.$.list.value = item.list
@@ -17119,7 +17160,8 @@ paper-menu {
 		<option value="textarea_cols"><%= lng('textarea_cols')%></option>  <%= lng('textarea_rows')%>
 		<option value="textarea_rows"><%= lng('textarea_rows')%></option>  <%= lng('Enum')%>
 		<option value="enum"><%= lng('Enum')%></option>  <%= lng('EnumDes')%>
-		<option value="enumdes"><%= lng('EnumDes')%></option>
+		<option value="enumdes"><%= lng('EnumDes')%></option>  <%= lng('Omit')%>
+		<option value="omit"><%= lng('Omit')%></option>
 		<option value="ref_model_name"><%= lng('Reference Model')%></option>  <%= lng('Mdl Key')%>
 		<option value="model_key"><%= lng('Mdl Key')%></option>  <%= lng('Key Type')%>
 		<option value="key_type"><%= lng('Key Type')%></option>
@@ -17176,6 +17218,7 @@ paper-menu {
 		<option value="textarea_rows"><%= lng('textarea_rows')%></option>
 		<option value="enum"><%= lng('Enum')%></option>
 		<option value="enumdes"><%= lng('EnumDes')%></option>
+		<option value="omit"><%= lng('Omit')%></option>
 		<option value="ref_model_name"><%= lng('Reference Model')%></option>
 		<option value="model_key"><%= lng('Mdl Key')%></option>
 		<option value="key_type"><%= lng('Key Type')%></option>
@@ -17241,6 +17284,8 @@ paper-menu {
 			<iron-icon id="enum_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_enumdes" on-click="sort_by_field"><%= lng('EnumDes')%><div id="enumdes_sort_d" class="hide">
 			<iron-icon id="enumdes_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_omit" on-click="sort_by_field"><%= lng('Omit')%><div id="omit_sort_d" class="hide">
+			<iron-icon id="omit_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_ref_model_name" on-click="sort_by_field"><%= lng('Reference Model')%><div id="ref_model_name_sort_d" class="hide">
 			<iron-icon id="ref_model_name_sort" icon="arrow-drop-up"></iron-icon></div></th>
 		<th class="col_model_key" on-click="sort_by_field"><%= lng('Mdl Key')%><div id="model_key_sort_d" class="hide">
@@ -17284,6 +17329,7 @@ paper-menu {
 		<td class="col_textarea_rows"></td>
 		<td class="col_enum"></td>
 		<td class="col_enumdes"></td>
+		<td class="col_omit"></td>
 		<td class="col_ref_model_name"></td>
 		<td class="col_model_key"></td>
 		<td class="col_key_type"></td>
@@ -17317,6 +17363,7 @@ paper-menu {
 		<template is="dom-if" if="{{column.textarea_rows}}"><td>{{item.textarea_rows}}</td></template>
 		<template is="dom-if" if="{{column.enum}}"><td>{{item.enum}}</td></template>
 		<template is="dom-if" if="{{column.enumdes}}"><td>{{item.enumdes}}</td></template>
+		<template is="dom-if" if="{{column.omit}}"><td>{{item.omit_des}}</td></template>
 		<template is="dom-if" if="{{column.ref_model_name}}"><td>{{item.ref_model_name}}</td></template>
 		<template is="dom-if" if="{{column.model_key}}"><td>{{item.model_key}}</td></template>
 		<template is="dom-if" if="{{column.key_type}}"><td>{{item.key_type_des}}</td></template>
@@ -17368,6 +17415,7 @@ Polymer({
 				{column: "textarea_rows", type: "integer", display: false},
 				{column: "enum", type: "string", display: true},
 				{column: "enumdes", type: "string", display: true},
+				{column: "omit", enum: [true,false], enumdes: ["<%= lng("Yes")%>","<%= lng("No")%>"], display: true},
 				{column: "ref_model_id", type: "integer", model: "Model", display: false},
 				{column: "ref_model_name", type: "string", model: "Model", display: true},
 				{column: "model_key", type: "string", display: false},
@@ -17388,6 +17436,7 @@ Polymer({
 		this.enums.type = {integer:"<%= lng('integer')%>",string:"<%= lng('string')%>",float:"<%= lng('float')%>",date:"<%= lng('date')%>",boolean:"<%= lng('boolean')%>"}
 		this.enums.required = {true:"<%= lng('Yes')%>",false:"<%= lng('No')%>"}
 		this.enums.hide = {true:"<%= lng('Yes')%>",false:"<%= lng('No')%>"}
+		this.enums.omit = {true:"<%= lng('Yes')%>",false:"<%= lng('No')%>"}
 		this.enums.key_type = {integer:"<%= lng('integer')%>",string:"<%= lng('string')%>",float:"<%= lng('float')%>",date:"<%= lng('date')%>",boolean:"<%= lng('boolean')%>"}
 		this.enums.filter = {true:"<%= lng('Yes')%>",false:"<%= lng('No')%>"}
 		this.enums.list = {true:"<%= lng('Yes')%>",false:"<%= lng('No')%>"}
@@ -17653,6 +17702,7 @@ Polymer({
 		this.$.textarea_rows_sort_d.classList.add("hide")
 		this.$.enum_sort_d.classList.add("hide")
 		this.$.enumdes_sort_d.classList.add("hide")
+		this.$.omit_sort_d.classList.add("hide")
 		this.$.ref_model_name_sort_d.classList.add("hide")
 		this.$.model_key_sort_d.classList.add("hide")
 		this.$.key_type_sort_d.classList.add("hide")
@@ -17831,6 +17881,7 @@ Polymer({
 		this.$.ajax.lastResponse[i].type_des= this.enums.type[this.$.ajax.lastResponse[i].type]
 		this.$.ajax.lastResponse[i].required_des= this.enums.required[this.$.ajax.lastResponse[i].required]
 		this.$.ajax.lastResponse[i].hide_des= this.enums.hide[this.$.ajax.lastResponse[i].hide]
+		this.$.ajax.lastResponse[i].omit_des= this.enums.omit[this.$.ajax.lastResponse[i].omit]
 		if (this.$.ajax.lastResponse[i].ref_model){
 			this.$.ajax.lastResponse[i].ref_model_id = this.$.ajax.lastResponse[i].ref_model.id
 			this.$.ajax.lastResponse[i].ref_model_name = this.$.ajax.lastResponse[i].ref_model.name

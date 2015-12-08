@@ -81,7 +81,9 @@ module.exports = {
 	},
 	omit: {
 		//description: 'Omit',
-		type: 'boolean'
+		type: 'boolean',
+		enum: [true, false]
+		//,enumdes: ['Yes', 'No']
 	},
 	ref_model: {
 		//description: 'Reference Model',
