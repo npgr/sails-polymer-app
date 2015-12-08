@@ -15,9 +15,10 @@ module.exports = {
 			})
 	},
 	generate: function(req, res) {
-		func = req.body
-		console.log('Generate Function list: ', func)
-		res.json({'function List': func})
+		FunctionList.findOne({model: req.body.model_id})
+			.exec(function(err, func) {
+				res.json({'function List': func})
+		})
 	}
 };
 
