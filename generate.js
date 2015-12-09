@@ -49,8 +49,6 @@ function get_model_par() {
 
 function get_model(cb)
 {
-	//model: global variable
-	model = get_model_par()
 	if (model) {
 		//console.log('creating a create page for model '+ model)
 		fs.readFile('api/models/'+model+'.js', 'utf-8', function (err, data) {
@@ -80,7 +78,9 @@ function get_model(cb)
 
 function crud(n)
 {
-	get_model(function(jsondat) { 
+	//model: global variable
+	model = get_model_par()
+	crud5.get_model(function(jsondat) { 
 		// global variable jsondata
 		jsondata = jsondat
 		//console.log('jsondata: ', jsondata)
