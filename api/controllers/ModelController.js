@@ -129,7 +129,7 @@ module.exports = {
 			//require('/templates/crud5/crud5').generate('crud6')
 			require('crud5').generate('crud6')
 		//
-		file = 'module.exports = {\n\t//migrate: "alter",' + file.substring(1, file.length) + ';'
+		file = 'module.exports = {\n\tmigrate: "alter",' + file.substring(1, file.length) + ';'
 		fs = require('fs')
 		fs.writeFile('./api/models/'+modelx+'.js', file, function (err) {
 			if (err) console.log(err);
