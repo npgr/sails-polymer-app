@@ -47,7 +47,8 @@ function get_model_par() {
 	}
 }
 
-function get_model(cb)
+//Moved to crud5 Module
+/*function get_model(cb)
 {
 	if (model) {
 		//console.log('creating a create page for model '+ model)
@@ -74,7 +75,7 @@ function get_model(cb)
 			}
 		})
 	}
-}
+}*/
 
 function crud(n)
 {

@@ -126,8 +126,7 @@ module.exports = {
 			// Global variables 
 			console.log('jsondata: ', jsondata)
 			model = modelx
-			//require('/templates/crud5/crud5').generate('crud6')
-			require('crud5').generate('crud6')
+			//require('crud5').generate('crud6')
 		//
 		file = 'module.exports = {\n\tmigrate: "alter",' + file.substring(1, file.length) + ';'
 		fs = require('fs')
@@ -135,7 +134,7 @@ module.exports = {
 			if (err) console.log(err);
 			console.log('Generated Model '+modelx)
 		})
-		res.json({'response': modelx})
+		res.json({'response': 'Generated Model '+modelx})
 	}
 };
 

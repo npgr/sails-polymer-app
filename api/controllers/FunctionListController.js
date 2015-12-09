@@ -15,10 +15,18 @@ module.exports = {
 			})
 	},
 	generate: function(req, res) {
+		model = req.body.model_id
+		console.log('model: ',model)
 		FunctionList.findOne({model: req.body.model_id})
 			.exec(function(err, func) {
 				res.json({'function List': func})
-		})
+				require('crud5').get_model(function(jsondat) { 
+					// global variable jsondata
+					jsondata = jsondat
+					console.log('generate Function list:\n', jsondata)
+					//require('crud5').generate('crud6')
+				})
+			})
 	}
 };
 
