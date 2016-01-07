@@ -1,7 +1,8 @@
 <!-- app-config: version 5.00 -->
 
 function config_server() {
-	return "http://localhost:1337/"
+	return location.origin + '/'
+	//return "http://localhost:1337/"
 }
 
 function config_base_url() {
